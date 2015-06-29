@@ -1,7 +1,35 @@
+$phone: "";
+$tablet: "(min-width: 768px) and (max-width: 1023px)";
+$desktop: "(min-width: 1024px)";
+//changes these to mixins from this page
+//http://davidwalsh.name/write-media-queries-sass
+//http://learn.shayhowe.com/advanced-html-css/responsive-web-design/
+p {
+  font-size: 16px;
+
+  @media #{$tablet} {
+    font-size: 18px;
+  }
+
+  @media #{$desktop} {
+    font-size: 20px;
+  }
+}
+
 input {
 width:200px;
 
+}
 
+article {
+	width: 55%;
+	border:1px solid gray;
+	padding: 20px;
 
+	
+}
 
+aside {
+	width: 40%;
+	float:right;
 }
