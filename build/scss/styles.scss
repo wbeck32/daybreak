@@ -1,4 +1,4 @@
-$phone: "";
+$phone: "(min-width:320px) and (max-width:767px)";
 $tablet: "(min-width: 768px) and (max-width: 1023px)";
 $desktop: "(min-width: 1024px)";
 //changes these to mixins from this page
@@ -6,13 +6,17 @@ $desktop: "(min-width: 1024px)";
 //http://learn.shayhowe.com/advanced-html-css/responsive-web-design/
 body {
 	font-family: 'Fira Sans', sans-serif;
+	width:100%;
+	margin:0;
+	padding:0;
 }
 
 header {
 	width: 100%;
 	background-color:orange;
-	padding:10px 0;
+	padding:10px;
 	margin:0;
+	text-align:right;
 }
 
 p {
@@ -37,7 +41,7 @@ h1 {
 }
 
 .container {
-	width:100%;
+	padding:1%;
 
 	section {
 		display: inline-block;
@@ -52,6 +56,10 @@ h1 {
 
 input {
 	width:40%;
+}
+
+.desc {
+	height:40px;
 }
 
 article {

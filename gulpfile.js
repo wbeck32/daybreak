@@ -31,15 +31,15 @@ gulp.task('sass', function () {
 
 
  gulp.task('buildJs', function(){
-//   return gulp.src('build/js/app/**/*.js')
-//     .pipe(jshint('.jshintrc'))
-//     .pipe(jshint.reporter('default'))
-//     .pipe(sourcemaps.init())
-//     .pipe(concat('main.js'))
-//     .pipe(uglify())
-//     .pipe(sourcemaps.write())
-//     .pipe(gulp.dest('public/js'))
-//     .pipe(livereload());
+   return gulp.src('build/js/app/**/*.js')
+     .pipe(jshint('.jshintrc'))
+     .pipe(jshint.reporter('default'))
+     .pipe(sourcemaps.init())
+     .pipe(concat('main.js'))
+     .pipe(uglify())
+     .pipe(sourcemaps.write())
+     .pipe(gulp.dest('public/js'))
+     .pipe(livereload());
  });
 
 gulp.task('updateHTML', function(){
@@ -50,7 +50,7 @@ gulp.task('updateHTML', function(){
 gulp.task('watch',['buildJs','sass'],function(){
   livereload.listen();
   gulp.watch('build/scss/*.scss', ['sass']);
-  //gulp.watch('build/js/app/**/*.js', ['buildJs']);
+  gulp.watch('build/js/app/**/*.js', ['buildJs']);
   gulp.watch('public/index.html', ['updateHTML']);
 });
 
