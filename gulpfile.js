@@ -15,6 +15,8 @@ gulp.task('default', function() {
   gulp.start('start');
 });
 
+//TODO: autoprefixer isn't working correctly
+
 gulp.task('sass', function () {
   return gulp.src('build/scss/*.scss')
     .pipe(sourcemaps.init())
