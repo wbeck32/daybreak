@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" ng-app>
+<html lang="en" data-ng-app="dayBreak">
 <head>
+
 <meta charset="utf-8" />
 <link rel="stylesheet" href="css/styles.css" />
 <script src="js/modernizr.js"></script>
-<script src="/node_modules/angular/angular.js"></script>
 <script src=""></script>
 <link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500' rel='stylesheet' type='text/css'>
-<title>Scout About</title>
+<title>Day Break</title>
 </head>
 
-<body ng-controller="dayBreakController">
+<body>
 <header>
 <hgroup>
 sign up || log in || avatar || profile
 </hgroup>
 </header>
 
-<div class="container">
+<div class="container" data-ng-controller="tripController as Trip">
 <h1>My Day</h1>
 <p>Share your adventure</p>
+
+<form id="enterTrip" data-ng-submit="Trip.enterTrip()">
+
 <section>
 <p><input type="text" placeholder="Give your trip a name">
 
@@ -44,6 +47,9 @@ sign up || log in || avatar || profile
 
 <input type="text" placeholder="Enter some tags">
 </section>
+<input type="submit">Clicky!</input>
+</form>
+
 
 <aside>
 	Sidebar content
@@ -51,8 +57,10 @@ sign up || log in || avatar || profile
 
 </aside>
 </div>
-
+<script src="../node_modules/angular/angular.js"></script>
 <script src="js/main.js"></script>
+
+
 </body>
 
 </html>
