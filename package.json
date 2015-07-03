@@ -4,6 +4,7 @@
   "description": "",
   "main": "gulpfile.js",
   "dependencies": {
+    "angular": "^1.4.1",
     "autoprefixer-core": "^5.2.1",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",

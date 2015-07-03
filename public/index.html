@@ -1,21 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-ng-app="dayBreak">
 <head>
+
 <meta charset="utf-8" />
 <link rel="stylesheet" href="css/styles.css" />
 <script src="js/modernizr.js"></script>
-<title>Scout About</title>
+<script src=""></script>
+<link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500' rel='stylesheet' type='text/css'>
+<title>Day Break</title>
 </head>
 
 <body>
 <header>
 <hgroup>
-<h1>My Day</h1>
-<p>Share your adventure</p>
+sign up || log in || avatar || profile
 </hgroup>
 </header>
 
-<div class="container">
+<div class="container" data-ng-controller="tripController as Trip">
+<h1>My Day</h1>
+<p>Share your adventure</p>
+
+<form id="enterTrip" data-ng-submit="Trip.enterTrip()">
+
 <section>
 <p><input type="text" placeholder="Give your trip a name">
 
@@ -29,17 +36,20 @@
 <option>Group of adults
 </select>
 </p>
-<p><input type="text" placeholder="Describe your trip"></p>
+<p><input type="text" class="desc" placeholder="Describe your trip"></p>
 
 <article>
 <h1>Enter a location</h1>
 <p><input type="text" placeholder="Name of location">
-<p><input type="text" placeholder="Description of location">
+<p><input type="text" class="desc" placeholder="Describe this location">
 <p><input type="file" accept="image/*">
 </article>
 
 <input type="text" placeholder="Enter some tags">
 </section>
+<input type="submit">Clicky!</input>
+</form>
+
 
 <aside>
 	Sidebar content
@@ -47,6 +57,8 @@
 
 </aside>
 </div>
+<script src="../node_modules/angular/angular.js"></script>
+<script src="js/main.js"></script>
 
 
 </body>
