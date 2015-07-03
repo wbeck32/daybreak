@@ -50,6 +50,8 @@ gulp.task('watch',['buildJs','sass'],function(){
   gulp.watch('build/scss/*.scss', ['sass']);
   //gulp.watch('build/js/app/**/*.js', ['buildJs']);
   gulp.watch('public/index.html', ['updateHTML']);
+  gulp.watch('public/index.*', ['updateHTML']);
+
 });
 
 gulp.task('start', ['watch'], function() {

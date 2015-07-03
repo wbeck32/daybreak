@@ -1,0 +1,51 @@
+User (collection)
+	{   
+	"username":  "test",
+	"password":  "test"
+	"email"   :	 "test@test.com"
+	"created" :  "1234"
+	"userabout": "information about the user here"
+	} 
+
+Days (collection)
+	
+	"title" : "My Very Excellent Day",
+	"username" : "testone"
+	"recordCreationDate": "1234",
+	"recordUpdateDate":  "1234",
+	"tripDate":  "1234",
+	"description": "We had a wonderful day in Portland", 
+	"demographic": "family with young children",
+	"tags"		: "Various tags key words and so on"
+	"locations" : [ 
+						{"name" : "Portland",  
+						"lat"	: "141",
+						"lon"  : "90",
+						"url"  : "http://portland.com",
+						"description"  : "Our first stop",
+					    "photoList" : 
+								{
+								"filename" : "123.jpg"
+								"lat"	: "141",
+								"lon"  : "90",
+								"moreEXIF" : "more EXIF data", 
+								"caption"  : "a beautiful sunny day"
+								}
+						}
+						,
+						{"name" : "Seattle",  
+						"lat"	: "142",
+						"lon"  : "91",
+						"url"  : "http://seatle.com",
+						"description"  : "Our second stop",
+					    "photoList" : 
+								{
+								"filename" : "1234.jpg"
+								"lat"	: "142",
+								"lon"  : "92",
+								"moreEXIF" : "more EXIF data 2222", 
+								"caption"  : "a beautiful cloudy day"
+								}
+						}
+					]
+
