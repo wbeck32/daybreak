@@ -1,10 +1,20 @@
-angular.module('dayBreak',[]).controller('tripController',tripController);
+angular.module('dayBreak').controller('tripController',['$http','tripService',function($http,tripService){
+
 console.log('in here');
-
-function tripController(){
-console.log('yo!');
-
+function yo() {
+	console.log('harharhar');
 }
+
+
+
+this.enterTrip = function() {
+console.log('hello');
+
+
+};
+
+}]);
+
 
 
 
