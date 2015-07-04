@@ -4,8 +4,8 @@ this.saveTrip = function() {
 console.log('hello');
 
 
-}
+};
 
 
 
-})
+});
