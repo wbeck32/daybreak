@@ -1,6 +1,6 @@
 mongolaboinfo.js
 data/mongolabinfo.js
-public/styles/*.css
+public/css/styles/*.css
 node_modules
 main.js
 data
