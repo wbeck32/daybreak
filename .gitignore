@@ -4,3 +4,4 @@ public/css/styles/*.css
 node_modules
 main.js
 data
+npm-debug.log
