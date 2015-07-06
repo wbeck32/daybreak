@@ -1,15 +1,5 @@
-angular.module('dayBreak').service('tripService',['$http', function($http){
-
-
-
-<<<<<<< HEAD
+angular.module('dayBreak').service('tripService',['$http', function($http){   
 
 
 }]);
-=======
-};
-
-
-
-});
->>>>>>> mhdaybreak
+ 
