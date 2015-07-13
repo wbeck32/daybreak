@@ -1,97 +1,6 @@
-//daybreak data model and mongolabs connection
-var express = require('express');
-var app        = express();                 // define our app using express
-var bodyParser = require('body-parser');
-
-app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-var router = express.Router();
-
-router.use(function(req,res,next){
-    console.log(" here on planet earth ");
-    next();
-})
+ /* POST to Add User Service */
  
-router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' }); 
-});
 
-router.route('/addday').post(function(req,res){
-    res.json({"name":"Hello world world"});
-    console.log("the request object" + req);
-
-})
-
-app.use('/api', router);
-
-
-// //database connection
-// var mongoose = require('mongoose');
-
-// //local with local mongo db testing 
-// var db = mongoose.connect('mongodb://localhost/daybreak');
- 
-// //local with remote mongolab DB
-// //OR remote (heroku) with remote mongolabs DB
-// try{
-//     var uristring = require('../data/mongolabinfo.js').name;
-//     //console.log("trying local mongolab string");
-// }
-// catch(err){
-//     //console.log("no connection file so go on to Heroku config var");
-//     var uristring = process.env.MONGOLAB_URI;   //if Heroku env
-// }
-// console.log("Either way: uristring is "+ uristring);
-
-// var db = mongoose.connect(uristring);
-
-
-//database schema for User and Day
-
-// var User = db.model('user', 
-// 	{   
-//     username    :  String,
-//     password    :  String,
-//     email       :  String,
-//     created     :  {type: Date},
-//     userAbout   :  String
-//     });
-
-// var Day = db.model('day',
-//     {
-//     thetitle               : String,
-//     username            : String,
-//     recordCreationDate  : {type: Date},
-//     recordUpdateDate    : {type: Date},
-//     tripDate            : {type: Date},
-//     description         : String,
-//     demographic         : String,
-//     tags                : String, 
-//     locations           : Array
-//     });
-
-/* POST to Add User Service */
-
-router.post('/api/addday', function(req, res) {
-    var recordUpdateDate = Date.now();
-
-    var newDayDoc = new Day({
-        tripName: req.body.tripName,
-        userName: req.body.userName,
-        recordCreationDate: req.body.recordCreationDate,
-        recordUpdateDate: req.body.recordUpdateDate,
-        tripDate: req.body.tripDate,
-        description: req.body.description,
-        demographic: req.body.demographic,
-        tags    : req.body.tags,
-        locations: req.body.locations
-        });
-});
-
- 
- 
 
 // router.post('/update', function(req,res){
 //     console.log('request body id is '+ req.body.id);   
@@ -119,9 +28,96 @@ router.post('/api/addday', function(req, res) {
 
 // START THE SERVER
 // =============================================================================
-app.listen(3000, function(){
-    console.log("Server listening on port 3000")
-})
+ 
+//https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
+var express = require('express');
+var app = express();
+var router = express.Router();
+var bodyParser = require('body-parser');
 
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
-module.exports = router;
+//database connection
+var mongoose = require('mongoose');
+
+//local with local mongo db testing 
+// var db = mongoose.connect('mongodb://localhost/daybreak');
+ 
+try {
+    var uristring = require('./data/mongolabinfo.js').loginstring;
+    console.log("trying local mongolab string" + uristring);
+    }
+catch(err){
+    //console.log("no connection file so go on to Heroku config var");
+    //var uristring = process.env.MONGOLAB_URI;   //if Heroku env
+}
+console.log("Either way: uristring is "+ uristring);
+
+var db = mongoose.connect(uristring);
+
+//database schema for User and Day
+var User = db.model('user', 
+    {   
+    username    :  String,
+    password    :  String,
+    email       :  String,
+    created     :  {type: Date},
+    userAbout   :  String
+    });
+
+var Day = db.model('day',
+    {
+    tripName            : String,
+    userName            : String,
+    recordCreationDate  : {type: Date},
+    recordUpdateDate    : {type: Date},
+    tripDate            : {type: Date},
+    description         : String,
+    demographic         : String,
+    tags                : String, 
+    locations           : Array
+    });
+
+router.use(function(req, res, next) {
+    // do logging
+    console.log('Something is happening.');
+    next(); // make sure we go to the next routes and don't stop here
+});
+
+/* GET home page. */
+router.get('/', function(req, res) {
+  res.json({ message: 'hooray! welcome to our api!' });
+});
+
+/* POST to Add Trip Service */
+router.route('/addday').post(function(req, res) {
+
+    var newDayDoc = new Day({
+        tripName: req.body.tripName,
+        userName: req.body.userName,
+        recordCreationDate: req.body.recordCreationDate,
+        recordUpdateDate: Date.now(),
+        tripDate: req.body.tripDate,
+        description: req.body.description,
+        demographic: req.body.demographic,
+        tags    : req.body.tags,
+        locations: req.body.locations
+        });
+
+    newDayDoc.save(function(err, newDayDoc){
+        if (err) {
+            return console.error(err);
+            }
+        res.status(201).json(newDayDoc); //returns saved day object
+     })
+  });
+
+app.use('/api',router);
+
+//module.exports = router;
+app.listen(3000);
+console.log('listening on port 3000!');
+
+ 

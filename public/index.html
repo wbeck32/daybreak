@@ -5,9 +5,10 @@
 <meta charset="utf-8" />
 <link rel="stylesheet" href="css/styles.css" />
 <script src="js/modernizr.js"></script>
-<script src=""></script>
 <link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500' rel='stylesheet' type='text/css'>
 <title>Day Break</title>
+<style>#map-canvas{width:100%;height:100%;border:1px solid red;}
+</style>
 </head>
 
 <body>
@@ -16,7 +17,7 @@
 sign up || log in || avatar || profile
 </hgroup>
 </header>
-
+  
 <div class="container" data-ng-controller="tripController as Trip">
 <h1>My Day</h1>
 <p>Share your adventure</p>
@@ -24,9 +25,9 @@ sign up || log in || avatar || profile
 <form id="enterTrip" data-ng-submit="Trip.enterTrip()">
 
 <section>
-<p><input type="text" placeholder="Give your trip a name">
+<p><input type="text" data-ng-model="Trip.tripName" placeholder="Give your trip a name">
 
-<p><select>
+<p><select data-ng-model="Trip.tripGroup">
 <option>Who went?
 <option>Single
 <option>Couple
@@ -36,16 +37,22 @@ sign up || log in || avatar || profile
 <option>Group of adults
 </select>
 </p>
-<p><input type="text" class="desc" placeholder="Describe your trip"></p>
+<p><input type="text" data-ng-model="Trip.tripDesc" class="desc" placeholder="Describe your trip"></p>
 
-<article>
-<h1>Enter a location</h1>
-<p><input type="text" placeholder="Name of location">
-<p><input type="text" class="desc" placeholder="Describe this location">
+<article data-ng-controller="locationController as Location">
+<h1>Find a location</h1>
+<input type="text" data-ng-model="Location.locationName" id="pac-input" placeholder="Name of location" data-ng-change="Location.enterName()">
+ <div id="map-canvas"></div>
+
+
+
+<p><input type="text" data-ng-model="Location.locationDesc" class="desc controls" placeholder="Describe this location">
 <p><input type="file" accept="image/*">
 </article>
+<!-- <input type="text" data-ng-controller="tagController as Tag" data-ng-model="Tag.tagList" placeholder="Enter some tags"> -->
 
 <input type="text" placeholder="Enter some tags">
+
 </section>
 <input type="submit">Clicky!</input>
 </form>
@@ -57,7 +64,8 @@ sign up || log in || avatar || profile
 
 </aside>
 </div>
-<script src="../node_modules/angular/angular.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
 <script src="js/main.js"></script>
 
 
