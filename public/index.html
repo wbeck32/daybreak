@@ -27,28 +27,33 @@ sign up || log in || avatar || profile
 <section>
 <p><input type="text" data-ng-model="Trip.tripName" placeholder="Give your trip a name">
 
-<p><select data-ng-model="Trip.tripGroup">
-<option>Who went?
-<option>Single
-<option>Couple
-<option>Family with small kids
-<option>Family with tweens
-<option>Family with teenagers
-<option>Group of adults
+<p><select data-ng-model="Trip.tripGroup" placeholder="Who went?">
+<option value="single">Single
+<option value="couple">Couple
+<option value="fsk">Family with small kids
+<option value="fwtweens">Family with tweens
+<option value="fwteens">Family with teenagers
+<option value="adults">Group of adults
 </select>
 </p>
 <p><input type="text" data-ng-model="Trip.tripDesc" class="desc" placeholder="Describe your trip"></p>
 
+<!-- LOCATION -->
 <article data-ng-controller="locationController as Location">
 <h1>Find a location</h1>
-<input type="text" data-ng-model="Location.locationName" id="pac-input" placeholder="Name of location" data-ng-change="Location.enterName()">
- <div id="map-canvas"></div>
+<input type="text" data-ng-model="Location.locationName" id="pac-input" placeholder="Enter the name of location" data-ng-change="Location.getName()">
 
 
 
+<div id="locURL">URL: {{Location.getURL}}</div>
 <p><input type="text" data-ng-model="Location.locationDesc" class="desc controls" placeholder="Describe this location">
+
+
+
 <p><input type="file" accept="image/*">
 </article>
+<!-- END LOCATION BOX -->
+
 <!-- <input type="text" data-ng-controller="tagController as Tag" data-ng-model="Tag.tagList" placeholder="Enter some tags"> -->
 
 <input type="text" placeholder="Enter some tags">
@@ -59,7 +64,7 @@ sign up || log in || avatar || profile
 
 
 <aside>
-	Sidebar content
+ <div id="map-canvas">map</div>
 
 
 </aside>
