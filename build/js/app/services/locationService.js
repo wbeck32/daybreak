@@ -1,5 +1,6 @@
 angular.module('dayBreak').service('locationService',['$http', function($http){
-this.getName = function(name){console.log(name);};
+//this.getName = function(name){console.log(name);};
+
 
 var defaultBounds = new google.maps.LatLngBounds(
   new google.maps.LatLng(-33.8902, 151.1759),
@@ -15,8 +16,18 @@ var searchBox = new google.maps.places.SearchBox(input, {
 google.maps.event.addListener(searchBox, 'places_changed', function() {
     var places = searchBox.getPlaces();
 
-
 console.log('places: ', places);
+getURL(places);
+
 });
+
+
+
+function getURL(places) {
+	console.log('ingetURL: ',places[0].website);
+	this.getURL = places[0].website;
+
+}
+
 
 }]);
