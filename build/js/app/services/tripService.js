@@ -6,9 +6,9 @@ console.log(name, 'this is where we build the http request to save a trip');
 $http({
 	method: 'POST',
 	url: 	'/api/addday',
-	data: 	{'name' : tripName, 
-			'group' : tripGroup,
-			'desc' : tripDesc},
+	data: 	{'tripName' : tripName, 
+			'tripGroup' : tripGroup,
+			'tripDesc' : tripDesc},
 	headers: {'Content-Type': 'application/json'}	
 	}).success(function(data, status, headers, config){
 		console.log('success!');
