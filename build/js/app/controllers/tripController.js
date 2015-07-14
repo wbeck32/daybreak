@@ -2,9 +2,11 @@ angular.module('dayBreak').controller('tripController',['$http','tripService',fu
 
 
 this.enterTrip = function() {
-	var name=this.tripName;
-console.log('hello',this.tripName);
-tripService.addDay(name);
+	var tripName=this.tripName;
+	var tripGroup = this.tripGroup;
+	var tripDesc = this.tripDesc;
+
+	tripService.addDay(tripName, tripGroup, tripDesc);
 
 };
 
