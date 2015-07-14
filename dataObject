@@ -9,8 +9,8 @@ User (collection)
 
 Days (collection)
 	
-	"title" : "My Very Excellent Day",
-	"username" : "testone"
+	"tripName" : "My Very Excellent Day",
+	"userName" : "testone"
 	"recordCreationDate": "1234",
 	"recordUpdateDate":  "1234",
 	"tripDate":  "1234",
