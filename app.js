@@ -71,12 +71,12 @@ var Day = db.model('day',
     {
     tripName            : String,
     userName            : String,
-    recordCreationDate  : {type: Date},
-    recordUpdateDate    : {type: Date},
+    tripCreateDate      : {type: Date},
+    tripUpdateDate      : {type: Date},
     tripDate            : {type: Date},
-    description         : String,
-    demographic         : String,
-    tags                : String, 
+    tripDesc            : String,
+    tripGroup           : String,
+    tags                : Array, 
     locations           : Array
     });
 
@@ -97,11 +97,11 @@ router.route('/addday').post(function(req, res) {
     var newDayDoc = new Day({
         tripName: req.body.tripName,
         userName: req.body.userName,
-        recordCreationDate: req.body.recordCreationDate,
-        recordUpdateDate: Date.now(),
+        tripCreateDate: req.body.tripCreateDate,
+        tripUpdateDate: Date.now(),
         tripDate: req.body.tripDate,
-        description: req.body.description,
-        demographic: req.body.demographic,
+        tripDesc: req.body.tripDesc,
+        tripGroup: req.body.tripGroup,
         tags    : req.body.tags,
         locations: req.body.locations
         });
