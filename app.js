@@ -61,6 +61,7 @@ router.use(function(req, res, next) {
     //   res.json({ message: 'hooray! welcome to our api!' });
     // });
 
+//SERVES AN HTML PAGE, NEXT ONE IS API ENDPOINT SERVING JSON
 app.get('/show', function(req,res,next){
     Day.find(function(err, Days){
         if (err) 
@@ -69,23 +70,32 @@ app.get('/show', function(req,res,next){
             {
             //res.json({message: ' that worked '})  return success message
             console.log("we good");
-            console.log(Days[30]);
+            res.sendFile(__dirname + '/public/show.html')  //returns show.html
+            }
+    })
+ })
+
+//SERVES A JSON OBJECT
+app.get('/api/show', function(req,res,next){
+    Day.find(function(err, Days){
+        if (err) 
+            {return next(err)}
+        else
+            {
+            //res.json({message: ' that worked '})  return success message
+            //console.log("we good api");
             res.status(201).json(Days); //returns saved Days object
             //res.sendFile(__dirname + '/public/show.html')  //returns show.html
             }
     })
-
-    //res.sendFile(__dirname + '/public/show.html')
-    //res.json({ message: 'hooray! welcome to our api!' });
 })
+
 
 /* GET home page. */
 // router.get('/show', function(req, res, next) {
 //    //console.log('SHOW is happening.');
 //    res.json({ message: 'here will be a list of trips' });
-
 //     res.sendFile('./show.html');
-
 // });
 
 
@@ -93,15 +103,15 @@ app.get('/show', function(req,res,next){
 router.route('/addday').post(function(req, res) {
 
     var newDayDoc = new Day({
-        tripName: req.body.tripName,
-        userName: req.body.userName,
-        tripCreateDate: req.body.tripCreateDate,
+        tripName:       req.body.tripName,
+        userName:       req.body.userName,
+        tripCreateDate: Date.now(),
         tripUpdateDate: Date.now(),
-        tripDate: req.body.tripDate,
-        tripDesc: req.body.tripDesc,
-        tripGroup: req.body.tripGroup,
-        tags    : req.body.tags,
-        locations: req.body.locations
+        tripDate:       Date.now(),
+        tripDesc:       req.body.tripDesc,
+        tripGroup:      req.body.tripGroup,
+        tags:           req.body.tags,
+        locations:      req.body.locations
         });
 
     newDayDoc.save(function(err, newDayDoc){
