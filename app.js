@@ -114,6 +114,36 @@ router.route('/addday').post(function(req, res) {
      })
   });
 
+
+//SERVES AN HTML PAGE, NEXT ONE IS API ENDPOINT SERVING JSON
+app.get('/show', function(req,res,next){
+    Day.find(function(err, Days){
+        if (err) 
+            {return next(err)}
+        else
+            {
+            //res.json({message: ' that worked '})  return success message
+            //console.log("we good");
+            res.sendFile(__dirname + '/public/show.html')  //returns show.html
+            }
+    })
+ })
+
+//SERVES A JSON OBJECT
+app.get('/api/show', function(req,res,next){
+    Day.find(function(err, Days){
+        if (err) 
+            {return next(err)}
+        else
+            {
+            console.log("we good at the api" + Days);
+            res.status(201).json(Days); //returns saved Days object
+            }
+    })
+})
+
+
+
 app.use('/api',router);
 
 //module.exports = router;
