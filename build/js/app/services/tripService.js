@@ -19,12 +19,6 @@ $http({
 	};
 
 
-this.showUserDays = function(){
-console.log('in showUserDays');
-
-
-};
-
 
 }]);
  

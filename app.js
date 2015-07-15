@@ -1,43 +1,12 @@
- /* POST to Add User Service */
- 
-
-
-// router.post('/update', function(req,res){
-//     console.log('request body id is '+ req.body.id);   
-//     console.log('username is  '+ req.body.username);   
-    
-//     User.findOneAndUpdate(
-//                 { _id: req.body.id}, 
-//                 {$set: {
-//                         _id         : req.body.id,
-//                         postname    : req.body.postname,
-//                         username    : req.body.username,
-//                         email       : req.body.email,
-//                         organization: req.body.organization,
-//                         telephone   : req.body.telephone,
-//                         postcontent : req.body.postcontent
-//                 }}, 
-//                 {upsert: false},
-
-//                 function(err, docs){
-//                      res.redirect('userlist');
-//                     }
-//                 );
-//  });
-
-
-// START THE SERVER
-// =============================================================================
- 
-//https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
-var express = require('express');
+var express = require('express'); 
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public')); //
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
 
 //database connection
 var mongoose = require('mongoose');
@@ -47,20 +16,20 @@ var mongoose = require('mongoose');
  
 try {
     var uristring = require('./data/mongolabinfo.js').loginstring;
-    console.log("trying local mongolab string" + uristring);
+    //console.log("trying local mongolab string" + uristring);
     }
 catch(err){
     //console.log("no connection file so go on to Heroku config var");
     //var uristring = process.env.MONGOLAB_URI;   //if Heroku env
-}
-console.log("Either way: uristring is "+ uristring);
+    }   
+console.log("DB Connection: "+ uristring);
 
 var db = mongoose.connect(uristring);
 
 //database schema for User and Day
 var User = db.model('user', 
     {   
-    username    :  String,
+    userName    :  String,
     password    :  String,
     email       :  String,
     created     :  {type: Date},
@@ -77,8 +46,15 @@ var Day = db.model('day',
     tripDesc            : String,
     tripGroup           : String,
     tags                : Array, 
-    locations           : Array
+    locations           : Array,
+    images              : Array
     });
+
+var anImage = db.model('image',{
+    userName            : String,
+    tripImage           : { data: Buffer, contentType: String } 
+})
+
 
 router.use(function(req, res, next) {
     // do logging
@@ -86,34 +62,47 @@ router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
-/* GET home page. */
+/*\GET home page. */
 router.get('/', function(req, res) {
-  res.json({ message: 'hooray! welcome to our api!' });
+    res.json({ message: 'hooray! welcome to our api!' });
 });
+
 
 /* POST to Add Trip Service */
 router.route('/addday').post(function(req, res) {
 
     var newDayDoc = new Day({
-        tripName: req.body.tripName,
-        userName: req.body.userName,
-        tripCreateDate: req.body.tripCreateDate,
+        tripName:       req.body.tripName,
+        userName:       req.body.userName,
+        tripCreateDate: Date.now(),
         tripUpdateDate: Date.now(),
-        tripDate: req.body.tripDate,
-        tripDesc: req.body.tripDesc,
-        tripGroup: req.body.tripGroup,
-        tags    : req.body.tags,
-        locations: req.body.locations
+        tripDate:       Date.now(),
+        tripDesc:       req.body.tripDesc,
+        tripGroup:      req.body.tripGroup,
+        tags:           req.body.tags,
+        locations:      req.body.locations,
+        images:         req.body.images
         });
+
+    var newImage = new anImage({
+        image: req.body.image
+    });
+
+    newImage.save(function(err, newImage){
+        if (err) {
+            return console.error(err);
+            }
+    });
 
     newDayDoc.save(function(err, newDayDoc){
         if (err) {
             return console.error(err);
             }
         res.status(201).json(newDayDoc); //returns saved day object
-     })
-  });
+     });
+});
 
+<<<<<<< HEAD
 
 //SERVES AN HTML PAGE, NEXT ONE IS API ENDPOINT SERVING JSON
 app.get('/show', function(req,res,next){

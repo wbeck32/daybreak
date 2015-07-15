@@ -11,14 +11,6 @@ this.enterTrip = function() {
 };
 
 
-this.showUserDays = function() {
-	//var userName = this.userName;
-	var showTrips = this.showTrips;
-	tripService.showUserDays(showTrips);
-
-
-};
-
 }]);
 
 

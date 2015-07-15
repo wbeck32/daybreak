@@ -5,5 +5,8 @@ node_modules
 main.js
 data
 npm-debug.log
-public/css
-public/show.html
+show.html
+showdaysController.js
+styles.css
+index2.html
+dayupload.html
