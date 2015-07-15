@@ -44,34 +44,7 @@
 
 
 
-<div  class="container">
-<h1>My Day</h1>
-<p>Here's a list of great Days!</p>
  
-<ul data-ng-model="Trip.day"  data-ng-show="Trip.showDays($index)"  class='list-group' >
-	<li  class='list-group-item'> 	
- 		Title: 			{{ 	day.tripName }}
- 		<br>
-		User: 			{{ 	day.userName }}
-		<br>
-		Trip Date: 		{{ 	day.tripDate}}
-		<br>
- 		Reporting Date: {{ 	day.tripCreateDate  }}
- 		<br>
- 		Updated on: 	{{	day.tripUpdateDate  }}
-		<br>
-		Description: 	{{	day.tripDesc}}
-		<br>
-		Who was there: 	{{	day.tripGroup}}
-		<br>
-		Tags: 			{{	day.tags}}
-		<br>
-		Locations: 		{{	day.locations}}
-      	<br>
-	</li>
-</ul>
-
-</div>
 
 
 
@@ -113,6 +86,31 @@ Share a picture from your Day - <input type="file" accept="image/*" >
 <div ng-show="myValue">
 	<p> A Good Day </p>
 </div>
+
+
+ 
+<div ng-controller="daysController"  class="container">
+<h1>My Day</h1>
+<p>Here's a list of great Days!</p>
+ 
+<ul class='list-group'>
+	<li ng-repeat="day in days | orderBy:'-tripCreateDate' " class='list-group-item'> 	
+ 		Title: 			{{ 	day.tripName }}<br>
+		User: 			{{ 	day.userName }}<br>
+		Trip Date: 		{{ 	day.tripDate}}<br>
+ 		Reporting Date: {{ 	day.tripCreateDate  }}<br>
+ 		Updated on: 	{{	day.tripUpdateDate  }}<br>
+		Description: 	{{	day.tripDesc}}<br>
+		Who was there: 	{{	day.tripGroup}}<br>
+		Tags: 			{{	day.tags}}<br>
+		Locations: 		{{	day.locations}}<br>
+	</li>
+</ul>
+
+</div>
+
+
+
 
 <aside>
 	<div id="map-canvas">map</div>

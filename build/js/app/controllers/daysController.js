@@ -1,9 +1,14 @@
-// angular.module('dayBreak').controller('daysController', ['$scope', '$http', function($scope, $http){
-// 		$scope.days = [ {tripName	: 'my favorite trip',
-// 						 	userName	: 'joe'}
-// 						 ]
-// 		// $http.get('/api/show')
-// 		// 	.success(function(days){
-// 		// 		$scope.days = days;
-// 		// })
-// }]);
+angular.module('dayBreak').controller('daysController', ['$scope', '$http', function($scope, $http){
+		$http({
+			method: 'GET',
+			url: '/api/show',
+			headers: {'Content-Type' : 'application/json'}
+		})
+		.success(function(data,status,headers, config){
+			console.log("success");
+			$scope.days = data;
+			})
+		.error(function(data, status,headers,config){
+			console.log("failure");
+			});
+}]);

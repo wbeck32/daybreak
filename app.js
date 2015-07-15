@@ -7,7 +7,6 @@ app.use(express.static(__dirname + '/public')); //
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use('/api',router);  //move this from bottom to here
 
 //database connection
 var mongoose = require('mongoose');
@@ -139,6 +138,7 @@ router.route('/addday').post(function(req, res) {
      });
 });
 
+app.use('/api',router);  //this probably needs to be near bottom of page
 
 //module.exports = router;
 app.listen(3000);
