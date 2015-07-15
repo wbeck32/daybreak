@@ -10,7 +10,7 @@ this.locName = function() {
 };
 
 this.locURL = function(locName){
-	console.log('in locURL')
+	console.log('in locURL');
 	locationService.getURL(locName);
 
 };

@@ -49,3 +49,60 @@ Days (collection)
 						}
 					]
 
+
+CODE SNIPPET FOR LATER
+
+<br>
+Click me: <input type="checkbox" ng-model="checked" aria-label="Toggle ngHide"><br/>
+
+
+<div>
+  Show:
+  <div class="check-element animate-show" ng-show="checked">
+    <span class="glyphicon glyphicon-thumbs-up"></span> 
+    I show up when your checkbox is checked.
+  </div>
+</div>
+<div>
+  Hide:
+  <div class="check-element animate-show" ng-hide="checked">
+    <span class="glyphicon glyphicon-thumbs-down"></span> 
+    I hide when your checkbox is checked.
+  </div>
+</div>
+
+
+
+ /* POST to Add User Service */
+ 
+
+
+// router.post('/update', function(req,res){
+//     console.log('request body id is '+ req.body.id);   
+//     console.log('username is  '+ req.body.username);   
+    
+//     User.findOneAndUpdate(
+//                 { _id: req.body.id}, 
+//                 {$set: {
+//                         _id         : req.body.id,
+//                         postname    : req.body.postname,
+//                         username    : req.body.username,
+//                         email       : req.body.email,
+//                         organization: req.body.organization,
+//                         telephone   : req.body.telephone,
+//                         postcontent : req.body.postcontent
+//                 }}, 
+//                 {upsert: false},
+
+//                 function(err, docs){
+//                      res.redirect('userlist');
+//                     }
+//                 );
+//  });
+
+
+// START THE SERVER
+// =============================================================================
+ 
+//https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
+

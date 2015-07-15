@@ -10,6 +10,14 @@ this.enterTrip = function() {
 
 };
 
+this.showDays = function(){
+
+	var days = this.days;
+
+	tripService.showDays(days);
+
+};
+
 }]);
 
 
