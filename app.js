@@ -17,20 +17,20 @@ var mongoose = require('mongoose');
  
 try {
     var uristring = require('./data/mongolabinfo.js').loginstring;
-    console.log("trying local mongolab string" + uristring);
+    //console.log("trying local mongolab string" + uristring);
     }
 catch(err){
     //console.log("no connection file so go on to Heroku config var");
     //var uristring = process.env.MONGOLAB_URI;   //if Heroku env
     }   
-console.log("Either way: uristring is "+ uristring);
+console.log("DB Connection: "+ uristring);
 
 var db = mongoose.connect(uristring);
 
 //database schema for User and Day
 var User = db.model('user', 
     {   
-    username    :  String,
+    userName    :  String,
     password    :  String,
     email       :  String,
     created     :  {type: Date},
@@ -47,8 +47,15 @@ var Day = db.model('day',
     tripDesc            : String,
     tripGroup           : String,
     tags                : Array, 
-    locations           : Array
+    locations           : Array,
+    images              : Array
     });
+
+var anImage = db.model('image',{
+    userName            : String,
+    tripImage           : { data: Buffer, contentType: String } 
+})
+
 
 router.use(function(req, res, next) {
     // do logging
@@ -69,7 +76,7 @@ app.get('/show', function(req,res,next){
         else
             {
             //res.json({message: ' that worked '})  return success message
-            console.log("we good");
+            //console.log("we good");
             res.sendFile(__dirname + '/public/show.html')  //returns show.html
             }
     })
@@ -83,9 +90,8 @@ app.get('/api/show', function(req,res,next){
         else
             {
             //res.json({message: ' that worked '})  return success message
-            //console.log("we good api");
+            console.log("we good at the api" + Days);
             res.status(201).json(Days); //returns saved Days object
-            //res.sendFile(__dirname + '/public/show.html')  //returns show.html
             }
     })
 })
@@ -111,16 +117,27 @@ router.route('/addday').post(function(req, res) {
         tripDesc:       req.body.tripDesc,
         tripGroup:      req.body.tripGroup,
         tags:           req.body.tags,
-        locations:      req.body.locations
+        locations:      req.body.locations,
+        images:         req.body.images
         });
+
+    var newImage = new anImage({
+        image: req.body.image
+    });
+
+    newImage.save(function(err, newImage){
+        if (err) {
+            return console.error(err);
+            }
+    });
 
     newDayDoc.save(function(err, newDayDoc){
         if (err) {
             return console.error(err);
             }
         res.status(201).json(newDayDoc); //returns saved day object
-     })
-  });
+     });
+});
 
 
 //module.exports = router;

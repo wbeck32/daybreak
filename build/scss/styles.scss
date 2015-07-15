@@ -51,7 +51,6 @@ h1 {
 		display:inline-block;
 		width:35%;
 	}
-
 }
 
 input {
@@ -68,11 +67,18 @@ article {
 	margin-right:10px;
 }
 
+.list-group{
+	border: black solid 1px;
+	margin-right: 30px;
+}
+
 .list-group-item{
 	width: 500px;
 	background-color: #E0F9F3;
 	border: black solid 2px;
 	margin: 10px;
 	padding: 10px;
+	border-radius: 15px;
+
 }
 

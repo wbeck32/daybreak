@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-ng-app="dayBreak">
+<html lang="en" data-ng-app="app">
 <head>
 
 <meta charset="utf-8" />
@@ -10,7 +10,7 @@
 
 </head>
 
-<body ng-app='app'>
+<body >
 
 <header>
 <hgroup>
@@ -18,7 +18,7 @@ sign up || log in || avatar || profile
 </hgroup>
 </header>
   
-<div ng-controller="PostsCtrl"  class="container">
+<div ng-controller="daysController"  class="container">
 <h1>My Day</h1>
 <p>Here's a list of great Days!</p>
  
@@ -51,25 +51,20 @@ sign up || log in || avatar || profile
 
 <script>
 	var app = angular.module('app',[]);
-	app.controller('PostsCtrl', function($scope, $http){
-
-		// $scope.days = [ {titleName	: 'my favorite trip',
+	app.controller('daysController', function($scope, $http){
+		// $scope.days = [ {tripName	: 'my favorite trip',
 		// 				 userName	: 'joe'}
 		// 				 ,
-		// 			    {titleName	: 'what a day',
+		// 			    {tripName	: 'what a day',
 		// 			     userName	: 'bill'      }]
-
-		$http.get('http://localhost:3000/api/show')
+		$http.get('/api/show')
 			.success(function(days){
 				$scope.days = days;
 		})
 })
-
 //TEMP DELETE
 // 	function(){
 // 		if ($scope.postBody)
-
-
 // 	}	
 // })
 </script>

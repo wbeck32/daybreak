@@ -17,5 +17,23 @@ $http({
 
  		});
 	};
+
+this.showDays = function (days){
+	$http({
+		method: 'GET',
+		url:     '/api/show',
+		data:  {'days': days},
+		headers: {'Content-Type': 'application/json'}
+		})
+		.success(function(data, status, headers, config){
+		console.log('success in showDays!' + data.day[0]);
+			var days = data;
+
+		}).error(function(data,status,headers,config){
+		console.log('failure in showDays!');
+
+ 		});
+	};
+ 
 }]);
  
