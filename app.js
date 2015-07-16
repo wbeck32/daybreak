@@ -102,7 +102,6 @@ router.route('/addday').post(function(req, res) {
      });
 });
 
-<<<<<<< HEAD
 
 //SERVES AN HTML PAGE, NEXT ONE IS API ENDPOINT SERVING JSON
 app.get('/show', function(req,res,next){
