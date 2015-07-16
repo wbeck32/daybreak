@@ -94,7 +94,7 @@ Share a picture from your Day - <input type="file" accept="image/*" >
 <p>Here's a list of great Days!</p>
  
 <ul class='list-group'>
-	<li ng-repeat="day in days | orderBy:'-tripCreateDate' " class='list-group-item'> 	
+	<li ng-repeat="day in days" class='list-group-item'> 	
  		Title: 			{{ 	day.tripName }}<br>
 		User: 			{{ 	day.userName }}<br>
 		Trip Date: 		{{ 	day.tripDate}}<br>
