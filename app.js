@@ -63,9 +63,9 @@ router.use(function(req, res, next) {
 });
 
 /* GET home page. */
-    // router.get('/', function(req, res) {
-    //   res.json({ message: 'hooray! welcome to our api!' });
-    // });
+    router.get('/', function(req, res) {
+      res.json({ message: 'hooray! welcome to our api!' });
+    });
 
 //SERVES AN HTML PAGE, NEXT ONE IS API ENDPOINT SERVING JSON
 app.get('/show', function(req,res,next){
@@ -82,18 +82,20 @@ app.get('/show', function(req,res,next){
  })
 
 //SERVES A JSON OBJECT
+//find first 3 items
+
 app.get('/api/show', function(req,res,next){
-    Day.find(function(err, Days){
+    //not clear that sort is working here
+    Day.find({}).sort({date: 'ascending'}).limit(6).exec(function(err, Days){
         if (err) 
             {return next(err)}
         else
             {
-            //res.json({message: ' that worked '})  return success message
-            console.log("we good at the api" + Days);
+            console.log("we good at the api");
             res.status(201).json(Days); //returns saved Days object
             }
     })
-})
+});
 
 
 /* GET home page. */
