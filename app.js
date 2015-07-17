@@ -2,8 +2,6 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
-var jwt = require('jwt-simple')
-var token = tw.encode({userName: 'milesh'}, 'supersecretkey')
 
 
 app.use(express.static(__dirname + '/public')); //
