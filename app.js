@@ -3,11 +3,12 @@ var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
 
+var favicon = require('serve-favicon');
+app.use(favicon(__dirname + '/public/images/daybreaksun16px.ico'));
 
 app.use(express.static(__dirname + '/public')); //
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
 
 //database connection
 var mongoose = require('mongoose');
