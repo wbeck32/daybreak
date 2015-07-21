@@ -2,16 +2,24 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
-
 var favicon = require('serve-favicon');
-app.use(favicon(__dirname + '/public/images/daybreaksun16px.ico'));
+var mongoose = require('mongoose');
 
+//imported
+// var User = require('./user');   
+// var user = require('./user');
+//var router = express.Router();
+var jwt = require('jwt-simple');
+var token = jwt.encode({username: 'milesh'}, 'supersecretkey');
+var _ = require('lodash');  //utility library for common tasks
+var secretKey = 'supersecretkey';
+var bcrypt = require('bcrypt');
+//imported
+
+app.use(favicon(__dirname + '/public/images/daybreaksun16px.ico'));
 app.use(express.static(__dirname + '/public')); //
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
-//database connection
-var mongoose = require('mongoose');
 
 //local with local mongo db testing 
 // var db = mongoose.connect('mongodb://localhost/daybreak');
@@ -26,13 +34,18 @@ catch(err){
     }   
 console.log("DB Connection: "+ uristring);
 
+// mongoose.connect(uristring, function(err,db2){
+//     if (err) throw err;
+//     app.set('mongo', db2);
+// });
+
 var db = mongoose.connect(uristring);
 
-//database schema for User and Day
+//database schemas for User and Day and Image
 var User = db.model('user', 
     {   
     userName    :  String,
-    password    :  String,
+    password    :  {type: String, select: false}, //!important
     email       :  String,
     created     :  {type: Date},
     userAbout   :  String
@@ -56,7 +69,6 @@ var anImage = db.model('image',{
     userName            : String,
     tripImage           : { data: Buffer, contentType: String } 
 })
-
 
 router.use(function(req, res, next) {
     // do logging
@@ -84,7 +96,7 @@ app.get('/show', function(req,res,next){
  })
 
 //SERVES A JSON OBJECT
-//find first 3 items
+//find first N items
 
 app.get('/api/show', function(req,res,next){
     //now we sort via mongoose, not in angular, then truncate and respond
@@ -106,7 +118,6 @@ app.get('/api/show', function(req,res,next){
 //    res.json({ message: 'here will be a list of trips' });
 //     res.sendFile('./show.html');
 // });
-
 
 /* POST to Add Trip Service */
 router.route('/addday').post(function(req, res) {
@@ -141,6 +152,66 @@ router.route('/addday').post(function(req, res) {
         res.status(201).json(newDayDoc); //returns saved day object
      });
 });
+
+//1B Creates a new user and pwd combination and saves it 
+
+app.post('/user', function(req,res,next){
+    console.log("Create user request at /user : " + req.body.username );
+     //assign all values except password
+    var user = new User({   userName: req.body.username,
+                            created: Date.now(),
+                            email: req.body.email,
+                            userAbout: "Placeholder info about user"
+                         });
+    console.log("password should be undefined:  " + user.password);
+    //asynchronous call of bcrypt
+    bcrypt.hash(req.body.password, 10, function(err, hash) {    
+    // Store hash in password DB.
+        console.log("BCRYPT password hash is " + hash);
+        user.password = hash;
+        //all values of user object now assigned
+        user.save(function(err){
+            if (err){throw next(err)}
+            res.sendStatus(201)
+        });
+    });
+});
+ 
+
+//2  Takes user name and password hash stored client side, and 
+//bcrypt compares incoming password to hash password in db
+//If name pwd match, then returns a jwt token.
+app.post('/session', function(req,res,next){
+    // Mongoose findOne method
+    // set username to incoming req.body.username and find that value
+    User.findOne({userName: req.body.username})
+        .select('password')   //grab password of that username
+        .exec(function(err,user){
+        if (err){return next(err)}
+        if(!user){return res.sendStatus(401)}
+        //if user is found check incoming pwd against stored pwd
+        bcrypt.compare(req.body.password, user.password, function(err,valid){
+            if (err){ return next(err);};
+            // !valid means invalid name password combo - bcrypt asigns boolean
+            if(!valid){ return res.sendStatus(401)};
+            //if valid then generate token based on user name   
+            var token = jwt.encode({username: user.username}, secretKey);
+            console.log("user/pwd combo found and token is " + token);
+            res.json(token);
+        });
+    });
+}); 
+ 
+//3 decode jwt token to return username
+//Takes the jwt token stored client side and returns the username
+app.get('/user', function(req,res){
+    var token = req.headers['x-auth'];
+    var auth  = jwt.decode(token, secretKey);
+    User.findOne({userName: auth.username}, function(err,user){
+        res.json(user);
+    });
+});
+
 
 app.use('/api',router);  //this probably needs to be near bottom of page
 

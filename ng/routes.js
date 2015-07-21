@@ -8,4 +8,6 @@ $routeProvider
 
 .when('/login', {controller: 'LoginCtrl', templateUrl: 'login.html'})
 
+.when('/show', {controller: 'LoginCtrl', templateUrl: 'show.html'})
+
 })

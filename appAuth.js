@@ -58,7 +58,7 @@ app.post('/session', function(req,res,next){
 //decode jwt token to return username
 //Takes the jwt token stored client side and returns the username
 app.get('/user', function(req,res){
-	var token = req.headers['x-auth'];
+ 	var token = req.headers['x-auth'];
 	var auth  = jwt.decode(token, secretKey);
 	User.findOne({username: auth.username}, function(err,user){
 		res.json(user);
