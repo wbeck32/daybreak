@@ -1,6 +1,8 @@
-//login controller
-angular.module('dayBreak')
-.controller('userController', ['$scope', '$http', function($scope, $http){
+//userController (was loginController)
+angular.module('dayBreak').controller('userController', 
+	['$scope', '$http', function($scope, $http){
+	
+	console.log("begin");
 
 this.adduser = function(){
 

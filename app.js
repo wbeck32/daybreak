@@ -154,7 +154,6 @@ router.route('/addday').post(function(req, res) {
 });
 
 //1B Creates a new user and pwd combination and saves it 
-
 app.post('/user', function(req,res,next){
     console.log("Create user request at /user : " + req.body.username );
      //assign all values except password
@@ -168,7 +167,7 @@ app.post('/user', function(req,res,next){
     bcrypt.hash(req.body.password, 10, function(err, hash) {    
     // Store hash in password DB.
         console.log("BCRYPT password hash is " + hash);
-        user.password = hash;
+        user.password = hash;//note definition of user.password in schema
         //all values of user object now assigned
         user.save(function(err){
             if (err){throw next(err)}

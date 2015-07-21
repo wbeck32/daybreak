@@ -1,4 +1,5 @@
-angular.module('dayBreak').controller('daysController', ['$scope', '$http', function($scope, $http){
+angular.module('dayBreak').controller('daysController', 
+	['$scope', '$http', function($scope, $http){
 		$http({
 			method: 'GET',
 			url: '/api/show',
