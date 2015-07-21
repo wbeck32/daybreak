@@ -2,7 +2,7 @@
 angular.module('dayBreak').controller('userController', 
 	['$scope', '$http', function($scope, $http){
 	
-	console.log("begin");
+	console.log("begin - userController loaded");
 
 this.adduser = function(){
 
