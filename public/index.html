@@ -46,11 +46,11 @@
 <!-- <div data-ng-repeat="Location in FORMS"> -->
 <div data-ng-form="subForm" style="border:1px solid red;">
 <h1>Find a location</h1>
-<input type="text" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
+<input type="text" width="200" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
 <div id="locName">
 <a data-ng-href="{{locURL}}" target="_blank">{{locName}}</a>
 </div>
-Location.locName = {{locName}}
+
 <input type="text" data-ng-model="Location.locationDesc" class="desc controls" placeholder="Describe this location">
 <p>
 Share a picture from your Day - <input type="file" accept="image/*" >

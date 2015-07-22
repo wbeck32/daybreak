@@ -1,4 +1,4 @@
-angular.module('dayBreak').controller('locationController',['$http','$scope',function($http,$scope){
+angular.module('dayBreak').controller('locationController',['$http','$scope','locationService',function($http,$scope,locationService){
 	$scope.locName = '';
 	$scope.locURL = '';
 
@@ -20,14 +20,13 @@ angular.module('dayBreak').controller('locationController',['$http','$scope',fun
 	$scope.locURL = places[0].website;
 	$scope.$apply();
 });
-	// $scope.FORMS = [
-	// // {locName:''}
-	//  ];
 
 	this.addLoc = function(Location) {
-console.log('Location: ',Location);
-		var locName=this.locName;
-		console.log('adding another location: ',locName);
+		var locName=$scope.locName;
+		var locDesc = Location.locationDesc;
+		var locURL = $scope.locURL;
+		console.log('adding another location: ',locName,locDesc,locURL);
+		locationService.addLocation(locName, locDesc, locURL);
 
 
 	}
