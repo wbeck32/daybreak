@@ -30,28 +30,55 @@
 </nav>
 
 
-<div data-ng-controller = "userController" class="container">
-
-		<form >
+<div data-ng-controller= "userController as User" class="container" id="register">
+		<form data-ng-submit="User.registerUser()">
 			<div class="form group">
 				<label>Username</label>
-				<input class= "form-control" type="text" ng-model="userController.username">
+				<input class= "form-control" type="text" ng-model="User.username">
 			</div>
 			<div class="form group">
 				<label>Password</label>
-				<input class= "form-control" type="password" ng-model="userController.password">
+				<input class= "form-control" type="password" ng-model="User.password">
 			</div>
 			<div class="form group">
 				<label>E-Mail</label>
-				<input class= "form-control" type="text" ng-model="userController.email">
+				<input class= "form-control" type="text" ng-model="User.email">
 			</div>
 			<br>
-			<input data-ng-click="userController.adduser()" class="btn btn-success btn-sm btn-block" type="submit" value="Register Now">
-
+			<input class="btn btn-success btn-sm btn-block" type="submit" value="Register Now">
+			 
 		</form>
 </div>
 
- 
+<div data-ng-controller= "userController as User" class="container" id="login">
+		<form data-ng-submit="User.loginUser()">
+			<div class="form group">
+				<label>Username</label>
+				<input class= "form-control" type="text" ng-model="User.username">
+			</div>
+			<div class="form group">
+				<label>Password</label>
+				<input class= "form-control" type="password" ng-model="User.password">
+			</div>
+ 			<br>
+			<input class="btn btn-success btn-sm btn-block" type="submit" value="Login">
+			 
+		</form>
+</div> 
+
+
+<div data-ng-controller= "userController as User" class="container" id="forgotPassword">
+		<form data-ng-submit="User.resetPassword()">
+			<div class="form group">
+				<label>E-Mail</label>
+				<input class= "form-control" type="text" ng-model="User.email">
+			</div>
+			<br>
+			<input class="btn btn-success btn-sm btn-block" type="submit" value="Send Password Reset Link">
+			 
+		</form>
+</div>
+
 
 
 <div class="container" data-ng-controller="tripController as Trip">
