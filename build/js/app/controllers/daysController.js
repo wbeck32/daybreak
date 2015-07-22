@@ -15,4 +15,5 @@ angular.module('dayBreak').controller('daysController',
 		.error(function(data, status,headers,config){
 			console.log("failure ***");
 			});
+ 
 }]);

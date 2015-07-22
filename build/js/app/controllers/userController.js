@@ -26,14 +26,14 @@ this.registerUser = function(){
 
  
 this.loginUser = function(){
-	$http({
-		method: 'GET',
-		url: '/user',
-		token: 'x-auth',
-		auth: jwt.decode(token, secretKey)
-		})
-		.User.findOne({userName: auth.username}, function(err,user){
-        res.json(user);})
+	// $http({
+	// 	method: 'GET',
+	// 	url: '/user',
+	// 	token: 'x-auth',
+	// 	auth: jwt.decode(token, secretKey)
+	// 	})
+	// 	.User.findOne({userName: auth.username}, function(err,user){
+ //        res.json(user);})
 	};
 
 //original code

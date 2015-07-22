@@ -75,7 +75,7 @@ router.use(function(req, res, next) {
     console.log('Something is happening.');
     next(); // make sure we go to the next routes and don't stop here
 });
-
+ 
 /* GET home page. */
     router.get('/', function(req, res) {
       res.json({ message: 'hooray! welcome to our api!' });
@@ -118,6 +118,7 @@ app.get('/api/show', function(req,res,next){
 //    res.json({ message: 'here will be a list of trips' });
 //     res.sendFile('./show.html');
 // });
+ 
 
 /* POST to Add Trip Service */
 router.route('/addday').post(function(req, res) {
@@ -153,7 +154,7 @@ router.route('/addday').post(function(req, res) {
      });
 });
 
-//1B Creates a new user and pwd combination and saves it 
+ //1B Creates a new user and pwd combination and saves it 
 app.post('/user', function(req,res,next){
     console.log("Create user request at /user : " + req.body.username );
      //assign all values except password
@@ -213,9 +214,7 @@ app.get('/user', function(req,res){
 
 
 app.use('/api',router);  //this probably needs to be near bottom of page
-
+ 
 //module.exports = router;
 app.listen(3000);
 console.log('listening on port 3000!');
-
- 
