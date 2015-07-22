@@ -1,0 +1,45 @@
+<div class="container" data-ng-controller="tripController as Trip">
+	<h1>My Day</h1>
+		<p>Share your adventure</p>
+		<form id="enterTrip" data-ng-submit="Trip.enterTrip()">
+			<div class='form group'>
+				<div class='input-group'>
+
+		 			<p><input type="text" data-ng-model="Trip.tripName" placeholder="Give your trip a name">
+
+					<p><input type="text" data-ng-model="Trip.userName" placeholder ="user name" value="testuser" hidden >
+
+					<p>
+						<select data-ng-model="Trip.tripGroup">
+						<option value="single">Single
+						<option value="couple">Couple
+						<option value="family-w-small-kids">Family with small kids
+						<option value="family-w-tweens">Family with tweens
+						<option value="family-w-teens">Family with teenagers
+						<option value="adults">Group of adults
+						</select>
+					</p>
+
+					<p><input type="text" data-ng-model="Trip.tripDesc" class="desc" placeholder="Describe your trip"></p>
+				</div>
+			</div>
+		</form>
+ 
+	<ul class='list-group'>
+		<div ng-controller="daysController"  class="container">
+			<li ng-repeat="day in days " class='list-group-item'> 	
+		 		Title: 			{{ 	day.tripName }}<br>
+				User: 			{{ 	day.userName }}<br>
+				Trip Date: 		{{ 	day.tripDate}}<br>
+		 		Reporting Date: {{ 	day.tripCreateDate  }}<br>
+		 		Updated on: 	{{	day.tripUpdateDate  }}<br>
+				Description: 	{{	day.tripDesc}}<br>
+				Who was there: 	{{	day.tripGroup}}<br>
+				Tags: 			{{	day.tags}}<br>
+				Locations: 		{{	day.locations}}<br>
+			</li>
+		</div>
+	</ul>
+</div>
+  
+ 

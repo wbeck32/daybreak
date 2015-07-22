@@ -1,4 +1,8 @@
-var dayBreak = angular.module('dayBreak',[]);
+var dayBreak = angular.module('dayBreak',[
+	//'ngRoute'
+]);
+
+//mh adds ngRoute on own line as suggested
 
 // try adding above in this form...
 
