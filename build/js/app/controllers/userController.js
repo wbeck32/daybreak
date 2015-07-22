@@ -1,4 +1,4 @@
-//userController (was loginController)
+//userController
 angular.module('dayBreak').controller('userController', 
 	['$scope', '$http', function($scope, $http){
 	
@@ -6,7 +6,8 @@ angular.module('dayBreak').controller('userController',
 
 this.registerUser = function(){
 
-	console.log(this.username + " is this.username");
+		console.log(this.username + " is this.username");
+		console.log(this.email + " is this.email");
 
 	$http({
 		method: 'POST',
@@ -21,31 +22,33 @@ this.registerUser = function(){
 
 		}).error(function(data,status, headers, config){
 	 		console.log("no user created ");
-	});
+	});	
 };
 
  
 this.loginUser = function(){
-	// $http({
-	// 	method: 'GET',
-	// 	url: '/user',
-	// 	token: 'x-auth',
-	// 	auth: jwt.decode(token, secretKey)
-	// 	})
-	// 	.User.findOne({userName: auth.username}, function(err,user){
- //        res.json(user);})
-	};
 
-//original code
-// app.get('/user', function(req,res){
-//     var token = req.headers['x-auth'];
-//     var auth  = jwt.decode(token, secretKey);
-//     User.findOne({userName: auth.username}, function(err,user){
-//         res.json(user);
-//     });
-// });
-//original code
+	console.log(this.username + " is this.username login ");
+
+	$http({
+		method: 'POST',
+		url: '/session',
+		data: {username: this.username, 
+			   password: this.password 
+			   },
+		headers: {'Content-Type': 'application/json'}
+		})
+		.success(function(data, status, headers, config){
+			console.log( "*** Valid name password combination ***");
+			
+		})
+		.error(function(data,status, headers, config){
+	 		console.log(" --- INVALID name password combination! --- ");
+	});			 
+};
  
+
+
 
 
 this.resetPassword = function(){

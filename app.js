@@ -184,11 +184,15 @@ app.post('/user', function(req,res,next){
 app.post('/session', function(req,res,next){
     // Mongoose findOne method
     // set username to incoming req.body.username and find that value
+    console.log("here here");
     User.findOne({userName: req.body.username})
         .select('password')   //grab password of that username
         .exec(function(err,user){
         if (err){return next(err)}
         if(!user){return res.sendStatus(401)}
+
+         console.log(req.body.password + " is req.body.password");
+         console.log(user.password + " is user.password");   
         //if user is found check incoming pwd against stored pwd
         bcrypt.compare(req.body.password, user.password, function(err,valid){
             if (err){ return next(err);};
