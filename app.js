@@ -2,31 +2,30 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
+var favicon = require('serve-favicon');
 
+var jwt = require('jwt-simple');
+var token = jwt.encode({username: 'milesh'}, 'supersecretkey');
+var _ = require('lodash');  //utility library for common tasks
+var secretKey = 'supersecretkey';
+var bcrypt = require('bcrypt');
+
+app.use(favicon(__dirname + '/public/images/daybreaksun16px.ico'));
 app.use(express.static(__dirname + '/public')); //
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-
 //database connection
 var mongoose = require('mongoose');
 
-//local with local mongo db testing 
-// var db = mongoose.connect('mongodb://localhost/daybreak');
- 
-try {
+ try {
     var uristring = require('./data/mongolabinfo.js').loginstring;
-    //console.log("trying local mongolab string" + uristring);
     }
 catch(err){
-    //console.log("no connection file so go on to Heroku config var");
-    //var uristring = process.env.MONGOLAB_URI;   //if Heroku env
     }   
-console.log("DB Connection: "+ uristring);
 
 var db = mongoose.connect(uristring);
 
-//database schema for User and Day
 var User = db.model('user', 
     {   
     userName    :  String,
@@ -53,11 +52,16 @@ var Day = db.model('day',
 var anImage = db.model('image',{
     userName            : String,
     tripImage           : { data: Buffer, contentType: String } 
-})
+});
+
+var Location = db.model('location',{
+    locDesc     : String,
+    locURL      : String,
+    locName     : String
+});
 
 
 router.use(function(req, res, next) {
-    // do logging
     console.log('Something is happening.');
     next(); // make sure we go to the next routes and don't stop here
 });
@@ -67,6 +71,34 @@ router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });
 });
 
+app.get('/api/show', function(req,res,next){
+    Day.find({}).sort({tripCreateDate: 'descending'}).limit(6).exec(function(err, Days){
+        if (err) 
+            {return next(err)}
+        else
+            {
+            console.log("we good at the api");
+            res.status(201).json(Days); //returns saved Days object
+            }
+    })
+});
+
+app.post('/api/addlocation', function(req,res,next){
+
+    var newLoc = new Location ({
+        locName : req.body.locName,
+        locDesc : req.body.locDesc,
+        locURL : req.body.locURL
+    });
+
+    newLoc.save(function(err, newLoc){
+        if(err){
+            console.log(err);
+        } else {
+            console.log('added new location!');
+        }
+    });
+});
 
 /* POST to Add Trip Service */
 router.route('/addday').post(function(req, res) {
@@ -103,19 +135,19 @@ router.route('/addday').post(function(req, res) {
 });
 
 
-//SERVES AN HTML PAGE, NEXT ONE IS API ENDPOINT SERVING JSON
-app.get('/show', function(req,res,next){
-    Day.find(function(err, Days){
-        if (err) 
-            {return next(err)}
-        else
-            {
-            //res.json({message: ' that worked '})  return success message
-            //console.log("we good");
-            res.sendFile(__dirname + '/public/show.html')  //returns show.html
-            }
-    })
- })
+// //SERVES AN HTML PAGE, NEXT ONE IS API ENDPOINT SERVING JSON
+// app.get('/show', function(req,res,next){
+//     Day.find(function(err, Days){
+//         if (err) 
+//             {return next(err)}
+//         else
+//             {
+//             //res.json({message: ' that worked '})  return success message
+//             //console.log("we good");
+//             res.sendFile(__dirname + '/public/show.html')  //returns show.html
+//             }
+//     })
+//  })
 
 //SERVES A JSON OBJECT
 app.get('/api/show', function(req,res,next){
@@ -131,10 +163,8 @@ app.get('/api/show', function(req,res,next){
 })
 
 
-
 app.use('/api',router);
 
-//module.exports = router;
 app.listen(3000);
 console.log('listening on port 3000!');
 

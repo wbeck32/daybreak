@@ -1,6 +1,9 @@
 angular.module('dayBreak').controller('locationController',['$http','$scope','locationService',function($http,$scope,locationService){
 	$scope.locName = '';
 	$scope.locURL = '';
+	// $scope.Location = {
+	// 	item:''
+	// };
 
 	//TODO: fix latlong so that it is bound to US not Australia
 	var defaultBounds = new google.maps.LatLngBounds(
@@ -28,7 +31,6 @@ angular.module('dayBreak').controller('locationController',['$http','$scope','lo
 		console.log('adding another location: ',locName,locDesc,locURL);
 		locationService.addLocation(locName, locDesc, locURL);
 
-
-	}
+	};
 
 }]);
