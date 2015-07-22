@@ -1,33 +1,23 @@
 angular.module('dayBreak').service('locationService',['$http', function($http){
-//this.getName = function(name){console.log(name);};
 
 
-var defaultBounds = new google.maps.LatLngBounds(
-  new google.maps.LatLng(-33.8902, 151.1759),
-  new google.maps.LatLng(-33.8474, 151.2631));
+this.addLocation = function(locName, locDesc, locURL) {
+	console.log('adding location: ',locName, locDesc, locURL)
+$http({
+	method: 'POST',
+	url: 	'/api/addlocation',
+	data: 	{'locName' : locName, 
+			'locDesc' : locDesc,
+			'locURL' : locURL},
+	headers: {'Content-Type': 'application/json'}	
+	}).success(function(data, status, headers, config){
+		console.log('success!');
+	}).error(function(data,status,headers,config){
+		console.log('failure!');
 
-var input = document.getElementById('pac-input');
+ 		});
+	};
 
-var searchBox = new google.maps.places.SearchBox(input, {
-  bounds: defaultBounds
-});
-
-
-google.maps.event.addListener(searchBox, 'places_changed', function() {
-    var places = searchBox.getPlaces();
-
-console.log('places: ', places);
-getURL(places);
-
-});
-
-
-
-function getURL(places) {
-	console.log('ingetURL: ',places[0].website);
-	this.getURL = places[0].website;
-
-}
 
 
 }]);

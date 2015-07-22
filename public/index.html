@@ -85,15 +85,13 @@
 <h1>My Day</h1>
 <p>Share your adventure</p>
 
-<form id="enterTrip" data-ng-submit="Trip.enterTrip()">
 
 <section>
+<div data-ng-form name="mainForm">
 <p><input type="text" data-ng-model="Trip.tripName" placeholder="Give your trip a name">
-
 <p><input type="text" data-ng-model="Trip.userName" placeholder ="user name" value="testuser" hidden >
-
-<p><select data-ng-model="Trip.tripGroup"  >
-<option value="single">Single
+<p><select data-ng-model="Trip.tripGroup">
+<option value="single" selected>Single
 <option value="couple">Couple
 <option value="family-w-small-kids">Family with small kids
 <option value="family-w-tweens">Family with tweens
@@ -104,46 +102,34 @@
 <p><input type="text" data-ng-model="Trip.tripDesc" class="desc" placeholder="Describe your trip"></p>
 
 
-
-
- 
-
-
-
-
-
-
-
-
 <!-- LOCATION -->
-
-<article data-ng-controller="locationController as Location">
+<div data-ng-controller="locationController as Location">
+<div data-ng-form="subForm" style="border:1px solid red;">
 <h1>Find a location</h1>
-<input type="text" data-ng-model="Location.locationName" id="pac-input" placeholder="Enter the name of location" data-ng-change="Location.getName()">
+<input type="text" width="200" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
+<div id="locName">
+<a data-ng-href="{{locURL}}" target="_blank">{{locName}}</a>
+</div>
 
 
+<input type="text" data-ng-model="Location.locationDesc" class="desc controls" placeholder="Describe this location">
+<p>
+<!-- TODO: Add functionality for uploading photos -->
 
-<div id="locURL">URL: {{Location.getURL}}</div>
-<p><input type="text" data-ng-model="Location.locationDesc" class="desc controls" placeholder="Describe this location">
-</p>
-
-<h5>
 Share a picture from your Day - <input type="file" accept="image/*" >
-
-</h5>
-
-</article>
+</p>
+<button type="button" data-ng-click="Location.addLoc(Location)"></button>
+</div>
+<!-- </div>
+ -->
 <!-- END LOCATION BOX -->
 
-<!-- <input type="text" data-ng-controller="tagController as Tag" data-ng-model="Tag.tagList" placeholder="Enter some tags"> -->
-
 <input type="text" placeholder="Enter some tags">
-
+<!-- <input type="text" data-ng-controller="tagController as Tag" data-ng-model="Tag.tagList" placeholder="Enter some tags"> -->
+<input type="submit">
 </section>
 
 
-<input type="submit">Clicky!</input>
-</form>
 
 
 <div ng-controller="daysController"  class="container">
@@ -151,7 +137,7 @@ Share a picture from your Day - <input type="file" accept="image/*" >
 <h3>Great Days Shared by Our Community</h3>
 <h5>Here's a list of great Days!</h5>
  
- 
+
 <ul class='list-group'>
 	<li ng-repeat="day in days" class='list-group-item'> 	
  		Title: 			{{ 	day.tripName }}<br>
