@@ -26,17 +26,17 @@
 
 
 <section>
-<div data-ng-form name="mainForm">
+<form data-ng-submit="Trip.enterTrip()">
 <!-- TODO: insert dynamic tripID-->
 <p><input type="text" data-ng-model="Trip.tripName" placeholder="Give your trip a name">
 <p><input type="text" data-ng-model="Trip.userName" placeholder ="user name" value="testuser" hidden >
 <p><select data-ng-model="Trip.tripGroup">
-<option value="single" selected>Single
-<option value="couple">Couple
-<option value="fsk">Family with small kids
-<option value="fwtweens">Family with tweens
-<option value="fwteens">Family with teenagers
-<option value="adults">Group of adults
+<option value="single" selected>Single</option>
+<option value="couple">Couple</option>
+<option value="fsk">Family with small kids</option>
+<option value="fwtweens">Family with tweens</option>
+<option value="fwteens">Family with teenagers</option>
+<option value="adults">Group of adults</option>
 </select>
 </p>
 <p><input type="text" data-ng-model="Trip.tripDesc" class="desc" placeholder="Describe your trip"></p>
@@ -67,6 +67,7 @@ Share a picture from your Day - <input type="file" accept="image/*">
 <input type="text" placeholder="Enter some tags">
 <!-- <input type="text" data-ng-controller="tagController as Tag" data-ng-model="Tag.tagList" placeholder="Enter some tags"> -->
 <input type="submit">
+</form>
 </section>
 
 
