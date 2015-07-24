@@ -4,6 +4,12 @@ angular.module('dayBreak').controller('userController',
 	
 	console.log("begin - userController loaded");
 
+
+if(window.localStorage.getItem('token')){
+	this.username = window.localStorage.getItem('username');
+}
+
+
 this.registerUser = function(){
 
 		console.log(this.username + " is this.username");
@@ -14,7 +20,7 @@ this.registerUser = function(){
 		url: '/user',
 		data: {username: this.username, 
 			   password: this.password, 
-			   email: this.email},
+			   email   : this.email},
 		headers: {'Content-Type': 'application/json'}
 		})
 		.success(function(data, status, headers, config){
@@ -40,21 +46,31 @@ this.loginUser = function(){
 		})
 		.success(function(data, status, headers, config){
 			console.log( "*** Valid name password combination ***");
+			console.log(data + " is data....");
+
+			window.localStorage.setItem("token", data.token);
+			window.localStorage.setItem("username", data.user);
 			
+			this.username = user;
+
 		})
 		.error(function(data,status, headers, config){
-	 		console.log(" --- INVALID name password combination! --- ");
-	});			 
-};
- 
+	 		console.log(" --- INVALID name password combination ---");
+		});			 
+};	
 
 
+this.showUser = function(){
+	$http({
+		method: 'GET',
+		url: '/user',
+		data: {}
+	});
+}; 
 
 
 this.resetPassword = function(){
-
 };
-
 
 
 }]);
