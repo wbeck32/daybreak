@@ -31,6 +31,8 @@ angular.module('dayBreak').controller('locationController',['$http','$scope','lo
 		console.log('adding another location: ',locName,locDesc,locURL);
 		locationService.addLocation(locName, locDesc, locURL);
 
+		
+
 	};
 
 }]);
