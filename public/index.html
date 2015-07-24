@@ -14,33 +14,33 @@
 <body>
 
 <header>
-
 	<hgroup>
-	sign up || log in || avatar || profile
+		sign up || log in || avatar || profile
 	</hgroup>
 </header>
   
-<div class="container" data-ng-controller="tripController as Trip">
+<div class="container">
 <h1>My Day</h1>
 <p>Share your adventure</p>
 
 
 <section>
-<form data-ng-submit="Trip.enterTrip()">
-<!-- TODO: insert dynamic tripID-->
-<p><input type="text" data-ng-model="Trip.tripName" placeholder="Give your trip a name">
-<p><input type="text" data-ng-model="Trip.userName" placeholder ="user name" value="testuser" hidden >
-<p><select data-ng-model="Trip.tripGroup">
-<option value="single" selected>Single</option>
-<option value="couple">Couple</option>
-<option value="fsk">Family with small kids</option>
-<option value="fwtweens">Family with tweens</option>
-<option value="fwteens">Family with teenagers</option>
-<option value="adults">Group of adults</option>
-</select>
-</p>
-<p><input type="text" data-ng-model="Trip.tripDesc" class="desc" placeholder="Describe your trip"></p>
+	<div data-ng-controller="dayController as Day">
+	<form data-ng-submit="Day.addDay()">
+	<input type="hidden" data-ng-model="Day.userName" value="joey">
+	<input type="text" data-ng-model="Day.dayName" placeholder="Give your day a name">
+	
+	<select data-ng-model="Day.dayGroup">
+		<option value="single" selected>Single</option>
+		<option value="couple">Couple</option>
+		<option value="fsk">Family with small kids</option>
+		<option value="fwtweens">Family with tweens</option>
+		<option value="fwteens">Family with teenagers</option>
+		<option value="adults">Group of adults</option>
+	</select>
 
+<input type="text" data-ng-model="Day.dayDesc" class="desc" placeholder="Describe your day"></p>
+</div>
 <!-- LOCATION -->
 <div data-ng-controller="locationController as Location">
 
@@ -49,7 +49,7 @@
 <input type="text" width="200" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
 
 <div>
-<a data-ng-href="{{locURL}}" target="_blank">{{locName}}</a>
+	<a data-ng-href="{{locURL}}" target="_blank">{{locName}}</a>
 </div>
 
 <input type="text" data-ng-model="Location.locationDesc" class="desc controls" placeholder="Describe this location">
@@ -63,29 +63,32 @@ Share a picture from your Day - <input type="file" accept="image/*">
 </div>
 </div>
 <!-- END LOCATION BOX -->
+<div data-ng-controller="tagController as Tag">
 
-<input type="text" placeholder="Enter some tags">
+<input type="text" data-ng-change="Tag.countTag()" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
 <!-- <input type="text" data-ng-controller="tagController as Tag" data-ng-model="Tag.tagList" placeholder="Enter some tags"> -->
+</div>
 <input type="submit">
 </form>
+</div>
 </section>
 
 
 
 
-<div data-ng-controller="daysController"  class="container">
+<div data-ng-controller="dayController" class="container">
 <h1>My Day</h1>
 <p>Here's a list of great Days!</p>
 
 <ul class='list-group'>
-	<li ng-repeat="day in days | orderBy:'-tripCreateDate' " class='list-group-item'> 	
- 		Title: 			{{ 	day.tripName }}<br>
+	<li ng-repeat="day in days | orderBy:'-dayCreateDate' " class='list-group-item'> 	
+ 		Title: 			{{ 	day.dayName }}<br>
 		User: 			{{ 	day.userName }}<br>
-		Trip Date: 		{{ 	day.tripDate}}<br>
- 		Reporting Date: {{ 	day.tripCreateDate  }}<br>
- 		Updated on: 	{{	day.tripUpdateDate  }}<br>
-		Description: 	{{	day.tripDesc}}<br>
-		Who was there: 	{{	day.tripGroup}}<br>
+		Day Date: 		{{ 	day.dayDate}}<br>
+ 		Reporting Date: {{ 	day.dayCreateDate  }}<br>
+ 		Updated on: 	{{	day.dayUpdateDate  }}<br>
+		Description: 	{{	day.dayDesc}}<br>
+		Who was there: 	{{	day.dayGroup}}<br>
 		Tags: 			{{	day.tags}}<br>
 		Locations: 		{{	day.locations}}<br>
 	</li>

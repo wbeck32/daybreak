@@ -37,29 +37,22 @@ var User = db.model('user',
 
 var Day = db.model('day',
     {
-    tripName            : String,
-    userName            : String,
-    tripCreateDate      : {type: Date},
-    tripUpdateDate      : {type: Date},
-    tripDate            : {type: Date},
-    tripDesc            : String,
-    tripGroup           : String,
-    tags                : Array, 
-    locations           : Array,
-    images              : Array
+    dayName            : String,
+    userName           : String,
+    dayCreateDate      : {type: Date},
+    dayUpdateDate      : {type: Date},
+    dayDate            : {type: Date},
+    dayDesc            : String,
+    dayGroup           : String,
+    dayTags            : Array, 
+    locations          : Array,
+    images             : Array
     });
 
 var anImage = db.model('image',{
     userName            : String,
-    tripImage           : { data: Buffer, contentType: String } 
+    dayImage           : { data: Buffer, contentType: String } 
 });
-
-var Location = db.model('location',{
-    locDesc     : String,
-    locURL      : String,
-    locName     : String
-});
-
 
 router.use(function(req, res, next) {
     console.log('Something is happening.');
@@ -72,7 +65,7 @@ router.get('/', function(req, res) {
 });
 
 app.get('/api/show', function(req,res,next){
-    Day.find({}).sort({tripCreateDate: 'descending'}).limit(6).exec(function(err, Days){
+    Day.find({}).sort({dayCreateDate: 'descending'}).limit(6).exec(function(err, Days){
         if (err) 
             {return next(err)}
         else
@@ -83,36 +76,20 @@ app.get('/api/show', function(req,res,next){
     })
 });
 
-app.post('/api/addlocation', function(req,res,next){
-
-    var newLoc = new Location ({
-        locName : req.body.locName,
-        locDesc : req.body.locDesc,
-        locURL : req.body.locURL
-    });
-
-    newLoc.save(function(err, newLoc){
-        if(err){
-            console.log(err);
-        } else {
-            console.log('added new location!');
-        }
-    });
-});
 
 /* POST to Add Trip Service */
 router.route('/addday').post(function(req, res) {
-
+//console.log('in add day: ', req);
     var newDayDoc = new Day({
-        tripName:       req.body.tripName,
+        dayName:       req.body.dayName,
         userName:       req.body.userName,
-        tripCreateDate: Date.now(),
-        tripUpdateDate: Date.now(),
-        tripDate:       Date.now(),
-        tripDesc:       req.body.tripDesc,
-        tripGroup:      req.body.tripGroup,
-        tags:           req.body.tags,
-        locations:      req.body.locations,
+        dayCreateDate: Date.now(),
+        dayUpdateDate: Date.now(),
+        dayDate:       Date.now(),
+        dayDesc:       req.body.dayDesc,
+        dayGroup:      req.body.dayGroup,
+        dayTags:           req.body.dayTags,
+        locations:      req.body.dayLocations,
         images:         req.body.images
         });
 
@@ -150,17 +127,17 @@ router.route('/addday').post(function(req, res) {
 //  })
 
 //SERVES A JSON OBJECT
-app.get('/api/show', function(req,res,next){
-    Day.find(function(err, Days){
-        if (err) 
-            {return next(err)}
-        else
-            {
-            console.log("we good at the api" + Days);
-            res.status(201).json(Days); //returns saved Days object
-            }
-    })
-})
+// app.get('/api/show', function(req,res,next){
+//     Day.find(function(err, Days){
+//         if (err) 
+//             {return next(err)}
+//         else
+//             {
+//             console.log("we good at the api" + Days);
+//             res.status(201).json(Days); //returns saved Days object
+//             }
+//     })
+// })
 
 
 app.use('/api',router);
