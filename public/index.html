@@ -148,7 +148,7 @@ Share a picture from your Day - <input type="file" accept="image/*">
 
   
 <ul class='list-group'>
-	<li ng-repeat="day in days | orderBy:'-dayCreateDate' " class='list-group-item'> 	
+	<li data-ng-repeat="day in days" class='list-group-item'> 
  		Title: 			{{ 	day.dayName }}<br>
 		User: 			{{ 	day.userName }}<br>
 		Day Date: 		{{ 	day.dayDate}}<br>
@@ -156,7 +156,7 @@ Share a picture from your Day - <input type="file" accept="image/*">
  		Updated on: 	{{	day.dayUpdateDate  }}<br>
 		Description: 	{{	day.dayDesc}}<br>
 		Who was there: 	{{	day.dayGroup}}<br>
-		Tags: 			{{	day.tags}}<br>
+		Tags: 			{{	day.dayTags}}<br>
 		Locations: 		{{	day.locations}}<br>
 	</li>
 </ul>
