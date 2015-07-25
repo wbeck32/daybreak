@@ -13,7 +13,6 @@
 
 <body>
  
-
 <nav class = 'navbar navbar-default'>
 	<div class="container">
 		<ul class='nav navbar-nav'>
@@ -145,10 +144,10 @@ Share a picture from your Day - <input type="file" accept="image/*">
 <div data-ng-controller="dayController" class="container">
 <h3>Great Days Shared by Our Community</h3>
 <h5>Here's a list of great Days!</h5>
-
   
 <ul class='list-group'>
-	<li ng-repeat="day in days | orderBy:'-dayCreateDate' " class='list-group-item'> 	
+	<li data-ng-repeat="day in days" class='list-group-item'> 
+
  		Title: 			{{ 	day.dayName }}<br>
 		User: 			{{ 	day.userName }}<br>
 		Day Date: 		{{ 	day.dayDate}}<br>
@@ -156,7 +155,7 @@ Share a picture from your Day - <input type="file" accept="image/*">
  		Updated on: 	{{	day.dayUpdateDate  }}<br>
 		Description: 	{{	day.dayDesc}}<br>
 		Who was there: 	{{	day.dayGroup}}<br>
-		Tags: 			{{	day.tags}}<br>
+		Tags: 			{{	day.dayTags}}<br>
 		Locations: 		{{	day.locations}}<br>
 	</li>
 </ul>

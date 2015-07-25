@@ -82,7 +82,7 @@ app.get('/show', function(req,res,next){
 
 app.get('/api/show', function(req,res,next){
     //now we sort via mongoose, not in angular, then truncate and respond
-    Day.find({}).sort({tripCreateDate: 'descending'}).limit(6).exec(function(err, Days){
+    Day.find({}).sort({dayCreateDate: 'descending'}).limit(6).exec(function(err, Days){
         if (err) 
             {return next(err)}
         else
