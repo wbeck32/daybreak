@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 
 var mongoose = require('mongoose');
-
+ 
 var jwt = require('jwt-simple');
 var token = jwt.encode({username: 'milesh'}, 'supersecretkey');
 var _ = require('lodash');  //utility library for common tasks
@@ -163,15 +163,24 @@ app.post('/session', function(req,res,next){
         .exec(function(err,user){
         if (err){return next(err)}
         if(!user){return res.sendStatus(401)}
+
+         console.log(req.body.password + " is req.body.password");
+         console.log(user.password + " is user.password");   
         //if user is found check incoming pwd against stored pwd
         bcrypt.compare(req.body.password, user.password, function(err,valid){
             if (err){ return next(err);};
             // !valid means invalid name password combo - bcrypt asigns boolean
             if(!valid){ return res.sendStatus(401)};
-            //if valid then generate token based on user name   
-            var token = jwt.encode({username: user.username}, secretKey);
+            //if valid then generate token based on user name
+            console.log("user.username for jwt.encode is " + user.username);   
+            console.log("req.body.username for jwt.encode is " + req.body.username);
+
+            //encode the incoming req.body.username with secretKey   
+            var token = jwt.encode({username: req.body.username}, secretKey);
             console.log("user/pwd combo found and token is " + token);
-            res.json(token);
+            res.json({token: token, user: req.body.username});
+
+            
         });
     });
 }); 
@@ -180,9 +189,15 @@ app.post('/session', function(req,res,next){
 //Takes the jwt token stored client side and returns the username
 app.get('/user', function(req,res){
     var token = req.headers['x-auth'];
+    console.log ("token is " + token);
     var auth  = jwt.decode(token, secretKey);
+    console.log('auth is ' + auth);
+    console.log('auth.username is ' + auth.username);
     User.findOne({userName: auth.username}, function(err,user){
-        res.json(user);
+
+        res.json(user.userName);
+        console.log("user.userName is " + user.userName);
+
     });
 });
 

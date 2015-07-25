@@ -12,7 +12,7 @@
 </head>
 
 <body>
-
+ 
 
 <nav class = 'navbar navbar-default'>
 	<div class="container">
@@ -20,6 +20,18 @@
 			<li><a href="/#/"> 			Home 	 </a></li>
 			<li><a href="/#/register/"> Register </a></li>
   			<li><a href="/#/login"> 	Login 	 </a></li>
+  			<li><a><div data-ng-controller= "userController as User">
+  						<div data-ng-model="User">
+  							User Name: {{User.username}}
+   						</div>
+  					</div>	</a></li> 
+			<li><a> 
+				<!-- <div data-ng-model="User">
+					<div ng-if='User' class = "navbar-text navbar-right">
+						Signed in as {{currentUser.username}}
+					</div>
+				</div> -->
+			</a></li> 
   		</ul>
 	</div>
 </nav>
@@ -134,6 +146,7 @@ Share a picture from your Day - <input type="file" accept="image/*">
 <h3>Great Days Shared by Our Community</h3>
 <h5>Here's a list of great Days!</h5>
 
+  
 <ul class='list-group'>
 	<li ng-repeat="day in days | orderBy:'-dayCreateDate' " class='list-group-item'> 	
  		Title: 			{{ 	day.dayName }}<br>
