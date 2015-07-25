@@ -3,45 +3,28 @@ var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
+
 var mongoose = require('mongoose');
 
-//imported
-// var User = require('./user');   
-// var user = require('./user');
-//var router = express.Router();
 var jwt = require('jwt-simple');
 var token = jwt.encode({username: 'milesh'}, 'supersecretkey');
 var _ = require('lodash');  //utility library for common tasks
 var secretKey = 'supersecretkey';
 var bcrypt = require('bcrypt');
-//imported
 
 app.use(favicon(__dirname + '/public/images/daybreaksun16px.ico'));
 app.use(express.static(__dirname + '/public')); //
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-//local with local mongo db testing 
-// var db = mongoose.connect('mongodb://localhost/daybreak');
- 
 try {
-    var uristring = require('./data/mongolabinfo.js').loginstring;
-    //console.log("trying local mongolab string" + uristring);
+        var uristring = require('./data/mongolabinfo.js').loginstring;
     }
-catch(err){
-    //console.log("no connection file so go on to Heroku config var");
-    //var uristring = process.env.MONGOLAB_URI;   //if Heroku env
+        catch(err){
     }   
-console.log("DB Connection: "+ uristring);
-
-// mongoose.connect(uristring, function(err,db2){
-//     if (err) throw err;
-//     app.set('mongo', db2);
-// });
 
 var db = mongoose.connect(uristring);
 
-//database schemas for User and Day and Image
 var User = db.model('user', 
     {   
     userName    :  String,
@@ -53,25 +36,24 @@ var User = db.model('user',
 
 var Day = db.model('day',
     {
-    tripName            : String,
-    userName            : String,
-    tripCreateDate      : {type: Date},
-    tripUpdateDate      : {type: Date},
-    tripDate            : {type: Date},
-    tripDesc            : String,
-    tripGroup           : String,
-    tags                : Array, 
-    locations           : Array,
-    images              : Array
+    dayName            : String,
+    userName           : String,
+    dayCreateDate      : {type: Date},
+    dayUpdateDate      : {type: Date},
+    dayDate            : {type: Date},
+    dayDesc            : String,
+    dayGroup           : String,
+    dayTags            : Array, 
+    locations          : Array,
+    images             : Array
     });
 
 var anImage = db.model('image',{
     userName            : String,
-    tripImage           : { data: Buffer, contentType: String } 
-})
+    dayImage           : { data: Buffer, contentType: String } 
+});
 
 router.use(function(req, res, next) {
-    // do logging
     console.log('Something is happening.');
     next(); // make sure we go to the next routes and don't stop here
 });
@@ -112,27 +94,19 @@ app.get('/api/show', function(req,res,next){
 });
 
 
-/* GET home page. */
-// router.get('/show', function(req, res, next) {
-//    //console.log('SHOW is happening.');
-//    res.json({ message: 'here will be a list of trips' });
-//     res.sendFile('./show.html');
-// });
- 
-
 /* POST to Add Trip Service */
 router.route('/addday').post(function(req, res) {
-
+//console.log('in add day: ', req);
     var newDayDoc = new Day({
-        tripName:       req.body.tripName,
+        dayName:       req.body.dayName,
         userName:       req.body.userName,
-        tripCreateDate: Date.now(),
-        tripUpdateDate: Date.now(),
-        tripDate:       Date.now(),
-        tripDesc:       req.body.tripDesc,
-        tripGroup:      req.body.tripGroup,
-        tags:           req.body.tags,
-        locations:      req.body.locations,
+        dayCreateDate: Date.now(),
+        dayUpdateDate: Date.now(),
+        dayDate:       Date.now(),
+        dayDesc:       req.body.dayDesc,
+        dayGroup:      req.body.dayGroup,
+        dayTags:           req.body.dayTags,
+        locations:      req.body.dayLocations,
         images:         req.body.images
         });
 
@@ -215,6 +189,6 @@ app.get('/user', function(req,res){
 
 app.use('/api',router);  //this probably needs to be near bottom of page
  
-//module.exports = router;
+
 app.listen(3000);
 console.log('listening on port 3000!');

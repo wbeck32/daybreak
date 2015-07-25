@@ -1,8 +1,8 @@
-angular.module('dayBreak').service('locationService',['$http', function($http){
+angular.module('dayBreak').service('locationService',['$http',function($http){
 
 
 this.addLocation = function(locName, locDesc, locURL) {
-	console.log('adding location: ',locName, locDesc, locURL)
+	//TODO: add tripID
 $http({
 	method: 'POST',
 	url: 	'/api/addlocation',
@@ -16,6 +16,7 @@ $http({
 		console.log('failure!');
 
  		});
+
 	};
 
 
