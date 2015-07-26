@@ -19,9 +19,13 @@
 			<li><a href="/#/"> 			Home 	 </a></li>
 			<li><a href="/#/register/"> Register </a></li>
   			<li><a href="/#/login"> 	Login 	 </a></li>
+
+	  		<li><a href="/#/signout"  data-ng-click="User.signOut()">Sign out
+	  		</a></li>
+
   			<li><a><div data-ng-controller= "userController as User">
   						<div data-ng-model="User">
-  							User Name: {{User.username}}
+  							User Name: {{data.user}}
    						</div>
   					</div>	</a></li> 
 			<li><a> 
@@ -37,6 +41,7 @@
 
 
 <div data-ng-controller= "userController as User" class="container" id="register">
+
 		<form data-ng-submit="User.registerUser()">
 			<div class="form group">
 				<label>Username</label>
@@ -47,6 +52,10 @@
 				<input class= "form-control" type="password" ng-model="User.password">
 			</div>
 			<div class="form group">
+				<label>Password Confirmation</label>
+				<input class= "form-control" type="password" ng-model="User.passwordConfirm">
+			</div>
+			<div class="form group">
 				<label>E-Mail</label>
 				<input class= "form-control" type="text" ng-model="User.email">
 			</div>
@@ -54,10 +63,8 @@
 			<input class="btn btn-success btn-sm btn-block" type="submit" value="Register Now">
 			 
 		</form>
-</div>
-
-<div data-ng-controller= "userController as User" class="container" id="login">
-		<form data-ng-submit="User.loginUser()">
+ <br>
+		<form data-ng-submit="User.login()">
 			<div class="form group">
 				<label>Username</label>
 				<input class= "form-control" type="text" ng-model="User.username">
@@ -67,23 +74,26 @@
 				<input class= "form-control" type="password" ng-model="User.password">
 			</div>
  			<br>
-			<input class="btn btn-success btn-sm btn-block" type="submit" value="Login">
-			 
+			<input class="btn btn-success btn-sm btn-block" type="submit" value="Login">	 
 		</form>
-</div> 
 
+<br>
 
-<div data-ng-controller= "userController as User" class="container" id="forgotPassword">
 		<form data-ng-submit="User.resetPassword()">
 			<div class="form group">
 				<label>E-Mail</label>
 				<input class= "form-control" type="text" ng-model="User.email">
 			</div>
 			<br>
-			<input class="btn btn-success btn-sm btn-block" type="submit" value="Send Password Reset Link">
+			<input class="btn btn-success btn-sm btn-block" type="submit" value="Send Password Reset Link"></input>
 			 
 		</form>
+
+      <button data-ng-click="User.signOut()">Sign out</button>
+
 </div>
+
+
 
 <div class="container">
 <h1>My Day</h1>
@@ -148,15 +158,15 @@ Share a picture from your Day - <input type="file" accept="image/*">
 <ul class='list-group'>
 	<li data-ng-repeat="day in days" class='list-group-item'> 
 
- 		Title: 			{{ 	day.dayName }}<br>
-		User: 			{{ 	day.userName }}<br>
-		Day Date: 		{{ 	day.dayDate}}<br>
- 		Reporting Date: {{ 	day.dayCreateDate  }}<br>
- 		Updated on: 	{{	day.dayUpdateDate  }}<br>
-		Description: 	{{	day.dayDesc}}<br>
-		Who was there: 	{{	day.dayGroup}}<br>
-		Tags: 			{{	day.dayTags}}<br>
-		Locations: 		{{	day.locations}}<br>
+ 		Title: 			{{ 	day.dayName }}		<br>
+		User: 			{{ 	day.userName }}		<br>
+		Day Date: 		{{ 	day.dayDate}}		<br>
+ 		Reporting Date: {{ 	day.dayCreateDate}}	<br>
+ 		Updated on: 	{{	day.dayUpdateDate}}	<br>
+		Description: 	{{	day.dayDesc}}		<br>
+		Who was there: 	{{	day.dayGroup}}		<br>
+		Tags: 			{{	day.dayTags}} 		<br>
+		Locations: 		{{	day.locations}}		<br>
 	</li>
 </ul>
 

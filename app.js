@@ -178,12 +178,10 @@ app.post('/session', function(req,res,next){
             //encode the incoming req.body.username with secretKey   
             var token = jwt.encode({username: req.body.username}, secretKey);
             console.log("user/pwd combo found and token is " + token);
-            res.json({token: token, user: req.body.username});
-
-            
+            res.json({token: token, user: req.body.username});            
         });
     });
-}); 
+});
  
 //3 decode jwt token to return username
 //Takes the jwt token stored client side and returns the username
