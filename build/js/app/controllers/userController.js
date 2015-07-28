@@ -6,6 +6,7 @@ angular.module('dayBreak')
 
  	this.username  = userService.username;
   	this.userState = userService.userState;
+  	this.userRegister = userService.userRegister; //mh
   	this.dupeUsername = userService.dupeUsername;
 
 	this.password 			= null;
@@ -33,6 +34,8 @@ this.registerUser = function() {
 	console.log("this.email: " 	+ this.email);
 	console.log("updateScope: " + updateScope);
 
+	userService.checkUsername(this.username);
+
     userService.registerUser(this.username, this.password, this.email, updateScope);
   };
 
@@ -42,20 +45,34 @@ this.login = function(){
 	console.log("logging in as ..." + this.username);
 	console.log("this.password: " + this.password);
   
-   userService.login(this.username, this.password, updateScope);
+   	userService.login(this.username, this.password, updateScope);
 	};
 
 
 this.signOut = function(){
-	
 	console.log("calling signout...");
-
     userService.signOut();
     updateScope();
   };
 
 
+this.toggleLoginLogout = function(){
+	userService.toggleLoginLogout();
+	updateScope();
+};
+
+this.checkUsername = function(){
+	console.log("checking for unique user name...");
+
+	userService.checkUsername();
+	updateScope();
+};
+
+
+
 }]);
+
+
 /////////////////////////
 
 // 	console.log("begin - userController loaded");

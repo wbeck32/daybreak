@@ -182,6 +182,21 @@ app.post('/session', function(req,res,next){
         });
     });
 });
+
+app.post('/checkUsername', function(req,res,next){
+
+    // console.log("checking username-----");
+
+    // User.findOne({userName: req.body.username})
+    //     .select('userName')
+    //     .exec(function(err,user){
+    //         if (err) {return next(err)}
+    //         if (!user){return res.sendStatus(401)}
+    //     })
+
+    // console.log("checking userName..." + userName);
+
+});
  
 //3 decode jwt token to return username
 //Takes the jwt token stored client side and returns the username
