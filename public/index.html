@@ -35,6 +35,7 @@
   </div>
 </nav>
 
+
 <div class = 'userContainer' 
 	data-ng-show="User.userState==='loggedOut' && 
 	(RegOrLog  === 'Log' || RegOrLog === 'Reg' )
@@ -46,6 +47,10 @@
 	  data-ng-if= "RegOrLog==='Log' "  >
 
 		<form data-ng-submit="User.login()">
+
+<div data-ng-controller= "userController as User" class="container" id="register">
+		<form data-ng-submit="User.registerUser()">
+>>>>>>> nestedForms
 			<div class="form group">
 				<label>Username</label>
 				<input class= "form-control" type="text" ng-model="User.username">
@@ -115,7 +120,6 @@
 <br>
 
 
-
 <div class="container">
 <h1>My Day</h1>
 <p>Share your adventure</p>
@@ -138,34 +142,17 @@
 
 <input type="text" data-ng-model="Day.dayDesc" class="desc" placeholder="Describe your day">
 </div>
+
 <!-- LOCATION -->
-<div data-ng-controller="locationController as Location">
 
-<div data-ng-form="subForm" style="border:1px solid red;">
-<h1>Find a location</h1>
-<input type="text" width="200" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
-
-<div>
-	<a data-ng-href="{{locURL}}" target="_blank">{{locName}}</a>
-</div>
-
-
-<input type="text" data-ng-model="Location.locationDesc" class="desc controls" placeholder="Describe this location">
-<p>
-<!-- TODO: Add functionality for uploading photos -->
-Share a picture from your Day - <input type="file" accept="image/*">
-<!-- TODO -->
-</p>
-
-<input type="button" data-ng-click="Location.addLoc(Location)"/>
-</div>
-</div>
+<div data-ng-view></div>
 <!-- END LOCATION BOX -->
-<div data-ng-controller="tagController as Tag">
 
-<input type="text" data-ng-change="Tag.countTag()" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
-<!-- <input type="text" data-ng-controller="tagController as Tag" data-ng-model="Tag.tagList" placeholder="Enter some tags"> -->
+<div data-ng-controller="tagController as Tag">
+<div>Use commas between tags.</div>
+<input type="text" id="tags" data-ng-change="Tag.enterTag()" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
 </div>
+
 <input type="submit">
 </form>
 </div>
@@ -178,16 +165,16 @@ Share a picture from your Day - <input type="file" accept="image/*">
   
 <ul class='list-group'>
 	<li data-ng-repeat="day in days" class='list-group-item'> 
+ 		Title: 			{{ 	day.dayName }}<br>
+		User: 			{{ 	day.userName }}<br>
+		Day Date: 		{{ 	day.dayDate}}<br>
+ 		Reporting Date: {{ 	day.dayCreateDate  }}<br>
+ 		Updated on: 	{{	day.dayUpdateDate  }}<br>
+		Description: 	{{	day.dayDesc}}<br>
+		Who was there: 	{{	day.dayGroup}}<br>
+		Tags: 			{{	day.dayTags}}<br>
+		Locations: 		{{	day.locations}}<br>
 
- 		Title: 			{{ 	day.dayName }}		<br>
-		User: 			{{ 	day.userName }}		<br>
-		Day Date: 		{{ 	day.dayDate}}		<br>
- 		Reporting Date: {{ 	day.dayCreateDate}}	<br>
- 		Updated on: 	{{	day.dayUpdateDate}}	<br>
-		Description: 	{{	day.dayDesc}}		<br>
-		Who was there: 	{{	day.dayGroup}}		<br>
-		Tags: 			{{	day.dayTags}} 		<br>
-		Locations: 		{{	day.locations}}		<br>
 	</li>
 </ul>
 
@@ -204,6 +191,7 @@ Share a picture from your Day - <input type="file" accept="image/*">
 </div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
 
 <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
 <script src="js/main.js"></script>
