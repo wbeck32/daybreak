@@ -55,7 +55,11 @@
 				<input class= "form-control" type="password" ng-model="User.password">
 			</div>
  			<br>
-			<input class="btn btn-success btn-sm btn-block" type="submit" value="Login">	 
+			<input class="btn btn-success btn-sm btn-block" type="submit" value="Login">
+			<br>
+			<a data-ng-click="RegOrLog ='Reset' " >
+	   	Forgot your password?  </a>
+
 		</form>
 	</div>
 <br>
@@ -89,8 +93,9 @@
  <br>
 
 	<div id='resetPassword' 
- 		data-ng-show="User.userState === 'askingReset' "
-	  >
+		data-ng-show ="User.userState === 'loggedOut' "
+	 	data-ng-if   ="RegOrLog==='Reset' ">
+	 	
 		<form data-ng-submit="User.resetPassword()">
 			<div class="form group">
 				<label>Forgot Password? Enter E-Mail</label>
