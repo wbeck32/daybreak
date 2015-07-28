@@ -1,52 +1,52 @@
 <!DOCTYPE html>
 <html lang="en" data-ng-app="dayBreak">
 <head>
-
-<meta charset="utf-8" />
-<link rel="stylesheet" href="css/styles.css" />
-<script src="js/modernizr.js"></script>
-<link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500' rel='stylesheet' type='text/css'>
-<title>Day Break</title>
-<style>#map-canvas{width:100%;height:100%;border:1px solid red;}
-</style>
+	<meta charset="utf-8" />
+    <meta property="og:type" content="website">
+	<meta property="og:title" content="Daybreak is the pefect way to share your Perfect Day.">
+    <meta property="og:description" content="Use Daybreak discover other people's favorite days and favorite places, and share your perfect day.">
+	<link rel="stylesheet" href="css/styles.css" />
+	<script src="js/modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500' rel='stylesheet' type='text/css'>
+	<title>Daybreak - Share and Find the Perfect Day</title>
+	<style>#map-canvas{width:100%;height:100%;border:1px solid red;}</style>
 </head>
 
 <body>
 
-
-<nav class = 'navbar navbar-default'>
-	<div class="container">
-		<ul class='nav navbar-nav'>
-			<li><a href="/#/"> 			Home 	 </a></li>
-			<li><a href="/#/register/"> Register </a></li>
-  			<li><a href="/#/login"> 	Login 	 </a></li>
-  		</ul>
-	</div>
+<div data-ng-controller= "userController as User">
+ <nav class = 'navbar navbar-default'>
+  <div class="container">
+	<ul class='nav navbar-nav'>
+	  <li><a href="/"> Home </a></li>
+ 	  <li> <a data-ng-click="User.signOut()" 
+	  	   data-ng-show="User.userState==='loggedIn'"> Logout</a></li>
+	  <li> <a data-ng-click="RegOrLog ='Log' "
+	   	data-ng-show="User.userState==='loggedOut'">
+	   	Login</a></li>
+  	  <li><a data-ng-click="RegOrLog ='Reg' " 
+  	  	data-ng-show="User.userState==='loggedOut'"> 
+  	  	Register </a></li>
+   	  <li><a><div data-ng-model="User"  
+  	  	data-ng-show="User.userState==='loggedIn'" >
+  		Welcome: {{User.username}}
+	  	</div>	</a></li> 
+   	</ul>
+  </div>
 </nav>
 
-<!--
-<div data-ng-controller= "userController as User" class="container" id="register">
-		<form data-ng-submit="User.registerUser()">
-			<div class="form group">
-				<label>Username</label>
-				<input class= "form-control" type="text" ng-model="User.username">
-			</div>
-			<div class="form group">
-				<label>Password</label>
-				<input class= "form-control" type="password" ng-model="User.password">
-			</div>
-			<div class="form group">
-				<label>E-Mail</label>
-				<input class= "form-control" type="text" ng-model="User.email">
-			</div>
-			<br>
-			<input class="btn btn-success btn-sm btn-block" type="submit" value="Register Now">
-			 
-		</form>
-</div>
 
-<div data-ng-controller= "userController as User" class="container" id="login">
-		<form data-ng-submit="User.loginUser()">
+<div class = 'userContainer' 
+	data-ng-show="User.userState==='loggedOut' && 
+	(RegOrLog  === 'Log' || RegOrLog === 'Reg' )
+	"
+ 	>
+
+	<div id='login' 
+	  data-ng-show="User.userState === 'loggedOut' " 
+	  data-ng-if= "RegOrLog==='Log' "  >
+
+		<form data-ng-submit="User.login()">
 			<div class="form group">
 				<label>Username</label>
 				<input class= "form-control" type="text" ng-model="User.username">
@@ -57,23 +57,67 @@
 			</div>
  			<br>
 			<input class="btn btn-success btn-sm btn-block" type="submit" value="Login">
-			 
+			<br>
+			<a data-ng-click="RegOrLog ='Reset' " >
+	   	Forgot your password?  </a>
+
 		</form>
-</div> 
+	</div>
+<br>
 
+   <div id='register' 
+	 data-ng-show ="User.userState === 'loggedOut' "
+	 data-ng-if   ="RegOrLog==='Reg' " >
 
-<div data-ng-controller= "userController as User" class="container" id="forgotPassword">
-		<form data-ng-submit="User.resetPassword()">
+		<form data-ng-submit="User.registerUser()">
+			<div class="form group">
+				<label>Username</label>
+				<input class= "form-control" type="text" ng-model="User.username">
+			</div>
+			<div class="form group">
+				<label>Password</label>
+				<input class= "form-control" type="password" ng-model="User.password">
+			</div>
+			<div class="form group">
+				<label>Password Confirmation</label>
+				<input class= "form-control" type="password" ng-model="User.passwordConfirm">
+			</div>
 			<div class="form group">
 				<label>E-Mail</label>
 				<input class= "form-control" type="text" ng-model="User.email">
 			</div>
 			<br>
-			<input class="btn btn-success btn-sm btn-block" type="submit" value="Send Password Reset Link">
+			<input class="btn btn-success btn-sm btn-block" type="submit" value="Register Now">
 			 
 		</form>
+ 	</div>
+ <br>
+
+	<div id='resetPassword' 
+		data-ng-show ="User.userState === 'loggedOut' "
+	 	data-ng-if   ="RegOrLog==='Reset' ">
+	 	
+		<form data-ng-submit="User.resetPassword()">
+			<div class="form group">
+				<label>Forgot Password? Enter E-Mail</label>
+				<input class= "form-control" type="text" ng-model="User.email">
+			</div>
+			<br>
+			<input class="btn btn-success btn-sm btn-block" type="submit" value="Send Password Reset Link"></input>
+		</form>
+ 	</div>
+
+ <!-- 
+	<div id="signout">
+   		   <button data-ng-click="User.signOut()">Sign out</button>
+    </div> -->
+  
 </div>
--->
+
+<br>
+
+
+
 <div class="container">
 <h1>My Day</h1>
 <p>Share your adventure</p>
@@ -116,7 +160,7 @@
 <div data-ng-controller="dayController" class="container">
 <h3>Great Days Shared by Our Community</h3>
 <h5>Here's a list of great Days!</h5>
-
+  
 <ul class='list-group'>
 	<li data-ng-repeat="day in days" class='list-group-item'> 
  		Title: 			{{ 	day.dayName }}<br>
@@ -128,6 +172,7 @@
 		Who was there: 	{{	day.dayGroup}}<br>
 		Tags: 			{{	day.dayTags}}<br>
 		Locations: 		{{	day.locations}}<br>
+
 	</li>
 </ul>
 

@@ -1,55 +1,150 @@
-//userController (was loginController)
-angular.module('dayBreak').controller('userController', 
-	['$scope', '$http', function($scope, $http){
+//userController
+
+angular.module('dayBreak')
+	.controller('userController', 
+	['userService', function(userService){
+
+ 	this.username  = userService.username;
+  	this.userState = userService.userState;
+  	this.userRegister = userService.userRegister; //mh
+  	this.dupeUsername = userService.dupeUsername;
+
+	this.password 			= null;
+  	this.email 				= null;
+  	this.passwordConfirm 	= null;
+
+  	this.showPasswordChange = false;
+  	this.showDeleteAccount 	= false;
+
+ var updateScope = function() {
+    this.username 	= userService.username;
+    this.userState 	= userService.userState;
+    this.password 			= null;
+    this.email 				= null;
+    this.passwordConfirm 	= null;
+    this.newPassword 		= null;
+  }
+  .bind(this);//TODO: understand why this is needed
+
+
+this.registerUser = function() {
 	
-	console.log("begin - userController loaded");
+	console.log("registering... this.username" + this.username);
+	console.log("this.password: " + this.password);
+	console.log("this.email: " 	+ this.email);
+	console.log("updateScope: " + updateScope);
 
-this.registerUser = function(){
+	userService.checkUsername(this.username);
 
-	console.log(this.username + " is this.username");
+    userService.registerUser(this.username, this.password, this.email, updateScope);
+  };
 
-	$http({
-		method: 'POST',
-		url: '/user',
-		data: {username: this.username, 
-			   password: this.password, 
-			   email: this.email},
-		headers: {'Content-Type': 'application/json'}
-		})
-		.success(function(data, status, headers, config){
-			console.log( "user created and data is  " + data + status);
 
-		}).error(function(data,status, headers, config){
-	 		console.log("no user created ");
-	});
-};
+this.login = function(){  
 
- 
-this.loginUser = function(){
-	// $http({
-	// 	method: 'GET',
-	// 	url: '/user',
-	// 	token: 'x-auth',
-	// 	auth: jwt.decode(token, secretKey)
-	// 	})
-	// 	.User.findOne({userName: auth.username}, function(err,user){
- //        res.json(user);})
+	console.log("logging in as ..." + this.username);
+	console.log("this.password: " + this.password);
+  
+   	userService.login(this.username, this.password, updateScope);
 	};
 
-//original code
-// app.get('/user', function(req,res){
-//     var token = req.headers['x-auth'];
-//     var auth  = jwt.decode(token, secretKey);
-//     User.findOne({userName: auth.username}, function(err,user){
-//         res.json(user);
-//     });
-// });
-//original code
- 
+
+this.signOut = function(){
+	console.log("calling signout...");
+    userService.signOut();
+    updateScope();
+  };
 
 
-this.resetPassword = function(){
-
+this.toggleLoginLogout = function(){
+	userService.toggleLoginLogout();
+	updateScope();
 };
 
+this.checkUsername = function(){
+	console.log("checking for unique user name...");
+
+	userService.checkUsername();
+	updateScope();
+};
+
+
+
 }]);
+
+
+/////////////////////////
+
+// 	console.log("begin - userController loaded");
+
+
+// if(window.localStorage.getItem('token')){
+// 	this.username = window.localStorage.getItem('username');
+// }
+
+
+// this.registerUser = function(){
+
+// 		console.log(this.username + " is this.username");
+// 		console.log(this.email + " is this.email");
+
+// 	$http({
+// 		method: 'POST',
+// 		url: '/user',
+// 		data: {username: this.username, 
+// 			   password: this.password, 
+// 			   email   : this.email},
+// 		headers: {'Content-Type': 'application/json'}
+// 		})
+// 		.success(function(data, status, headers, config){
+// 			console.log( "user created and data is  " + data + status);
+
+// 		}).error(function(data,status, headers, config){
+// 	 		console.log("no user created ");
+// 	});	
+// };
+
+ 
+// this.loginUser = function(){
+
+// 	console.log(this.username + " is this.username login ");
+
+// 	$http({
+// 		method: 'POST',
+// 		url: '/session',
+// 		data: {username: this.username, 
+// 			   password: this.password 
+// 			   },
+// 		headers: {'Content-Type': 'application/json'}
+// 		})
+// 		.success(function(data, status, headers, config){
+// 			console.log( "*** Valid name password combination ***");
+// 			console.log(data + " is data....");
+
+// 			window.localStorage.setItem("token", data.token);
+// 			window.localStorage.setItem("username", data.user);
+			
+// 			//this.username = user;
+
+// 		})
+// 		.error(function(data,status, headers, config){
+// 	 		console.log(" --- INVALID name password combination ---");
+// 		});			 
+// };	
+
+ 
+
+// this.showUser = function(){
+// 	$http({
+// 		method: 'GET',
+// 		url: '/user',
+// 		data: {}
+// 	});
+// }; 
+
+
+// this.resetPassword = function(){
+// };
+
+ 
+// }]);
