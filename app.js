@@ -82,7 +82,7 @@ app.get('/show', function(req,res,next){
 
 app.get('/api/show', function(req,res,next){
     //now we sort via mongoose, not in angular, then truncate and respond
-    Day.find({}).sort({tripCreateDate: 'descending'}).limit(6).exec(function(err, Days){
+    Day.find({}).sort({dayCreateDate: 'descending'}).limit(6).exec(function(err, Days){
         if (err) 
             {return next(err)}
         else
@@ -177,12 +177,25 @@ app.post('/session', function(req,res,next){
             //encode the incoming req.body.username with secretKey   
             var token = jwt.encode({username: req.body.username}, secretKey);
             console.log("user/pwd combo found and token is " + token);
-            res.json({token: token, user: req.body.username});
-
-            
+            res.json({token: token, user: req.body.username});            
         });
     });
-}); 
+});
+
+app.post('/checkUsername', function(req,res,next){
+
+    // console.log("checking username-----");
+
+    // User.findOne({userName: req.body.username})
+    //     .select('userName')
+    //     .exec(function(err,user){
+    //         if (err) {return next(err)}
+    //         if (!user){return res.sendStatus(401)}
+    //     })
+
+    // console.log("checking userName..." + userName);
+
+});
  
 //3 decode jwt token to return username
 //Takes the jwt token stored client side and returns the username
