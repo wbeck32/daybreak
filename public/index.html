@@ -143,7 +143,29 @@
 
 <!-- LOCATION -->
 
-<div data-ng-view></div>
+<!-- <div data-ng-view></div> -->
+
+<div data-ng-controller="locationController as Location">
+
+<div data-ng-form="subForm" style="border:1px solid red;">
+<h1>Find a location</h1>
+<input type="text" width="200" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
+
+<div>
+	<a data-ng-href="{{locURL}}" target="_blank">{{locName}}</a>
+</div>
+
+
+<input type="text" data-ng-model="Location.locationDesc" class="desc controls" placeholder="Describe this location">
+
+<!-- TODO: Add functionality for uploading photos -->
+<div>Share a picture from your Day - <input type="file" accept="image/*"></div>
+<!-- TODO -->
+
+<div href="#addLocation" data-ng-click="Location.addLoc(Location)">Add this location.</div>
+</div>
+</div>
+
 <!-- END LOCATION BOX -->
 
 <div data-ng-controller="tagController as Tag">
