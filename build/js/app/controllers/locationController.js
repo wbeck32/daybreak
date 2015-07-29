@@ -1,10 +1,7 @@
-angular.module('dayBreak').controller('locationController',['$http','$scope','dayService','$routeParams',function($http,$scope,dayService,$routeParams){
-	
+angular.module('dayBreak').controller('locationController',['$http','$scope','dayService',function($http,$scope,dayService){
 	$scope.locName = '';
 	$scope.locURL = '';
 	var dayLocations = [];
-
-
 
 	//TODO: fix latlong so that it is bound to US not Australia
 	var defaultBounds = new google.maps.LatLngBounds(
@@ -25,23 +22,17 @@ angular.module('dayBreak').controller('locationController',['$http','$scope','da
 	$scope.$apply();
 });
 
-	this.addLoc = function(Location){
-		if(Location.locName){
-			var locName=$scope.locName;
-			var locDesc = Location.locationDesc;
-			var locURL = $scope.locURL;
-//			console.log('adding another location: ',locName,locDesc,locURL);
-			var l = ({location:locName,desc:locDesc,url:locURL});
-			dayLocations.push(l);
-			dayService.grabLocs(dayLocations);
-			var tagField = document.getElementById('tags');
-			tagField.value += locName+','+' ';
-			window.localStorage.setItem('dayTags',locName);
-			Location.locName='';
-			Location.locURL = '';
-			Location.locationDesc = '';
-			$scope.locName = '';
-		}
+	this.addLoc = function(Location) {
+		var locName=$scope.locName;
+		var locDesc = Location.locationDesc;
+		var locURL = $scope.locURL;
+		console.log('adding another location: ',locName,locDesc,locURL);
+		dayLocations.push({	location : locName,
+							desc : locDesc,
+							url : locURL
+						});
+		window.localStorage.setItem('dl',dayLocations);
+
 	};
 
 }]);

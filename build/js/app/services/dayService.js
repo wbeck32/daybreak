@@ -1,26 +1,21 @@
 angular.module('dayBreak').service('dayService',['$http', function($http){
 
-var allLocs = [];
-
-this.grabLocs = function(dayLocations) {
-	allLocs = dayLocations;
-};
 
 this.addDay = function(dayName, userName, dayDesc, dayGroup){
 	var dayTags = window.localStorage.getItem('dayTags');
-	var re = /\s*,\s*/;
-	var tagArray = dayTags.split(re);
+	console.log(dayTags);
+	dayLocations = window.localStorage.getItem('dl');
 	if(dayName){
 
 		$http({
 			method: 'POST',
 			url: 	'/api/addday',
-			data: 	{ 	dayLocations : allLocs,
+			data: 	{ 	dayLocations : dayLocations,
 						dayName : dayName,
 						userName : userName,
 						dayDesc : dayDesc,
 						dayGroup: dayGroup,
-						dayTags: tagArray
+						dayTags: dayTags
 			},
 			headers: {'Content-Type': 'application/json'}	
 			}).success(function(data, status, headers, config){

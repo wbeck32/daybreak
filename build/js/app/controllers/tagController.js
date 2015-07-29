@@ -2,7 +2,7 @@ angular.module('dayBreak').controller('tagController', ['$scope', '$http','daySe
 
 
 
-this.enterTag = function() {
+this.countTag = function() {
 	var dayTags = this.dayTags;
 	window.localStorage.setItem('dayTags',dayTags);
 };
