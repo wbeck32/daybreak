@@ -36,7 +36,7 @@ angular.module('dayBreak').controller('locationController',['$http','$scope','da
 			dayService.grabLocs(dayLocations);
 			var tagField = document.getElementById('tags');
 			tagField.value += locName+','+' ';
-			window.localStorage.setItem('dayTags',locName);
+			window.localStorage.setItem('dayTags',tagField.value);
 			Location.locName='';
 			Location.locURL = '';
 			Location.locationDesc = '';
