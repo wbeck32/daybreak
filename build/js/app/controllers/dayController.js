@@ -1,5 +1,6 @@
 angular.module('dayBreak').controller('dayController', ['$scope', '$http','dayService', function($scope, $http,dayService){
 	
+
 $http({
 			method: 'GET',
 			url: '/api/show',
