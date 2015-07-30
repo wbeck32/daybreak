@@ -25,6 +25,7 @@ this.addDay = function(dayName, userName, dayDesc, dayGroup){
 			headers: {'Content-Type': 'application/json'}	
 			}).success(function(data, status, headers, config){
 				console.log('success!');
+				window.localStorage.clear('dayTags');
 			}).error(function(data,status,headers,config){
 				console.log('failure!');
 	 		});
