@@ -16,6 +16,8 @@ angular.module('dayBreak')
   	this.showPasswordChange = false;
   	this.showDeleteAccount 	= false;
 
+  	this.userViewSwitch = null;
+
 
  var updateScope = function() {
     this.username 	= userService.username;
@@ -54,8 +56,14 @@ this.login = function(){
 	};
 
 
+this.userChangeView = function(view){
+	if (view='reset'){console.log(view);}
+
+};
+
 this.signOut = function(){
 	console.log("calling signout...");
+	this.userViewSwitch = null;
     userService.signOut();
     updateScope();
   };

@@ -5,6 +5,7 @@
     <meta property="og:type" content="website">
 	<meta property="og:title" content="Daybreak is the pefect way to share your Perfect Day.">
     <meta property="og:description" content="Use Daybreak discover other people's favorite days and favorite places, and share your perfect day.">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/styles.css" />
 	<script src="js/modernizr.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500' rel='stylesheet' type='text/css'>
@@ -17,147 +18,177 @@
 <div data-ng-controller= "userController as User">
 
 	<nav class = 'navbar navbar-default'>
-	  <div class="container">
-		<ul class='nav navbar-nav'>
+	  	<div class="container">
+			<ul class='nav navbar-nav'>
 
-		  <li><a data-ng-click="userViewSwitch ='None' ">Home</a></li>
+				<li><a><div 
+						data-ng-click="userViewSwitch ='None' ">
+						Home
+						</div></a></li>
 
-	 	  <li> <a data-ng-click="User.signOut()" 
- 		  	   	  data-ng-show ="User.userState==='loggedIn'"
-		  	   	   > Logout</a></li>
+				<li><a  
+			 			data-ng-show ="User.userState==='loggedIn'"
+			 			data-ng-click="User.signOut();userViewSwitch='None' "
+		 		  		> 
+		 		  		Logout
+		 		  		</a></li>
 
-		  <li> <a data-ng-click="userViewSwitch ='Log' "
-		   	data-ng-show="User.userState==='loggedOut'">
-		   	Login</a></li>
+				<li><a 	
+				  		data-ng-model="userViewSwitch"
+				  		data-ng-show="User.userState==='loggedOut'"
+				  		data-ng-click="userViewSwitch='Log' ">
+				  		Login
+				  		</a></li>	
 
-	  	  <li><a data-ng-click="userViewSwitch ='Reg' " 
-	  	  	data-ng-show="User.userState==='loggedOut'"> 
-	  	  	Register </a></li>
+				<li><a><div 	
+			  	  		data-ng-show="User.userState==='loggedOut'"
+			  	  		data-ng-click="userViewSwitch ='Reg' "> 
+			  	  		Register 
+			  	  		</div></a></li>
 
-	   	  <li><a><div data-ng-model="User"  
-	  	  	data-ng-show="User.userState==='loggedIn'" >
-	  		Welcome: {{User.username}}
-		  	</div>	</a></li> 
+				<li><a><div 	
+			   	  		data-ng-model="User"  
+			  	  		data-ng-show="User.userState==='loggedIn'" >
+			  			Welcome: {{User.username}}
+				  		</div></a></li>
 
-		  <li><a><div   
-	  	  	data-ng-show="User.userState==='loggedIn'"
-	  	  	data-ng-click="userViewSwitch ='myaccount' "  >
-	  		My Account 
-		  	</div>	</a></li> 
+				<li><a><div   
+			  	  		data-ng-show="User.userState==='loggedIn'"
+			  	  		data-ng-click="userViewSwitch ='Myaccount' " >
+			  			My Account
+				  		</div></a></li>
 
+		   	</ul>
 
-	   	</ul>
-	  </div>
+<!-- 			<div ng-switch on="userViewSwitch"> 
+			  	<div ng-switch-when='Reset' > 
+			  		User Clicked Reset 
+			  	</div>
+			</div> -->
+
+	  	</div>
 	</nav>
 
-	<div class = 'surround'>
+	<div class = 'surround'>	
+		<div class = 'userContainer' 
+				data-ng-show=" (User.userState==='loggedOut' && 
+				  (userViewSwitch === 'Log' || userViewSwitch === 'Reg' || userViewSwitch === 'Reset'))
+				  || 
+				  (User.userState==='loggedIn' &&
+					userViewSwitch==='Myaccount' )">
 
-	<div class = 'userContainer' 
-			data-ng-show=" (User.userState==='loggedOut' && 
-			  (userViewSwitch === 'Log' || userViewSwitch === 'Reg')
-			  || 
-			  (User.userState==='loggedIn' &&
-				(userViewSwitch==='myaccount' || userViewSwitch === 'Reset'  )" 
-			 data-ng-hide="userViewSwitch==='None' "
-				>
+<!-- 					userViewSwitch is {{userViewSwitch}}
+					<br>
+					User.userState is {{User.userState}} -->
 
-				userViewSwitch is {{userViewSwitch}}
-				<br>
-				User.userState is {{User.userState}}
+			<!-- <div id='login' 
+			  data-ng-show="User.userState === 'loggedOut' " 
+			  data-ng-if= "userViewSwitch==='Log' "  > -->
 
-		<div id='login' 
-		  data-ng-show="User.userState === 'loggedOut' " 
-		  data-ng-if= "userViewSwitch==='Log' "  >
 
-			<form data-ng-submit="User.login() ">
-				<div class="form group">
-					<label>Username</label>
-					<input class= "form-control" type="text" ng-model="User.username">
+			<div id='login' ng-switch on="userViewSwitch">
+				<div ng-switch-when='Log' >
+					<form data-ng-submit="User.login() ">
+						<div class="form group">
+							<label>Username</label>
+							<input class= "form-control" type="text" ng-model="User.username">
+						</div>
+						<div class="form group">
+							<label>Password</label>
+							<input class= "form-control" type="password" ng-model="User.password">
+						</div>
+						<p></p>
+						<input class="btn btn-success btn-sm btn-block" type="submit" value="Login">
+					</form>
+					<p></p>
 				</div>
 
-				<div class="form group">
-					<label>Password</label>
-					<input class= "form-control" type="password" ng-model="User.password">
+				<!-- Must be outside of ng-switch-when! -->
+				<div data-ng-show="userViewSwitch==='Log' ">
+ 					<a 
+	 					data-ng-click="userViewSwitch='Reset' ">
+						Reset Password
+					</a>
 				</div>
-	 			
-	 			<br>
-				<input class="btn btn-success btn-sm btn-block" type="submit" value="Login">
-				<br>
-				<a><div data-ng-click="userViewSwitch='Reset' ">Forgot password?
-				</div></a>
-
-			</form>
-		</div>
-	 
-
-	   <div id='register' data-ng-show ="User.userState === 'loggedOut' "data-ng-if="userViewSwitch==='Reg' ">
-
-			<form data-ng-submit="User.registerUser()">
-				<div class="form group">
-					<label>Username</label>
-					<input class= "form-control" type="text" ng-model="User.username">
+			</div>
+			
+		   	<div id='register'
+		   			ng-switch on='userViewSwitch'>
+		   		<div ng-switch-when='Reg' >
+					<form data-ng-submit="User.registerUser()">
+						<div class="form group">
+							<label>Username</label>
+							<input class= "form-control" type="text" ng-model="User.username">
+						</div>
+						<div class="form group">
+							<label>Password</label>
+							<input class= "form-control" type="password" ng-model="User.password">
+						</div>
+						<div class="form group">
+							<label>Password Confirmation</label>
+							<input class= "form-control" type="password" ng-model="User.passwordConfirm">
+						</div>
+						<div class="form group">
+							<label>E-Mail</label>
+							<input class= "form-control" type="text" ng-model="User.email">
+						</div>
+						<p></p>
+						<input class="btn btn-success btn-sm btn-block" type="submit" value="Register Now">
+					</form>
 				</div>
-				<div class="form group">
-					<label>Password</label>
-					<input class= "form-control" type="password" ng-model="User.password">
+		 	</div>
+		 
+		 
+			<div id='resetPassword' ng-switch on='userViewSwitch'>
+				<div ng-switch-when='Reset'>
+			 				<!-- <div id='resetPassword' data-ng-show ="User.userState === 'loggedOut' "data-ng-if="userViewSwitch==='Reset' "> -->
+
+					<form data-ng-submit="User.resetPassword()">	
+						<div class="form group">
+							<label>Forgot Password? Enter E-Mail</label>
+							<input class= "form-control" type="text" ng-model="User.email">
+						</div>
+						 <p></p>
+						<input class="btn btn-success btn-sm btn-block" type="submit" value="Send Password Reset Link"></input>
+					</form>
+					<p></p>
+
+
 				</div>
-				<div class="form group">
-					<label>Password Confirmation</label>
-					<input class= "form-control" type="password" ng-model="User.passwordConfirm">
-				</div>
-				<div class="form group">
-					<label>E-Mail</label>
-					<input class= "form-control" type="text" ng-model="User.email">
-				</div>
-				<br>
-				<input class="btn btn-success btn-sm btn-block" type="submit" value="Register Now">
-				 
-			</form>
-	 	</div>
-	 
-	 
-		<div id='resetPassword' data-ng-show ="User.userState ==='loggedOut' " data-ng-if="userViewSwitch==='Reset' ">
-		 	
-			<form data-ng-submit="User.resetPassword()">
-				
-				<div class="form group">
-					<label>Forgot Password? Enter E-Mail</label>
-					<input class= "form-control" type="text" ng-model="User.email">
-				</div>
-				 
-				<input class="btn btn-success btn-sm btn-block" type="submit" value="Send Password Reset Link"></input>
-			</form>
-	 	</div>
+		 	</div>
+
+<!-- 
+	   		<div id='about' 
+	   			data-ng-show="User.userState==='loggedIn' " 
+	   			data-ng-if="userViewSwitch==='myaccount' "  > -->
+
+	   		<div id='about' ng-switch on="userViewSwitch">
+				<div ng-switch-when='Myaccount' >
+		 	 		<p>About Your Account</p>
+
+		 	 		<div class ="userProfile">
+						<div 
+							data-ng-model="User" 
+							data-ng-show="User.userState==='loggedIn'" 
+							data-ng-if="userViewSwitch==='Myaccount' " >
+
+				  			<p>Name: {{User.username}}</p>
+				  			<p>Email: {{User.email}}</p>
+				  			<p>Joined:  {{User.createDate}}</p>
+				  			<p>About You: {{User.userAbout}}</p>
+				  			<p> </p>
+				  			<p>Close </p>
+						</div>
+					</div>
+			  	</div>  	 
+			</div>   <!-- close about modal -->	 
 
 
-   		<div id='about' data-ng-show="User.userState==='loggedIn' " data-ng-if="userViewSwitch==='myaccount' "  >
- 	 		<p>About Your Account</p>
 
- 	 		 	<div class ="userProfile">
+		</div>  <!-- //close class=userContainer -->
+	</div>	<!-- close surround -->
 
-				  	<div data-ng-model="User" data-ng-show="User.userState==='loggedIn'" data-ng-if="userViewSwitch==='myaccount' " >
-
-		  				<p>Name: {{User.username}}</p>
-		  				<p>Email: {{User.email}}</p>
-		  				<p>Joined:  {{User.createDate}}</p>
-		  				<p>About You: {{User.userAbout}}</p>
-				  	</div>
-		  		</div>		  	 
-		</div>  
-
-	 <!-- 
-		<div id="signout">
-	   		   <button data-ng-click="User.signOut()">Sign out</button>
-	    </div> -->
-	  
-	</div>  
-	<!-- //close class=userContainer -->
-	</div>
-	<!-- close surround -->
-
-<br>
-
-
+ 
 	<div class="container">
 	<h1>My Day</h1>
 	<p>Share your adventure</p>
@@ -254,7 +285,6 @@
 <script src="js/main.js"></script>
 
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
 </body>
 
