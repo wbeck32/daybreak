@@ -1,10 +1,7 @@
-angular.module('dayBreak').controller('locationController',['$http','$scope','dayService','$routeParams',function($http,$scope,dayService,$routeParams){
-	
+angular.module('dayBreak').controller('locationController',['$http','$scope','dayService',function($http,$scope,dayService){
 	$scope.locName = '';
 	$scope.locURL = '';
 	var dayLocations = [];
-
-
 
 	//TODO: fix latlong so that it is bound to US not Australia
 	var defaultBounds = new google.maps.LatLngBounds(
@@ -24,7 +21,7 @@ angular.module('dayBreak').controller('locationController',['$http','$scope','da
 	$scope.locURL = places[0].website;
 	$scope.$apply();
 });
-
+ 
 	this.addLoc = function(Location){
 		if(Location.locName){
 			var locName=$scope.locName;
@@ -42,6 +39,7 @@ angular.module('dayBreak').controller('locationController',['$http','$scope','da
 			Location.locationDesc = '';
 			$scope.locName = '';
 		}
+ 
 	};
 
 }]);

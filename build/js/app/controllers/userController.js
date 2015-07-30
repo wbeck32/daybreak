@@ -16,6 +16,9 @@ angular.module('dayBreak')
   	this.showPasswordChange = false;
   	this.showDeleteAccount 	= false;
 
+  	this.userViewSwitch = null;
+
+
  var updateScope = function() {
     this.username 	= userService.username;
     this.userState 	= userService.userState;
@@ -23,6 +26,8 @@ angular.module('dayBreak')
     this.email 				= null;
     this.passwordConfirm 	= null;
     this.newPassword 		= null;
+    this.userViewSwitch = 'None';
+
   }
   .bind(this);//TODO: understand why this is needed
 
@@ -31,7 +36,9 @@ this.registerUser = function() {
 	
 	console.log("registering... this.username" + this.username);
 	console.log("this.password: " + this.password);
+	console.log("this.passwordConfirm: " + this.passwordConfirm);
 	console.log("this.email: " 	+ this.email);
+	
 	console.log("updateScope: " + updateScope);
 
 	userService.checkUsername(this.username);
@@ -48,9 +55,11 @@ this.login = function(){
    	userService.login(this.username, this.password, updateScope);
 	};
 
+ 
 
 this.signOut = function(){
 	console.log("calling signout...");
+	this.userViewSwitch = null;
     userService.signOut();
     updateScope();
   };
@@ -61,11 +70,19 @@ this.toggleLoginLogout = function(){
 	updateScope();
 };
 
+
 this.checkUsername = function(){
 	console.log("checking for unique user name...");
-
-	userService.checkUsername();
-	updateScope();
+	if (this.username)
+	{
+		userService.checkUsername(this.username, duplicateUserName);
+		updateScope();
+	}
+	else
+	{
+	 	userService.duplicateUserName = null;
+	 	dpublicateUsername();	
+	}
 };
 
 

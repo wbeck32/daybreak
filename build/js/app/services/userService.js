@@ -105,17 +105,19 @@ this.checkUsername = function(username, cb) {
     })
     .success(function(data, status, headers, config){
       var result = parseInt(data);
+       console.log('Success at checkUsername........');
+
       if(result > 0){
-        self.dupeUsername = true;
+        self.duplicateUsername = true;
         console.log("DUPLICATE ALERT");         
       } else {
-        self.dupeUsername = false;
+        self.duplicateUsername = false;
         console.log("UNIQUE NAME CHOSEN");
       }
       cb();
     })
     .error(function(data, status, headers, config){
-      console.log('Failure........');
+      console.log('Failure at checkUsername........');
     });
   };
 

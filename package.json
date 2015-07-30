@@ -5,7 +5,6 @@
   "main": "app.js",
   "dependencies": {
     "angular": "^1.4.1",
-    "angular-route": "^1.4.3",
     "autoprefixer-core": "^5.2.1",
     "bcrypt": "^0.8.3",
     "body-parser": "^1.10.2",
