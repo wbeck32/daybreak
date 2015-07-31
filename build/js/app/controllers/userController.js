@@ -18,6 +18,8 @@ angular.module('dayBreak')
 
   	this.userViewSwitch = null;
 
+  	//this.validateCtrl = null;
+
 
  var updateScope = function() {
     this.username 	= userService.username;
@@ -26,13 +28,23 @@ angular.module('dayBreak')
     this.email 				= null;
     this.passwordConfirm 	= null;
     this.newPassword 		= null;
-    this.userViewSwitch = 'None';
+    this.userViewSwitch 	= null;
+    //this.validateCtrl		= null;
 
   }
   .bind(this);//TODO: understand why this is needed
 
 
-this.registerUser = function() {
+// this.validateCtrl = function($scope){
+
+// 	console.log("validateCtrl ***");
+    
+//     $scope.user = 'John Doe';
+//     $scope.email = 'john.doe@gmail.com';
+// };
+
+
+this.registerValidUser = function() {
 	
 	console.log("registering... this.username" + this.username);
 	console.log("this.password: " + this.password);
@@ -41,9 +53,9 @@ this.registerUser = function() {
 	
 	console.log("updateScope: " + updateScope);
 
-	userService.checkUsername(this.username);
+	//userService.checkUsername(this.username);
 
-    userService.registerUser(this.username, this.password, this.email, updateScope);
+    userService.registerValidUser(this.username, this.password, this.email, updateScope);
   };
 
 
@@ -65,24 +77,26 @@ this.signOut = function(){
   };
 
 
-this.toggleLoginLogout = function(){
-	userService.toggleLoginLogout();
-	updateScope();
-};
+// this.toggleLoginLogout = function(){
+// 	userService.toggleLoginLogout();
+// 	updateScope();
+// };
 
 
 this.checkUsername = function(){
 	console.log("checking for unique user name...");
-	if (this.username)
-	{
-		userService.checkUsername(this.username, duplicateUserName);
-		updateScope();
-	}
-	else
-	{
-	 	userService.duplicateUserName = null;
-	 	dpublicateUsername();	
-	}
+	userService.checkUsername(this.username);
+
+	// if (this.username)
+	// {
+	// 	userService.checkUsername(this.username, duplicateUserName);
+	// 	updateScope();
+	// }
+	// else
+	// {
+	//  	userService.duplicateUserName = null;
+	//  	dpublicateUsername();	
+	// }
 };
 
 

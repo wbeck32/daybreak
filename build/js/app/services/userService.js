@@ -22,26 +22,83 @@ angular.module('dayBreak').service('userService', ['$http', function($http){
 	}
 
 
-this.registerUser = function(username, password, email, cb){
+this.registerValidUser = function(username, password, email, cb){
 
-	console.log(username + " is username");
-	console.log(email    + " is email   ");
+	console.log(username + " is username at registerUser");
+	console.log(email    + " is email at registerUser   ");
 
 	$http({
 		method: 'POST',
-		url: '/user',
+		url: '/api/registervaliduser',
 		data: {username: username, 
 			   password: password,
 			   email   : email},
 		headers: {'Content-Type': 'application/json'}
 		})
 		.success(function(data, status, headers, config){
-			console.log( "user created - data value is  " + data + " and status is " + status);
+			console.log( "user created - data.username value is  " + data.username + " and status is " + status);
+
+			if (  1===1 )		 
+			{console.log("name acceptable");}
+
 		})
 		.error(function(data,status, headers, config){
 	 		console.log("no user created ");
 	});	
 };
+
+
+this.checkUsername = function(username, password, email, cb){
+
+	console.log(username + " is username at registerUser");
+	console.log(email    + " is email at registerUser   ");
+
+	$http({
+		method: 'POST',
+		url: '/api/checkUsername',
+		data: {username: username, 
+			   password: password,
+			   email   : email},
+		headers: {'Content-Type': 'application/json'}
+		})
+		.success(function(data, status, headers, config){
+			console.log( "user created - data.username value is  " + data.username + " and status is " + status);
+
+			if (  1===1 )		 
+			{console.log("name acceptable");}
+
+		})
+		.error(function(data,status, headers, config){
+	 		console.log("no user created ");
+	});	
+};
+
+this.checkEmail = function(username, password, email, cb){
+
+	console.log(username + " is username at registerUser");
+	console.log(email    + " is email at registerUser   ");
+
+	$http({
+		method: 'POST',
+		url: '/api/username',
+		data: {username: username, 
+			   password: password,
+			   email   : email},
+		headers: {'Content-Type': 'application/json'}
+		})
+		.success(function(data, status, headers, config){
+			console.log( "user created - data.username value is  " + data.username + " and status is " + status);
+
+			if (  1===1 )		 
+			{console.log("name acceptable");}
+
+		})
+		.error(function(data,status, headers, config){
+	 		console.log("no user created ");
+	});	
+};
+
+
 
 
 this.login = function(username, password, cb){
@@ -95,31 +152,31 @@ this.signOut = function(){
 
 
 //make sure chosen username does not already exist
-this.checkUsername = function(username, cb) {
+// this.checkUsername = function(username, cb) {
 
-    $http({
-      method: 'POST',
-      url: '/checkUsername',
-      data: {username: username},
-      headers: {'Content-Type':'application/json'}
-    })
-    .success(function(data, status, headers, config){
-      var result = parseInt(data);
-       console.log('Success at checkUsername........');
+//     $http({
+//       method: 'POST',
+//       url: '/checkUsername',
+//       data: {username: username},
+//       headers: {'Content-Type':'application/json'}
+//     })
+//     .success(function(data, status, headers, config){
+//       var result = parseInt(data);
+//        console.log('Success at checkUsername........');
 
-      if(result > 0){
-        self.duplicateUsername = true;
-        console.log("DUPLICATE ALERT");         
-      } else {
-        self.duplicateUsername = false;
-        console.log("UNIQUE NAME CHOSEN");
-      }
-      cb();
-    })
-    .error(function(data, status, headers, config){
-      console.log('Failure at checkUsername........');
-    });
-  };
+//       if(result > 0){
+//         self.duplicateUsername = true;
+//         console.log("DUPLICATE ALERT");         
+//       } else {
+//         self.duplicateUsername = false;
+//         console.log("UNIQUE NAME CHOSEN");
+//       }
+//       cb();
+//     })
+//     .error(function(data, status, headers, config){
+//       console.log('Failure at checkUsername........');
+//     });
+//   };
 
 
 

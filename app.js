@@ -128,28 +128,136 @@ router.route('/addday').post(function(req, res) {
      });
 });
 
- //1B Creates a new user and pwd combination and saves it 
-app.post('/user', function(req,res,next){
-    console.log("Create user request at /user : " + req.body.username );
-     //assign all values except password
+//endpoint to check if username exists
+router.route('/registervaliduser').post(function(req,res,next){
+    console.log("req is : " + req.body);
+    console.log("Request to create user at /user : " + req.body.username );
+    
+  
     var user = new User({   userName: req.body.username,
                             created: Date.now(),
                             email: req.body.email,
-                            userAbout: "Placeholder info about user"
+                            userAbout: "Placeholder User Info"
                          });
-    console.log("password should be undefined:  " + user.password);
-    //asynchronous call of bcrypt
-    bcrypt.hash(req.body.password, 10, function(err, hash) {    
-    // Store hash in password DB.
-        console.log("BCRYPT password hash is " + hash);
-        user.password = hash;//note definition of user.password in schema
-        //all values of user object now assigned
-        user.save(function(err){
-            if (err){throw next(err)}
-            res.sendStatus(201)
+
+    User.findOne({userName: req.body.username})
+        .select('userName')   //grab password of that username
+        .exec(function(err,user){
+                if (err){
+                    return next(err)
+                }
+                if(!user){
+                    console.log("user does not exist");
+                    this.duplicateUsername="false";
+                }
+                else{
+                    console.log(" found  userName ");
+                    this.duplicateUsername="true";
+                }
         });
-    });
 });
+
+
+//1d  checks for duplicate username
+router.route('/username').post(function(req,res,next){
+    var user = new User({   userName: req.body.username,
+                            created: Date.now(),
+                            email: req.body.email,
+                            userAbout: "Placeholder User Info"
+                         });
+
+    User.findOne({email: req.body.email})
+        .select('email')   //grab password of that username
+        .exec(function(err,user){
+                if (err){
+                    return next(err)
+                }
+                if(!user){
+                    console.log("email does not exist");
+                    this.duplicateEmail="false";
+                }
+                else{
+                    console.log(" found  email in database ");
+                    this.duplicateEmail="true";
+                }
+        });
+});
+
+
+//1d  checks for duplicate email
+router.route('/emailcheck').post(function(req,res,next){
+    var user = new User({   userName: req.body.username,
+                            created: Date.now(),
+                            email: req.body.email,
+                            userAbout: "Placeholder User Info"
+                         });
+
+    User.findOne({email: req.body.email})
+        .select('email')   //grab password of that username
+        .exec(function(err,user){
+                if (err){
+                    return next(err)
+                }
+                if(!user){
+                    console.log("email does not exist");
+                    this.duplicateEmail="false";
+                }
+                else{
+                    console.log(" found  email in database ");
+                    this.duplicateEmail="true";
+                }
+        });
+});
+
+
+
+
+    // if req.body && req.body.username && req.body.email == null
+     //  {check username not duplicate
+    //     usernameOK = true; }
+    //  else if  (     req.body.email !=null;)
+    //  { check email not duplicate
+    //    emailOK = true; }
+
+
+
+
+
+
+
+//         console.log(" finding  user.userName " + user.userName);
+ 
+//         if(user.userName === req.body.userName){
+//         console.log(" User.userName found: " + user.userName);
+//         }
+//         else
+//             { console.log( " user.userName NOT found: " + user.userName ) };
+
+           
+//     //bcrypt is callback function for User.find
+//     //console.log("password should be undefined:  " + user.password);
+//     //asynchronous call of bcrypt
+//     bcrypt.hash(req.body.password, 10, function(err, hash) {    
+//     // Store hash in password DB.
+//         console.log("req.body.password incoming is: " + req.body.password);
+//         console.log("BCRYPT password hash is " + hash);
+//         user.password = hash;//note definition of user.password in schema
+//         //all values of user object now assigned
+
+
+//         console.log("values for save are: " + 
+//             user.userName, user.created, user.email, user.userAbout);
+
+//         user.save(function(err){
+//             if (err){throw next(err)}
+//             res.sendStatus(201)
+
+
+//            });
+
+//          });
+//     });
+// });
  
 
 //2  Takes user name and password hash stored client side, and 
