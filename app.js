@@ -54,9 +54,11 @@ var anImage = db.model('image',{
 });
 
 router.use(function(req, res, next) {
-    console.log('Something is happening.');
+    //console.log('Router.use is happening.');
     next(); // make sure we go to the next routes and don't stop here
 });
+
+var cheatnamepass = "dkdkdkdkdk";
  
 /* GET home page. */
     router.get('/', function(req, res) {
@@ -96,6 +98,7 @@ app.get('/api/show', function(req,res,next){
 
 /* POST to Add Trip Service */
 router.route('/addday').post(function(req, res) {
+//console.log('in add day: ', req);
     var newDayDoc = new Day({
         dayName:       req.body.dayName,
         userName:       req.body.userName,
@@ -127,28 +130,154 @@ router.route('/addday').post(function(req, res) {
      });
 });
 
- //1B Creates a new user and pwd combination and saves it 
-app.post('/user', function(req,res,next){
-    console.log("Create user request at /user : " + req.body.username );
-     //assign all values except password
+////////////////////////////////////////////////////
+//TO DO: endpoint for registering valid user which is 
+// 1) password confirmed  2) not duplicate username 
+// 3) not duplicate email  4) user clicks registration button
+//////////////////////////////////////////////////////////
+
+router.route('/registerValidUser').post(function(req,res,next){
+    console.log("req is : " + req.body);
+    console.log("Request to create user at /user : " + req.body.username );
+    
+  
     var user = new User({   userName: req.body.username,
                             created: Date.now(),
                             email: req.body.email,
-                            userAbout: "Placeholder info about user"
+                            userAbout: "Placeholder User Info"
                          });
-    console.log("password should be undefined:  " + user.password);
-    //asynchronous call of bcrypt
-    bcrypt.hash(req.body.password, 10, function(err, hash) {    
-    // Store hash in password DB.
-        console.log("BCRYPT password hash is " + hash);
-        user.password = hash;//note definition of user.password in schema
-        //all values of user object now assigned
-        user.save(function(err){
-            if (err){throw next(err)}
-            res.sendStatus(201)
+
+    User.findOne({userName: req.body.username})
+        .select('userName')   //grab password of that username
+        .exec(function(err, user){
+                if (err){
+                    return next(err)
+                }
+                if(!user){
+                    console.log("user does not exist");
+                    this.duplicateusername=false;
+                    cheatnamepass=false;
+                 }
+                else{
+                    console.log(" found  userName ");
+                    this.duplicateusername=true;
+                    cheatnamepass=true;
+                }
         });
-    });
 });
+
+
+//1d  checks for duplicate username
+router.route('/checkusername').post(function(req,res,next){
+   
+    console.log("app.js router.route is happening");
+
+    var user = new User({userName: req.body.username });
+
+    User.findOne({userName: req.body.username})
+        .select('userName')   //grab password of that username  (Mongoose)
+        // exec takes a callback function
+        .exec(function(err,user){                      
+                
+            console.log(user +  " is user   " + err + " is err");
+
+                if (err){
+                    console.log("error in mongoose findone");
+                    return next(err)
+                }
+                if(!user){
+                    console.log("username does not exist");
+                    this.duplicateusername= false;  //the name is not a duplicate
+
+                    console.log("this.duplicateusername is: "+ this.duplicateusername)
+
+
+
+                }
+                else{
+                    console.log(" found  username in database ");
+                    this.duplicateusername= true;  //the name is a duplicate
+
+                    console.log("this.duplicateusername is: "+ this.duplicateusername)
+                }
+
+        });
+});
+
+
+//1d  checks for duplicate email
+router.route('/checkemail').post(function(req,res,next){
+   
+    console.log("app.js router.route is happening for email");
+
+    var user = new User({userName: req.body.email });
+
+    User.findOne({email: req.body.email})
+        .select('email')   //grab password of that username
+        .exec(function(err,user){
+                if (err){
+                    return next(err)
+                }
+                if(!user){
+                    console.log("email does not exist");
+                    this.duplicateemail="false";
+                }
+                else{
+                    console.log(" found  email in database ");
+                    this.duplicateemail="true";
+                }
+        });
+});
+
+ 
+
+
+    // if req.body && req.body.username && req.body.email == null
+     //  {check username not duplicate
+    //     usernameOK = true; }
+    //  else if  (     req.body.email !=null;)
+    //  { check email not duplicate
+    //    emailOK = true; }
+
+
+
+
+
+
+
+//         console.log(" finding  user.userName " + user.userName);
+ 
+//         if(user.userName === req.body.userName){
+//         console.log(" User.userName found: " + user.userName);
+//         }
+//         else
+//             { console.log( " user.userName NOT found: " + user.userName ) };
+
+           
+//     //bcrypt is callback function for User.find
+//     //console.log("password should be undefined:  " + user.password);
+//     //asynchronous call of bcrypt
+//     bcrypt.hash(req.body.password, 10, function(err, hash) {    
+//     // Store hash in password DB.
+//         console.log("req.body.password incoming is: " + req.body.password);
+//         console.log("BCRYPT password hash is " + hash);
+//         user.password = hash;//note definition of user.password in schema
+//         //all values of user object now assigned
+
+
+//         console.log("values for save are: " + 
+//             user.userName, user.created, user.email, user.userAbout);
+
+//         user.save(function(err){
+//             if (err){throw next(err)}
+//             res.sendStatus(201)
+
+
+//            });
+
+//          });
+//     });
+// });
  
 
 //2  Takes user name and password hash stored client side, and 
@@ -182,20 +311,20 @@ app.post('/session', function(req,res,next){
     });
 });
 
-app.post('/checkUsername', function(req,res,next){
+// app.post('/checkUsername', function(req,res,next){
 
-    // console.log("checking username-----");
+//     // console.log("checking username-----");
 
-    // User.findOne({userName: req.body.username})
-    //     .select('userName')
-    //     .exec(function(err,user){
-    //         if (err) {return next(err)}
-    //         if (!user){return res.sendStatus(401)}
-    //     })
+//     // User.findOne({userName: req.body.username})
+//     //     .select('userName')
+//     //     .exec(function(err,user){
+//     //         if (err) {return next(err)}
+//     //         if (!user){return res.sendStatus(401)}
+//     //     })
 
-    // console.log("checking userName..." + userName);
+//     // console.log("checking userName..." + userName);
 
-});
+// });
  
 //3 decode jwt token to return username
 //Takes the jwt token stored client side and returns the username
