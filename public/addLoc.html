@@ -1,0 +1,20 @@
+	<div data-ng-controller="locationController as Location">
+		<div style="border:1px solid gray;margin:10px 0;padding:10px;">
+			<h1>Find a location</h1>
+			<input type="text" width="200" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
+
+				<div>
+					<a data-ng-href="{{locURL}}" target="_blank">{{locName}}</a>
+				</div>
+
+			<input type="text" data-ng-model="Location.locDesc" class="desc controls" placeholder="Describe this location">
+			<p style="font-size:12px;">
+			<!-- TODO: Add functionality for uploading photos -->
+			Share a picture from your Day - <input type="file" accept="image/*">
+			<!-- TODO -->
+			</p>
+						<span>{{Location.locDesc}}{{locURL}}{{locName}}</span> 
+
+			<div data-ng-click="Location.addLoc(Location)">Add this location</div>
+		</div>
+	</div>

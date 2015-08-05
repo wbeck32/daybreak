@@ -269,6 +269,10 @@
 
 <!-- LOCATION -->
 <div data-ng-controller="locationController as Location" style="border:1px solid red;">
+
+<input type="text" data-ng-model="message" placeholder="Msg"/>
+<add-location></add-location>
+
 <h1>Find a location</h1>
 
 <input type="text" width="200" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
@@ -283,6 +287,9 @@
 <!--TODO-->
 
 <div data-ng-click="Location.addLoc(Location)">Add this location.</div>
+
+
+
 </div>
 <!-- END LOCATION BOX -->
 
