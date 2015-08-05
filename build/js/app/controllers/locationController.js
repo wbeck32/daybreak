@@ -1,6 +1,6 @@
 angular.module('dayBreak').controller('locationController',['$http','$scope','dayService',function($http,$scope,dayService){
 		
-	$scope.message='<h1>WHAT!</h1>';
+	$scope.message='';
 	$scope.locName = '';
 	$scope.locURL = '';
 	var dayLocations = [];

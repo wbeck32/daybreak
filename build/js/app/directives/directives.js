@@ -1,4 +1,4 @@
-angular.module('dayBreak',[]).directive('addLocation', function(){
+angular.module('dayBreak').directive('addLocation', function(){
 
 return {
 	restrict: 'AEC',
@@ -11,11 +11,13 @@ return {
 
 		scope.clearMessage = function() { 
 			scope.message = '';
-		}
-	
+		}	
 		elem.bind(' mouseover', function() { 
-			elem.css(' cursor', 'pointer'); 
+			elem.css('color', 'red'); 
 		});
+		elem.bind('mouseout', function(){
+			elem.css('color','blue');
+		})
 	}
 }
 });
