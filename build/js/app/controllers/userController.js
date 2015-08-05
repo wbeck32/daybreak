@@ -2,12 +2,12 @@
 
 angular.module('dayBreak')
 	.controller('userController', 
-	['userService', function(userService){
+	['userService', '$scope', function(userService, $scope){
 
  	this.username  = userService.username;
   	this.userState = userService.userState;
   	this.userRegister = userService.userRegister; //mh
-  	this.dupeUsername = userService.dupeUsername;
+  	//this.dupeUsername = userService.dupeUsername;
 
 	this.password 			= null;
   	this.email 				= null;
@@ -16,11 +16,15 @@ angular.module('dayBreak')
   	this.showPasswordChange = false;
   	this.showDeleteAccount 	= false;
 
-  	this.userViewSwitch = null;
+  	this.userViewSwitch 	= null;
 
   	//this.validateCtrl = null;
 
-
+  	this.duplicateusername 	= true;  
+  	//initialize as duplicate true - unique user choice falsifies
+    this.duplicatemail 		= true;
+	//initialize as duplicate true - unique user choice falsifies
+ 
  var updateScope = function() {
     this.username 	= userService.username;
     this.userState 	= userService.userState;
@@ -30,6 +34,7 @@ angular.module('dayBreak')
     this.newPassword 		= null;
     this.userViewSwitch 	= null;
     //this.validateCtrl		= null;
+   
 
   }
   .bind(this);//TODO: understand why this is needed
@@ -44,19 +49,29 @@ angular.module('dayBreak')
 // };
 
 
-this.registerValidUser = function() {
-	
-	console.log("registering... this.username" + this.username);
-	console.log("this.password: " + this.password);
-	console.log("this.passwordConfirm: " + this.passwordConfirm);
-	console.log("this.email: " 	+ this.email);
-	
-	console.log("updateScope: " + updateScope);
 
-	//userService.checkUsername(this.username);
 
-    userService.registerValidUser(this.username, this.password, this.email, updateScope);
-  };
+
+// TEMP DELETE FINAL STEP
+
+// this.registerValidUser = function() {
+	
+// 	console.log("registering... this.username" + this.username);
+// 	console.log("this.password: " + this.password);
+// 	console.log("this.passwordConfirm: " + this.passwordConfirm);
+// 	console.log("this.email: " 	+ this.email);
+	
+// 	console.log("updateScope: " + updateScope);
+
+// 	//userService.checkUsername(this.username);
+
+//     userService.registerValidUser(this.username, this.password, this.email, updateScope);
+//   };
+
+
+
+
+
 
 
 this.login = function(){  
@@ -84,7 +99,7 @@ this.signOut = function(){
 
 
 this.checkUsername = function(){
-	console.log("checking for unique user name...");
+	console.log("CONTROLLER: checking for unique user name...");
 	userService.checkUsername(this.username);
 
 	// if (this.username)
@@ -99,7 +114,21 @@ this.checkUsername = function(){
 	// }
 };
 
+this.checkEmail = function(){
+	console.log("CONTROLLER: checking for unique email...");
+	userService.checkEmail(this.email);
 
+	// if (this.username)
+	// {
+	// 	userService.checkUsername(this.username, duplicateUserName);
+	// 	updateScope();
+	// }
+	// else
+	// {
+	//  	userService.duplicateUserName = null;
+	//  	dpublicateUsername();	
+	// }
+};
 
 }]);
 

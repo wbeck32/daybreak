@@ -4,10 +4,9 @@ angular.module('dayBreak').service('userService', ['$http', function($http){
 
   this.username 	= null;
   this.userState 	= 'loggedOut';
-  this.dupeUsername = false;
   this.userRegister = false;//mh
 
-  var self = this;
+  var self = this; 
 
   if (window.localStorage.getItem('token')) {
     //trekService.renderAllSavedTreks();
@@ -48,57 +47,51 @@ this.registerValidUser = function(username, password, email, cb){
 };
 
 
-this.checkUsername = function(username, password, email, cb){
+this.checkUsername = function(username, cb){
 
-	console.log(username + " is username at registerUser");
-	console.log(email    + " is email at registerUser   ");
 
-	$http({
+
+// console.log(username + " is  username at SERVICE  checkUsername");
+ 	$http({
 		method: 'POST',
-		url: '/api/checkUsername',
-		data: {username: username, 
-			   password: password,
-			   email   : email},
+		url: '/api/checkusername',
+		data: {username         : username},
 		headers: {'Content-Type': 'application/json'}
 		})
 		.success(function(data, status, headers, config){
-			console.log( "user created - data.username value is  " + data.username + " and status is " + status);
 
-			if (  1===1 )		 
-			{console.log("name acceptable");}
 
-		})
+		   // console.log(" data is ******* : "+ data);
+     //   User.duplicateusername = true;
+     //   console.log( "success - User.username value is  " + User.username  );
+		
+    })
 		.error(function(data,status, headers, config){
-	 		console.log("no user created ");
-	});	
-};
+       //       console.log(" data in err is : "+ data);
 
-this.checkEmail = function(username, password, email, cb){
+       // User.duplicateusername = false;
+       // console.log( "error - User.username value is  " + User.username  );
+       // console.log("no user found at SERVICE checkUsername");
 
-	console.log(username + " is username at registerUser");
-	console.log(email    + " is email at registerUser   ");
-
-	$http({
-		method: 'POST',
-		url: '/api/username',
-		data: {username: username, 
-			   password: password,
-			   email   : email},
-		headers: {'Content-Type': 'application/json'}
-		})
-		.success(function(data, status, headers, config){
-			console.log( "user created - data.username value is  " + data.username + " and status is " + status);
-
-			if (  1===1 )		 
-			{console.log("name acceptable");}
-
-		})
-		.error(function(data,status, headers, config){
-	 		console.log("no user created ");
 	});	
 };
 
 
+
+this.checkEmail = function(email, cb){
+ 	// console.log(email + " is email at registerUser SERVICE  ");
+	$http({
+		method: 'POST',
+		url: '/api/checkemail',
+		data: {email : email},
+		headers: {'Content-Type': 'application/json'}
+		})
+		.success(function(data, status, headers, config){
+		})
+		.error(function(data,status, headers, config){		
+	 	// console.log("no user created at SERVICE checkEmail ");
+	});	
+};
 
 
 this.login = function(username, password, cb){

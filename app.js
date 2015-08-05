@@ -54,9 +54,11 @@ var anImage = db.model('image',{
 });
 
 router.use(function(req, res, next) {
-    console.log('Something is happening.');
+    //console.log('Router.use is happening.');
     next(); // make sure we go to the next routes and don't stop here
 });
+
+var cheatnamepass = "dkdkdkdkdk";
  
 /* GET home page. */
     router.get('/', function(req, res) {
@@ -128,8 +130,13 @@ router.route('/addday').post(function(req, res) {
      });
 });
 
-//endpoint to check if username exists
-router.route('/registervaliduser').post(function(req,res,next){
+////////////////////////////////////////////////////
+//TO DO: endpoint for registering valid user which is 
+// 1) password confirmed  2) not duplicate username 
+// 3) not duplicate email  4) user clicks registration button
+//////////////////////////////////////////////////////////
+
+router.route('/registerValidUser').post(function(req,res,next){
     console.log("req is : " + req.body);
     console.log("Request to create user at /user : " + req.body.username );
     
@@ -142,55 +149,68 @@ router.route('/registervaliduser').post(function(req,res,next){
 
     User.findOne({userName: req.body.username})
         .select('userName')   //grab password of that username
-        .exec(function(err,user){
+        .exec(function(err, user){
                 if (err){
                     return next(err)
                 }
                 if(!user){
                     console.log("user does not exist");
-                    this.duplicateUsername="false";
-                }
+                    this.duplicateusername=false;
+                    cheatnamepass=false;
+                 }
                 else{
                     console.log(" found  userName ");
-                    this.duplicateUsername="true";
+                    this.duplicateusername=true;
+                    cheatnamepass=true;
                 }
         });
 });
 
 
 //1d  checks for duplicate username
-router.route('/username').post(function(req,res,next){
-    var user = new User({   userName: req.body.username,
-                            created: Date.now(),
-                            email: req.body.email,
-                            userAbout: "Placeholder User Info"
-                         });
+router.route('/checkusername').post(function(req,res,next){
+   
+    console.log("app.js router.route is happening");
 
-    User.findOne({email: req.body.email})
-        .select('email')   //grab password of that username
-        .exec(function(err,user){
+    var user = new User({userName: req.body.username });
+
+    User.findOne({userName: req.body.username})
+        .select('userName')   //grab password of that username  (Mongoose)
+        // exec takes a callback function
+        .exec(function(err,user){                      
+                
+            console.log(user +  " is user   " + err + " is err");
+
                 if (err){
+                    console.log("error in mongoose findone");
                     return next(err)
                 }
                 if(!user){
-                    console.log("email does not exist");
-                    this.duplicateEmail="false";
+                    console.log("username does not exist");
+                    this.duplicateusername= false;  //the name is not a duplicate
+
+                    console.log("this.duplicateusername is: "+ this.duplicateusername)
+
+
+
                 }
                 else{
-                    console.log(" found  email in database ");
-                    this.duplicateEmail="true";
+                    console.log(" found  username in database ");
+                    this.duplicateusername= true;  //the name is a duplicate
+
+                    console.log("this.duplicateusername is: "+ this.duplicateusername)
                 }
+
         });
 });
 
 
 //1d  checks for duplicate email
-router.route('/emailcheck').post(function(req,res,next){
-    var user = new User({   userName: req.body.username,
-                            created: Date.now(),
-                            email: req.body.email,
-                            userAbout: "Placeholder User Info"
-                         });
+router.route('/checkemail').post(function(req,res,next){
+   
+    console.log("app.js router.route is happening for email");
+
+    var user = new User({userName: req.body.email });
 
     User.findOne({email: req.body.email})
         .select('email')   //grab password of that username
@@ -200,16 +220,16 @@ router.route('/emailcheck').post(function(req,res,next){
                 }
                 if(!user){
                     console.log("email does not exist");
-                    this.duplicateEmail="false";
+                    this.duplicateemail="false";
                 }
                 else{
                     console.log(" found  email in database ");
-                    this.duplicateEmail="true";
+                    this.duplicateemail="true";
                 }
         });
 });
 
-
+ 
 
 
     // if req.body && req.body.username && req.body.email == null
@@ -291,20 +311,20 @@ app.post('/session', function(req,res,next){
     });
 });
 
-app.post('/checkUsername', function(req,res,next){
+// app.post('/checkUsername', function(req,res,next){
 
-    // console.log("checking username-----");
+//     // console.log("checking username-----");
 
-    // User.findOne({userName: req.body.username})
-    //     .select('userName')
-    //     .exec(function(err,user){
-    //         if (err) {return next(err)}
-    //         if (!user){return res.sendStatus(401)}
-    //     })
+//     // User.findOne({userName: req.body.username})
+//     //     .select('userName')
+//     //     .exec(function(err,user){
+//     //         if (err) {return next(err)}
+//     //         if (!user){return res.sendStatus(401)}
+//     //     })
 
-    // console.log("checking userName..." + userName);
+//     // console.log("checking userName..." + userName);
 
-});
+// });
  
 //3 decode jwt token to return username
 //Takes the jwt token stored client side and returns the username
