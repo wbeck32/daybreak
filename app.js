@@ -11,7 +11,9 @@ var token = jwt.encode({username: 'milesh'}, 'supersecretkey');
 var _ = require('lodash');  //utility library for common tasks
 var secretKey = 'supersecretkey';
 var bcrypt = require('bcrypt');
-
+var duplicateusername="bloop";
+var result = "doh";
+ 
 app.use(favicon(__dirname + '/public/images/daybreaksun16px.ico'));
 app.use(express.static(__dirname + '/public')); //
 app.use(bodyParser.json());
@@ -58,8 +60,7 @@ router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
-var cheatnamepass = "dkdkdkdkdk";
- 
+  
 /* GET home page. */
     router.get('/', function(req, res) {
       res.json({ message: 'hooray! welcome to our api!' });
@@ -137,17 +138,17 @@ router.route('/addday').post(function(req, res) {
 //////////////////////////////////////////////////////////
 
 router.route('/registerValidUser').post(function(req,res,next){
-    console.log("req is : " + req.body);
-    console.log("Request to create user at /user : " + req.body.username );
-    
-  
+    console.log("req.body is : " + req.body);
+
+    console.log("Request to create user at /user : " + req.body.username + " email is: " + req.body.email + " password " + req.body.password );
+      
     var user = new User({   userName: req.body.username,
                             created: Date.now(),
                             email: req.body.email,
                             userAbout: "Placeholder User Info"
                          });
 
-    User.findOne({userName: req.body.username})
+    User.save({userName: req.body.username})
         .select('userName')   //grab password of that username
         .exec(function(err, user){
                 if (err){
@@ -156,53 +157,38 @@ router.route('/registerValidUser').post(function(req,res,next){
                 if(!user){
                     console.log("user does not exist");
                     this.duplicateusername=false;
-                    cheatnamepass=false;
-                 }
+                  }
                 else{
                     console.log(" found  userName ");
                     this.duplicateusername=true;
-                    cheatnamepass=true;
-                }
+                 }
         });
 });
 
-
-//1d  checks for duplicate username
+//1d  checks for duplicate username - If UNIQUE then TRUE
 router.route('/checkusername').post(function(req,res,next){
    
-    console.log("app.js router.route is happening");
-
     var user = new User({userName: req.body.username });
 
     User.findOne({userName: req.body.username})
-        .select('userName')   //grab password of that username  (Mongoose)
-        // exec takes a callback function
+        .select('userName') 
         .exec(function(err,user){                      
-                
-            console.log(user +  " is user   " + err + " is err");
+                console.log(user +  " is user");
 
                 if (err){
-                    console.log("error in mongoose findone");
-                    return next(err)
-                }
+                    console.log("error in mongoose findOne");
+                    return next(err);
+                    }
                 if(!user){
-                    console.log("username does not exist");
-                    this.duplicateusername= false;  //the name is not a duplicate
-
-                    console.log("this.duplicateusername is: "+ this.duplicateusername)
-
-
-
-                }
+                    result = true;  //hooray found a unique user!
+                    return res.json(result); 
+                    }
                 else{
-                    console.log(" found  username in database ");
-                    this.duplicateusername= true;  //the name is a duplicate
-
-                    console.log("this.duplicateusername is: "+ this.duplicateusername)
+                    result = false;  //sorry name already exists
+                    return res.json(result);
                 }
-
-        });
-});
+         });
+  });
 
 
 //1d  checks for duplicate email
@@ -210,21 +196,26 @@ router.route('/checkemail').post(function(req,res,next){
    
     console.log("app.js router.route is happening for email");
 
-    var user = new User({userName: req.body.email });
+    var user = new User({email: req.body.email });
 
     User.findOne({email: req.body.email})
-        .select('email')   //grab password of that username
+        .select('email')    
         .exec(function(err,user){
+
+                console.log(user+  " is user at checkemail route");
+                //console.log(email+  " is email at checkemail route");
+
                 if (err){
                     return next(err)
                 }
                 if(!user){
-                    console.log("email does not exist");
-                    this.duplicateemail="false";
+                    result = true;  //hooray found a unique email!
+                    return res.json(result); 
+
                 }
                 else{
-                    console.log(" found  email in database ");
-                    this.duplicateemail="true";
+                    result = false;  //sorry email already exists
+                    return res.json(result);
                 }
         });
 });

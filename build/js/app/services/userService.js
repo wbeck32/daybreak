@@ -1,10 +1,13 @@
 // this is userService.js for dayBreak based on roadWarrior  
 
-angular.module('dayBreak').service('userService', ['$http', function($http){
+angular.module('dayBreak').service('userService', ['$http', function($http ){
 
   this.username 	= null;
   this.userState 	= 'loggedOut';
   this.userRegister = false;//mh
+//  this.uniqueUserName= null;
+
+  // this.flag='zapzap';
 
   var self = this; 
 
@@ -29,17 +32,16 @@ this.registerValidUser = function(username, password, email, cb){
 	$http({
 		method: 'POST',
 		url: '/api/registervaliduser',
-		data: {username: username, 
-			   password: password,
-			   email   : email},
+		data: {username  : username, 
+			     password  : password,
+			     email     : email},
 		headers: {'Content-Type': 'application/json'}
 		})
 		.success(function(data, status, headers, config){
+
 			console.log( "user created - data.username value is  " + data.username + " and status is " + status);
 
-			if (  1===1 )		 
-			{console.log("name acceptable");}
-
+			 
 		})
 		.error(function(data,status, headers, config){
 	 		console.log("no user created ");
@@ -47,37 +49,51 @@ this.registerValidUser = function(username, password, email, cb){
 };
 
 
-this.checkUsername = function(username, cb){
-
-
-
-// console.log(username + " is  username at SERVICE  checkUsername");
- 	$http({
-		method: 'POST',
-		url: '/api/checkusername',
-		data: {username         : username},
-		headers: {'Content-Type': 'application/json'}
+//defunct
+this.checkthename = function( username, cb){
+    $http({
+		method    : 'POST',
+		url       : '/api/checkusername',
+		data      : {username       : username},
+		headers   : {'Content-Type' : 'application/json'}
 		})
-		.success(function(data, status, headers, config){
+		.success(function(res){
+        console.log("res is:  " + JSON.parse(res ) );
+        self.uniqueUserName =  JSON.parse(res ) ;
+        console.log("in service the uniqueUserName is : " + self.uniqueUserName);
 
 
-		   // console.log(" data is ******* : "+ data);
-     //   User.duplicateusername = true;
-     //   console.log( "success - User.username value is  " + User.username  );
-		
+        self.uniqueUserName = this.uniqueUserName;
+        console.log("tester is : " + this.tester);
+        return self.uniqueUserName;
     })
 		.error(function(data,status, headers, config){
-       //       console.log(" data in err is : "+ data);
+        console.log("data is: " + data);
+    });
 
-       // User.duplicateusername = false;
-       // console.log( "error - User.username value is  " + User.username  );
-       // console.log("no user found at SERVICE checkUsername");
-
-	});	
+ 	
 };
 
 
 
+
+
+
+ 
+
+// $http.post('/api/checkusername2', 
+//               {username: username}, 
+//               {'Content-Type': 'application/json'}).
+//   then(function(response) {
+//     // this callback will be called asynchronously
+//     // when the response is available
+//   }, function(response) {
+//     // called asynchronously if an error occurs
+//     // or server returns response with an error status.
+//   });
+
+
+//defunct
 this.checkEmail = function(email, cb){
  	// console.log(email + " is email at registerUser SERVICE  ");
 	$http({

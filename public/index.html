@@ -15,7 +15,10 @@
 
 <body>
 
-<div data-ng-controller= "userController as User">    
+<div data-ng-controller= "userController as User"
+		data-ng-controller="validateCtrl">    
+ 
+<!-- TODO: <user-directive> </user-directive>  -->
  
 	<nav class = 'navbar navbar-default'>
 
@@ -61,16 +64,21 @@
 	  	</div>
 	</nav>
 
+
+
+
 	<div class = 'surround'>	
 		<div class = 'userContainer' 
 				data-ng-show=" 
 					(User.userState ==='loggedOut' && 
-					(userViewSwitch === 'Log' || 
-					 userViewSwitch === 'Reg'  || 
+					(userViewSwitch === 'Log'      || 
+					 userViewSwitch === 'Reg'      || 
 					 userViewSwitch === 'Reset' ) )
 					|| 
 				 	(User.userState ==='loggedIn' &&
 					 userViewSwitch ==='Myaccount')">
+
+
 
 			<div id='login' ng-switch on="userViewSwitch">
 				<div ng-switch-when='Log' >
@@ -107,6 +115,7 @@
 
 		   	<div id='register'
 		   			ng-switch on='userViewSwitch'
+
  		   			>
 		   		<div ng-switch-when='Reg' >
 					<form 
@@ -118,10 +127,41 @@
 							<label>Username</label>
 							<input class= "form-control" 
 							type="text"
-							data-ng-blur="User.checkUsername()" 
+
+							data-ng-blur="User.checkthename()" 
  							data-ng-model="User.username"
- 							placeholder="5 character minimum">
+
+ 							placeholder="5 character minimum. Public."
+ 							>					
 						</div>
+ 
+							<div class="errMsg" 
+							data-ng-if="!User.uniqueUserName">
+							User name already in use.</div>
+
+							<div class = "otherErrorMsg"
+							data-ng-if="User.username.length < User.usernameLength">
+							Must be 5 characters or longer.
+							</div>
+
+						<p></p>
+
+						<div class="form group">
+							<label>E-Mail</label>
+							<input class= "form-control"
+							id="emailConfirm" 
+							type="text"
+							data-ng-blur="User.checktheemail()" 
+							data-ng-model="User.email"
+							placeholder="Required for password recovery.  Private.">
+						</div>
+
+						<div class="errMsg" 
+						data-ng-if="(User.uniqueEmail === false)">
+						E-mail already in use.  Recover password now?</div>
+
+
+             			<p></p>
 
 						<div class="form group">
 							<label>Password</label>
@@ -130,7 +170,7 @@
 							type="password" 
 							name='password'
 							data-ng-model="User.password"
-							placeholder="Enter password">
+							placeholder="Enter password. Secret.">
 						</div>
 
 						<div class="form group">
@@ -140,53 +180,41 @@
 							name='passwordConfirm'
 							type="password" 
 							data-ng-model="User.passwordConfirm"
-							placeholder="Reenter password">
+							placeholder="Reenter password.">
 						</div>
-
-						<div class="form group">
-							<label>E-Mail</label>
-							<input class= "form-control" 
-							type="text"
-							data-ng-blur="User.checkEmail()" 
-							data-ng-model="User.email"
-							placeholder="Required for password recovery.">
-						</div>
-
-						<div >
-							<p>username is: 		{{User.username}}</p>
-							<p>email is   : 		{{User.email}}</p>
-							
-							<p>duplicateusername is: {{User.duplicateusername}}</p>
-							<p>duplicateemail is:	 {{User.duplicatemail}}</p>
-
-							<p>cheatnamepass is:  {{cheatnamepass}}</p>
-							
-							<p> regForm.$invalid 	 {{regForm.$invalid}} </p>
-
-							<!-- <button data-ng-disabled="createAccountForm.$invalid || User.dupeUsername || User.password !== User.passwordConfirmation">Sign up</button> -->
-						</div>
-
-						<input 
-						data-ng-disabled="
-						regForm.$invalid  			|| 
-						(User.password != User.passwordConfirm)"
-						class="btn btn-success btn-sm btn-block" 
-						type="submit" 
-						value="Register Now">
 
 
 						<div class="errMsg" 
-						data-ng-if="User.duplicateemail">
-						E-mail already in use.  Recover password now?</div>
-
-						<div class="errMsg" 
-						data-ng-if="User.duplicateusername">
-						User name already in use.</div>
-	
-             			<div class="errMsg" 
              			data-ng-if="User.password !== User.passwordConfirm 
              			&& regForm.passwordConfirm.$touched">
              			Password confirmation does not match.</div>
+
+             			<!-- 
+						<div >
+							<p>username is: 		{{User.username}}</p>
+							<p>email is   : 		{{User.email}}</p>
+							<p>uniqueUserName is: 	{{User.uniqueUserName}}</p>
+							<p>uniqueEmail is:		{{User.uniqueEmail}}</p>
+							<p> regForm.$invalid 	{{regForm.$invalid}} </p>
+						</div> -->
+
+						<p> </p>
+						<p> </p>
+
+						<input 
+						
+						data-ng-disabled="
+						regForm.$invalid  	  && 
+						regForm.$dirty        ||
+						!User.uniqueUserName  ||
+						!User.uniqueEmail	  ||
+						(User.password != User.passwordConfirm)"
+
+
+						class="btn btn-success btn-sm btn-block" 
+						type="submit" 
+						value="Register Now">
+ 	
 
 					</form>
 				</div>
@@ -231,19 +259,24 @@
 					</div>
 			  	</div>  
 
-				<!-- Must be outside of ng-switch-when! -->
-				<div class='closeModal' 
+ 
+
+ 				<div class='closeModal' 
 					data-ng-show="userViewSwitch==='Myaccount' ">
  					<a 
 	 					data-ng-click="userViewSwitch='None' ">
 						Close Account Profile
 					</a>
 				</div>
-			</div>   <!-- close about modal -->	 
+			</div>   
+		</div>   
+	</div>	 
 
-		</div>  <!-- //close class=userContainer -->
-	</div>	<!-- close surround -->
+
+
 </div> <!-- close userController -->
+
+
 
 <div class="container">
 <h1>My Day</h1>

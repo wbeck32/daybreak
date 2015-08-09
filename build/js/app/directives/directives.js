@@ -11,13 +11,13 @@ return {
 
 		scope.clearMessage = function() { 
 			scope.message = '';
-		}	
+		};	
 		elem.bind(' mouseover', function() { 
 			elem.css('color', 'red'); 
 		});
 		elem.bind('mouseout', function(){
 			elem.css('color','blue');
-		})
+		});
 	}
-}
+};
 });

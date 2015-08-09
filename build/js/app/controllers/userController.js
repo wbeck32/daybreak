@@ -1,30 +1,33 @@
 //userController
 
-angular.module('dayBreak')
-	.controller('userController', 
-	['userService', '$scope', function(userService, $scope){
+dayBreak.controller('userController', 
+	['$scope','$http', 'userService', function($scope, $http, userService){
 
  	this.username  = userService.username;
+ 	this.usernameLength = 5;  //set minimum usernameLength
+
   	this.userState = userService.userState;
+
   	this.userRegister = userService.userRegister; //mh
+  	this.flag= userService.flag;
   	//this.dupeUsername = userService.dupeUsername;
 
-	this.password 			= null;
+ 	this.password 			= "";
+  	this.passwordConfirm 	= null;//note these are not equal to start
+
   	this.email 				= null;
-  	this.passwordConfirm 	= null;
+
 
   	this.showPasswordChange = false;
   	this.showDeleteAccount 	= false;
 
   	this.userViewSwitch 	= null;
-
-  	//this.validateCtrl = null;
-
-  	this.duplicateusername 	= true;  
-  	//initialize as duplicate true - unique user choice falsifies
-    this.duplicatemail 		= true;
-	//initialize as duplicate true - unique user choice falsifies
  
+  	this.uniqueUserName = null;
+    this.uniqueEmail = null;
+
+
+
  var updateScope = function() {
     this.username 	= userService.username;
     this.userState 	= userService.userState;
@@ -33,11 +36,109 @@ angular.module('dayBreak')
     this.passwordConfirm 	= null;
     this.newPassword 		= null;
     this.userViewSwitch 	= null;
+  
     //this.validateCtrl		= null;
-   
-
   }
   .bind(this);//TODO: understand why this is needed
+
+
+
+$http.get('/api')
+	.success(function(result){
+
+		$scope.incoming = result;
+
+	})
+	.error(function(data, status){
+
+		console.log(data);
+
+	});
+
+
+ 
+//defunct
+// this.checkUsername = function(){
+// 	console.log("CONTROLLER: checking for unique user name...");
+
+// 	console.log("in controller uniqueUserName STARTS : " + self.uniqueUserName); 
+
+// 	var result = userService.checkthename(this.username);
+// 	console.log("in controller uniqueUserName ENDS : " + self.uniqueUserName); 
+	
+// };
+
+//active
+this.checkthename = function( username, cb){
+    $http({
+		method    : 'POST',
+		url       : '/api/checkusername',
+		data      : {username       : this.username},
+		headers   : {'Content-Type' : 'application/json'}
+		})
+		.success(function(res){
+        	console.log("res is:  " + JSON.parse(res ) );
+       		self.uniqueUserName =  JSON.parse(res ) ;
+       		console.log("in controller the uniqueUserName is : " + self.uniqueUserName);
+
+	        $scope.User.uniqueUserName = self.uniqueUserName;
+	        //$scope.uniqueUserName = self.uniqueUserName;
+	        
+    	    //console.log("$scope.uniqueUserName is : " + $scope.uniqueUserName);
+    	    console.log("$scope.User.uniqueUserName is : " + $scope.User.uniqueUserName);
+     	})
+		.error(function(data,status, headers, config){
+        	console.log("data is: " + data);
+    	});	
+};
+
+this.checktheemail = function( email, cb){
+    $http({
+		method    : 'POST',
+		url       : '/api/checkemail',
+		data      : { email       : this.email},
+		headers   : {'Content-Type' : 'application/json'}
+		})
+		.success(function(res){
+        	console.log("res is:  " + JSON.parse(res ) );
+       		self.uniqueEmail =  JSON.parse(res ) ;
+       		console.log("in controller the uniqueEmail is : " + self.uniqueEmail);
+
+	        $scope.User.uniqueEmail = self.uniqueEmail;
+	      
+    	    console.log("$scope.User.uniqueEmail is : " + $scope.User.uniqueEmail);
+     	})
+		.error(function(data,status, headers, config){
+        	console.log("data is: " + data);
+    	});	
+};
+
+
+this.registerValidUser = function(username, password, email, cb){
+	console.log("*******************************");
+	console.log(this.username + " is username at registerUser");
+	console.log(this.email    + " is email at registerUser   ");
+
+	$http({
+		method: 'POST',
+		url: '/api/registerValidUser',
+		data: {username    : this.username, 
+			     password  : this.password,
+			     email     : this.email},
+		headers: {'Content-Type': 'application/json'}
+		})
+		.success(function(data, status, headers, config){
+
+			console.log( "user created - data.username value is  " + data.username + " and status is " + status);
+
+			 
+		})
+		.error(function(data,status, headers, config){
+	 		console.log("no user created ");
+	});	
+};
+
+
 
 
 // this.validateCtrl = function($scope){
@@ -71,9 +172,6 @@ angular.module('dayBreak')
 
 
 
-
-
-
 this.login = function(){  
 
 	console.log("logging in as ..." + this.username);
@@ -97,40 +195,46 @@ this.signOut = function(){
 // 	updateScope();
 // };
 
+//defunct
+// this.checktheemail = function(email, cb){
+//  	// console.log(email + " is email at registerUser SERVICE  ");
+// 	$http({
+// 		method: 'POST',
+// 		url: '/api/checkemail',
+// 		data: {email : email},
+// 		headers: {'Content-Type': 'application/json'}
+// 		})
+// 		.success(function(data, status, headers, config){
+// 		})
+// 		.error(function(data,status, headers, config){		
+// 	 	// console.log("no user created at SERVICE checkEmail ");
+// 	});	
+// };
 
-this.checkUsername = function(){
-	console.log("CONTROLLER: checking for unique user name...");
-	userService.checkUsername(this.username);
 
-	// if (this.username)
-	// {
-	// 	userService.checkUsername(this.username, duplicateUserName);
-	// 	updateScope();
-	// }
-	// else
-	// {
-	//  	userService.duplicateUserName = null;
-	//  	dpublicateUsername();	
-	// }
-};
 
-this.checkEmail = function(){
-	console.log("CONTROLLER: checking for unique email...");
-	userService.checkEmail(this.email);
 
-	// if (this.username)
-	// {
-	// 	userService.checkUsername(this.username, duplicateUserName);
-	// 	updateScope();
-	// }
-	// else
-	// {
-	//  	userService.duplicateUserName = null;
-	//  	dpublicateUsername();	
-	// }
-};
+//inactive
+// this.checkEmail = function(){
+// 	console.log("CONTROLLER: checking for unique email...");
+// 	userService.checkEmail(this.email);
+
+// 	// if (this.username)
+// 	// {
+// 	// 	userService.checkUsername(this.username, duplicateUserName);
+// 	// 	updateScope();
+// 	// }
+// 	// else
+// 	// {
+// 	//  	userService.duplicateUserName = null;
+// 	//  	dpublicateUsername();	
+// 	// }
+// };
 
 }]);
+
+
+
 
 
 /////////////////////////
