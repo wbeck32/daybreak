@@ -136,34 +136,29 @@ router.route('/addday').post(function(req, res) {
 // 1) password confirmed  2) not duplicate username 
 // 3) not duplicate email  4) user clicks registration button
 //////////////////////////////////////////////////////////
-
+ 
 router.route('/registerValidUser').post(function(req,res,next){
-    console.log("req.body is : " + req.body);
-
-    console.log("Request to create user at /user : " + req.body.username + " email is: " + req.body.email + " password " + req.body.password );
-      
+    //console.log("Create user request for user : " + req.body.username );
+    //assign all values except password
     var user = new User({   userName: req.body.username,
                             created: Date.now(),
                             email: req.body.email,
-                            userAbout: "Placeholder User Info"
+                            userAbout: "Placeholder Fun"
                          });
-
-    User.save({userName: req.body.username})
-        .select('userName')   //grab password of that username
-        .exec(function(err, user){
-                if (err){
-                    return next(err)
-                }
-                if(!user){
-                    console.log("user does not exist");
-                    this.duplicateusername=false;
-                  }
-                else{
-                    console.log(" found  userName ");
-                    this.duplicateusername=true;
-                 }
+    console.log("password should be undefined:  " + user.password);
+    //asynchronous call of bcrypt
+    bcrypt.hash(req.body.password, 10, function(err, hash) {    
+    // Store hash in password DB.
+        //console.log("BCRYPT password hash is " + hash);
+        user.password = hash;//note definition of user.password in schema
+        //all values of user object now assigned
+        user.save(function(err){
+            if (err){throw next(err)}
+            res.sendStatus(201)
         });
+    });
 });
+
 
 //1d  checks for duplicate username - If UNIQUE then TRUE
 router.route('/checkusername').post(function(req,res,next){
@@ -219,58 +214,8 @@ router.route('/checkemail').post(function(req,res,next){
                 }
         });
 });
-
  
-
-
-    // if req.body && req.body.username && req.body.email == null
-     //  {check username not duplicate
-    //     usernameOK = true; }
-    //  else if  (     req.body.email !=null;)
-    //  { check email not duplicate
-    //    emailOK = true; }
-
-
-
-
-
-
-
-//         console.log(" finding  user.userName " + user.userName);
  
-//         if(user.userName === req.body.userName){
-//         console.log(" User.userName found: " + user.userName);
-//         }
-//         else
-//             { console.log( " user.userName NOT found: " + user.userName ) };
-
-           
-//     //bcrypt is callback function for User.find
-//     //console.log("password should be undefined:  " + user.password);
-//     //asynchronous call of bcrypt
-//     bcrypt.hash(req.body.password, 10, function(err, hash) {    
-//     // Store hash in password DB.
-//         console.log("req.body.password incoming is: " + req.body.password);
-//         console.log("BCRYPT password hash is " + hash);
-//         user.password = hash;//note definition of user.password in schema
-//         //all values of user object now assigned
-
-
-//         console.log("values for save are: " + 
-//             user.userName, user.created, user.email, user.userAbout);
-
-//         user.save(function(err){
-//             if (err){throw next(err)}
-//             res.sendStatus(201)
-
-
-//            });
-
-//          });
-//     });
-// });
- 
-
 //2  Takes user name and password hash stored client side, and 
 //bcrypt compares incoming password to hash password in db
 //If name pwd match, then returns a jwt token.
