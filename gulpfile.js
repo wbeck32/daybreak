@@ -36,7 +36,7 @@ gulp.task('sass', function () {
      .pipe(jshint.reporter('default'))
      .pipe(sourcemaps.init())
      .pipe(concat('main.js'))
-     .pipe(uglify())
+     //.pipe(uglify())
      .pipe(sourcemaps.write())
      .pipe(gulp.dest('public/js'))
      .pipe(livereload());
