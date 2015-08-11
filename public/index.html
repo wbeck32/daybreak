@@ -265,43 +265,48 @@
 	</select>
 
 <input type="text" data-ng-model="Day.dayDesc" class="desc" placeholder="Describe your day">
-</div>
+
 
 <!-- LOCATION -->
-<div data-ng-controller="locationController as Location" style="border:1px solid red;">
+<div data-ng-controller="locationController as Location" style="margin:10px 0;padding:10px;">
 
-<input type="text" data-ng-model="message" placeholder="Msg"/>
-<add-location></add-location>
+<h3>Find a location</h3>
 
-<h1>Find a location</h1>
+<input type="text" data-ng-bind="locName" width="200" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
 
-<input type="text" width="200" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
 <div>
-	<a data-ng-href="{{locURL}}" target="_blank">{{locName}}</a>
-</div>
+<div data-ng-bind="locURL" data-ng-model="Location.locURL">{{locURL}}</div>
+<a data-ng-bind="locName" data-ng-model="Location.locName" data-ng-href="{{locURL}}" target="_blank">{{locName}}</a>
 
-<input type="text" data-ng-model="Location.locationDesc" class="desc controls" placeholder="Describe this location">
+ </div>
+
+<input type="text" data-ng-bind="locDesc" data-ng-model="Location.locDesc" placeholder="Describe this location">
 
 <!--TODO: Add functionality for uploading photos -->
-<div>Share a picture from your Day - <input type="file" accept="image/*"></div>
+<!-- <div>Share a picture from your Day - <input type="file" accept="image/*"></div> -->
 <!--TODO-->
 
-<div data-ng-click="Location.addLoc(Location)">Add this location.</div>
+<div data-ng-click="Location.addLoc(Location,locName,locURL,locDesc)">Add this location.</div>
 
 
-
-</div>
 <!-- END LOCATION BOX -->
+
+<!-- BEGIN LOCATION LIST -->
+<div>Location list
+<location-list/>
+</div> <!-- END LOCATION LIST -->
+
+</div> <!-- END LOCATION CONTROLLER -->
 
 <div data-ng-controller="tagController as Tag">
 <div>Use commas between tags.</div>
 <input type="text" id="tags" data-ng-change="Tag.enterTag()" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
 </div>
 <input type="submit">Add this day</submit>
-</div>
 </form>
+</div>
 </section>
-
+</div>
 
 <div data-ng-controller="dayController" class="container">
 <h3>Great Days Shared by Our Community</h3>
