@@ -30,16 +30,16 @@
 			<ul class='nav navbar-nav'>
 
 				<li><a><div 
-						data-ng-click="userViewSwitch ='None' ">
+						data-ng-click="userViewSwitch = null ">
 						Home
 						</div></a></li>
 
 				<li><a  data-ng-show ="User.userState==='loggedIn'"
-			 			data-ng-click="User.signOut();userViewSwitch='None' " > 
+			 			data-ng-click="User.signOut()" > 
 		 		  		Logout
 		 		  		</a></li>
 
-				<li><a 	data-ng-model="userViewSwitch"
+				<li><a 	 
 				  		data-ng-show="User.userState==='loggedOut'"
 				  		data-ng-click="userViewSwitch='Log' ">
 				  		Login
@@ -54,14 +54,21 @@
 			   	  		data-ng-model="User"  
 			  	  		data-ng-show="User.userState==='loggedIn'" >
 			  			Welcome: {{User.username}}
- 
+
 				  		</div></a></li>
 
 				<li><a  data-ng-show="User.userState==='loggedIn'"
-			  	  		data-ng-click="userViewSwitch ='Myaccount' " >
+ 			  	  		data-ng-click="userViewSwitch ='Myaccount' "
+ 			  	  		 >
 			  			My Account
 				  		</a></li>
+
 		   	</ul>
+
+		   		  userViewSwitch: {{userViewSwitch}}
+		   		  <br>
+				   & userTest: {{userTest}} 
+				  		 
 	  	</div>
 	</nav>
 
@@ -70,13 +77,16 @@
 
 	<div class = 'surround'>	
 		<div class = 'userContainer' 
-				data-ng-show=" 
+		data-ng-show= "userViewSwitch != null " >
+
+<!-- 				data-ng-show=" 
 					(User.userState ==='loggedOut' && 
 					(userViewSwitch === 'Log'      || 
 					 userViewSwitch === 'Reg'      || 
 					 userViewSwitch === 'Reset' ) )|| 
 				 	(User.userState ==='loggedIn'  &&
-					 userViewSwitch ==='Myaccount')">
+					 userViewSwitch ==='Myaccount')"
+					  -->
 
 
 
@@ -96,7 +106,8 @@
 							<input class= "form-control" type="password" ng-model="User.password">
 						</div>
 						<p></p>
-						<input class="btn btn-success btn-sm btn-block" type="submit" value="Login">
+						<input class="btn btn-success btn-sm btn-block" type="submit" value="Login"
+						>
 					</form>
 					<p></p>
 				</div>
@@ -135,11 +146,11 @@
  							required>					
 						</div>
  
-							<div class="errMsg" 
+							<div class="alert alert-warning"  
 							data-ng-if="!User.uniqueUserName">
 							User name already in use.</div>
 
-							<div class = "otherErrorMsg"
+							<div class="alert alert-info" 
 							data-ng-if="User.username.length < User.usernameLength">
 							Must be 5 characters or longer.
 							</div>
@@ -157,7 +168,7 @@
 							required>
 						</div>
 
-						<div class="errMsg" 
+						<div class="alert alert-warning" 
 						data-ng-if="(User.uniqueEmail === false)">
 						E-mail already in use.  Recover password now?</div>
 
@@ -187,7 +198,7 @@
 						</div>
 
 
-						<div class="errMsg" 
+						<div class="alert alert-warning"  
              			data-ng-if="User.password !== User.passwordConfirm 
              			&& regForm.passwordConfirm.$touched">
              			Password confirmation does not match.</div>
@@ -257,12 +268,13 @@
 						<div 
 							data-ng-model="User" 
 							data-ng-show="User.userState==='loggedIn'" 
-							data-ng-if="userViewSwitch==='Myaccount' " >
+ 							 >
 
-				  			<div class="userProfile">
+				  			<div class="userProfile"  
+				  			     data-ng-cloak>
 				  			<li>Name: 		{{User.username}}</li>
 				  			<li>Email: 		{{User.email}}</li>
-				  			<li>Joined: 	{{User.createDate}}</li>
+				  			<li>Joined: 	{{User.create}}</li>
 				  			<li>About You: 	{{User.userAbout}}</li>
 				  			
 				  			</div>
@@ -276,12 +288,12 @@
 					data-ng-show="userViewSwitch==='Myaccount' ">
  					<a 
 	 					data-ng-click="userViewSwitch='None' ">
-						Close Account Profile
+						Close Profile Pop-up
 					</a>
 				</div>
-			</div>   
-		</div>   
-	</div>	 
+			</div>
+		</div>
+	</div>
 </div> <!-- close userController -->
 
 

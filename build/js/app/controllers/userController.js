@@ -2,14 +2,23 @@
 dayBreak.controller('userController', 
 	['$scope','$http', 'userService', function($scope, $http, userService){
 
+	this.email = null;
+    this.userAbout = "";
+    this.userName = null;
+    this.userState = '';
+  	this.userViewSwitch 	= null;
+  	this.create = null;
+
  	this.username  = null;
  	this.usernameLength = 5;  //set minimum usernameLength
  	this.password 			= "";
   	this.passwordConfirm 	= null;//note these are not equal to start
-  	this.email 				= null;
+  	//this.email 				= null;
 
   	this.uniqueUserName = null;
     this.uniqueEmail = null;
+	$scope.userViewSwitch = null;
+    $scope.userTest= null;
 
   	this.userState = userService.userState;
   	this.userRegister = userService.userRegister; //mh
@@ -18,18 +27,20 @@ dayBreak.controller('userController',
   	this.showPasswordChange = false;
   	this.showDeleteAccount 	= false;
 
-  	this.userViewSwitch 	= null;
 
  var updateScope = function() {
-    this.username 	= userService.username;  //?
-    this.userState 	= userService.userState;  //?
+    this.username 			= userService.username;  //?
+    this.userState 			= userService.userState;  //?
+    this.userAbout			= userService.userAbout;
     this.password 			= null;
-    this.email 				= null;
+    this.email 				= userService.email;
+    this.create             = userService.create;
     this.passwordConfirm 	= null;
     this.newPassword 		= null;
-    this.userViewSwitch 	= null;
+    this.userViewSwitch 	= userService.userViewSwitch;
     }
-  	.bind(this);//TODO: understand why this is needed
+ 	.bind(this);//TODO: understand why this is needed
+
 
 $http.get('/api')
 	.success(function(result){
@@ -86,6 +97,9 @@ this.registerValidUser = function(username, password, email, cb){
 	console.log(this.username + " is username at registerUser");
 	console.log(this.email    + " is email at registerUser   ");
 
+
+	userViewSwitch = null;  // on registering show nothing
+
 	$http({
 		method: 'POST',
 		url: '/api/registerValidUser',
@@ -122,20 +136,39 @@ this.resetPassword = function(username) {
 
 //userService
 
+this.about = function(){
+	console.log("calling user about");
+	userService.about();
+};
+
+
+
 this.login = function(){  
 
 	console.log("######## logging in as ..." + this.username);
 	console.log("########  this.password: " + this.password);
   
    	userService.login(this.username, this.password, updateScope );
+
+
 	};
 
  
 this.signOut = function(){
 	console.log("calling signout...");
-	this.userViewSwitch = null;
+	
+	$scope.userViewSwitch = null;
+
     userService.signOut();
-    updateScope();
+    //updateScope();
+
+     this.username 	= userService.username;  //?
+     this.userState = userService.userState;  //?
+    
+     //this.userViewSwitch 	= 'Reg';
+
+     $scope.userTest = userService.userTest;
+     // $scope.$apply();
   };
 
 

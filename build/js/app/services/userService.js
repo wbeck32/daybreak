@@ -4,6 +4,7 @@ angular.module('dayBreak').service('userService', ['$http', function($http ){
   this.username 	= null;
   this.userState 	= 'loggedOut';
   this.userRegister = false;//mh
+  this.userTest = "first time";
 
   var self = this; 
 
@@ -18,11 +19,8 @@ angular.module('dayBreak').service('userService', ['$http', function($http ){
 	}
   
 
-this.login = function(username, password, cb){
-
-	console.log("service login + cb " + cb);
-
-	$http({
+this.login = function(username, password, cb ){
+ 	$http({
 		method: 'POST',
 		url:'/session',
 		data: {	username: username, 
@@ -31,11 +29,16 @@ this.login = function(username, password, cb){
 	})
 	.success(function(data, status, headers, config)
 		{
+ 		  console.log("data.token is:     " + data.token );
+  	 
+      console.log("data.email is:     " + data.email );
+      console.log("data.userAbout is: " + data.userAbout);
+    console.log("data.userName is: " + data.userName);
 
-		  console.log(data.token + 	" is token");
-  		console.log(data.user + " is data.user");
-      console.log(data.email + " is data.email");
-      console.log(data.userAbout + " is data.userAbout");
+
+      self.email = data.email;
+      self.userAbout = data.userAbout;
+      this.userName = data.userName;
 
 		if (data.token){
 
@@ -46,10 +49,12 @@ this.login = function(username, password, cb){
 
       self.email = data.email;
 			self.userState = 'loggedIn';
-
-      //self.userAbout = data.userAbout;
-
-			console.log("user state is "+ self.userState);
+      self.userViewSwitch='None';
+      self.userAbout = data.userAbout;
+      self.created = data.created;
+ 
+			console.log("user state is "+ this.userState);
+      console.log("userViewSwitch is "+ this.userViewSwitch);
 
 			cb();  //TODO: why is this here?
 			}
@@ -60,6 +65,26 @@ this.login = function(username, password, cb){
 	});
 };
 
+//////////////////////////////////////////
+this.about = function(){
+
+  $http.get('/user').
+    then(function(response) {
+      // this callback will be called asynchronously
+      // when the response is available
+      console.log(response.userName, response.email, response.aboutUser);
+
+    }, function(response) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+      console.log ("oops error");
+    });
+
+
+};
+
+/////////////////////////////////////////
+
 
 this.signOut = function(){
 	console.log("service signOut");
@@ -68,6 +93,8 @@ this.signOut = function(){
     //window.localStorage.removeItem('userid');
     this.username = null;
     this.userState = 'loggedOut';
+
+    self.userTest = "second time";
 
     console.log("user state is "+ self.userState);
 

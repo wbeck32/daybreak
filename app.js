@@ -336,6 +336,7 @@ app.post('/session', function(req,res,next){
     User.findOne({userName: req.body.username})
         .select('password')
         .select('email')
+        .select('create')
         .select('userAbout')   //grab password of that username
         .exec(function(err,user){
 
@@ -343,7 +344,7 @@ app.post('/session', function(req,res,next){
         if (err){return next(err)}
         if(!user){return res.sendStatus(401)}
          console.log( "user.email is : " + user.email);
-         console.log(req.body.password + " is req.body.password");
+         console.log( user.userAbout+ " is user.userAbout");
          console.log(user.password + " is user.password");   
         //if user is found check incoming pwd against stored pwd
         bcrypt.compare(req.body.password, user.password, function(err,valid){
@@ -351,13 +352,11 @@ app.post('/session', function(req,res,next){
             // !valid means invalid name password combo - bcrypt asigns boolean
             if(!valid){ return res.sendStatus(401)};
             //if valid then generate token based on user name
-            console.log("user.username for jwt.encode is " + user.username);   
-            console.log("req.body.username for jwt.encode is " + req.body.username);
-
+        
             //encode the incoming req.body.username with secretKey   
             var token = jwt.encode({username: req.body.username}, secretKey);
             console.log("user/pwd combo found and token is " + token);
-            res.json({token: token, user: req.body.username, email: user.email});            
+            res.json({token: token, user: req.body.username, email: user.email, userAbout: user.userAbout, create: user.create});            
         });
     });
 });
@@ -372,7 +371,7 @@ app.get('/user', function(req,res){
     console.log('auth.username is ' + auth.username);
     User.findOne({userName: auth.username}, function(err,user){
 
-        res.json(user.userName);
+        res.json(user.userName, user.email, user.userAbout);
         console.log("user.userName is " + user.userName);
 
     });
