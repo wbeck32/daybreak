@@ -6,7 +6,7 @@ return {
 	scope: true,
 	templateUrl:'/locationList.html',
 	 link: function( scope, elem, attrs) {
-
-	 }
-}
+ 	 }
+};
+ 
 });

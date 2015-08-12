@@ -1,125 +1,60 @@
 // this is userService.js for dayBreak based on roadWarrior  
-
-angular.module('dayBreak').service('userService', ['$http', function($http){
+angular.module('dayBreak').service('userService', ['$http', function($http ){
 
   this.username 	= null;
   this.userState 	= 'loggedOut';
   this.userRegister = false;//mh
+  this.userTest = "first time";
 
   var self = this; 
 
   if (window.localStorage.getItem('token')) {
-    //trekService.renderAllSavedTreks();
     this.username = window.localStorage.getItem('user');
     this.userState = 'loggedIn';
-
     console.log("found token and userState set to logged in");
-  }
+    }
   else{
   	console.log('No token-userState set to logged out');
   	//this.userState = 'loggedOut';
 	}
+  
 
-
-this.registerValidUser = function(username, password, email, cb){
-
-	console.log(username + " is username at registerUser");
-	console.log(email    + " is email at registerUser   ");
-
-	$http({
-		method: 'POST',
-		url: '/api/registervaliduser',
-		data: {username: username, 
-			   password: password,
-			   email   : email},
-		headers: {'Content-Type': 'application/json'}
-		})
-		.success(function(data, status, headers, config){
-			console.log( "user created - data.username value is  " + data.username + " and status is " + status);
-
-			if (  1===1 )		 
-			{console.log("name acceptable");}
-
-		})
-		.error(function(data,status, headers, config){
-	 		console.log("no user created ");
-	});	
-};
-
-
-this.checkUsername = function(username, cb){
-
-
-
-// console.log(username + " is  username at SERVICE  checkUsername");
+this.login = function(username, password, cb ){
  	$http({
-		method: 'POST',
-		url: '/api/checkusername',
-		data: {username         : username},
-		headers: {'Content-Type': 'application/json'}
-		})
-		.success(function(data, status, headers, config){
-
-
-		   // console.log(" data is ******* : "+ data);
-     //   User.duplicateusername = true;
-     //   console.log( "success - User.username value is  " + User.username  );
-		
-    })
-		.error(function(data,status, headers, config){
-       //       console.log(" data in err is : "+ data);
-
-       // User.duplicateusername = false;
-       // console.log( "error - User.username value is  " + User.username  );
-       // console.log("no user found at SERVICE checkUsername");
-
-	});	
-};
-
-
-
-this.checkEmail = function(email, cb){
- 	// console.log(email + " is email at registerUser SERVICE  ");
-	$http({
-		method: 'POST',
-		url: '/api/checkemail',
-		data: {email : email},
-		headers: {'Content-Type': 'application/json'}
-		})
-		.success(function(data, status, headers, config){
-		})
-		.error(function(data,status, headers, config){		
-	 	// console.log("no user created at SERVICE checkEmail ");
-	});	
-};
-
-
-this.login = function(username, password, cb){
-
-	console.log("service login + cb " + cb);
-
-	$http({
 		method: 'POST',
 		url:'/session',
 		data: {	username: username, 
-				password: password },
+				    password: password },
 		headers: {'Content-Type': 'application/json'}
 	})
 	.success(function(data, status, headers, config)
 		{
+ 		  console.log("data.token is:     " + data.token );
+  	 
+      console.log("data.email is:     " + data.email );
+      console.log("data.userAbout is: " + data.userAbout);
+    console.log("data.userName is: " + data.userName);
 
-		console.log(data.token + 	" is token");
-  		console.log(data.user + " is data.user");
- 
+
+      self.email = data.email;
+      self.userAbout = data.userAbout;
+      this.userName = data.userName;
+
 		if (data.token){
 
 			window.localStorage.setItem("token", data.token);
 			window.localStorage.setItem("user", data.user);
 			
 			self.username = data.user;
-			self.userState = 'loggedIn';
 
-			console.log("user state is "+ self.userState);
+      self.email = data.email;
+			self.userState = 'loggedIn';
+      self.userViewSwitch='None';
+      self.userAbout = data.userAbout;
+      self.created = data.created;
+ 
+			console.log("user state is "+ this.userState);
+      console.log("userViewSwitch is "+ this.userViewSwitch);
 
 			cb();  //TODO: why is this here?
 			}
@@ -130,6 +65,26 @@ this.login = function(username, password, cb){
 	});
 };
 
+//////////////////////////////////////////
+this.about = function(){
+
+  $http.get('/user').
+    then(function(response) {
+      // this callback will be called asynchronously
+      // when the response is available
+      console.log(response.userName, response.email, response.aboutUser);
+
+    }, function(response) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+      console.log ("oops error");
+    });
+
+
+};
+
+/////////////////////////////////////////
+
 
 this.signOut = function(){
 	console.log("service signOut");
@@ -139,48 +94,16 @@ this.signOut = function(){
     this.username = null;
     this.userState = 'loggedOut';
 
+    self.userTest = "second time";
+
     console.log("user state is "+ self.userState);
 
 };
-
-
-//make sure chosen username does not already exist
-// this.checkUsername = function(username, cb) {
-
-//     $http({
-//       method: 'POST',
-//       url: '/checkUsername',
-//       data: {username: username},
-//       headers: {'Content-Type':'application/json'}
-//     })
-//     .success(function(data, status, headers, config){
-//       var result = parseInt(data);
-//        console.log('Success at checkUsername........');
-
-//       if(result > 0){
-//         self.duplicateUsername = true;
-//         console.log("DUPLICATE ALERT");         
-//       } else {
-//         self.duplicateUsername = false;
-//         console.log("UNIQUE NAME CHOSEN");
-//       }
-//       cb();
-//     })
-//     .error(function(data, status, headers, config){
-//       console.log('Failure at checkUsername........');
-//     });
-//   };
-
-
-
 
 //working above
 ///////////
 //models below
  
-
-
-
 this.passwordChange = function(password, newPassword){
 	console.log("service logIn");
 
@@ -196,27 +119,7 @@ this.deleteAccount = function(cb){
 
 };
 
-
  
-  // this.checkUsername = function(username, cb) {
-  //   $http({
-  //     method: 'POST',
-  //     url: 'api/usercheck',
-  //     data: {username: username},
-  //     headers: {'Content-Type':'application/json'}
-  //   }).success(function(data, status, headers, config){
-  //     var result = parseInt(data);
-  //     if(result > 0){
-  //       self.dupeUsername = true;          
-  //     } else {
-  //       self.dupeUsername = false;
-  //     }
-  //     cb();
-  //   }).error(function(data, status, headers, config){
-  //     console.log('Failure.');
-  //   });
-  // };
-
   this.passwordChange = function(password, newPassword) {
     $http({
       method: 'POST',

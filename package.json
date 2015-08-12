@@ -31,6 +31,8 @@
     "monk": "~1.0.1",
     "morgan": "~1.5.1",
     "node-sass": "^3.2.0",
+    "nodemailer": "^1.4.0",
+    "nodemailer-smtp-transport": "^1.0.3",
     "serve-favicon": "^2.3.0"
   },
   "devDependencies": {},
