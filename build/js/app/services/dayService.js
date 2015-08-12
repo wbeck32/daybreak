@@ -1,10 +1,8 @@
 angular.module('dayBreak').service('dayService',['$http', function($http){
 
 
-this.addDay = function(dayName, userName, dayDesc, dayGroup){
+this.addDay = function(dayName, userName, dayDesc, dayGroup, dayLocations){
 	var dayTags = window.localStorage.getItem('dayTags');
-	console.log(dayTags);
-	dayLocations = window.localStorage.getItem('dl');
 	if(dayName){
 		$http({
 			method: 'POST',

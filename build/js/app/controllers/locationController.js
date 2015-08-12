@@ -1,6 +1,6 @@
-angular.module('dayBreak').controller('locationController',['$http','$scope','dayService',function($http,$scope,dayService){
+angular.module('dayBreak').controller('locationController',['$http','$scope','$rootScope','dayService',function($http,$scope,$rootScope,dayService){
 
-$scope.dayLocations = [];
+$rootScope.dayLocations = [];
 $scope.locName = '';
 $scope.locURL = '';
 $scope.locDesc = '';
@@ -31,14 +31,16 @@ this.addLoc = function(Location,locName,locURL) {
 		$scope.locDesc = Location.locDesc;
 		console.log('adding another location: ',$scope.locName,$scope.locURL,$scope.locDesc);
 		var l = ({location:$scope.locName,url:$scope.locURL,desc:$scope.locDesc});
-		$scope.dayLocations.push(l);
+		$rootScope.dayLocations.push(l);
 		var tagField = document.getElementById('tags');
-		tagField.value += locName+','+' ';
+		tagField.value += $scope.locName+','+' ';
 		window.localStorage.setItem('dayTags',tagField.value);
 		$scope.locDesc = '';
 		$scope.locName = '';
 		$scope.locURL = '';
-		//$scope.dayLocations;
+		Location.locDesc = '';
+		Location.locName = '';
+		Location.locURL = '';
 	}
 };
 

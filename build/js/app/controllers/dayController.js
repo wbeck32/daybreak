@@ -1,4 +1,4 @@
-angular.module('dayBreak').controller('dayController', ['$scope', '$http','dayService', function($scope, $http,dayService){
+angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', function($scope, $rootScope,$http,dayService){
 	
 $http({
 	method: 'GET',
@@ -18,7 +18,7 @@ this.addDay = function() {
 	var userName=this.userName;
 	var dayDesc = this.dayDesc;
 	var dayGroup = this.dayGroup;
-	dayService.addDay(dayName, userName, dayDesc, dayGroup);
+	dayService.addDay(dayName, userName, dayDesc, dayGroup,$rootScope.dayLocations);
 };
 
 

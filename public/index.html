@@ -245,17 +245,18 @@
 	</div>	<!-- close surround -->
 </div> <!-- close userController -->
 
-<div class="container">
+<div class="container-fluid">
+<div class="col-md-6">
 <h1>My Day</h1>
 <p>Share your adventure</p>
 
 <section>
-<div data-ng-controller="dayController as Day">
+<div class="form-group" data-ng-controller="dayController as Day">
 	<form data-ng-submit="Day.addDay()">
-	<input type="hidden" data-ng-model="Day.userName" value="joey">
-	<input type="text" data-ng-model="Day.dayName" placeholder="Give your day a name">
+	<input type="hidden" data-ng-model="Day.username" value="joey">
+	<input type="text" class="form-control" data-ng-model="Day.dayName" placeholder="Give your day a name">
 	
-	<select data-ng-model="Day.dayGroup">
+	<select class="form-control" data-ng-model="Day.dayGroup" placeholder="Who is in your group?">
 		<option value="single" selected>Single</option>
 		<option value="couple">Couple</option>
 		<option value="fsk">Family with small kids</option>
@@ -263,49 +264,35 @@
 		<option value="fwteens">Family with teenagers</option>
 		<option value="adults">Group of adults</option>
 	</select>
-
-<input type="text" data-ng-model="Day.dayDesc" class="desc" placeholder="Describe your day">
-
+	<input type="text" data-ng-model="Day.dayDesc" class="desc form-control" placeholder="Describe your day"></input>
 
 <!-- LOCATION -->
-<div data-ng-controller="locationController as Location" style="margin:10px 0;padding:10px;">
-
-<h3>Find a location</h3>
-
-<input type="text" data-ng-bind="locName" width="200" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
-
-<div>
-<div data-ng-bind="locURL" data-ng-model="Location.locURL">{{locURL}}</div>
-<a data-ng-bind="locName" data-ng-model="Location.locName" data-ng-href="{{locURL}}" target="_blank">{{locName}}</a>
-
- </div>
-
-<input type="text" data-ng-bind="locDesc" data-ng-model="Location.locDesc" placeholder="Describe this location">
-
+<div data-ng-controller="locationController as Location" class="form-group" style="margin:10px 0;">
+	<h4>Find a location</h4>
+	<input type="text" class="form-control" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
+	<textarea class="form-control" data-ng-bind="locDesc" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
 <!--TODO: Add functionality for uploading photos -->
 <!-- <div>Share a picture from your Day - <input type="file" accept="image/*"></div> -->
 <!--TODO-->
-
-<div data-ng-click="Location.addLoc(Location,locName,locURL,locDesc)">Add this location.</div>
-
-
+	<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locName,locURL,locDesc)">Add this location</div>
 <!-- END LOCATION BOX -->
-
-<!-- BEGIN LOCATION LIST -->
-<div>Location list
-<location-list/>
-</div> <!-- END LOCATION LIST -->
-
 </div> <!-- END LOCATION CONTROLLER -->
 
-<div data-ng-controller="tagController as Tag">
-<div>Use commas between tags.</div>
-<input type="text" id="tags" data-ng-change="Tag.enterTag()" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
-</div>
-<input type="submit">Add this day</submit>
+<div data-ng-controller="tagController as Tag" class="form-group">
+	<div>Use commas between tags.</div>
+		<input type="text" id="tags" class="form-control" data-ng-change="Tag.enterTag()" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
+</div> <!--END TAG CONTROLLER -->
+	<button class="btn btn-default" type="submit">Add this day</button>
 </form>
-</div>
+</div> <!-- END DAY CONTROLLER -->
 </section>
+</div>
+	<aside class="pull-right col-md-4">
+		Location list
+		<location-list></location-list>
+		<div id="map-canvas" style="border:1px solid red;">map</div>		
+	</aside>
+
 </div>
 
 <div data-ng-controller="dayController" class="container">
@@ -332,9 +319,7 @@
 
 
 
-<aside>
-	<div id="map-canvas">map</div>
-</aside>
+
 
  
 
