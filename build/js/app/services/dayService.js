@@ -1,26 +1,9 @@
 angular.module('dayBreak').service('dayService',['$http', function($http){
 
 
-var allLocs = [];
-
-this.grabLocs = function(dayLocations) {
-	allLocs = dayLocations;
-	allLocs.forEach(function(element, index, array){
-		console.log('ele: ',element);
-		var places = document.getElementById('places');
-		//places.insertAdjacentElement('beforeend','<div>');
-
-
-	});
-};
-
-
-this.addDay = function(dayName, userName, dayDesc, dayGroup){
+this.addDay = function(dayName, userName, dayDesc, dayGroup, dayLocations){
 	var dayTags = window.localStorage.getItem('dayTags');
-	console.log(dayTags);
-	dayLocations = window.localStorage.getItem('dl');
 	if(dayName){
-
 		$http({
 			method: 'POST',
 			url: 	'/api/addday',
