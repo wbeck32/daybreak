@@ -41,7 +41,8 @@
 
 				<li><a 	 
 				  		data-ng-show="User.userState==='loggedOut'"
-				  		data-ng-click="User.userViewSwitch='Log' ">
+				  		data-ng-click="User.userViewSwitch='Log'; 
+				  		User.LoginError = false ">
 				  		Login
 				  		</a></li>	
 
@@ -185,7 +186,9 @@ userViewSwitch is:{{ userViewSwitch}}
 
 						<div class="alert alert-warning" 
 						data-ng-if="(User.uniqueEmail === false)">
-						E-mail already in use.  Recover password now?</div>
+						E-mail already in use. 
+						<a data-ng-click= "User.userViewSwitch='Reset'">Recover password now? </a>
+						</div>
 
 
              			<p></p>
