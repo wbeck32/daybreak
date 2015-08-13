@@ -4,9 +4,12 @@ angular.module('dayBreak').service('userService', ['$http', function($http ){
   this.username 	= null;
   this.userState 	= 'loggedOut';
   this.userRegister = false;//mh
-  this.userTest = "first time";
+  this.LoginError=false;
 
+//Critical.  "var self = this" enables functions to communicate with scope of service... which is part of scope of userController... which is accessed as User.VARIABLENAME in index.html
   var self = this; 
+/////////////////////////////////////////////////////////////////
+
 
   if (window.localStorage.getItem('token')) {
     this.username = window.localStorage.getItem('user');
@@ -27,77 +30,75 @@ this.login = function(username, password, cb ){
 				    password: password },
 		headers: {'Content-Type': 'application/json'}
 	})
-	.success(function(data, status, headers, config)
-		{
- 		  console.log("data.token is:     " + data.token );
-  	 
-      console.log("data.email is:     " + data.email );
-      console.log("data.userAbout is: " + data.userAbout);
-    console.log("data.userName is: " + data.userName);
 
+	.then(function(response){
+      console.log("response is: " + response.data.token);
+      console.log("response is: " + response.data.email);
+      console.log("response is: " + response.data.userAbout);
+      console.log("response is: " + response.data.userName);   
+      console.log("response object is: " + response.data);
 
-      self.email = data.email;
-      self.userAbout = data.userAbout;
-      this.userName = data.userName;
-
-		if (data.token){
-
-			window.localStorage.setItem("token", data.token);
-			window.localStorage.setItem("user", data.user);
+		if (response.data.token){
+			window.localStorage.setItem("token", response.data.token);
+			window.localStorage.setItem("user", response.data.userName);
 			
-			self.username = data.user;
-
-      self.email = data.email;
-			self.userState = 'loggedIn';
-      self.userViewSwitch='None';
-      self.userAbout = data.userAbout;
-      self.created = data.created;
+			self.username   = response.data.userName;
+      self.email      =    response.data.email;
+			self.userState  = 'loggedIn';
+      self.userViewSwitch= null;
+      self.LoginError=false;   
+      self.userAbout  = response.data.userAbout;
+      // self.created = response.data.created;
  
-			console.log("user state is "+ this.userState);
-      console.log("userViewSwitch is "+ this.userViewSwitch);
+			console.log("user state is "+     self.userState);
+      console.log("userViewSwitch is "+ self.userViewSwitch);
 
-			cb();  //TODO: why is this here?
+      cb();  //update scope
+
 			}
-		})
+		},
+	function(data,status,headers,config){
 
-	.error(function(data,status,headers,config){
-		console.log("login unsuccessful");
-	});
+    console.log("userService.js:  send status is: " + status);
+		console.log("userService.js:  login unsuccessful");
+ 
+    self.LoginError = true;
+    self.username = null;
+    self.password = null;
+    self.userViewSwitch= 'Log';
+
+    cb();  //update the scope
+	
+});
+
+
 };
+//      cb();  //TODO: why inull
+
 
 //////////////////////////////////////////
-this.about = function(){
+// this.about = function(){
+//   $http.get('/user').
+//     then(function(response) {
+//       // this callback will be called asynchronously
+//       // when the response is available
+//       console.log("RESPONSE VALUES ARE: " + response.userName, response.email, response.aboutUser, response.created);
 
-  $http.get('/user').
-    then(function(response) {
-      // this callback will be called asynchronously
-      // when the response is available
-      console.log(response.userName, response.email, response.aboutUser);
-
-    }, function(response) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-      console.log ("oops error");
-    });
-
-
-};
+//     }, function(response) {
+//       // called asynchronously if an error occurs
+//       // or server returns response with an error status.
+//       console.log ("oops error");
+//     });
+// };
 
 /////////////////////////////////////////
-
-
 this.signOut = function(){
 	console.log("service signOut");
     window.localStorage.removeItem('token');
     window.localStorage.removeItem('user');
-    //window.localStorage.removeItem('userid');
-    this.username = null;
-    this.userState = 'loggedOut';
-
-    self.userTest = "second time";
-
-    console.log("user state is "+ self.userState);
-
+    self.username = null;
+    self.userState = 'loggedOut';
+    //console.log("user state is "+ self.userState);
 };
 
 //working above

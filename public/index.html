@@ -30,7 +30,7 @@
 			<ul class='nav navbar-nav'>
 
 				<li><a><div 
-						data-ng-click="userViewSwitch = null ">
+						data-ng-click="User.userViewSwitch = null ">
 						Home
 						</div></a></li>
 
@@ -41,12 +41,12 @@
 
 				<li><a 	 
 				  		data-ng-show="User.userState==='loggedOut'"
-				  		data-ng-click="userViewSwitch='Log' ">
+				  		data-ng-click="User.userViewSwitch='Log' ">
 				  		Login
 				  		</a></li>	
 
 				<li><a	data-ng-show="User.userState==='loggedOut'"
-			  	  		data-ng-click="userViewSwitch ='Reg' "> 
+			  	  		data-ng-click="User.userViewSwitch ='Reg' "> 
 			  	  		Register 
 			  	  		</a></li>
 
@@ -58,16 +58,19 @@
 				  		</div></a></li>
 
 				<li><a  data-ng-show="User.userState==='loggedIn'"
- 			  	  		data-ng-click="userViewSwitch ='Myaccount' "
+ 			  	  		data-ng-click="User.userViewSwitch ='Myaccount' "
  			  	  		 >
 			  			My Account
 				  		</a></li>
 
 		   	</ul>
 
+
 		   		  userViewSwitch: {{userViewSwitch}}
 		   		  <br>
-				   & userTest: {{userTest}} 
+		   		  User.userViewSwitch is:{{ User.userViewSwitch}}
+		   		  <br>
+  				   & userState: {{User.userState}} 
 				  		 
 	  	</div>
 	</nav>
@@ -76,8 +79,13 @@
 
 
 	<div class = 'surround'>	
+
+ User.LoginError is {{User.LoginError}}
+
+
+
 		<div class = 'userContainer' 
-		data-ng-show= "userViewSwitch != null " >
+		data-ng-show= "User.userViewSwitch != null " >
 
 <!-- 				data-ng-show=" 
 					(User.userState ==='loggedOut' && 
@@ -88,13 +96,13 @@
 					 userViewSwitch ==='Myaccount')"
 					  -->
 
-
-
-			<div id='login' ng-switch on="userViewSwitch">
+			<div id='login' ng-switch on="User.userViewSwitch">
 				<div ng-switch-when='Log' >
 					<form data-ng-submit="User.login() "
 						  >
-						
+<!-- User.userViewSwitch is:{{ User.userViewSwitch}}
+userViewSwitch is:{{ userViewSwitch}}
+ -->
 						<div class="form group">
 							<label>Username</label>
 							<input class= "form-control" type="text" 
@@ -107,16 +115,23 @@
 						</div>
 						<p></p>
 						<input class="btn btn-success btn-sm btn-block" type="submit" value="Login"
+
 						>
+
+						<div class="alert alert-warning" 
+						data-ng-if="User.LoginError === true">
+						Name and Password Combination Not Found
+						</div>
+
 					</form>
 					<p></p>
 				</div>
 
 				<!-- Must be outside of ng-switch-when! -->
 				<div class='closeModal' 
-					 data-ng-show="userViewSwitch==='Log' ">
+					 data-ng-show="User.userViewSwitch==='Log' ">
  					<a 
-	 					data-ng-click="userViewSwitch='Reset' ">
+	 					data-ng-click="User.userViewSwitch='Reset' ">
 						Reset Password
 					</a>
 				</div>
@@ -125,7 +140,7 @@
 
 
 		   	<div id='register'
-		   			ng-switch on='userViewSwitch'
+		   			ng-switch on='User.userViewSwitch'
 
  		   			>
 		   		<div ng-switch-when='Reg' >
@@ -212,9 +227,7 @@
 							<p>uniqueEmail is:		{{User.uniqueEmail}}</p>
 							<p> regForm.$invalid 	{{regForm.$invalid}} </p>
 						</div> -->
-
-						 
-
+ 
 						<input 
 						
 						data-ng-disabled="
@@ -235,7 +248,7 @@
 		 	</div>
 		 
 			<div id='resetPassword' 
-				data-ng-switch on='userViewSwitch'
+				data-ng-switch on='User.userViewSwitch'
 				data-ng-submit="User.resetPassword()"
 				>
 
@@ -260,21 +273,21 @@
 
 
 
-	   		<div id='about' ng-switch on="userViewSwitch">
+	   		<div id='about' ng-switch on="User.userViewSwitch">
 				<div ng-switch-when='Myaccount' >
 		 	 		<p>About Your Account</p>
 
 		 	 		<div class ="userProfile">
 						<div 
 							data-ng-model="User" 
-							data-ng-show="User.userState==='loggedIn'" 
+							data-ng-show="User.userState==='loggedIn'"
  							 >
 
 				  			<div class="userProfile"  
 				  			     data-ng-cloak>
 				  			<li>Name: 		{{User.username}}</li>
 				  			<li>Email: 		{{User.email}}</li>
-				  			<li>Joined: 	{{User.create}}</li>
+				  			<li>Member since: 	{{User.create}}</li>
 				  			<li>About You: 	{{User.userAbout}}</li>
 				  			
 				  			</div>
@@ -283,11 +296,10 @@
 					</div>
 			  	</div>  
 
- 
- 				<div class='closeModal' 
-					data-ng-show="userViewSwitch==='Myaccount' ">
+  				<div class='closeModal' 
+					data-ng-show="User.userViewSwitch==='Myaccount' ">
  					<a 
-	 					data-ng-click="userViewSwitch='None' ">
+	 					data-ng-click="User.userViewSwitch=null ">
 						Close Profile Pop-up
 					</a>
 				</div>

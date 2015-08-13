@@ -5,7 +5,12 @@ dayBreak.controller('userController',
 	this.email = null;
     this.userAbout = "";
     this.userName = null;
-    this.userState = '';
+    this.userState = null;
+
+	//this.LoginError = false;  //change to true on bad login attempt
+	//$scope.LoginError = userService.LoginError;
+	this.LoginError = false;
+
   	this.userViewSwitch 	= null;
   	this.create = null;
 
@@ -15,10 +20,14 @@ dayBreak.controller('userController',
   	this.passwordConfirm 	= null;//note these are not equal to start
   	//this.email 				= null;
 
-  	this.uniqueUserName = null;
-    this.uniqueEmail = null;
-	$scope.userViewSwitch = null;
-    $scope.userTest= null;
+  	this.uniqueUserName = true;  //true stops error msg at start
+    this.uniqueEmail = true;
+	//$scope.userViewSwitch = null;
+    
+    this.userViewSwitch = null;
+    
+
+ //   $scope.userTest= null;
 
   	this.userState = userService.userState;
   	this.userRegister = userService.userRegister; //mh
@@ -29,6 +38,9 @@ dayBreak.controller('userController',
 
 
  var updateScope = function() {
+
+ 	console.log("userController.js:  scope is updating");
+
     this.username 			= userService.username;  //?
     this.userState 			= userService.userState;  //?
     this.userAbout			= userService.userAbout;
@@ -38,6 +50,10 @@ dayBreak.controller('userController',
     this.passwordConfirm 	= null;
     this.newPassword 		= null;
     this.userViewSwitch 	= userService.userViewSwitch;
+    this.LoginError			= userService.LoginError;
+ 	
+ 	console.log("this.LoginError in updateScope is: " + this.LoginError);
+
     }
  	.bind(this);//TODO: understand why this is needed
 
@@ -98,8 +114,7 @@ this.registerValidUser = function(username, password, email, cb){
 	console.log(this.email    + " is email at registerUser   ");
 
 
-	userViewSwitch = null;  // on registering show nothing
-
+	
 	$http({
 		method: 'POST',
 		url: '/api/registerValidUser',
@@ -110,6 +125,9 @@ this.registerValidUser = function(username, password, email, cb){
 		})
 		.success(function(data, status, headers, config){
 			console.log( "user created - data.username value is  " + data.username + " and status is " + status);
+				
+				$scope.User.userViewSwitch = null;  // on registering show nothing
+
 		})
 		.error(function(data,status, headers, config){
 	 		console.log("no user created ");
@@ -136,28 +154,26 @@ this.resetPassword = function(username) {
 
 //userService
 
-this.about = function(){
-	console.log("calling user about");
-	userService.about();
-};
-
-
+// this.about = function(){
+// 	console.log("calling user about");
+// 	userService.about();
+// };
 
 this.login = function(){  
-
 	console.log("######## logging in as ..." + this.username);
 	console.log("########  this.password: " + this.password);
-  
-   	userService.login(this.username, this.password, updateScope );
+    console.log("In controller first LoginError is: " + this.LoginError );
+    
+    userService.login(this.username, this.password, updateScope);
+    // Important: Must pass update scope into service as a callback so that it is available to update scope after api calls return results.
 
-
-	};
+};
 
  
 this.signOut = function(){
 	console.log("calling signout...");
 	
-	$scope.userViewSwitch = null;
+	$scope.User.userViewSwitch = null;
 
     userService.signOut();
     //updateScope();

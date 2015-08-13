@@ -337,12 +337,16 @@ app.post('/session', function(req,res,next){
         .select('password')
         .select('email')
         .select('create')
+        .select('userName')
         .select('userAbout')   //grab password of that username
         .exec(function(err,user){
 
 
         if (err){return next(err)}
-        if(!user){return res.sendStatus(401)}
+        if(!user){
+                console.log("APP.JS: user not found in session");
+                return res.sendStatus(401);
+        }
          console.log( "user.email is : " + user.email);
          console.log( user.userAbout+ " is user.userAbout");
          console.log(user.password + " is user.password");   
@@ -350,13 +354,22 @@ app.post('/session', function(req,res,next){
         bcrypt.compare(req.body.password, user.password, function(err,valid){
             if (err){ return next(err);};
             // !valid means invalid name password combo - bcrypt asigns boolean
-            if(!valid){ return res.sendStatus(401)};
+            if(!valid){
+
+                console.log("APP.JS: user found, but pwd not good");
+                return res.sendStatus(401);
+                
+                };
             //if valid then generate token based on user name
         
             //encode the incoming req.body.username with secretKey   
             var token = jwt.encode({username: req.body.username}, secretKey);
-            console.log("user/pwd combo found and token is " + token);
-            res.json({token: token, user: req.body.username, email: user.email, userAbout: user.userAbout, create: user.create});            
+            console.log("APP.JS: user/pwd combo found and token is " + token);
+            res.json({token:    token, 
+                    userName:   user.userName, 
+                    email:      user.email, 
+                    userAbout:  user.userAbout, 
+                    created:    user.created});            
         });
     });
 });
