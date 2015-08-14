@@ -3,8 +3,11 @@ angular.module('dayBreak').service('userService', ['$http', function($http ){
 
   this.username 	= null;
   this.userState 	= 'loggedOut';
-  this.userRegister = false;//mh
   this.LoginError=false;
+
+  ///testing
+  this.uniqueUserName = false;
+  this.uniqueEmail = false;   //testing
 
 //Critical.  "var self = this" enables functions to communicate with scope of service... which is part of scope of userController... which is accessed as User.VARIABLENAME in index.html
   var self = this; 
@@ -100,6 +103,102 @@ this.signOut = function(){
     self.userState = 'loggedOut';
     //console.log("user state is "+ self.userState);
 };
+
+
+//important!  refer to username, not "this.username"
+//because this is a service, not in controller
+// this is required to inject username to service
+this.checkthename = function( username){
+
+    console.log("in service sending to check: " + username);
+
+    $http({
+    method    : 'POST',
+    url       : '/api/checkusername',
+    data      : {username       :  username},
+    headers   : {'Content-Type' : 'application/json'}
+    })
+    .success(function(res ){
+
+          console.log("in service sending to check:  " + username);
+          console.log("result is:  " + JSON.parse(res ) );
+
+          //important!  this attaches to "scope" of the service, which is part of the controller
+          self.uniqueUserName =  JSON.parse(res ) ;
+          
+          console.log("in service uniqueUserName is: " + self.uniqueUserName);
+
+          //important! cannot be used in service 
+          //because $scope unavailable 
+          //$scope.User.uniqueUserName = self.uniqueUserName;
+ 
+          // cb();  //update scope
+
+      })
+    .error(function(data,status, headers, config){
+          console.log("In userService data is: " + data);
+          console.log("NOTHING FOUND RIGHT?");
+         // self.uniqueUserName=false;
+          //cb();  //update scope
+
+      }); 
+};
+
+
+
+this.checktheemail = function( email){
+    $http({
+    method    : 'POST',
+    url       : '/api/checkemail',
+    data      : { email         :  email},
+    headers   : {'Content-Type' : 'application/json'}
+    })
+    .success(function(res){
+          console.log("res is:  " + JSON.parse(res ) );
+          self.uniqueEmail =  JSON.parse(res ) ;
+
+          console.log("in userService the uniqueEmail is : " + self.uniqueEmail);
+
+ 
+           //important! cannot be used in service 
+          //because $scope unavailable 
+          // $scope.User.uniqueEmail = self.uniqueEmail;
+          //User.uniqueEmail = self.uniqueEmail;      
+
+          //cb();  //update scope
+
+      })
+    .error(function(data,status, headers, config){
+          console.log("data is: " + data);
+          self.uniqueEmail = false;
+          //cb(); //update scope
+      }); 
+};
+
+
+this.RegValuesAllGood = function(uniqueUserName, uniqueUserName, password, passwordConfirm){
+
+  console.log("RegValuesAllGood is: "+RegValuesAllGood);
+
+
+  if ( (uniqueUsername = true) &&
+       (uniqueEmail = true)   &&
+       (password=== passwordConfirm) &&
+        (userName.length > 6)
+    )
+    { RegValuesAllGood = true;
+      return true;  }
+
+  else
+    { RegValuesAllGood = false; 
+      return false;
+    }
+
+ 
+};
+
+
+
 
 //working above
 ///////////

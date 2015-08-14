@@ -154,10 +154,8 @@ userViewSwitch is:{{ userViewSwitch}}
 							<label>Username</label>
 							<input class= "form-control" 
 							type="text"
-
 							data-ng-blur="User.checkthename()" 
  							data-ng-model="User.username"
-
  							placeholder="5 character minimum. Public."
  							required>					
 						</div>
@@ -218,7 +216,10 @@ userViewSwitch is:{{ userViewSwitch}}
 
 						<div class="alert alert-warning"  
              			data-ng-if="User.password !== User.passwordConfirm 
-             			&& regForm.passwordConfirm.$touched">
+             			
+ 
+             			"
+                     			>
              			Password confirmation does not match.</div>
 
              			<!-- 
@@ -231,7 +232,7 @@ userViewSwitch is:{{ userViewSwitch}}
 							<p> regForm.$invalid 	{{regForm.$invalid}} </p>
 						</div> -->
  
-						<input 
+<!-- 						<input 
 						
 						data-ng-disabled="
 						regForm.$invalid  	  && 
@@ -243,8 +244,20 @@ userViewSwitch is:{{ userViewSwitch}}
  
 						class="btn btn-success btn-sm btn-block" 
 						type="submit" 
-						value="Register Now">
+						value="Register Now"> -->
  	
+						
+<!-- User.RegValuesAllGood {{ User.RegValuesAllGood() }} -->
+
+						<input 
+						
+						data-ng-disabled="User.RegValuesAllGood()===false"
+
+						class="btn btn-success btn-sm btn-block" 
+						type="submit" 
+						value="Register Now!">
+
+
 
 					</form>
 				</div>

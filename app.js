@@ -181,25 +181,25 @@ app.post('/api/passwordresetemail', function(req, res) {
    // TODO - Function that looks for 24 hour token, links to password reset page  
 
 
-  users.find({username: req.body.username}).toArray(function(err, docs){
-    if (err) console.log(err);
-    if (docs[0].email) {
-      var resetPasswordMailOptions = {
-        from: 'Daybreak <hello@daybreak.com>', // sender address
-        to: docs[0].email, 
-        subject: 'Daybreak password reset', // Subject line
-        text: 'Please click on this link to reset your password', // plaintext body
-        html: '<div>Hello, </div><div>Please click <a href=http://www.daybreak.com/api/passwordreset/' + passwordResetAuthenticate(docs[0]._id) + '>here</a> to reset your password. This link will only be valid for 24 hours.</div><div>Thanks!</div><div>The Daybreak</div>' // html body
-      };
-      transporter.sendMail(resetPasswordMailOptions, function(err, info) {
-        if (err) console.log(err);  
-        console.log('Email sent!');
-        res.end('Email sent!');
-      });
-    } else {
-      res.end('Cannot reset password for this user');
-    }
-  });
+  // users.find({username: req.body.username}).toArray(function(err, docs){
+  //   if (err) console.log(err);
+  //   if (docs[0].email) {
+  //     var resetPasswordMailOptions = {
+  //       from: 'Daybreak <hello@daybreak.com>', // sender address
+  //       to: docs[0].email, 
+  //       subject: 'Daybreak password reset', // Subject line
+  //       text: 'Please click on this link to reset your password', // plaintext body
+  //       html: '<div>Hello, </div><div>Please click <a href=http://www.daybreak.com/api/passwordreset/' + passwordResetAuthenticate(docs[0]._id) + '>here</a> to reset your password. This link will only be valid for 24 hours.</div><div>Thanks!</div><div>The Daybreak</div>' // html body
+  //     };
+  //     transporter.sendMail(resetPasswordMailOptions, function(err, info) {
+  //       if (err) console.log(err);  
+  //       console.log('Email sent!');
+  //       res.end('Email sent!');
+  //     });
+  //   } else {
+  //     res.end('Cannot reset password for this user');
+  //   }
+  // });
 });
 
 //3 reset password - rewrite for Daybreak
@@ -276,10 +276,12 @@ router.route('/checkusername').post(function(req,res,next){
    
     var user = new User({userName: req.body.username });
 
+    console.log("in api userName to search is " +req.body.username);
+
     User.findOne({userName: req.body.username})
         .select('userName') 
         .exec(function(err,user){                      
-                console.log(user +  " is user");
+                console.log(user +  " is user at checkusername route");
 
                 if (err){
                     console.log("error in mongoose findOne");
@@ -358,7 +360,7 @@ app.post('/session', function(req,res,next){
 
                 console.log("APP.JS: user found, but pwd not good");
                 return res.sendStatus(401);
-                
+
                 };
             //if valid then generate token based on user name
         

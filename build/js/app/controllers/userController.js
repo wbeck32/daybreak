@@ -5,7 +5,7 @@ dayBreak.controller('userController',
 	this.email = null;
     this.userAbout = "";
     this.userName = null;
-    this.userState = null;
+    //this.userState = null;  //defined in service, not here.
 
 	//this.LoginError = false;  //change to true on bad login attempt
 	//$scope.LoginError = userService.LoginError;
@@ -14,19 +14,23 @@ dayBreak.controller('userController',
   	this.userViewSwitch 	= null;
   	this.create = null;
 
- 	this.username  = null;
+ 	this.username  = "";
  	this.usernameLength = 5;  //set minimum usernameLength
+
  	this.password 			= "";
-  	this.passwordConfirm 	= null;//note these are not equal to start
-  	//this.email 				= null;
+  	this.passwordConfirm 	= null; // note these are not equal to start
+  	
+  	this.email 				= null;
 
   	this.uniqueUserName = true;  //true stops error msg at start
     this.uniqueEmail = true;
 	//$scope.userViewSwitch = null;
     
+
+    //////////////////////////////////
     this.userViewSwitch = null;
     
-
+ 
  //   $scope.userTest= null;
 
   	this.userState = userService.userState;
@@ -51,6 +55,9 @@ dayBreak.controller('userController',
     this.newPassword 		= null;
     this.userViewSwitch 	= userService.userViewSwitch;
     this.LoginError			= userService.LoginError;
+
+    this.uniqueEmail		= userService.uniqueEmail;
+    this.uniqueUserName     = userService.uniqueUserName;
  	
  	console.log("this.LoginError in updateScope is: " + this.LoginError);
 
@@ -58,16 +65,53 @@ dayBreak.controller('userController',
  	.bind(this);//TODO: understand why this is needed
 
 
-$http.get('/api')
-	.success(function(result){
-		$scope.incoming = result;
-	})
-	.error(function(data, status){
-		console.log(data);
-	});
+// $http.get('/api')
+// 	.success(function(result){
+// 		$scope.incoming = result;
+// 	})
+// 	.error(function(data, status){
+// 		console.log(data);
+// 	});
  
-//active
-this.checkthename = function( username, cb){
+
+// this.RegValuesAllGoodxxx=function(username, email, password, passwordConfirm){
+
+// 	userService.RegValuesAllGood(uniqueUserName, uniqueEmail, password, passwordConfirm);
+
+// };
+
+
+this.RegValuesAllGood = function(uniqueUserName, uniqueEmail, password, passwordConfirm){
+ 
+console.log("this.uniqueUserName is: " + this.uniqueUserName);
+console.log("this.uniqueEmail is: " + this.uniqueEmail);
+console.log("this.password is: " + this.password);
+console.log("this.passwordConfirm is: " + this.passwordConfirm);
+console.log("this.username is: " + this.username);
+
+
+  if ( (uniqueUsername = true) &&
+       (uniqueEmail = true)   &&
+       (password === passwordConfirm) &&
+       (this.username.length > 5)     )
+    {  return true;  }
+  else
+    {  return false;}
+};
+
+
+
+this.checkthename = function(username){
+ 	userService.checkthename(this.username);
+};
+
+//NOTE this.username here, but when service DIFFERENT
+//READY FOR DELETION
+this.checkthenameXXX = function(username){
+
+	 console.log("in controller sending to check:  " + this.username);
+
+
     $http({
 		method    : 'POST',
 		url       : '/api/checkusername',
@@ -75,18 +119,33 @@ this.checkthename = function( username, cb){
 		headers   : {'Content-Type' : 'application/json'}
 		})
 		.success(function(res){
-        	console.log("res is:  " + JSON.parse(res ) );
+        	
+       
+
+        console.log("res is:  " + JSON.parse(res ) );
+
        		self.uniqueUserName =  JSON.parse(res ) ;
+       		
        		console.log("in controller uniqueUserName is: " + self.uniqueUserName);
+
+       		//can attach to $scope because in controller
 	        $scope.User.uniqueUserName = self.uniqueUserName;
+    	    
     	    console.log("$scope.User.uniqueUserName is: "+$scope.User.uniqueUserName);
      	})
+
 		.error(function(data,status, headers, config){
         	console.log("data is: " + data);
     	});	
 };
 
-this.checktheemail = function( email, cb){
+this.checktheemail = function(email){
+    userService.checktheemail(this.email);
+};
+
+
+//READY FOR DELECTION
+this.checktheemailXXX = function( email){
     $http({
 		method    : 'POST',
 		url       : '/api/checkemail',
@@ -106,6 +165,10 @@ this.checktheemail = function( email, cb){
         	console.log("data is: " + data);
     	});	
 };
+
+
+
+
 
 
 this.registerValidUser = function(username, password, email, cb){
