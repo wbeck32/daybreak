@@ -65,13 +65,7 @@ dayBreak.controller('userController',
  	.bind(this);//TODO: understand why this is needed
 
 
-// $http.get('/api')
-// 	.success(function(result){
-// 		$scope.incoming = result;
-// 	})
-// 	.error(function(data, status){
-// 		console.log(data);
-// 	});
+ 
  
 
 // this.RegValuesAllGoodxxx=function(username, email, password, passwordConfirm){
@@ -89,11 +83,11 @@ console.log("this.password is: " + this.password);
 console.log("this.passwordConfirm is: " + this.passwordConfirm);
 console.log("this.username is: " + this.username);
 
-
   if ( (uniqueUsername = true) &&
        (uniqueEmail = true)   &&
        (password === passwordConfirm) &&
-       (this.username.length > 5)     )
+       (this.username.length > 5)     
+       )
     {  return true;  }
   else
     {  return false;}
@@ -105,71 +99,12 @@ this.checkthename = function(username){
  	userService.checkthename(this.username);
 };
 
-//NOTE this.username here, but when service DIFFERENT
-//READY FOR DELETION
-this.checkthenameXXX = function(username){
-
-	 console.log("in controller sending to check:  " + this.username);
-
-
-    $http({
-		method    : 'POST',
-		url       : '/api/checkusername',
-		data      : {username       : this.username},
-		headers   : {'Content-Type' : 'application/json'}
-		})
-		.success(function(res){
-        	
-       
-
-        console.log("res is:  " + JSON.parse(res ) );
-
-       		self.uniqueUserName =  JSON.parse(res ) ;
-       		
-       		console.log("in controller uniqueUserName is: " + self.uniqueUserName);
-
-       		//can attach to $scope because in controller
-	        $scope.User.uniqueUserName = self.uniqueUserName;
-    	    
-    	    console.log("$scope.User.uniqueUserName is: "+$scope.User.uniqueUserName);
-     	})
-
-		.error(function(data,status, headers, config){
-        	console.log("data is: " + data);
-    	});	
-};
-
+ 
 this.checktheemail = function(email){
     userService.checktheemail(this.email);
 };
 
-
-//READY FOR DELECTION
-this.checktheemailXXX = function( email){
-    $http({
-		method    : 'POST',
-		url       : '/api/checkemail',
-		data      : { email       : this.email},
-		headers   : {'Content-Type' : 'application/json'}
-		})
-		.success(function(res){
-        	console.log("res is:  " + JSON.parse(res ) );
-       		self.uniqueEmail =  JSON.parse(res ) ;
-       		console.log("in controller the uniqueEmail is : " + self.uniqueEmail);
-
-	        $scope.User.uniqueEmail = self.uniqueEmail;
-	      
-    	    console.log("$scope.User.uniqueEmail is : " + $scope.User.uniqueEmail);
-     	})
-		.error(function(data,status, headers, config){
-        	console.log("data is: " + data);
-    	});	
-};
-
-
-
-
-
+ 
 
 this.registerValidUser = function(username, password, email, cb){
 	console.log("*******************************");
@@ -214,13 +149,7 @@ this.resetPassword = function(username) {
       console.log('reset post failed: ' + data);
     });
   };
-
-//userService
-
-// this.about = function(){
-// 	console.log("calling user about");
-// 	userService.about();
-// };
+ 
 
 this.login = function(){  
 	console.log("######## logging in as ..." + this.username);

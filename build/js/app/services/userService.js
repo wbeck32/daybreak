@@ -145,7 +145,6 @@ this.checkthename = function( username){
 };
 
 
-
 this.checktheemail = function( email){
     $http({
     method    : 'POST',
@@ -160,7 +159,7 @@ this.checktheemail = function( email){
           console.log("in userService the uniqueEmail is : " + self.uniqueEmail);
 
  
-           //important! cannot be used in service 
+          //important! following cannot be used in service 
           //because $scope unavailable 
           // $scope.User.uniqueEmail = self.uniqueEmail;
           //User.uniqueEmail = self.uniqueEmail;      
