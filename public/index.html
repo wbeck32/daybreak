@@ -10,7 +10,7 @@
 	<script src="js/modernizr.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500' rel='stylesheet' type='text/css'>
 	<title>Daybreak - Share and Find the Perfect Day</title>
-	<style>#map-canvas{width:100%;height:100%;border:1px solid red;}</style>
+	
 </head>
 
 <body>
@@ -326,8 +326,8 @@ userViewSwitch is:{{ userViewSwitch}}
 
 
 <div class="container-fluid">
-<div class="col-md-6">
- 
+
+<div class="col-md-6" style="border:2px solid blue;">
 <h1>My Day</h1>
 <p>Share your adventure</p>
 
@@ -338,20 +338,20 @@ userViewSwitch is:{{ userViewSwitch}}
 	<input type="text" class="form-control" data-ng-model="Day.dayName" placeholder="Give your day a name">
 	
 	<select class="form-control" data-ng-model="Day.dayGroup" placeholder="Who is in your group?">
-		<option value="single" selected>Single</option>
+		<option value="single" selected="selected">Single</option>
 		<option value="couple">Couple</option>
 		<option value="fsk">Family with small kids</option>
 		<option value="fwtweens">Family with tweens</option>
 		<option value="fwteens">Family with teenagers</option>
 		<option value="adults">Group of adults</option>
 	</select>
-	<input type="text" data-ng-model="Day.dayDesc" class="desc form-control" placeholder="Describe your day"></input>
+	<textarea class="form-control desc" rows="5" data-ng-model="Day.dayDesc" placeholder="Describe your day"></textarea> 
 
 <!-- LOCATION -->
 <div data-ng-controller="locationController as Location" class="form-group" style="margin:10px 0;">
 	<h4>Find a location</h4>
 	<input type="text" class="form-control" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
-	<textarea class="form-control" data-ng-bind="locDesc" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
+	<textarea class="form-control" data-ng-bind="locDesc" rows="3" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
 <!--TODO: Add functionality for uploading photos -->
 <!-- <div>Share a picture from your Day - <input type="file" accept="image/*"></div> -->
 <!--TODO-->
@@ -368,13 +368,14 @@ userViewSwitch is:{{ userViewSwitch}}
 </div> <!-- END DAY CONTROLLER -->
 </section>
 </div>
-	<aside class="pull-right col-md-4">
-		Location list
+	<aside class="pull-right col-md-5" style="border:2px solid red;">
+		<h3>Location list</h3>
 		<location-list></location-list>
-		<div id="map-canvas" style="border:1px solid red;">map</div>		
+		<div id="map-canvas"></div>		
 	</aside>
-
 </div>
+
+
 
 <div data-ng-controller="dayController" class="container">
 <h3>Great Days Shared by Our Community</h3>
@@ -396,14 +397,6 @@ userViewSwitch is:{{ userViewSwitch}}
 </ul>
 
 </div>
-
-
-
-
-
-
- 
-
 
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
