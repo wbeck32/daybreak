@@ -8,5 +8,5 @@ return {
 	 link: function( scope, elem, attrs) {
 
 	 }
-}
+};
 });
