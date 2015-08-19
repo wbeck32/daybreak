@@ -56,7 +56,7 @@ this.login = function(username, password, cb ){
 			console.log("user state is "+     self.userState);
       console.log("userViewSwitch is "+ self.userViewSwitch);
 
-      cb();  //update scope
+      //cb();  //update scope
 
 			}
 		},
@@ -68,9 +68,9 @@ this.login = function(username, password, cb ){
     self.LoginError = true;
     self.username = null;
     self.password = null;
-    self.userViewSwitch= 'Log';
+    //self.userViewSwitch= 'Log';
 
-    cb();  //update the scope
+    //cb();  //update the scope
 	
 });
 
@@ -108,40 +108,22 @@ this.signOut = function(){
 //important!  refer to username, not "this.username"
 //because this is a service, not in controller
 // this is required to inject username to service
-this.checkthename = function( username){
 
-    console.log("in service sending to check: " + username);
+
+this.checkthename = function checkthename(username,callback){
 
     $http({
     method    : 'POST',
     url       : '/api/checkusername',
     data      : {username       :  username},
     headers   : {'Content-Type' : 'application/json'}
-    })
-    .success(function(res ){
-
-          console.log("in service sending to check:  " + username);
-          console.log("result is:  " + JSON.parse(res ) );
-
-          //important!  this attaches to "scope" of the service, which is part of the controller
-          self.uniqueUserName =  JSON.parse(res ) ;
-          
-          console.log("in service uniqueUserName is: " + self.uniqueUserName);
-
-          //important! cannot be used in service 
-          //because $scope unavailable 
-          //$scope.User.uniqueUserName = self.uniqueUserName;
- 
-          // cb();  //update scope
-
-      })
-    .error(function(data,status, headers, config){
-          console.log("In userService data is: " + data);
-          console.log("NOTHING FOUND RIGHT?");
-         // self.uniqueUserName=false;
-          //cb();  //update scope
-
-      }); 
+    }).success(function(data,status,headers,config){ 
+      console.log('data in service: ',data);
+      callback(data);
+    }).error(function(data,status, headers, config){
+      console.log("In userService data is: " + data);
+      console.log("NOTHING FOUND RIGHT?");
+    }); 
 };
 
 
@@ -176,7 +158,7 @@ this.checktheemail = function( email){
 };
 
 
-this.RegValuesAllGood = function(uniqueUserName, uniqueUserName, password, passwordConfirm){
+this.RegValuesAllGood = function(uniqueUserName, uniqueEmail, password, passwordConfirm){
 
   console.log("RegValuesAllGood is: "+RegValuesAllGood);
 

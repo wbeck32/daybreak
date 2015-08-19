@@ -280,21 +280,18 @@ router.route('/checkusername').post(function(req,res,next){
 
     User.findOne({userName: req.body.username})
         .select('userName') 
-        .exec(function(err,user){                      
-                console.log(user +  " is user at checkusername route");
-
+        .exec(function(err,user){ console.log(user);                     
                 if (err){
                     console.log("error in mongoose findOne");
                     return next(err);
                     }
-                if(!user){
-                    result = true;  //hooray found a unique user!
-                    return res.json(result); 
+                if(user === null){ console.log('this is a unique user');
+                    res.send(true);  //hooray found a unique user!
                     }
                 else{
-                    result = false;  //sorry name already exists
-                    return res.json(result);
+                    res.send(false);  //sorry name already exists
                 }
+            
          });
   });
 
