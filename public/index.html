@@ -18,13 +18,18 @@
 <div data-ng-controller= "userController as User">    
  <nav class = 'navbar navbar-default'>
 		<div id = "titleGraphic">Daybreak</div>
+ 
 
-	  	<div class="container">
+	  	<div class="container" >
+
+
 			<ul class='nav navbar-nav'>
 
-				<li><a>
-					<div data-ng-click="User.userViewSwitch == null ">Home</div>
-				</a></li>
+
+				<li><a><div 
+						data-ng-click="User.userViewSwitch = null ">
+						Home  
+						</div></a></li>
 
 				<li><a data-ng-show ="User.userState==='loggedIn'" data-ng-click="User.signOut()" > 
 		 		  		Logout
@@ -38,6 +43,11 @@
 			  	  	Register 
 			  	</a></li>
 
+			  	 <li><a	data-ng-show="User.userState==='loggedOut'"
+			  	  		data-ng-click="User.userViewSwitch ='NEWREG' "> 
+			  	  		NEW REGISTER 
+			  	  		</a></li>
+
 				<li><a><div 	
 			   	  		data-ng-model="User"  
 			  	  		data-ng-show="User.userViewSwitch!== null" >
@@ -50,15 +60,33 @@
 				</a></li>
 
 		   	</ul>
-		User.userViewSwitch is:{{ User.userViewSwitch}}<br/>userState: {{User.userState}} <br/> User.LoginError is {{User.LoginError}}<br/>uun:{{User.uniqueUserName}}
+
 	  	</div>
 	</nav>
 
 	<div class = 'surround'>	
-		<div class = 'userContainer' data-ng-show= "User.userViewSwitch !== null " >
+
+
+
+
+
+
+		<div class = 'userContainer' 
+		data-ng-show= "User.userViewSwitch != null " >
+
+<!-- 				data-ng-show=" 
+					(User.userState ==='loggedOut' && 
+					(userViewSwitch === 'Log'      || 
+					 userViewSwitch === 'Reg'      || 
+					 userViewSwitch === 'Reset' ) )|| 
+				 	(User.userState ==='loggedIn'  &&
+					 userViewSwitch ==='Myaccount')"
+					  -->
+
 			<div id='login' ng-switch on="User.userViewSwitch">
 				<div ng-switch-when='Log' >
-					<form data-ng-submit="User.login()">
+					<form data-ng-submit="User.login()"
+						  >
 
 						<div class="form group">
 							<label>Username</label>
@@ -69,9 +97,12 @@
 							<label>Password</label>
 							<input class= "form-control" type="password" ng-model="User.password">
 						</div>
-						<input class="btn btn-success btn-sm btn-block" type="submit" value="Login">
 
-						<div class="alert alert-warning" data-ng-if="User.LoginError === true">
+						<p>LoginError{{User.LoginError}}</p>
+						<input class="btn btn-success btn-sm btn-block" type="submit" value="Login"	>
+
+						<div class="alert alert-warning" 
+						data-ng-if="User.LoginError === true">
 						Name and Password Combination Not Found
 						</div>
 					</form>
@@ -85,95 +116,124 @@
 
 			
 
-			
-<div id='register' data-ng-switch on='User.userViewSwitch'>
-<p>Username:{{User.username}}</p>
-			<p>Email:{{User.email}}</p>
-			<p>password confirm:{{User.passwordConfirm}}</p>
-						<p data-ng-model="User.uniqueUserName">Unique user name:{{User.uniqueUserName}}</p>
+		<div id='NEWREGISTER'
+		   			ng-switch on='User.userViewSwitch'
+ 		   			>
+		   		<div ng-switch-when='NEWREG' >
+					<form 
+						data-ng-submit="User.userViewSwitch=null "
+ 						name = "regForm" 
+						novalidate>
 
-	<div ng-switch-when='Reg' >
-	<form data-ng-submit="User.registerValidUser()" name = "regForm" novalidate>
-		<div class="form group">
-			<label>Username</label>
-			<input class="form-control" 
-			type="text"
-			data-ng-change="User.checkthename(User.username)" 
-			data-ng-model="User.username"
-			min="5"
-			placeholder="5 character minimum. Public."
-			required="">					
-		</div>
-		<div data-ng-model="User.uniqueUserName">Is your username unique? {{User.uniqueUserName}}</div>
+						NEW REGISTER FORM
 
-		<div class="alert alert-warning" data-ng-show="User.uniqueUserName==false">
+						<div class="form group">
+							<label>Username</label>
+							<input class= "form-control" 
+							type="text"
+ 							data-ng-model="User.username"
+  							data-ng-change="User.checkthename(User.username)" 
+
+ 							placeholder="5 character minimum. Public."
+ 							required>				
+						</div>
+		<div class="alert alert-warning" data-ng-show="User.uniqueUserName===false">
 			User name already in use.
 		</div>
 		<!-- TODO: min validation needs a directive -->
 		<div class="alert alert-info" data-ng-show="regForm.username.$error.min">
 			Must be 5 characters or longer.
 		</div>
-		
-		<div class="form group">
-			<label>E-Mail</label>
-			<input class= "form-control"
-			id="emailConfirm" 
-			type="email"
-			name="email"
-			data-ng-blur="User.checktheemail()" 
-			data-ng-model="User.email"
-			placeholder="Required for password recovery. Private."
-			required="">
-			<div class="alert alert-warning" data-ng-show="regForm.email.$error.email">This is not a valid email address.</div>
-		</div>
+						<div data-ng-model="User.uniqueUserName" 				data-ng-show="User.uniqueUserName === false  
+							&& User.username.length > 4 ">
+ 							That username already exists.  Login?
+  							</div>
+ 
+						<div class="form group">
+							<label>E-Mail</label>
+							<input class= "form-control"
+							id="emailConfirm" 
+							type="email"
+							name="email"
+							data-ng-model="User.email"	
 
-		<div class="alert alert-warning" 
-		data-ng-if="User.uniqueEmail === false">
-		E-mail already in use. 
-		<a data-ng-click= "User.userViewSwitch='Reset'">Recover password now? </a>
-		</div>
+							data-ng-blur="User.checktheemail()" 
 
+							placeholder="Required for password recovery.  Private."
+							required>
 
-		<div class="form group">
-			<label>Password</label>
-			<input class= "form-control"
-			id='passwordFirst' 
-			type="password" 
-			name='password'
-			data-ng-model="User.password"
-			placeholder="Enter password. Secret."
-			required>
-		</div>
+							 <span class="error" ng-show="regForm.email.$error.required">Required!</span>
+  
+  							<span class="error" ng-show="regForm.email.$error.email">
+    						Please enter a valid email!</span>
+						</div>
 
-		<div class="form group">
-			<label>Password Confirmation</label>
-			<input class= "form-control"
-			id='passwordConfirm' 
-			name='passwordConfirm'
-			type="password" 
-			data-ng-model="User.passwordConfirm"
-			placeholder="Reenter password."
-			required>
-		</div>
-
-
-		<div class="alert alert-warning"  
-			data-ng-if="User.password !== User.passwordConfirm">
-			Password confirmation does not match.</div>
-
-		<input 
-		
-		data-ng-disabled="User.RegValuesAllGood()===false"
-
-		class="btn btn-success btn-sm btn-block" 
-		type="submit" 
-		value="Register Now!">
+ 						<div data-ng-model="User.uniqueEmail" 					data-ng-show="User.uniqueEmail === false  ">
+ 							That E-mail already exists.  Reset?
+  							</div>
 
 
 
-	</form>
-</div>
-</div>
+						<div class="form group">
+							<label>Password</label>
+							<input class= "form-control"
+							id='passwordFirst' 
+							type="password" 
+							name='password'
+							data-ng-model="User.password"
+
+ 							data-ng-keyup="User.passconfirm(User.password, User.passwordConfirm)"
+ 
+ 							placeholder="Enter password. Secret."
+							required>
+						</div>
+
+
+
+
+						<div class="form group">
+							<label>Password Confirmation</label>
+							<input class= "form-control"
+							id='passwordConfirm' 
+							name='passwordConfirm'
+							type="password" 
+							data-ng-model="User.passwordConfirm"
+ 							
+ 							data-ng-keyup="User.passconfirm(User.password, User.passwordConfirm)"
+
+							placeholder="Reenter password."
+							required>
+						</div>	
+
+						<div data-ng-model="User.matchingPassword" 				 data-ng-show ="User.matchingPassword === true">
+ 							Password match!
+  							</div>
+ 
+ 
+						<div  
+ 						data-ng-hide=
+						"User.newRegValuesAllGood(User) === true" 
+ 	
+						class="btn   btn-sm btn-block" 
+						type="submit" 
+						value="Please Fill Out All Values"></div>
+
+
+						<input  
+ 						data-ng-hide=
+						"User.newRegValuesAllGood(User) === false" 
+ 	
+
+						class="btn btn-success btn-sm btn-block" 
+						type="submit" 
+						value="NEW Register Now!">
+
+
+						 
+
+					</form>
+				</div>
+		 	</div>
 		 
 			<div id='resetPassword' 
 				data-ng-switch on='User.userViewSwitch'
@@ -234,6 +294,7 @@
 			</div>
 		</div>
 	</div>
+</div>	<!-- extra div required not sure why -->
 </div> <!-- close userController -->
 
 

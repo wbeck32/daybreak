@@ -280,7 +280,7 @@ router.route('/checkusername').post(function(req,res,next){
 
     User.findOne({userName: req.body.username})
         .select('userName') 
-        .exec(function(err,user){ console.log(user);                     
+        .exec(function(err,user){                     
                 if (err){
                     console.log("error in mongoose findOne");
                     return next(err);
@@ -290,6 +290,7 @@ router.route('/checkusername').post(function(req,res,next){
                     }
                 else{
                     res.send(false);  //sorry name already exists
+
                 }
             
          });
@@ -299,17 +300,16 @@ router.route('/checkusername').post(function(req,res,next){
 //1d  checks for duplicate email
 router.route('/checkemail').post(function(req,res,next){
    
-    console.log("app.js router.route is happening for email");
+    console.log("in api email to search is " +req.body.email);
 
     var user = new User({email: req.body.email });
 
     User.findOne({email: req.body.email})
-        .select('email')    
+        .select('email')
         .exec(function(err,user){
 
                 console.log(user+  " is user at checkemail route");
-                //console.log(email+  " is email at checkemail route");
-
+ 
                 if (err){
                     return next(err)
                 }
@@ -326,7 +326,7 @@ router.route('/checkemail').post(function(req,res,next){
 });
  
  
-//2  Takes user name and password hash stored client side, and 
+//2  LOGIN Takes user name and password hash stored client side, and 
 //bcrypt compares incoming password to hash password in db
 //If name pwd match, then returns a jwt token.
 app.post('/session', function(req,res,next){

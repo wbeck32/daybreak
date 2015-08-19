@@ -25,9 +25,9 @@ a:hover{
 }
 
 p {
-	font-size: 12px;
-	font-weight:400;
-	-webkit-margin-before:0;
+	font-size: 10px !important;
+	color: blue;
+ 	-webkit-margin-before:0;
 	-webkit-margin-after:5px;
 
   @media #{$tablet} {
@@ -128,4 +128,5 @@ height:30%;
 	border:2px solid black;
 }
 
-
+.diagnostics {font-size: 9px; font-color: blue;
+}

@@ -1,1 +1,2 @@
-var dayBreak = angular.module('dayBreak',[]);
+var dayBreak = angular.module('dayBreak',[], function(){
+});

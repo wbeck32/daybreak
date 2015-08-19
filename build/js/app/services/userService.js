@@ -1,31 +1,37 @@
 // this is userService.js for dayBreak based on roadWarrior  
-angular.module('dayBreak').service('userService', ['$http', function($http ){
+dayBreak.service('userService', ['$http', function($http ){
 
-  this.username 	= null;
-  this.userState 	= 'loggedOut';
-  this.LoginError=false;
+  console.log('userService start');
 
-  ///testing
-  this.uniqueUserName = false;
-  this.uniqueEmail = false;   //testing
+  this.username 	= "";           //initialize username to null
+  this.userState 	= 'loggedOut';  //initialize userState to loggedOut
+  this.LoginError = false;        //initialize to false - no error yet
+  this.uniqueUserName = false;    //we have not yet tested for unique
+  this.uniqueEmail = false;       //we have not yet tested for unique
 
 //Critical.  "var self = this" enables functions to communicate with scope of service... which is part of scope of userController... which is accessed as User.VARIABLENAME in index.html
   var self = this; 
 /////////////////////////////////////////////////////////////////
 
+//check if valid token exists from previous session
 
-  if (window.localStorage.getItem('token')) {
+  if (window.localStorage.getItem('token')) 
+    {
     this.username = window.localStorage.getItem('user');
     this.userState = 'loggedIn';
     console.log("found token and userState set to logged in");
     }
   else{
-  	console.log('No token-userState set to logged out');
-  	//this.userState = 'loggedOut';
+  	console.log('No token-userState is currently logged out');
+  	//this.userState = 'loggedOut';  //default so not needed
 	}
   
+//////////////////////////////////////////////////////  
+//login service
+this.login = function(username, password){
 
-this.login = function(username, password, cb ){
+  console.log('username is' + username);
+
  	$http({
 		method: 'POST',
 		url:'/session',
@@ -33,7 +39,7 @@ this.login = function(username, password, cb ){
 				    password: password },
 		headers: {'Content-Type': 'application/json'}
 	})
-
+//success here
 	.then(function(response){
       console.log("response is: " + response.data.token);
       console.log("response is: " + response.data.email);
@@ -45,12 +51,12 @@ this.login = function(username, password, cb ){
 			window.localStorage.setItem("token", response.data.token);
 			window.localStorage.setItem("user", response.data.userName);
 			
-			self.username   = response.data.userName;
-      self.email      =    response.data.email;
-			self.userState  = 'loggedIn';
-      self.userViewSwitch= null;
-      self.LoginError=false;   
-      self.userAbout  = response.data.userAbout;
+			self.username       = response.data.userName;
+      self.email          = response.data.email;
+			self.userState      = 'loggedIn';
+      self.userViewSwitch = null;
+      self.LoginError     = false;   
+      self.userAbout      = response.data.userAbout;
       // self.created = response.data.created;
  
 			console.log("user state is "+     self.userState);
@@ -60,6 +66,7 @@ this.login = function(username, password, cb ){
 
 			}
 		},
+  //failure here
 	function(data,status,headers,config){
 
     console.log("userService.js:  send status is: " + status);
@@ -68,43 +75,25 @@ this.login = function(username, password, cb ){
     self.LoginError = true;
     self.username = null;
     self.password = null;
-    //self.userViewSwitch= 'Log';
 
-    //cb();  //update the scope
-	
-});
-
-
+    self.userViewSwitch= 'Log';
+	});
 };
-//      cb();  //TODO: why inull
 
 
-//////////////////////////////////////////
-// this.about = function(){
-//   $http.get('/user').
-//     then(function(response) {
-//       // this callback will be called asynchronously
-//       // when the response is available
-//       console.log("RESPONSE VALUES ARE: " + response.userName, response.email, response.aboutUser, response.created);
-
-//     }, function(response) {
-//       // called asynchronously if an error occurs
-//       // or server returns response with an error status.
-//       console.log ("oops error");
-//     });
-// };
-
-/////////////////////////////////////////
-this.signOut = function(){
-	console.log("service signOut");
+//////////////////////////////////////////////////////
+//logOut signOut service)  
+this.signOut = function(cb){
+    console.log("service signOut");
     window.localStorage.removeItem('token');
     window.localStorage.removeItem('user');
     self.username = null;
     self.userState = 'loggedOut';
-    //console.log("user state is "+ self.userState);
+    cb();  //updateScope
 };
 
 
+//////////////////////////////////////////////////////
 //important!  refer to username, not "this.username"
 //because this is a service, not in controller
 // this is required to inject username to service
@@ -124,10 +113,11 @@ this.checkthename = function checkthename(username,callback){
       console.log("In userService data is: " + data);
       console.log("NOTHING FOUND RIGHT?");
     }); 
+
 };
 
 
-
+//////////////////////////////////////////////////////
 this.checktheemail = function( email){
     $http({
     method    : 'POST',
@@ -135,14 +125,14 @@ this.checktheemail = function( email){
     data      : { email         :  email},
     headers   : {'Content-Type' : 'application/json'}
     })
-    .success(function(res){
-          console.log("res is:  " + JSON.parse(res ) );
-          self.uniqueEmail =  JSON.parse(res ) ;
+    .success(function(response){
+          console.log("response is:  " + JSON.parse(response ) );
+          self.uniqueEmail =  JSON.parse(response ) ;
 
           console.log("in userService the uniqueEmail is : " + self.uniqueEmail);
 
  
-           //important! cannot be used in service 
+          //important! following cannot be used in service 
           //because $scope unavailable 
           // $scope.User.uniqueEmail = self.uniqueEmail;
           //User.uniqueEmail = self.uniqueEmail;      
@@ -156,29 +146,6 @@ this.checktheemail = function( email){
           //cb(); //update scope
       }); 
 };
-
-
-this.RegValuesAllGood = function(uniqueUserName, uniqueEmail, password, passwordConfirm){
-
-  console.log("RegValuesAllGood is: "+RegValuesAllGood);
-
-
-  if ( (uniqueUsername = true) &&
-       (uniqueEmail = true)   &&
-       (password=== passwordConfirm) &&
-        (userName.length > 6)
-    )
-    { RegValuesAllGood = true;
-      return true;  }
-
-  else
-    { RegValuesAllGood = false; 
-      return false;
-    }
-
- 
-};
-
 
 
 
@@ -259,4 +226,21 @@ this.deleteAccount = function(cb){
   };
 
 }]);
+
+
+ 
+//////////////////////////////////////////
+// this.about = function(){
+//   $http.get('/user').
+//     then(function(response) {
+//       // this callback will be called asynchronously
+//       // when the response is available
+//       console.log("RESPONSE VALUES ARE: " + response.userName, response.email, response.aboutUser, response.created);
+
+//     }, function(response) {
+//       // called asynchronously if an error occurs
+//       // or server returns response with an error status.
+//       console.log ("oops error");
+//     });
+// };
 
