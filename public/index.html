@@ -13,11 +13,19 @@
 	<style>#map-canvas{width:100%;height:100%;border:1px solid red;}</style>
 </head>
 
-<body>
-
-<div data-ng-controller= "userController as User"
-		data-ng-controller="validateCtrl">    
  
+<div data-ng-controller="newController"></div>
+
+ 
+<div data-ng-controller="user2Controller as User ">    
+ 
+
+
+ 	<div>
+
+
+<!--  		data-ng-controller="validateCtrl"
+ -->
 <!-- TODO: <user-directive> </user-directive>  -->
  
 	<nav class = 'navbar navbar-default'>
@@ -26,12 +34,14 @@
 			Daybreak
 		</div>
 
-	  	<div class="container">
+	  	<div class="container" >
+
+
 			<ul class='nav navbar-nav'>
 
 				<li><a><div 
 						data-ng-click="User.userViewSwitch = null ">
-						Home
+						Home  
 						</div></a></li>
 
 				<li><a  data-ng-show ="User.userState==='loggedIn'"
@@ -51,6 +61,11 @@
 			  	  		Register 
 			  	  		</a></li>
 
+			  	 <li><a	data-ng-show="User.userState==='loggedOut'"
+			  	  		data-ng-click="User.userViewSwitch ='NEWREG' "> 
+			  	  		NEW REGISTER 
+			  	  		</a></li>
+
 				<li><a><div 	
 			   	  		data-ng-model="User"  
 			  	  		data-ng-show="User.userState==='loggedIn'" >
@@ -66,12 +81,9 @@
 
 		   	</ul>
 
-
-		   		  userViewSwitch: {{userViewSwitch}}
-		   		  <br>
 		   		  User.userViewSwitch is:{{ User.userViewSwitch}}
 		   		  <br>
-  				   & userState: {{User.userState}} 
+  				  userState: {{User.userState}} 
 				  		 
 	  	</div>
 	</nav>
@@ -81,7 +93,24 @@
 
 	<div class = 'surround'>	
 
- User.LoginError is {{User.LoginError}}
+			<div class="diagnostics">
+
+<!-- 				<p>User.LoginError is {{User.LoginError}}</p>
+				<p>User.username is: 		{{User.username}}</p>
+				<p>User.email is   : 		{{User.email}}</p>
+				<p>User.password is: 		{{User.password}}</p>			
+				<p>User.passwordConfirm is: 	{{User.passwordConfirm}}</p>
+				<p>User.uniqueUserName is: 	{{User.uniqueUserName}}</p>
+				<p>User.uniqueEmail is:		{{User.uniqueEmail}}</p>
+				<p>User.matchingPassword is: {{User.matchingPassword}}</p>
+				<p>User.longUsername is: {{User.longUsername}}</p>
+				<p>regForm.$invalid 	{{User.regForm.$invalid}} </p>
+	<p>User.newRegValuesAllGood is: {{ User.newRegValuesAllGood(User) }}</p>
+    <p>User.result is :  {{result}}<p> -->
+
+			</div>
+
+
 
 
 
@@ -99,11 +128,9 @@
 
 			<div id='login' ng-switch on="User.userViewSwitch">
 				<div ng-switch-when='Log' >
-					<form data-ng-submit="User.login() "
+					<form data-ng-submit="User.login()"
 						  >
-<!-- User.userViewSwitch is:{{ User.userViewSwitch}}
-userViewSwitch is:{{ userViewSwitch}}
- -->
+
 						<div class="form group">
 							<label>Username</label>
 							<input class= "form-control" type="text" 
@@ -114,10 +141,8 @@ userViewSwitch is:{{ userViewSwitch}}
 							<label>Password</label>
 							<input class= "form-control" type="password" ng-model="User.password">
 						</div>
-						<p></p>
-						<input class="btn btn-success btn-sm btn-block" type="submit" value="Login"
-
-						>
+						<p>LoginError{{User.LoginError}}</p>
+						<input class="btn btn-success btn-sm btn-block" type="submit" value="Login"	>
 
 						<div class="alert alert-warning" 
 						data-ng-if="User.LoginError === true">
@@ -138,6 +163,102 @@ userViewSwitch is:{{ userViewSwitch}}
 				</div>
 			</div>
 			
+
+		<div id='NEWREGISTER'
+		   			ng-switch on='User.userViewSwitch'
+ 		   			>
+		   		<div ng-switch-when='NEWREG' >
+					<form 
+						data-ng-submit="User.newRegisterValidUser()"
+ 						name = "regForm" 
+						novalidate>
+
+						NEW REGISTER FORM
+
+						<div class="form group">
+							<label>Username</label>
+							<input class= "form-control" 
+							type="text"
+ 							data-ng-model="User.username"
+  							data-ng-blur="User.checkthename()" 
+
+ 							placeholder="5 character minimum. Public."
+ 							required>				
+						</div>
+
+						<div data-ng-model="User.uniqueUserName" 				data-ng-show="User.uniqueUserName === false  
+							&& User.username.length > 4 ">
+ 							That username already exists.  Login?
+  							</div>
+ 
+						<div class="form group">
+							<label>E-Mail</label>
+							<input class= "form-control"
+							id="emailConfirm" 
+							type="text"
+							data-ng-model="User.email"	
+
+							data-ng-blur="User.checktheemail()" 
+
+							placeholder="Required for password recovery.  Private."
+							required>
+						</div>
+
+ 						<div data-ng-model="User.uniqueEmail" 					data-ng-show="User.uniqueEmail === false  ">
+ 							That E-mail already exists.  Reset?
+  							</div>
+
+
+						<div class="form group">
+							<label>Password</label>
+							<input class= "form-control"
+							id='passwordFirst' 
+							type="password" 
+							name='password'
+							data-ng-model="User.password"
+
+ 							data-ng-keyup="User.passconfirm(User.password, User.passwordConfirm)"
+ 
+ 							placeholder="Enter password. Secret."
+							required>
+						</div>
+
+
+
+
+						<div class="form group">
+							<label>Password Confirmation</label>
+							<input class= "form-control"
+							id='passwordConfirm' 
+							name='passwordConfirm'
+							type="password" 
+							data-ng-model="User.passwordConfirm"
+ 							
+ 							data-ng-keyup="User.passconfirm(User.password, User.passwordConfirm)"
+
+							placeholder="Reenter password."
+							required>
+						</div>	
+
+						<div data-ng-model="User.matchingPassword" 				 data-ng-show ="User.matchingPassword === true">
+ 							Password match!
+  							</div>
+ 
+						<input  
+ 						data-ng-hide=
+						"User.newRegValuesAllGood(User) === false" 
+ 	
+
+						class="btn btn-success btn-sm btn-block" 
+						type="submit" 
+						value="NEW Register Now!">
+
+					</form>
+				</div>
+		 	</div>
+
+
+
 
 
 		   	<div id='register'
@@ -176,8 +297,8 @@ userViewSwitch is:{{ userViewSwitch}}
 							<input class= "form-control"
 							id="emailConfirm" 
 							type="text"
-							data-ng-blur="User.checktheemail()" 
 							data-ng-model="User.email"
+							data-ng-blur="User.checktheemail()" 
 							placeholder="Required for password recovery.  Private."
 							required>
 						</div>
@@ -216,13 +337,11 @@ userViewSwitch is:{{ userViewSwitch}}
 
 						<div class="alert alert-warning"  
              			data-ng-if="User.password !== User.passwordConfirm 
-             			
- 
-             			"
-                     			>
+             			&& regForm.passwordConfirm.$touched"
+             			>
              			Password confirmation does not match.</div>
 
-             			<!-- 
+             			
 						<div >
 							<p>username is: 		{{User.username}}</p>
 							<p>email is   : 		{{User.email}}</p>
@@ -230,7 +349,7 @@ userViewSwitch is:{{ userViewSwitch}}
 							<p>uniqueUserName is: 	{{User.uniqueUserName}}</p>
 							<p>uniqueEmail is:		{{User.uniqueEmail}}</p>
 							<p> regForm.$invalid 	{{regForm.$invalid}} </p>
-						</div> -->
+						</div>
  
 <!-- 						<input 
 						
@@ -247,16 +366,13 @@ userViewSwitch is:{{ userViewSwitch}}
 						value="Register Now"> -->
  	
 						
-<!-- User.RegValuesAllGood {{ User.RegValuesAllGood() }} -->
+User.RegValuesAllGood is: {{ User.RegValuesAllGood() }}
 
-						<input 
-						
-						data-ng-disabled="User.RegValuesAllGood()===false"
-
+						<input  
+						data-ng-disabled="User.RegValuesAllGood() === false"
 						class="btn btn-success btn-sm btn-block" 
 						type="submit" 
 						value="Register Now!">
-
 
 
 					</form>
@@ -322,6 +438,7 @@ userViewSwitch is:{{ userViewSwitch}}
 			</div>
 		</div>
 	</div>
+</div>	<!-- extra div required not sure why -->
 </div> <!-- close userController -->
 
 
