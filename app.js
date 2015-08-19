@@ -156,16 +156,19 @@ router.route('/registerValidUser').post(function(req,res,next){
                             email: req.body.email,
                             userAbout: "Placeholder Fun"
                          });
-    console.log("password should be undefined:  " + user.password);
     //asynchronous call of bcrypt
     bcrypt.hash(req.body.password, 10, function(err, hash) {    
     // Store hash in password DB.
         //console.log("BCRYPT password hash is " + hash);
         user.password = hash;//note definition of user.password in schema
         //all values of user object now assigned
+        //console.log(user);
         user.save(function(err){
-            if (err){throw next(err)}
-            res.sendStatus(201)
+            if (err){
+                throw next(err);
+            } else {
+                res.sendStatus(201)
+            }
         });
     });
 });
@@ -329,7 +332,8 @@ router.route('/checkemail').post(function(req,res,next){
 //2  LOGIN Takes user name and password hash stored client side, and 
 //bcrypt compares incoming password to hash password in db
 //If name pwd match, then returns a jwt token.
-app.post('/session', function(req,res,next){
+router.route('/session').post(function(req,res,next){
+    console.log('session: ',req.body.username);
     // Mongoose findOne method
     // set username to incoming req.body.username and find that value
     User.findOne({userName: req.body.username})
@@ -339,7 +343,7 @@ app.post('/session', function(req,res,next){
         .select('userName')
         .select('userAbout')   //grab password of that username
         .exec(function(err,user){
-
+console.log('user: ',user);
 
         if (err){return next(err)}
         if(!user){

@@ -31,7 +31,7 @@
 						Home  
 						</div></a></li>
 
-				<li><a data-ng-show ="User.userState==='loggedIn'" data-ng-click="User.signOut()" > 
+				<li><a data-ng-show="User.userState==='loggedIn'" data-ng-click="User.signOut()" > 
 		 		  		Logout
 		 		</a></li>
 
@@ -50,7 +50,7 @@
 
 				<li><a><div 	
 			   	  		data-ng-model="User"  
-			  	  		data-ng-show="User.userViewSwitch!== null" >
+			  	  		data-ng-show="User.userState==='loggedIn'" >
 			  			Welcome: {{User.username}}
 				  		</div>
 				 </a></li>
@@ -72,7 +72,7 @@
 
 
 		<div class = 'userContainer' 
-		data-ng-show= "User.userViewSwitch != null " >
+		data-ng-show= "User.userViewSwitch !== null " >
 
 <!-- 				data-ng-show=" 
 					(User.userState ==='loggedOut' && 
@@ -97,8 +97,9 @@
 							<label>Password</label>
 							<input class= "form-control" type="password" ng-model="User.password">
 						</div>
-
-						<p>LoginError{{User.LoginError}}</p>
+						<span data-ng-show="User.LoginError === true">
+						User name and password don't match.</span>
+						
 						<input class="btn btn-success btn-sm btn-block" type="submit" value="Login"	>
 
 						<div class="alert alert-warning" 
@@ -121,7 +122,7 @@
  		   			>
 		   		<div ng-switch-when='NEWREG' >
 					<form 
-						data-ng-submit="User.userViewSwitch=null "
+						data-ng-submit="User.registerValidUser(User)"
  						name = "regForm" 
 						novalidate>
 
@@ -157,20 +158,23 @@
 							name="email"
 							data-ng-model="User.email"	
 
-							data-ng-blur="User.checktheemail()" 
+							data-ng-change="User.checktheemail(User.email)" 
 
 							placeholder="Required for password recovery.  Private."
 							required>
 
 							 <span class="error" ng-show="regForm.email.$error.required">Required!</span>
-  
+  							
   							<span class="error" ng-show="regForm.email.$error.email">
     						Please enter a valid email!</span>
-						</div>
+    						<span data-ng-show="regForm.email.$valid">Valid email</span>
 
- 						<div data-ng-model="User.uniqueEmail" 					data-ng-show="User.uniqueEmail === false  ">
+ 						<div data-ng-show="regForm.email.$valid && User.uniqueEmail === false  ">
  							That E-mail already exists.  Reset?
   							</div>
+
+						</div>
+
 
 
 
@@ -210,20 +214,9 @@
   							</div>
  
  
-						<div  
- 						data-ng-hide=
-						"User.newRegValuesAllGood(User) === true" 
- 	
-						class="btn   btn-sm btn-block" 
-						type="submit" 
-						value="Please Fill Out All Values"></div>
-
-
 						<input  
  						data-ng-hide=
 						"User.newRegValuesAllGood(User) === false" 
- 	
-
 						class="btn btn-success btn-sm btn-block" 
 						type="submit" 
 						value="NEW Register Now!">

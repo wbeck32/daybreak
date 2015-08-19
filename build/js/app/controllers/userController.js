@@ -5,10 +5,10 @@ $scope.email 			= null;
 		this.userAbout 			= null;
 		this.LoginError 		= false;
 
-		this.userViewSwitch 	= null;
+		$scope.User.userViewSwitch 	= null;
 		this.created 			= null;   //the created date
 
-		this.username = null;
+		$scope.User.username = null;
 //		$scope.username  		= null;
 		this.usernameLength 	= 5;  //set minimum usernameLength
 
@@ -22,15 +22,14 @@ $scope.email 			= null;
 		console.log("initialization of $scope.uniqueUserName is: " + $scope.uniqueUserName);
 
 		//true stops error msg at start
-		$scope.uniqueEmail 		= false;
+		$scope.User.uniqueEmail 		= '';
 		//$scope.matchingPassword	= userService.matchingPassword;
 		//$scope.validPassword = userService.validPassword; 
 
-		$scope.longUsername 	= userService.longUsername;
+		$scope.User.longUsername 	= true;
 
 
 		$scope.User.uniqueUserName = '';
-		$scope.User.uniqueEmail 	=userService.uniqueEmail;
 		$scope.User.longUsername	= userService.longUsername;
 
 		$scope.User.matchingPassword = userService.matchingPassword; 
@@ -38,10 +37,9 @@ $scope.email 			= null;
 		$scope.User.validPassword = userService.validPassword; 
 				    
 		newRegValuesAllGood 	= false;
-				     
-		this.userViewSwitch 	= null;
+			$scope.User.LoginError = false;	     
 				    
-		this.userState 			= userService.userState;
+		$scope.User.userState 			= userService.userState;
 		this.userRegister 		= userService.userRegister; //mh
 				 
 		this.showPasswordChange = false;
@@ -50,11 +48,11 @@ $scope.email 			= null;
 
 
 	//on keyup test password for match and other criteria.
-	this.passconfirm = function(pass, passconfirm){
-		console.log("password is : " + pass + "  passconfirm is: " + passconfirm);
+this.passconfirm = function(pass, passconfirm){
 
-		console.log("pass.length is" + pass.length);
-
+if(pass && passconfirm){
+  console.log("password is : " + pass + "  passconfirm is: " + passconfirm);
+  console.log("pass.length is" + pass.length);
 		if  (pass === passconfirm) 
 			{$scope.User.matchingPassword = true;}
 		else
@@ -62,7 +60,7 @@ $scope.email 			= null;
 
 		if ((pass.length > 5) && (matchingPassword = true ))
 			{$scope.User.validPassword = true;}
-
+}
   	};
 
 
@@ -96,7 +94,7 @@ $scope.email 			= null;
 	    if (User.username.length > 5)
 	      {$scope.User.longUsername = true;}
 	    else
-	      {$scope.longUsername = false;}
+	      {$scope.User.longUsername = true;}
 	    }
 
 	//these conditions must be met to allow registration
@@ -121,80 +119,55 @@ $scope.email 			= null;
 
 	};
 
-
-
-		//////////////////////////////////////////////////////
-		this.updateScope = function(){
-
-			console.log("userController:  scope is updating");
-
-		    this.username 			= userService.username;  //?
-		    this.userState 			= userService.userState;  //?
-		    this.userAbout			= userService.userAbout;
-		    this.password 			= null;
-		    this.email 				= userService.email;
-		    this.create             = userService.create;
-		    this.passwordConfirm 	= null;
-		    this.newPassword 		= null;
-		    this.userViewSwitch 	= userService.userViewSwitch;
-		    this.LoginError			= userService.LoginError;
-		    this.uniqueEmail		= null; 
-		    this.uniqueUserName     = null;	
-	    }
- 		.bind(this);//TODO: understand why this is needed
-
-
 		//////////////////////////////////////////////////////
 		//in userController
+    function loginState() {
+      $scope.User.userState = 'loggedIn';
+      $scope.User.userViewSwitch = null;
+    }
+
 		this.login = function(){  
 
-				console.log("######## logging in as ..." + this.username);
-				console.log("######## this.password: " + this.password);
-			    console.log("In controller first LoginError is: "+this.LoginError );
-			    
-			    userService.login(this.username, this.password);
+      console.log("######## logging in as ..." + this.username);
+      console.log("######## this.password: " + this.password);
+      console.log("In controller first LoginError is: "+this.LoginError );
+
+      userService.login(this.username, this.password,loginState);
  			    // Important: Must pass update scope into service as a callback so that it is available to update scope after api calls return results.
 		};
 
 
 		//////////////////////////////////////////////////////
 		//in userController
+
+    function changeUserState(){
+      $scope.User.username = '';
+      $scope.User.userState = 'loggedOut';
+      $scope.User.userViewSwitch = null;
+    }
+
  		this.signOut = function(){
 				console.log("calling signout...");
-				self.userViewSwitch = null;
-			    userService.signOut(this.updateScope);
-			    //updateScope();
-			     //this.username 	= userService.username;  //?
-			     //this.userState = userService.userState;  //?
-			     //this.userViewSwitch 	= 'Reg';
-			     //$scope.userTest = userService.userTest;
-			     // $scope.$apply();
-  			};
+			   userService.signOut(changeUserState);
+  	};
 
 
 		//////////////////////////////////////////////////////
-		this.registerValidUser = function(username, password, email, cb){
-				console.log("*******************************");
-				console.log($scope.username + " is username at registerUser");
-				console.log($scope.email    + " is email at registerUser   ");
-				
-				$http({
-					method: 'POST',
-					url: '/api/registerValidUser',
-					data: {username    : $scope.username, 
-						     password  : $scope.password,
-						     email     : $scope.email},
-					headers: {'Content-Type': 'application/json'}
-					})
-					.success(function(data, status, headers, config){
-						console.log( "user created - data.username value is  " + data.username + " and status is " + status);
-							
-							$scope.User.userViewSwitch = null;  // on registering show nothing
+    function register(status){
+      if(status === 201) {
+        $scope.User.userViewSwitch = 'Log';
+      } else {
+        $scope.User.LoginError = true;
+      }
+    }
 
-					})
-					.error(function(data,status, headers, config){
-				 		console.log("no user created ");
-				});	
+
+		this.registerValidUser = function(User){
+				console.log("*******************************");
+				console.log(User.username + " is username at registerUser");
+				console.log(User.email    + " is email at registerUser   ");
+				userService.registerUser(User,register);
+				
 			};
 
 
@@ -208,9 +181,14 @@ this.checkthename = function(username){
 };
 
 		//////////////////////////////////////////////////////
-		this.checktheemail = function(username){
- 			userService.checktheemail(this.email);
-			};
+function uniqueEmail(data) {
+  $scope.User.uniqueEmail = data;
+}
+
+
+		this.checktheemail = function(email){
+ 			userService.checktheemail(this.email,uniqueEmail);
+		};
 
 
 

@@ -28,19 +28,19 @@ dayBreak.service('userService', ['$http', function($http ){
   
 //////////////////////////////////////////////////////  
 //login service
-this.login = function(username, password){
+this.login = function(username, password, callback){
 
   console.log('username is' + username);
 
  	$http({
 		method: 'POST',
-		url:'/session',
+		url:'/api/session',
 		data: {	username: username, 
 				    password: password },
 		headers: {'Content-Type': 'application/json'}
 	})
 //success here
-	.then(function(response){
+	.then(function(response){ console.log(response.status);
       console.log("response is: " + response.data.token);
       console.log("response is: " + response.data.email);
       console.log("response is: " + response.data.userAbout);
@@ -51,23 +51,14 @@ this.login = function(username, password){
 			window.localStorage.setItem("token", response.data.token);
 			window.localStorage.setItem("user", response.data.userName);
 			
-			self.username       = response.data.userName;
-      self.email          = response.data.email;
-			self.userState      = 'loggedIn';
-      self.userViewSwitch = null;
-      self.LoginError     = false;   
-      self.userAbout      = response.data.userAbout;
-      // self.created = response.data.created;
- 
-			console.log("user state is "+     self.userState);
-      console.log("userViewSwitch is "+ self.userViewSwitch);
-
-      //cb();  //update scope
-
-			}
+			// self.username       = response.data.userName;
+   //    self.email          = response.data.email;
+		 //  self.LoginError     = false;   
+   //    self.userAbout      = response.data.userAbout;
+    	} 
 		},
   //failure here
-	function(data,status,headers,config){
+	function(data,status,headers,config){console.log(status);
 
     console.log("userService.js:  send status is: " + status);
 		console.log("userService.js:  login unsuccessful");
@@ -78,19 +69,39 @@ this.login = function(username, password){
 
     self.userViewSwitch= 'Log';
 	});
+    callback(status); //calling fn loginState
 };
 
 
 //////////////////////////////////////////////////////
 //logOut signOut service)  
-this.signOut = function(cb){
+this.signOut = function(callback){
     console.log("service signOut");
     window.localStorage.removeItem('token');
     window.localStorage.removeItem('user');
-    self.username = null;
-    self.userState = 'loggedOut';
-    cb();  //updateScope
+    callback(); //callback function is changeUserState
 };
+
+
+this.registerUser = function(User,callback){
+  $http({
+          method: 'POST',
+          url: '/api/registerValidUser',
+          data: {username    :User.username, 
+                 password  : User.password,
+                 email     : User.email},
+          headers: {'Content-Type': 'application/json'}
+          })
+          .success(function(data, status, headers, config){
+            callback(status);              
+
+          })
+          .error(function(data,status, headers, config){
+            console.log("no user created ");
+        }); 
+
+};
+
 
 
 //////////////////////////////////////////////////////
@@ -118,27 +129,16 @@ this.checkthename = function checkthename(username,callback){
 
 
 //////////////////////////////////////////////////////
-this.checktheemail = function( email){
+this.checktheemail = function( email,callback){
     $http({
     method    : 'POST',
     url       : '/api/checkemail',
     data      : { email         :  email},
     headers   : {'Content-Type' : 'application/json'}
     })
-    .success(function(response){
-          console.log("response is:  " + JSON.parse(response ) );
-          self.uniqueEmail =  JSON.parse(response ) ;
-
-          console.log("in userService the uniqueEmail is : " + self.uniqueEmail);
-
- 
-          //important! following cannot be used in service 
-          //because $scope unavailable 
-          // $scope.User.uniqueEmail = self.uniqueEmail;
-          //User.uniqueEmail = self.uniqueEmail;      
-
-          //cb();  //update scope
-
+    .success(function(data){
+      console.log('data in email service: ',data);
+      callback(data);
       })
     .error(function(data,status, headers, config){
           console.log("data is: " + data);
