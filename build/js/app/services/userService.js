@@ -121,8 +121,7 @@ this.checkthename = function( username){
           //$scope.User.uniqueUserName = self.uniqueUserName;
  
           // cb();  //update scope
-
-      })
+ })
     .error(function(data,status, headers, config){
           console.log("In userService data is: " + data);
           console.log("NOTHING FOUND ");
@@ -189,43 +188,7 @@ console.log(" IN SERVICE ----------------------- ");
 
 
 //////////////////////////////////////////////////////
- this.newRegValuesAllGood = function(){
 
-console.log(" -------------------------- ");
-console.log("this.uniqueUserName is: "  + self.uniqueUserName);
-console.log("this.longUsername is: " + self.longUsername);
-console.log("this.uniqueEmail is: "   + self.uniqueEmail);
-console.log("this.password is: "    + self.password);
-console.log("this.passwordConfirm is: " + self.passwordConfirm);
-console.log("this.matchingPassowrd is: " + self.matchingPassword);
-console.log("this.username is: "    + self.username);
- 
-  if ( (this.password !== null) && (this.passwordConfirm !== null ))
-    {if (this.password === this.passwordConfirm)
-      {self.matchingPassword = true;}
-    }
-  
-  if (this.username !== null){
-    if (this.username.length > 5)
-      {self.longUsername = true;}
-    else
-      {self.longUsername = false;}
-    }
-
-
- 
-//these conditions must be met to allow registration
-
-  if( (self.uniqueUsername    === true) &&
-      (self.uniqueEmail     === true) &&
-      (self.matchingPassword  === true) &&
-      (self.longUsername     === true)     
-    )
-    {
-       return true;  }
-    else
-    {return false;}
-};
 
 
 

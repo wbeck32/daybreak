@@ -244,6 +244,8 @@
  							Password match!
   							</div>
  
+{{User.matchingPassword}}  {{ User.validPassword}}
+
 						<input  
  						data-ng-hide=
 						"User.newRegValuesAllGood(User) === false" 
@@ -252,6 +254,9 @@
 						class="btn btn-success btn-sm btn-block" 
 						type="submit" 
 						value="NEW Register Now!">
+
+
+						 
 
 					</form>
 				</div>
