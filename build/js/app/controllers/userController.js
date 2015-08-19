@@ -55,6 +55,8 @@ dayBreak.controller('user2Controller',
 		this.showPasswordChange = false;
 		this.showDeleteAccount 	= false;
 
+
+
 	//on keyup test password for match and other criteria.
 	this.passconfirm = function(pass, passconfirm){
 		console.log("password is : " + pass + "  passconfirm is: " + passconfirm);
@@ -68,7 +70,6 @@ dayBreak.controller('user2Controller',
 
 		if ((pass.length > 5) && (matchingPassword = true ))
 			{$scope.User.validPassword = true;}
-
 
   	};
 

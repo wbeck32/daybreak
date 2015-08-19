@@ -13,11 +13,7 @@
 	<style>#map-canvas{width:100%;height:100%;border:1px solid red;}</style>
 </head>
 
- 
-<div data-ng-controller="newController"></div>
-
- 
-<div data-ng-controller="user2Controller as User ">    
+ <div data-ng-controller="user2Controller as User ">    
  
 
 
@@ -81,9 +77,9 @@
 
 		   	</ul>
 
-		   		  User.userViewSwitch is:{{ User.userViewSwitch}}
+		   	<!-- 	  User.userViewSwitch is:{{ User.userViewSwitch}}
 		   		  <br>
-  				  userState: {{User.userState}} 
+  				  userState: {{User.userState}}  -->
 				  		 
 	  	</div>
 	</nav>
@@ -169,7 +165,7 @@
  		   			>
 		   		<div ng-switch-when='NEWREG' >
 					<form 
-						data-ng-submit="User.newRegisterValidUser()"
+						data-ng-submit="User.userViewSwitch=null "
  						name = "regForm" 
 						novalidate>
 
@@ -195,18 +191,25 @@
 							<label>E-Mail</label>
 							<input class= "form-control"
 							id="emailConfirm" 
-							type="text"
+							type="email"
+							name="email"
 							data-ng-model="User.email"	
 
 							data-ng-blur="User.checktheemail()" 
 
 							placeholder="Required for password recovery.  Private."
 							required>
+
+							 <span class="error" ng-show="regForm.email.$error.required">Required!</span>
+  
+  							<span class="error" ng-show="regForm.email.$error.email">
+    						Please enter a valid email!</span>
 						</div>
 
  						<div data-ng-model="User.uniqueEmail" 					data-ng-show="User.uniqueEmail === false  ">
  							That E-mail already exists.  Reset?
   							</div>
+
 
 
 						<div class="form group">
@@ -244,7 +247,15 @@
  							Password match!
   							</div>
  
-{{User.matchingPassword}}  {{ User.validPassword}}
+ 
+						<div  
+ 						data-ng-hide=
+						"User.newRegValuesAllGood(User) === true" 
+ 	
+						class="btn   btn-sm btn-block" 
+						type="submit" 
+						value="Please Fill Out All Values"></div>
+
 
 						<input  
  						data-ng-hide=
@@ -521,11 +532,16 @@ User.RegValuesAllGood is: {{ User.RegValuesAllGood() }}
 
 
 
+<!-- 
 
-
-
+<script>
+function emailCtrl($scope) {
+  $scope.text = 'me@example.com';
+  $scope.email = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
+}
+</script>
  
-
+ -->
 
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
