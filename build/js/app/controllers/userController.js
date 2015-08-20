@@ -6,35 +6,24 @@ $scope.email 			= null;
 		this.LoginError 		= false;
 
 		$scope.User.userViewSwitch 	= null;
-		this.created 			= null;   //the created date
-
+		//this.user.created 		= null;   //the created date
 		$scope.User.username = null;
-//		$scope.username  		= null;
-		//this.usernameLength 	= 5;  //set minimum usernameLength
-
-		//this.password = null;
-		//this.password = null;
 		$scope.User.password 		= null;
 		$scope.User.passwordConfirm	= null; // note these are not equal to start
 				  	
- 
-
-
-		//true stops error msg at start
-		$scope.User.uniqueEmail 		= '';
-		$scope.matchingPassword	= '';
+		//empty string stops error msg at start
+		$scope.User.uniqueEmail 	= '';
+		$scope.matchingPassword		= '';
 		//$scope.validPassword = userService.validPassword; 
 
 		$scope.User.longUsername 	= true;
-
-
-		$scope.User.uniqueUserName = '';
+		$scope.User.uniqueUserName 	= '';
 		$scope.User.longUsername	= false;
 
 		$scope.User.validPassword = false; 
 				    
-		newRegValuesAllGood 	= false;
-			$scope.User.LoginError = false;	     
+		//newRegValuesAllGood 	= false;
+		$scope.User.LoginError = false;	     
 				    
 		$scope.User.userState 			= userService.userState;
 		this.userRegister 		= userService.userRegister; //mh
@@ -73,7 +62,7 @@ if(pass && passconfirm){
 	  //     {$scope.User.matchingPassword = true;}
 	  //   }
 	  
-	  if ($scope.User.username != null){ 
+	  if ($scope.User.username !== null){ 
 	    if ($scope.User.username.length > 5)
 	      {$scope.User.longUsername = true;}
 	    else
@@ -153,28 +142,27 @@ if(pass && passconfirm){
 
 
 		//////////////////////////////////////////////////////
-function uniqueUsername(data){ 
-    $scope.User.uniqueUserName = data;
-  }
+		function uniqueUsername(data){ 
+		    $scope.User.uniqueUserName = data;
+		  }
 
-this.checkthename = function(username){
+		this.checkthename = function(username){
 
-  if(username.length > 4){
-  userService.checkthename(username,uniqueUsername);
-	} else {
-	console.log("avoid checkthename until user enters a few characters");
-	}
-};
+		  if(username.length > 4){
+		  userService.checkthename(username,uniqueUsername);
+			} else {
+			console.log("avoid checkthename until user enters a few characters");
+			}
+		};
 
 		//////////////////////////////////////////////////////
-function uniqueEmail(data) {
-  $scope.User.uniqueEmail = data;
-}
+		function uniqueEmail(data) {
+ 		 $scope.User.uniqueEmail = data;
+		}
 
-	
 		this.checktheemail = function(email){
 
-			if (email.length > 5){
+			if (email.length > 4){
  			userService.checktheemail(this.email,uniqueEmail);
  			} else {
  			console.log("avoid checktheemail until user enters a few characters");
@@ -183,4 +171,4 @@ function uniqueEmail(data) {
 
 
 
-	}]);   //END OF user2Controller
+	}]);   //END OF userController
