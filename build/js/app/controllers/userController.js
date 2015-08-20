@@ -73,7 +73,7 @@ if(pass && passconfirm){
 	  //     {$scope.User.matchingPassword = true;}
 	  //   }
 	  
-	  if ($scope.User.username !== null){ 
+	  if ($scope.User.username != null){ 
 	    if ($scope.User.username.length > 5)
 	      {$scope.User.longUsername = true;}
 	    else
@@ -158,7 +158,12 @@ function uniqueUsername(data){
   }
 
 this.checkthename = function(username){
+
+  if(username.length > 4){
   userService.checkthename(username,uniqueUsername);
+	} else {
+	console.log("avoid checkthename until user enters a few characters");
+	}
 };
 
 		//////////////////////////////////////////////////////
@@ -166,9 +171,14 @@ function uniqueEmail(data) {
   $scope.User.uniqueEmail = data;
 }
 
-
+	
 		this.checktheemail = function(email){
+
+			if (email.length > 5){
  			userService.checktheemail(this.email,uniqueEmail);
+ 			} else {
+ 			console.log("avoid checktheemail until user enters a few characters");
+ 			}
 		};
 
 
