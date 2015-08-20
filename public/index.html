@@ -37,9 +37,10 @@
 				</a></li>	
 
 			  	 <li><a	data-ng-show="User.userState==='loggedOut'"
-			  	  		data-ng-click="User.userViewSwitch ='NEWREG' "> 
+			  	  		data-ng-click="User.userViewSwitch ='NEWREG'" 
+ 			  	  		> 
 			  	  		Register 
-			  	  		</a></li>
+			  	</a></li>
 
 				<li><a><div 	
 			   	  		data-ng-model="User"  
@@ -93,7 +94,7 @@
 							<input class= "form-control" type="password" ng-model="User.password">
 						</div>
 						<div class="alert alert-warning" data-ng-show="User.LoginError === true">
-						User name and password don't match.</div>
+						Unknown user name and password.</div>
 						
 						<div class='spacer'></div>
 
@@ -111,9 +112,11 @@
 			
 
 		<div id='NEWREGISTER'
-		   			ng-switch on='User.userViewSwitch'
+		   			data-ng-switch on='User.userViewSwitch'
  		   			>
-		   		<div ng-switch-when='NEWREG' >
+		   		<div data-ng-switch-when="NEWREG" 
+ 
+		   		>
 					<form 
 						data-ng-submit="User.registerValidUser(User)"
  						name = "regForm" 
@@ -135,7 +138,7 @@
 								You need {{6-User.username.length}} more characters.
 								</span>
 
-								<span class="alert alert-warning" data-ng-show="User.uniqueUserName===false">
+								<span class="alert alert-info" data-ng-show="User.uniqueUserName===false">
 								User name already in use. <span class="link" data-ng-click="User.userViewSwitch = 'Log'">Login?</span>
 								</span>
 
@@ -157,7 +160,7 @@
 							<label class="label-space">E-Mail</label>
 
 							<span class="alert alert-info" ng-show="regForm.email.$error.email">
-    						Please enter a valid email!</span>
+    						Please enter a valid email.</span>
 
 							<span class="alert alert-success" ng-show="!regForm.email.$error.email && User.uniqueEmail != '' ">
     						Looks possible!</span>

@@ -10,7 +10,8 @@ $scope.email 			= null;
 		$scope.User.username = null;
 		$scope.User.password 		= null;
 		$scope.User.passwordConfirm	= null; // note these are not equal to start
-				  	
+		$scope.User.email = null;
+
 		//empty string stops error msg at start
 		$scope.User.uniqueEmail 	= '';
 		$scope.matchingPassword		= '';
@@ -30,8 +31,7 @@ $scope.email 			= null;
 				 
 		this.showPasswordChange = false;
 		this.showDeleteAccount 	= false;
-
-
+ 
 
 	//on keyup test password for match and other criteria.
 this.passconfirm = function(pass, passconfirm){
@@ -118,6 +118,16 @@ if(pass && passconfirm){
       $scope.User.username = '';
       $scope.User.userState = 'loggedOut';
       $scope.User.userViewSwitch = null;
+
+      //below important for clearing reg form if user returns to it
+      	$scope.User.username = null;
+		$scope.User.password 		= null;
+		$scope.User.passwordConfirm	= null; // note these are not equal to start
+		$scope.User.email = null;
+		$scope.User.matchingPassword= null;
+		$scope.User.uniqueEmail= '';   //important, not false or null
+
+
     }
 
  		this.signOut = function(){
