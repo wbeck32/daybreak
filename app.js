@@ -339,7 +339,7 @@ router.route('/session').post(function(req,res,next){
     User.findOne({userName: req.body.username})
         .select('password')
         .select('email')
-        .select('create')
+        .select('created')
         .select('userName')
         .select('userAbout')   //grab password of that username
         .exec(function(err,user){

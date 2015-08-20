@@ -103,13 +103,23 @@ if(pass && passconfirm){
       $scope.User.email = status.email;
       $scope.User.username = status.userName;
       $scope.User.userAbout = status.userAbout;
-      $scope.User.create = status.create;
+      $scope.User.create = status.created;
+  
+      console.log("created date object is", status.created);
+//      console.log("status.created is", JSON.parse(status.created));
+      console.log("status.created is", JSON.stringify(status.created));
+
+   // {
+   //      "$date": "2015-08-20T18:37:47.626Z"
+   //  }
 
 
       console.log("status is: " + 	status.status);
       console.log("email is: " +    $scope.User.email);
       console.log("userAbout is: " + $scope.User.userAbout);
-      console.log("username is: " +  $scope.User.username);  
+      console.log("username is: " +  $scope.User.username);
+
+   
 
       //console.log("response object is: " + response.data);
 
