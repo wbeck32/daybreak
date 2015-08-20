@@ -343,39 +343,38 @@ router.route('/session').post(function(req,res,next){
         .select('userName')
         .select('userAbout')   //grab password of that username
         .exec(function(err,user){
-console.log('user: ',user);
 
-        if (err){return next(err)}
-        if(!user){
+        if (err){
+            return next(err);
+        } else if(!user) {
                 console.log("APP.JS: user not found in session");
-                return res.sendStatus(401);
-        }
-         console.log( "user.email is : " + user.email);
-         console.log( user.userAbout+ " is user.userAbout");
-         console.log(user.password + " is user.password");   
-        //if user is found check incoming pwd against stored pwd
-        bcrypt.compare(req.body.password, user.password, function(err,valid){
-            if (err){ return next(err);};
+                res.sendStatus(401);
+        } else {
+        bcrypt.compare(req.body.password, user.password, function(err,valid) {
+            if (err){ 
+                return next(err);
+            }
             // !valid means invalid name password combo - bcrypt asigns boolean
-            if(!valid){
-
+            else if(!valid){
                 console.log("APP.JS: user found, but pwd not good");
-                return res.sendStatus(401);
-
-                };
+                res.sendStatus(401);
+            } else {
             //if valid then generate token based on user name
-        
             //encode the incoming req.body.username with secretKey   
-            var token = jwt.encode({username: req.body.username}, secretKey);
-            console.log("APP.JS: user/pwd combo found and token is " + token);
-            res.json({token:    token, 
-                    userName:   user.userName, 
-                    email:      user.email, 
-                    userAbout:  user.userAbout, 
-                    created:    user.created});            
+                var token = jwt.encode({username: req.body.username}, secretKey);
+                console.log("APP.JS: user/pwd combo found and token is " + token);
+                res.json({token:    token, 
+                        userName:   user.userName, 
+                        email:      user.email, 
+                        userAbout:  user.userAbout, 
+                        created:    user.created,
+                        status: 200});   
+            }           
         });
-    });
+    };
 });
+});
+
 
 //3 decode jwt token to return username
 //Takes the jwt token stored client side and returns the username

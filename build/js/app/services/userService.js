@@ -30,7 +30,7 @@ dayBreak.service('userService', ['$http', function($http ){
 //login service
 this.login = function(username, password, callback){
 
-  console.log('username is' + username);
+  console.log('ussssername is' + username);
 
  	$http({
 		method: 'POST',
@@ -40,7 +40,7 @@ this.login = function(username, password, callback){
 		headers: {'Content-Type': 'application/json'}
 	})
 //success here
-	.then(function(response){ console.log(response.status);
+	.then(function(response){
       console.log("response is: " + response.data.token);
       console.log("response is: " + response.data.email);
       console.log("response is: " + response.data.userAbout);
@@ -50,26 +50,13 @@ this.login = function(username, password, callback){
 		if (response.data.token){
 			window.localStorage.setItem("token", response.data.token);
 			window.localStorage.setItem("user", response.data.userName);
-			
-			// self.username       = response.data.userName;
-   //    self.email          = response.data.email;
-		 //  self.LoginError     = false;   
-   //    self.userAbout      = response.data.userAbout;
     	} 
+      callback(response.data.status); //callback fn loginState
 		},
   //failure here
-	function(data,status,headers,config){console.log(status);
-
-    console.log("userService.js:  send status is: " + status);
-		console.log("userService.js:  login unsuccessful");
- 
-    self.LoginError = true;
-    self.username = null;
-    self.password = null;
-
-    self.userViewSwitch= 'Log';
+	function(data,status,headers,config){
+    callback(data.status); //callback fn loginState
 	});
-    callback(status); //calling fn loginState
 };
 
 
@@ -146,7 +133,6 @@ this.checktheemail = function( email,callback){
           //cb(); //update scope
       }); 
 };
-
 
 
 //working above

@@ -10,31 +10,28 @@ $scope.email 			= null;
 
 		$scope.User.username = null;
 //		$scope.username  		= null;
-		this.usernameLength 	= 5;  //set minimum usernameLength
+		//this.usernameLength 	= 5;  //set minimum usernameLength
 
-		this.password = null;
-		this.password = null;
-		$scope.password 		= null;
-		$scope.passwordConfirm	= null; // note these are not equal to start
+		//this.password = null;
+		//this.password = null;
+		$scope.User.password 		= null;
+		$scope.User.passwordConfirm	= null; // note these are not equal to start
 				  	
  
 
-		console.log("initialization of $scope.uniqueUserName is: " + $scope.uniqueUserName);
 
 		//true stops error msg at start
 		$scope.User.uniqueEmail 		= '';
-		//$scope.matchingPassword	= userService.matchingPassword;
+		$scope.matchingPassword	= '';
 		//$scope.validPassword = userService.validPassword; 
 
 		$scope.User.longUsername 	= true;
 
 
 		$scope.User.uniqueUserName = '';
-		$scope.User.longUsername	= userService.longUsername;
+		$scope.User.longUsername	= false;
 
-		$scope.User.matchingPassword = userService.matchingPassword; 
-		//valid includes matching and other criteria
-		$scope.User.validPassword = userService.validPassword; 
+		$scope.User.validPassword = false; 
 				    
 		newRegValuesAllGood 	= false;
 			$scope.User.LoginError = false;	     
@@ -51,68 +48,54 @@ $scope.email 			= null;
 this.passconfirm = function(pass, passconfirm){
 
 if(pass && passconfirm){
-  console.log("password is : " + pass + "  passconfirm is: " + passconfirm);
-  console.log("pass.length is" + pass.length);
-		if  (pass === passconfirm) 
-			{$scope.User.matchingPassword = true;}
-		else
-			{$scope.User.matchingPassword = false;}
+  
+  if  (pass === passconfirm && pass.length > 4) {
+      $scope.User.validPassword = true;
 
-		if ((pass.length > 5) && (matchingPassword = true ))
-			{$scope.User.validPassword = true;}
-}
-  	};
+    } else {
+      $scope.User.validPassword = false;
+    }
 
+    if(pass === passconfirm) {
+      $scope.User.matchingPassword = true;
+    } else {
+      $scope.User.matchingPassword = false;
+
+    }
+
+  }
+};
 
 	this.newRegValuesAllGood = function(User){
 
-	console.log(" -------------------------- ");
-	// console.log("this.uniqueUserName is: "  + userService.uniqueUserName);
-	// console.log("this.longUsername is: " + self.longUsername);
-	// console.log("this.uniqueEmail is: "   + self.uniqueEmail);
-	// console.log("this.password is: "    + User.password);
-	// console.log("this.passwordConfirm is: " + User.passwordConfirm);
-	// console.log("this.matchingPassowrd is: " + self.matchingPassword);
-	// console.log("User.username is: "    + User.username);
-	// console.log("userservice.uniqueUsername is: "+userService.uniqueUserName);
-	// console.log("User.uniqueUserName is: " + $scope.User.uniqueUserName);
-	// console.log("User.uniqueEmail is: " + $scope.User.uniqueEmail);
-
-	//SET INDEX PAGE SCOPE TO REFLECT UNIQUENESS OF NAME AND EMAIL.
-	//$scope.User.uniqueUserName 	= userService.uniqueUserName;
-	//$scope.User.uniqueEmail 	= userService.uniqueEmail;
-  //$scope.User.username = userService.username;
-	// console.log("$scope.User.uniqueUserName is: "+$scope.User.uniqueUserName );
-	// console.log("$scope.User.uniqueEmail is: " + $scope.User.uniqueEmail);
-
-	  if ( (User.password !== null) && (User.passwordConfirm !== null ))
-	    {if (User.password === User.passwordConfirm)
-	      {User.matchingPassword = true;}
-	    }
+	  // if ( ($scope.User.password !== null) && ($scope.User.passwordConfirm !== null ))
+	  //    {if ($scope.User.password === $scope.User.passwordConfirm)
+	  //     {$scope.User.matchingPassword = true;}
+	  //   }
 	  
-	  if (User.username !== null){
-	    if (User.username.length > 5)
+	  if ($scope.User.username !== null){ 
+	    if ($scope.User.username.length > 5)
 	      {$scope.User.longUsername = true;}
 	    else
-	      {$scope.User.longUsername = true;}
+	      {$scope.User.longUsername = false;}
 	    }
 
 	//these conditions must be met to allow registration
 
-	  if( (User.uniqueUserName   	 === true) &&
-	      (User.uniqueEmail     	=== true) &&
-	     (User.matchingPassword  === true) &&
-	      (User.longUsername     === true)     
+	  if( ($scope.User.uniqueUserName   	 === true) &&
+	      ($scope.User.uniqueEmail     	=== true) &&
+	     ($scope.User.validPassword  === true) &&
+	      ($scope.User.longUsername     === true)     
 	    )
 	    {
-	    	console.log(User.uniqueUserName, User.uniqueEmail, User.matchingPassword, User.longUsername);
+	    console.log($scope.User.uniqueUserName, $scope.User.uniqueEmail, $scope.User.validPassword, $scope.User.longUsername);
 	        console.log ("Everything is good");
 	        return true;  
 	  	 }
 	    else
 	    {
 	    	
-	    	console.log(User.uniqueUserName, User.uniqueEmail, User.matchingPassword, User.longUsername);
+      console.log($scope.User.uniqueUserName, $scope.User.uniqueEmail, $scope.User.validPassword, $scope.User.longUsername);
 	    	console.log ("Everything is NOT so good.");
 	     	return false;
 	    }
@@ -121,19 +104,21 @@ if(pass && passconfirm){
 
 		//////////////////////////////////////////////////////
 		//in userController
-    function loginState() {
+    function loginState(status) {
+    if(status === 200) {
       $scope.User.userState = 'loggedIn';
       $scope.User.userViewSwitch = null;
+    } else {
+      $scope.User.userState = 'loggedOut';
+      $scope.User.LoginError = true;           
+      $scope.User.userViewSwitch = 'Log';
+      $scope.User.password = '';
+      $scope.User.username = '';
+    }
     }
 
 		this.login = function(){  
-
-      console.log("######## logging in as ..." + this.username);
-      console.log("######## this.password: " + this.password);
-      console.log("In controller first LoginError is: "+this.LoginError );
-
       userService.login(this.username, this.password,loginState);
- 			    // Important: Must pass update scope into service as a callback so that it is available to update scope after api calls return results.
 		};
 
 
@@ -147,7 +132,6 @@ if(pass && passconfirm){
     }
 
  		this.signOut = function(){
-				console.log("calling signout...");
 			   userService.signOut(changeUserState);
   	};
 
@@ -157,15 +141,12 @@ if(pass && passconfirm){
       if(status === 201) {
         $scope.User.userViewSwitch = 'Log';
       } else {
-        $scope.User.LoginError = true;
+        $scope.User.userViewSwitch = 'NEWREG';
       }
     }
 
 
 		this.registerValidUser = function(User){
-				console.log("*******************************");
-				console.log(User.username + " is username at registerUser");
-				console.log(User.email    + " is email at registerUser   ");
 				userService.registerUser(User,register);
 				
 			};

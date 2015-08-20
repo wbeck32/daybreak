@@ -39,13 +39,11 @@
 				  	Login
 				</a></li>	
 
-				<li><a data-ng-show="User.userState==='loggedOut'" data-ng-click="User.userViewSwitch ='Reg' "> 
-			  	  	Register 
-			  	</a></li>
+
 
 			  	 <li><a	data-ng-show="User.userState==='loggedOut'"
 			  	  		data-ng-click="User.userViewSwitch ='NEWREG' "> 
-			  	  		NEW REGISTER 
+			  	  		Register 
 			  	  		</a></li>
 
 				<li><a><div 	
@@ -97,15 +95,11 @@
 							<label>Password</label>
 							<input class= "form-control" type="password" ng-model="User.password">
 						</div>
-						<span data-ng-show="User.LoginError === true">
-						User name and password don't match.</span>
+						<div class="alert alert-warning" data-ng-show="User.LoginError === true">
+						User name and password don't match.</div>
 						
 						<input class="btn btn-success btn-sm btn-block" type="submit" value="Login"	>
 
-						<div class="alert alert-warning" 
-						data-ng-if="User.LoginError === true">
-						Name and Password Combination Not Found
-						</div>
 					</form>
 				</div>
 
@@ -126,7 +120,7 @@
  						name = "regForm" 
 						novalidate>
 
-						NEW REGISTER FORM
+						Register
 
 						<div class="form group">
 							<label>Username</label>
@@ -139,16 +133,13 @@
  							required>				
 						</div>
 		<div class="alert alert-warning" data-ng-show="User.uniqueUserName===false">
-			User name already in use.
+			User name already in use. <span class="link" data-ng-click="User.userViewSwitch = 'Log'">Login?</span>
 		</div>
 		<!-- TODO: min validation needs a directive -->
-		<div class="alert alert-info" data-ng-show="regForm.username.$error.min">
+		<div class="alert alert-info" data-ng-show="User.username.length < 5">
 			Must be 5 characters or longer.
 		</div>
-						<div data-ng-model="User.uniqueUserName" 				data-ng-show="User.uniqueUserName === false  
-							&& User.username.length > 4 ">
- 							That username already exists.  Login?
-  							</div>
+						
  
 						<div class="form group">
 							<label>E-Mail</label>
@@ -163,14 +154,14 @@
 							placeholder="Required for password recovery.  Private."
 							required>
 
-							 <span class="error" ng-show="regForm.email.$error.required">Required!</span>
+				
   							
   							<span class="error" ng-show="regForm.email.$error.email">
     						Please enter a valid email!</span>
-    						<span data-ng-show="regForm.email.$valid">Valid email</span>
+    				
 
  						<div data-ng-show="regForm.email.$valid && User.uniqueEmail === false  ">
- 							That E-mail already exists.  Reset?
+ 							That E-mail already exists. <span class="link" data-ng-click="User.userViewSwitch = 'Log'">Login?</span>
   							</div>
 
 						</div>
@@ -188,7 +179,7 @@
 
  							data-ng-keyup="User.passconfirm(User.password, User.passwordConfirm)"
  
- 							placeholder="Enter password. Secret."
+ 							placeholder="Enter password. Secret. Must be 5 characters."
 							required>
 						</div>
 
@@ -209,10 +200,12 @@
 							required>
 						</div>	
 
-						<div data-ng-model="User.matchingPassword" 				 data-ng-show ="User.matchingPassword === true">
- 							Password match!
+						<div data-ng-model="User.password" data-ng-show ="User.password.length < 5">
+ 							Password must be five characters or longer!
   							</div>
- 
+ 	<div data-ng-model="User.password" data-ng-show ="User.matchingPassword === false">
+ 							Passwords must match!
+  							</div>
  
 						<input  
  						data-ng-hide=
