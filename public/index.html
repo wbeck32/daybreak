@@ -91,10 +91,14 @@
 
 						<div class="form group">
 							<label class="label-space">Password</label>
+
+							<span class="alert alert-warning fade in" data-ng-show="User.LoginError === true">
+							Unknown user name or password.</span>
+
 							<input class= "form-control" type="password" ng-model="User.password">
+
 						</div>
-						<div class="alert alert-warning" data-ng-show="User.LoginError === true">
-						Unknown user name and password.</div>
+						
 						
 						<div class='spacer'></div>
 
@@ -283,25 +287,23 @@
 					<p></p>
 				</div>
 		 	</div>
-
-
+ 
 
 	   		<div id='about' ng-switch on="User.userViewSwitch">
 				<div ng-switch-when='Myaccount' >
-		 	 		<p>About Your Account</p>
+
+		 	 		<div class='loginDirection'>About Your Account</div>
 
 		 	 		<div class ="userProfile">
 						<div 
-							data-ng-model="User" 
-							data-ng-show="User.userState==='loggedIn'"
+ 							data-ng-show="User.userState==='loggedIn'"
  							 >
 
-				  			<div class="userProfile"  
-				  			     data-ng-cloak>
-				  			<li>Name: 		{{User.username}}</li>
-				  			<li>Email: 		{{User.email}}</li>
-				  			<li>Member since: 	{{User.create}}</li>
-				  			<li>About You: 	{{User.userAbout}}</li>
+				  			<div class="userProfile"  >
+				  			<li>Name: 			{{User.username}}</li>
+				  			<li>Email: 			{{User.email}}</li>
+				  			<li>Member since:	{{User.create}}</li>
+				  			<li>About You: 		{{User.userAbout}}</li>
 				  			
 				  			</div>
 				  			<p> </p>

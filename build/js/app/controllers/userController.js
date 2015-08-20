@@ -1,8 +1,8 @@
 dayBreak.controller('userController',
 		['$scope', '$http', 'userService', function($scope,$http,userService){
 
-$scope.email 			= null;
-		this.userAbout 			= null;
+		//$scope.email 			= null;
+		//this.userAbout 			= null;
 		this.LoginError 		= false;
 
 		$scope.User.userViewSwitch 	= null;
@@ -11,6 +11,8 @@ $scope.email 			= null;
 		$scope.User.password 		= null;
 		$scope.User.passwordConfirm	= null; // note these are not equal to start
 		$scope.User.email = null;
+		$scope.User.create = Date;	
+		$scope.User.userAbout = null;
 
 		//empty string stops error msg at start
 		$scope.User.uniqueEmail 	= '';
@@ -94,9 +96,24 @@ if(pass && passconfirm){
 		//////////////////////////////////////////////////////
 		//in userController
     function loginState(status) {
-    if(status === 200) {
+    if(status.status === 200) {
       $scope.User.userState = 'loggedIn';
       $scope.User.userViewSwitch = null;
+
+      $scope.User.email = status.email;
+      $scope.User.username = status.userName;
+      $scope.User.userAbout = status.userAbout;
+      $scope.User.create = status.create;
+
+
+      console.log("status is: " + 	status.status);
+      console.log("email is: " +    $scope.User.email);
+      console.log("userAbout is: " + $scope.User.userAbout);
+      console.log("username is: " +  $scope.User.username);  
+
+      //console.log("response object is: " + response.data);
+
+
     } else {
       $scope.User.userState = 'loggedOut';
       $scope.User.LoginError = true;           
