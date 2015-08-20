@@ -200,7 +200,7 @@
   							</span>
 
 							<span class='alert alert-success' data-ng-model="User.password" data-ng-show ="User.password.length > 4">
-							Good! Add more for extra security.
+							Good! Or add more for extra security.
   							</span>
 
 
@@ -300,10 +300,11 @@
  							 >
 
 				  			<div class="userProfile"  >
-				  			<li>Name: 			{{User.username}}</li>
-				  			<li>Email: 			{{User.email}}</li>
-				  			<li>Member since:	{{User.create}}</li>
-				  			<li>About You: 		{{User.userAbout}}</li>
+				  			<li>Name (public): 	    {{User.username}}</li>
+				  			<li>About You (public): {{User.userAbout}}</li>
+							<li>Email (private):    {{User.email}}</li>
+				  			<li>Member since:	    {{User.created}}</li>
+
 				  			
 				  			</div>
 				  			<p> </p>
