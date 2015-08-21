@@ -30,7 +30,6 @@ dayBreak.service('userService', ['$http', function($http ){
 //login service
 this.login = function(username, password, callback){
 
-  console.log('ussssername is' + username);
 
  	$http({
 		method: 'POST',

@@ -24,18 +24,18 @@ google.maps.event.addListener(searchBox, 'places_changed', function() {
     var lat = places[0].geometry.location.G;
     var lon = places[0].geometry.location.K;
     var myLatLong = ({lat:lat,lng:lon});
-
     //$scope.map.fitBounds(myLatLong);
     var markerBounds = new google.maps.LatLngBounds();
-    var newLatLong = new google.maps.LatLng(myLatlng);
+    var newLatLong = new google.maps.LatLng(myLatLong);
     var marker = new google.maps.Marker({
       position: myLatLong,
       title: places[0].name,
       animation: google.maps.Animation.DROP
     });
+  $scope.map.panTo(marker.position);
 
-    markerBounds.extend(myLatLong);
-	$scope.map.fitBounds(markerBounds);
+    //markerBounds.extend(newLatLong);
+    //console.log(markerBounds);
 
 var infowindow = new google.maps.InfoWindow({
   content:'<div style="font-weight:bold">'+places[0].name+'</div>'+
