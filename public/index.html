@@ -164,19 +164,10 @@
 
 							<span class="alert alert-success" 
 							ng-show="!regForm.email.$error.email && 
-							User.uniqueEmail != '' ">
+							User.uniqueEmail === true ">
     						Looks possible!</span>
 
-xxxx
-
-							<span class="alert alert-info" data-ng-show="validEmail(User) === false">
-    						Please enter a valid email.</span>
-
-							<span class="alert alert-success" data-ng-show="validEmail(User) === true">
-    						Looks possible!</span>
-xxxx
-
-    						<span class="alert alert-info" 
+     						<span class="alert alert-info" 
     						data-ng-show="regForm.email.$valid && 
     						User.uniqueEmail === false  ">
  							E-mail exists. <span class="link" data-ng-click="User.userViewSwitch = 'Log'">Login?</span>
@@ -187,7 +178,6 @@ xxxx
 							type="email"
 							name="email"
 							data-ng-model="User.email"	
-
 							data-ng-change="User.checktheemail(User.email)" 
 
 							placeholder="Required for password recovery.  Private."
@@ -245,7 +235,8 @@ xxxx
 
 						<input  
  						data-ng-hide=
-						"User.newRegValuesAllGood(User) === false" 
+						"User.newRegValuesAllGood(User) === false ||
+						regForm.email.$error.email " 
 						class="btn btn-success btn-sm btn-block" 
 						type="submit" 
 						value="Register Now!">

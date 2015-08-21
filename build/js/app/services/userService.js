@@ -94,13 +94,8 @@ this.registerUser = function(User,callback){
 };
 
 
-
 //////////////////////////////////////////////////////
-//important!  refer to username, not "this.username"
-//because this is a service, not in controller
-// this is required to inject username to service
-
-
+ 
 this.checkthename = function checkthename(username,callback){
 
     $http({
