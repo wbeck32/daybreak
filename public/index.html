@@ -62,7 +62,6 @@
 				<div ng-switch-when='Log' >
 					<div class='loginDirection'>
 						Login with your Facebook account.
-
 					</div>
 				</div>
 			</div>
@@ -80,8 +79,7 @@
 						Login with your user name and password.
 					</div>
 
-					<form data-ng-submit="User.login()"
-						  >
+					<form data-ng-submit="User.login()">
 
 						<div class="form group">
 							<label class="label-space">User Name</label>
@@ -91,7 +89,8 @@
 						<div class="form group">
 							<label class="label-space">Password</label>
 
-							<span class="alert alert-warning fade in" data-ng-show="User.LoginError === true">
+							<span class="alert alert-warning fade in" 
+							data-ng-show="User.LoginError === true">
 							Unknown user name or password.</span>
 
 							<input class= "form-control" type="password" ng-model="User.password">
@@ -132,7 +131,7 @@
 							<label class="label-space">Username</label>
 
 								<span class="alert alert-info" data-ng-show="User.username.length < 6">
-								You need {{6-User.username.length}} more characters.
+								You need {{6-User.username.length}} more character(s).
 								</span>
 
 								<span class="alert alert-info" data-ng-show="User.uniqueUserName===false">
@@ -153,16 +152,24 @@
 						</div>   
   
 						<div class="form group">
+							 
+
 							<label class="label-space">E-Mail</label>
+
+
 
 							<span class="alert alert-info" 
 							ng-show="regForm.email.$error.email">
     						Please enter a valid email.</span>
 
+
 							<span class="alert alert-success" 
 							ng-show="!regForm.email.$error.email && 
-							User.uniqueEmail === true ">
+							User.uniqueEmail === true &&
+							User.email.length > 1" >
     						Looks possible!</span>
+
+
 
      						<span class="alert alert-info" 
     						data-ng-show="regForm.email.$valid && 
@@ -175,7 +182,7 @@
 							type="email"
 							name="email"
 							data-ng-model="User.email"	
-							data-ng-change="User.checktheemail(User.email)" 
+							data-ng-keyup="User.checktheemail(User.email)" 
 
 							placeholder="Required for password recovery.  Private."
 							required>
@@ -233,7 +240,8 @@
 						<input  
  						data-ng-hide=
 						"User.newRegValuesAllGood(User) === false ||
-						regForm.email.$error.email " 
+						regForm.email.$error.email  ||
+						User.email.length === error" 
 						class="btn btn-success btn-sm btn-block" 
 						type="submit" 
 						value="Register Now!">
