@@ -35,6 +35,18 @@ dayBreak.controller('userController',
 		this.showDeleteAccount 	= false;
  
 
+
+this.emailconfirm = function(uniqueEmail, wellFormedEmail){
+	if(uniqueEmail && wellFormedEmail){
+		if( uniqueEmail === true && wellFormedEmail === true)
+			$scope.User.validEmail = true;
+		} else {
+			$scope.User.validEmail = false;
+			}
+};
+
+
+
 	//on keyup test password for match and other criteria.
 this.passconfirm = function(pass, passconfirm){
 
@@ -182,11 +194,12 @@ if(pass && passconfirm){
 		}
 
 		this.checktheemail = function(email){
-
-			if (email.length > 4){
- 			userService.checktheemail(this.email,uniqueEmail);
- 			} else {
- 			console.log("avoid checktheemail until user enters a few characters");
+		if (email){
+				if (email.length > 4){
+ 				userService.checktheemail(this.email,uniqueEmail);
+ 				} else {
+ 				console.log("avoid checktheemail until user enters a few characters");
+ 			}
  			}
 		};
 

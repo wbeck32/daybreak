@@ -33,12 +33,11 @@
 		 		</a></li>
 
 				<li><a data-ng-show="User.userState==='loggedOut'" data-ng-click="User.userViewSwitch='Log';User.LoginError = false ">
-				  	Login
+				  		Login
 				</a></li>	
 
 			  	 <li><a	data-ng-show="User.userState==='loggedOut'"
-			  	  		data-ng-click="User.userViewSwitch ='NEWREG'" 
- 			  	  		> 
+			  	  		data-ng-click="User.userViewSwitch ='NEWREG'"> 
 			  	  		Register 
 			  	</a></li>
 
@@ -130,11 +129,8 @@
 							Register 
 
 							<span class="link" data-ng-click="User.userViewSwitch = 'Log'">(or Login with Facebook)</span>
-
-
   						</div>
 						
-
 						<div class="form group">
 							<label class="label-space">Username</label>
 
@@ -146,9 +142,8 @@
 								User name already in use. <span class="link" data-ng-click="User.userViewSwitch = 'Log'">Login?</span>
 								</span>
 
-
 								<span class="alert alert-success" data-ng-show="User.uniqueUserName===true && User.username.length > 5">
-								You are the only one.  
+								You are the only one!  
 								</span>
 
 							<input class= "form-control" 
@@ -163,17 +158,29 @@
 						<div class="form group">
 							<label class="label-space">E-Mail</label>
 
-							<span class="alert alert-info" ng-show="regForm.email.$error.email">
+							<span class="alert alert-info" 
+							ng-show="regForm.email.$error.email">
     						Please enter a valid email.</span>
 
-							<span class="alert alert-success" ng-show="!regForm.email.$error.email && User.uniqueEmail != '' ">
+							<span class="alert alert-success" 
+							ng-show="!regForm.email.$error.email && 
+							User.uniqueEmail != '' ">
     						Looks possible!</span>
 
-    						<span class="alert alert-info" data-ng-show="regForm.email.$valid && User.uniqueEmail === false  ">
+xxxx
+
+							<span class="alert alert-info" data-ng-show="validEmail(User) === false">
+    						Please enter a valid email.</span>
+
+							<span class="alert alert-success" data-ng-show="validEmail(User) === true">
+    						Looks possible!</span>
+xxxx
+
+    						<span class="alert alert-info" 
+    						data-ng-show="regForm.email.$valid && 
+    						User.uniqueEmail === false  ">
  							E-mail exists. <span class="link" data-ng-click="User.userViewSwitch = 'Log'">Login?</span>
   							</span>
-
-
 
 							<input class= "form-control"
 							id="emailConfirm" 
@@ -188,12 +195,8 @@
  
 						</div>
 
-
-
-
 						<div class="form group">
 							<label class="label-space">Password</label>
-
 
 							<span class='alert alert-info' data-ng-model="User.password" data-ng-show ="User.password.length < 5">
 							You need {{5-User.password.length}} more characters.
@@ -202,7 +205,6 @@
 							<span class='alert alert-success' data-ng-model="User.password" data-ng-show ="User.password.length > 4">
 							Good! Or add more for extra security.
   							</span>
-
 
 							<input class= "form-control"
 							id='passwordFirst' 
@@ -216,16 +218,12 @@
 							required>
 						</div>
 
-
-
-
 						<div class="form group">
 							<label class="label-space">Password Confirm</label>
 
 							<span class='alert alert-info' data-ng-model="User.password" data-ng-show ="User.matchingPassword === false">
  							Passwords must match.
   							</span>				
-
 
   							<span class='alert alert-success' data-ng-model="User.password" data-ng-show ="User.matchingPassword === true">
  							You matched it!
@@ -242,20 +240,15 @@
 							placeholder="Reenter password."
 							required>
 						</div>	
-
-						
-
- 							
+		
  						<div class='spacer' ></div>
+
 						<input  
  						data-ng-hide=
 						"User.newRegValuesAllGood(User) === false" 
 						class="btn btn-success btn-sm btn-block" 
 						type="submit" 
 						value="Register Now!">
-
-
-						 
 
 					</form>
 				</div>
