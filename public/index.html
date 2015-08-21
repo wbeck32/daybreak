@@ -16,35 +16,30 @@
 <body>
 
 <div data-ng-controller= "userController as User">    
- <nav class = 'navbar navbar-default'>
+	<nav class = 'navbar navbar-default'>
 		<div id = "titleGraphic">Daybreak</div>
- 
-
-	  	<div class="container" >
-
-
+ 	  	<div class="container" >
+ 	  		
 			<ul class='nav navbar-nav'>
-
 
 				<li><a><div 
 						data-ng-click="User.userViewSwitch = null ">
 						Home  
-						</div></a></li>
+						</div>
+				</a></li>
 
 				<li><a data-ng-show="User.userState==='loggedIn'" data-ng-click="User.signOut()" > 
 		 		  		Logout
 		 		</a></li>
 
 				<li><a data-ng-show="User.userState==='loggedOut'" data-ng-click="User.userViewSwitch='Log';User.LoginError = false ">
-				  	Login
+				  		Login
 				</a></li>	
 
-
-
 			  	 <li><a	data-ng-show="User.userState==='loggedOut'"
-			  	  		data-ng-click="User.userViewSwitch ='NEWREG' "> 
+			  	  		data-ng-click="User.userViewSwitch ='NEWREG'"> 
 			  	  		Register 
-			  	  		</a></li>
+			  	</a></li>
 
 				<li><a><div 	
 			   	  		data-ng-model="User"  
@@ -56,48 +51,56 @@
 				<li><a data-ng-show="User.userState==='loggedIn'" data-ng-click="User.userViewSwitch ='Myaccount'">
 			  			My Account
 				</a></li>
-
 		   	</ul>
-
 	  	</div>
 	</nav>
 
 	<div class = 'surround'>	
+		<div class = 'userContainer'
+			data-ng-show= "User.userViewSwitch === 'Log' " >
+			<div id='login' ng-switch on="User.userViewSwitch">
+				<div ng-switch-when='Log' >
+					<div class='loginDirection'>
+						Login with your Facebook account.
 
+					</div>
+				</div>
+			</div>
+		</div>
 
-
-
-
+		<div class= 'spacer'> </div>
 
 		<div class = 'userContainer' 
 		data-ng-show= "User.userViewSwitch !== null " >
 
-<!-- 				data-ng-show=" 
-					(User.userState ==='loggedOut' && 
-					(userViewSwitch === 'Log'      || 
-					 userViewSwitch === 'Reg'      || 
-					 userViewSwitch === 'Reset' ) )|| 
-				 	(User.userState ==='loggedIn'  &&
-					 userViewSwitch ==='Myaccount')"
-					  -->
-
 			<div id='login' ng-switch on="User.userViewSwitch">
 				<div ng-switch-when='Log' >
+
+					<div class='loginDirection'>
+						Login with your user name and password.
+					</div>
+
 					<form data-ng-submit="User.login()"
 						  >
 
 						<div class="form group">
-							<label>Username</label>
+							<label class="label-space">User Name</label>
 							<input class= "form-control" type="text" ng-model="User.username">
 						</div>
 
 						<div class="form group">
-							<label>Password</label>
+							<label class="label-space">Password</label>
+
+							<span class="alert alert-warning fade in" data-ng-show="User.LoginError === true">
+							Unknown user name or password.</span>
+
 							<input class= "form-control" type="password" ng-model="User.password">
+
 						</div>
-						<div class="alert alert-warning" data-ng-show="User.LoginError === true">
-						User name and password don't match.</div>
 						
+						
+						<div class='spacer'></div>
+
 						<input class="btn btn-success btn-sm btn-block" type="submit" value="Login"	>
 
 					</form>
@@ -110,67 +113,86 @@
 			</div>
 
 			
-
 		<div id='NEWREGISTER'
-		   			ng-switch on='User.userViewSwitch'
+		   			data-ng-switch on='User.userViewSwitch'
  		   			>
-		   		<div ng-switch-when='NEWREG' >
+		   		<div data-ng-switch-when="NEWREG">
 					<form 
 						data-ng-submit="User.registerValidUser(User)"
  						name = "regForm" 
 						novalidate>
 
-						Register
+						<div class='loginDirection'>
+							Register 
 
+							<span class="link" data-ng-click="User.userViewSwitch = 'Log'">(or Login with Facebook)</span>
+  						</div>
+						
 						<div class="form group">
-							<label>Username</label>
+							<label class="label-space">Username</label>
+
+								<span class="alert alert-info" data-ng-show="User.username.length < 6">
+								You need {{6-User.username.length}} more characters.
+								</span>
+
+								<span class="alert alert-info" data-ng-show="User.uniqueUserName===false">
+								User name already in use. <span class="link" data-ng-click="User.userViewSwitch = 'Log'">Login?</span>
+								</span>
+
+								<span class="alert alert-success" data-ng-show="User.uniqueUserName===true && User.username.length > 5">
+								You are the only one!  
+								</span>
+
 							<input class= "form-control" 
 							type="text"
  							data-ng-model="User.username"
   							data-ng-change="User.checkthename(User.username)" 
 
- 							placeholder="5 character minimum. Public."
+ 							placeholder="Six character minimum. Public."
  							required>				
-						</div>
-		<div class="alert alert-warning" data-ng-show="User.uniqueUserName===false">
-			User name already in use. <span class="link" data-ng-click="User.userViewSwitch = 'Log'">Login?</span>
-		</div>
-		<!-- TODO: min validation needs a directive -->
-		<div class="alert alert-info" data-ng-show="User.username.length < 5">
-			Must be 5 characters or longer.
-		</div>
-						
- 
+						</div>   
+  
 						<div class="form group">
-							<label>E-Mail</label>
+							<label class="label-space">E-Mail</label>
+
+							<span class="alert alert-info" 
+							ng-show="regForm.email.$error.email">
+    						Please enter a valid email.</span>
+
+							<span class="alert alert-success" 
+							ng-show="!regForm.email.$error.email && 
+							User.uniqueEmail === true ">
+    						Looks possible!</span>
+
+     						<span class="alert alert-info" 
+    						data-ng-show="regForm.email.$valid && 
+    						User.uniqueEmail === false  ">
+ 							E-mail exists. <span class="link" data-ng-click="User.userViewSwitch = 'Log'">Login?</span>
+  							</span>
+
 							<input class= "form-control"
 							id="emailConfirm" 
 							type="email"
 							name="email"
 							data-ng-model="User.email"	
-
 							data-ng-change="User.checktheemail(User.email)" 
 
 							placeholder="Required for password recovery.  Private."
 							required>
-
-				
-  							
-  							<span class="error" ng-show="regForm.email.$error.email">
-    						Please enter a valid email!</span>
-    				
-
- 						<div data-ng-show="regForm.email.$valid && User.uniqueEmail === false  ">
- 							That E-mail already exists. <span class="link" data-ng-click="User.userViewSwitch = 'Log'">Login?</span>
-  							</div>
-
+ 
 						</div>
 
-
-
-
 						<div class="form group">
-							<label>Password</label>
+							<label class="label-space">Password</label>
+
+							<span class='alert alert-info' data-ng-model="User.password" data-ng-show ="User.password.length < 5">
+							You need {{5-User.password.length}} more characters.
+  							</span>
+
+							<span class='alert alert-success' data-ng-model="User.password" data-ng-show ="User.password.length > 4">
+							Good! Or add more for extra security.
+  							</span>
+
 							<input class= "form-control"
 							id='passwordFirst' 
 							type="password" 
@@ -179,15 +201,21 @@
 
  							data-ng-keyup="User.passconfirm(User.password, User.passwordConfirm)"
  
- 							placeholder="Enter password. Secret. Must be 5 characters."
+ 							placeholder="Enter secret password. Must be 5 characters. "
 							required>
 						</div>
 
-
-
-
 						<div class="form group">
-							<label>Password Confirmation</label>
+							<label class="label-space">Password Confirm</label>
+
+							<span class='alert alert-info' data-ng-model="User.password" data-ng-show ="User.matchingPassword === false">
+ 							Passwords must match.
+  							</span>				
+
+  							<span class='alert alert-success' data-ng-model="User.password" data-ng-show ="User.matchingPassword === true">
+ 							You matched it!
+  							</span>			
+
 							<input class= "form-control"
 							id='passwordConfirm' 
 							name='passwordConfirm'
@@ -199,23 +227,16 @@
 							placeholder="Reenter password."
 							required>
 						</div>	
+		
+ 						<div class='spacer' ></div>
 
-						<div data-ng-model="User.password" data-ng-show ="User.password.length < 5">
- 							Password must be five characters or longer!
-  							</div>
- 	<div data-ng-model="User.password" data-ng-show ="User.matchingPassword === false">
- 							Passwords must match!
-  							</div>
- 
 						<input  
  						data-ng-hide=
-						"User.newRegValuesAllGood(User) === false" 
+						"User.newRegValuesAllGood(User) === false ||
+						regForm.email.$error.email " 
 						class="btn btn-success btn-sm btn-block" 
 						type="submit" 
-						value="NEW Register Now!">
-
-
-						 
+						value="Register Now!">
 
 					</form>
 				</div>
@@ -235,6 +256,9 @@
 							type="text" 
 							data-ng-model="User.email">
 						</div>
+
+						<div class='spacer'></div>
+
 						<input 
 						class="btn btn-success btn-sm btn-block" 
 						type="submit" 
@@ -244,37 +268,26 @@
 					<p></p>
 				</div>
 		 	</div>
-
-
+ 
 
 	   		<div id='about' ng-switch on="User.userViewSwitch">
 				<div ng-switch-when='Myaccount' >
-		 	 		<p>About Your Account</p>
-
-		 	 		<div class ="userProfile">
-						<div 
-							data-ng-model="User" 
-							data-ng-show="User.userState==='loggedIn'"
- 							 >
-
-				  			<div class="userProfile"  
-				  			     data-ng-cloak>
-				  			<li>Name: 		{{User.username}}</li>
-				  			<li>Email: 		{{User.email}}</li>
-				  			<li>Member since: 	{{User.create}}</li>
-				  			<li>About You: 	{{User.userAbout}}</li>
-				  			
-				  			</div>
-				  			<p> </p>
- 						</div>
-					</div>
-			  	</div>  
-
+		 	 		<div class='loginDirection'>About Your Account</div>
+			 	 		<div class ="userProfile">
+							<div data-ng-show="User.userState==='loggedIn' ">
+					  			<div class="userProfile"  >
+						  			<li>Name (public):{{User.username}}</li>
+						  			<li>About You (public):{{User.userAbout}}</li>
+									<li>Email (private):{{User.email}}</li>
+						  			<li>Member since:{{User.created}}</li>
+					  			</div>
+	  						</div>
+						</div>
+			  		</div>  
   				<div class='closeModal' 
 					data-ng-show="User.userViewSwitch==='Myaccount' ">
- 					<a 
-	 					data-ng-click="User.userViewSwitch=null ">
-						Close Profile Pop-up
+ 					<a data-ng-click="User.userViewSwitch=null ">
+						Close this pop-up.
 					</a>
 				</div>
 			</div>
@@ -283,6 +296,7 @@
 </div>	<!-- extra div required not sure why -->
 </div> <!-- close userController -->
 
+<div class='spacer'></div>
 
 <div class="container-fluid">
 

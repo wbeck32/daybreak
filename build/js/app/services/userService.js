@@ -40,17 +40,21 @@ this.login = function(username, password, callback){
 	})
 //success here
 	.then(function(response){
-      console.log("response is: " + response.data.token);
-      console.log("response is: " + response.data.email);
-      console.log("response is: " + response.data.userAbout);
-      console.log("response is: " + response.data.userName);   
+      console.log("status is: " + response.data.status);
+      console.log("token is: " + response.data.token);
+      console.log("email is: " + response.data.email);
+      console.log("userabout is: " + response.data.userAbout);
+      console.log("userName is: " + response.data.userName);   
       console.log("response object is: " + response.data);
 
 		if (response.data.token){
 			window.localStorage.setItem("token", response.data.token);
 			window.localStorage.setItem("user", response.data.userName);
     	} 
-      callback(response.data.status); //callback fn loginState
+      //callback(response.data.status); //callback fn loginState
+      callback(response.data); //callback fn loginState
+
+
 		},
   //failure here
 	function(data,status,headers,config){
@@ -89,13 +93,8 @@ this.registerUser = function(User,callback){
 };
 
 
-
 //////////////////////////////////////////////////////
-//important!  refer to username, not "this.username"
-//because this is a service, not in controller
-// this is required to inject username to service
-
-
+ 
 this.checkthename = function checkthename(username,callback){
 
     $http({

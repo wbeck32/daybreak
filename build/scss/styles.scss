@@ -26,6 +26,7 @@ a:hover{
 
 .link {
 	cursor:pointer;
+	text-decoration: underline;
 }
 
 .locList {
@@ -114,7 +115,7 @@ height:30%;
 
 .userContainer{
 	margin: 0 auto;
-	width: 400px;
+	width: 450px;
 	padding: 20px;
 	border: 2px black solid;
 	border-radius: 10px;
@@ -141,3 +142,16 @@ height:30%;
 
 .diagnostics {font-size: 9px; font-color: blue;
 }
+
+.spacer {height: 20px;}
+
+.centerText { margin: 0 auto;
+			 font-size: 1.3em;}
+
+.loginDirection{ font-size: 1.2em;
+				 color: blue;
+				 margin-bottom: 10px;
+				 margin-top: 10px;}
+
+.label-space {margin: 20px;
+			   }				 
