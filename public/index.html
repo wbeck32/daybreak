@@ -16,10 +16,10 @@
 <body>
 
 <div data-ng-controller= "userController as User">    
- <nav class = 'navbar navbar-default'>
+	<nav class = 'navbar navbar-default'>
 		<div id = "titleGraphic">Daybreak</div>
- 
-	  	<div class="container" >
+ 	  	<div class="container" >
+ 	  		
 			<ul class='nav navbar-nav'>
 
 				<li><a><div 
@@ -113,13 +113,10 @@
 			</div>
 
 			
-
 		<div id='NEWREGISTER'
 		   			data-ng-switch on='User.userViewSwitch'
  		   			>
-		   		<div data-ng-switch-when="NEWREG" 
- 
-		   		>
+		   		<div data-ng-switch-when="NEWREG">
 					<form 
 						data-ng-submit="User.registerValidUser(User)"
  						name = "regForm" 
@@ -275,31 +272,21 @@
 
 	   		<div id='about' ng-switch on="User.userViewSwitch">
 				<div ng-switch-when='Myaccount' >
-
 		 	 		<div class='loginDirection'>About Your Account</div>
-
-		 	 		<div class ="userProfile">
-						<div 
- 							data-ng-show="User.userState==='loggedIn'"
- 							 >
-
-				  			<div class="userProfile"  >
-				  			<li>Name (public): 	    {{User.username}}</li>
-				  			<li>About You (public): {{User.userAbout}}</li>
-							<li>Email (private):    {{User.email}}</li>
-				  			<li>Member since:	    {{User.created}}</li>
-
-				  			
-				  			</div>
-				  			<p> </p>
- 						</div>
-					</div>
-			  	</div>  
-
+			 	 		<div class ="userProfile">
+							<div data-ng-show="User.userState==='loggedIn' ">
+					  			<div class="userProfile"  >
+						  			<li>Name (public):{{User.username}}</li>
+						  			<li>About You (public):{{User.userAbout}}</li>
+									<li>Email (private):{{User.email}}</li>
+						  			<li>Member since:{{User.created}}</li>
+					  			</div>
+	  						</div>
+						</div>
+			  		</div>  
   				<div class='closeModal' 
 					data-ng-show="User.userViewSwitch==='Myaccount' ">
- 					<a 
-	 					data-ng-click="User.userViewSwitch=null ">
+ 					<a data-ng-click="User.userViewSwitch=null ">
 						Close this pop-up.
 					</a>
 				</div>
