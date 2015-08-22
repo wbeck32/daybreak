@@ -1,6 +1,9 @@
 dayBreak.controller('userController',
 		['$scope', '$http', 'userService', function($scope,$http,userService){
 
+		$scope.User.testing 	= "testing testing";
+ 		
+
 		$scope.User.userViewSwitch 	= null;
  		$scope.User.username = null;
 		$scope.User.password 		= null;
@@ -91,7 +94,7 @@ dayBreak.controller('userController',
 		      $scope.User.password = '';
 		      $scope.User.username = '';
 		    }
-	    };
+	    }
 
 	this.login = function(){  
       userService.login(this.username, this.password,loginState);
@@ -165,4 +168,26 @@ dayBreak.controller('userController',
  			}
 		};
 
-	}]);   //END userController
+//////////////////////////////////////////////////////
+
+	// function uniqueEmail(data) {
+ // 		 	$scope.User.uniqueEmail = data;
+	// 		}
+
+	this.updateUserAbout = function(userabout){
+		
+		console.log("updateUserAbout in controller");
+ 		userService.updateUserAbout(User.userabout);
+ 				 
+ 		};
+	
+	}])
+
+
+// .directive('myUserFunctions', function(){
+// 	return {
+// 		templateUrl: '/templates/my-user-functions.html'
+// 	};
+// })
+;  
+//END userController

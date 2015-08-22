@@ -1,0 +1,329 @@
+<div data-ng-controller= "userController as User">    
+	<nav class = 'navbar navbar-default'>
+		<div id = "titleGraphic">Daybreak</div>
+ 	  	<div class="container" >
+ 	  		
+			<ul class='nav navbar-nav'>
+
+				<li><a><div 
+						data-ng-click="User.userViewSwitch = null ">
+						Home  
+						</div>
+				</a></li>
+
+				<li><a data-ng-show="User.userState==='loggedIn'" data-ng-click="User.signOut()" > 
+		 		  		Logout
+		 		</a></li>
+
+				<li><a data-ng-show="User.userState==='loggedOut'" data-ng-click="User.userViewSwitch='Log';User.LoginError = false ">
+				  		Login
+				</a></li>	
+
+			  	 <li><a	data-ng-show="User.userState==='loggedOut'"
+			  	  		data-ng-click="User.userViewSwitch ='NEWREG'"> 
+			  	  		Register 
+			  	</a></li>
+
+				<li><a><div 	
+			   	  		data-ng-model="User"  
+			  	  		data-ng-show="User.userState==='loggedIn'" >
+			  			Welcome: {{User.username}}
+				  		</div>
+				 </a></li>
+
+				<li><a data-ng-show="User.userState==='loggedIn'" data-ng-click="User.userViewSwitch ='Myaccount'">
+			  			My Account
+				</a></li>
+		   	</ul>
+	  	</div>
+	</nav>
+
+	<div class = 'surround'>	
+		<div class = 'userContainer'
+			data-ng-show= "User.userViewSwitch === 'Log' " >
+			<div id='login' ng-switch on="User.userViewSwitch">
+				<div ng-switch-when='Log' >
+					<div class='loginDirection'>
+						Login with your Facebook account.
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class= 'spacer'> </div>
+
+		<div class = 'userContainer' 
+		data-ng-show= "User.userViewSwitch !== null " >
+
+			<div id='login' ng-switch on="User.userViewSwitch">
+				<div ng-switch-when='Log' >
+
+					<div class='loginDirection'>
+						Login with your user name and password.
+					</div>
+
+					<form data-ng-submit="User.login()">
+
+						<div class="form group">
+							<label class="label-space">User Name</label>
+							<input class= "form-control" type="text" ng-model="User.username">
+						</div>
+
+						<div class="form group">
+							<label class="label-space">Password</label>
+
+							<span class="alertwarn" 
+							data-ng-show="User.LoginError === true">
+							Unknown user name or password.</span>
+
+							<input class= "form-control" type="password" ng-model="User.password">
+
+						</div>
+						
+						
+						<div class='spacer'></div>
+
+						<input class="btn btn-success btn-sm btn-block" type="submit" value="Login"	>
+
+					</form>
+				</div>
+ 
+				<div class='closeModal' data-ng-show="User.userViewSwitch==='Log' ">
+ 					<a data-ng-click="User.userViewSwitch='Reset'">Reset Password</a>
+				</div>
+			</div>
+
+			
+		<div id='NEWREGISTER'
+		   			data-ng-switch on='User.userViewSwitch'
+ 		   			>
+		   		<div data-ng-switch-when="NEWREG">
+					<form 
+						data-ng-submit="User.registerValidUser(User)"
+ 						name = "regForm" 
+						novalidate>
+
+						<div class='loginDirection'>
+							Register 
+
+							<span class="link" data-ng-click="User.userViewSwitch = 'Log'">(or Login with Facebook)</span>
+  						</div>
+						
+						<div class="form group">
+							<label class="label-space">Username</label>
+
+								<span class="alertinform" data-ng-show="User.username.length < 6">
+								You need {{6-User.username.length}} more character(s).
+								</span>
+
+								<span class="alertinform" data-ng-show="User.uniqueUserName===false">
+								User name already in use. <span class="link" data-ng-click="User.userViewSwitch = 'Log'">Login?</span>
+								</span>
+
+								<span class="alertsuccess" data-ng-show="User.uniqueUserName===true && User.username.length > 5">
+								You are the only one.  
+								</span>
+
+
+
+							<input class= "form-control" 
+							type="text"
+ 							data-ng-model="User.username"
+  							data-ng-change="User.checkthename(User.username)" 
+
+ 							placeholder="Six character minimum. Public."
+ 							required>				
+						</div>   
+  
+						<div class="form group">
+							
+							<label class="label-space">E-Mail</label>
+
+							<span class="alertinform" 
+							ng-show="regForm.email.$error.email">
+    						Please enter a valid email.</span>
+
+
+							<span class="alertsuccess" 
+							ng-show="!regForm.email.$error.email && 
+							User.uniqueEmail === true &&
+							User.email.length > 1" >
+    						Looks possible.</span>
+
+     						<span class="alertinform" 
+    						data-ng-show="regForm.email.$valid && 
+    						User.uniqueEmail === false  ">
+ 							E-mail exists. <span class="link" data-ng-click="User.userViewSwitch = 'Log'">Login?</span>
+  							</span>
+
+							<input class= "form-control"
+							id="emailConfirm" 
+							type="email"
+							name="email"
+							data-ng-model="User.email"	
+							data-ng-keyup="User.checktheemail(User.email)" 
+
+							placeholder="Required for password recovery.  Private."
+							required>
+ 
+						</div>
+
+						<div class="form group">
+							<label class="label-space">Password</label>
+
+							<span class='alertinform' data-ng-model="User.password" data-ng-show ="User.password.length < 5">
+							You need {{5-User.password.length}} more characters.
+  							</span>
+
+						
+							<span class='alertsuccess' data-ng-model="User.password" data-ng-show ="User.password.length > 4">
+							Good! Or add more for extra security.
+  							</span>
+
+							<input class= "form-control"
+							id='passwordFirst' 
+							type="password" 
+							name='password'
+							data-ng-model="User.password"
+
+ 							data-ng-keyup="User.passconfirm(User.password, User.passwordConfirm)"
+ 
+ 							placeholder="Enter secret password. Must be 5 characters. "
+							required>
+						</div>
+
+						<div class="form group">
+							<label class="label-space">Password Confirm</label>
+
+							<span class='alertinform' data-ng-model="User.password" data-ng-show ="User.matchingPassword === false">
+ 							Passwords must match.
+  							</span>				
+
+  							<span class='alertsuccess' data-ng-model="User.password" data-ng-show ="User.matchingPassword === true">
+ 							You matched it!
+  							</span>			
+
+							<input class= "form-control"
+							id='passwordConfirm' 
+							name='passwordConfirm'
+							type="password" 
+							data-ng-model="User.passwordConfirm"
+ 							
+ 							data-ng-keyup="User.passconfirm(User.password, User.passwordConfirm)"
+
+							placeholder="Reenter password."
+							required>
+						</div>	
+		
+ 						<div class='spacer' ></div>
+
+						<input  
+ 						data-ng-hide=
+						"User.newRegValuesAllGood(User) === false ||
+						regForm.email.$error.email  ||
+						User.email.length === error" 
+						class="btn btn-success btn-sm btn-block" 
+						type="submit" 
+						value="Register Now!">
+
+						<span class='alertwarn'  
+							data-ng-show ="User.password === User.username &&
+							User.password.length > 5">
+							User name and password cannot be identical.
+  						</span>
+
+					</form>
+				</div>
+		 	</div>
+		 
+			<div id='resetPassword' 
+				data-ng-switch on='User.userViewSwitch'
+				data-ng-submit="User.resetPassword()"
+				>
+
+				<div data-ng-switch-when='Reset'>
+					<form 
+					data-ng-submit="User.resetPassword()">	
+						<div class="form group">
+							<label>Forgot Password? Enter E-Mail</label>
+							<input class= "form-control" 
+							type="text" 
+							data-ng-model="User.email">
+						</div>
+
+						<div class='spacer'></div>
+
+						<input 
+						class="btn btn-success btn-sm btn-block" 
+						type="submit" 
+						value="Send Password Reset Link">
+						</input>
+					</form>
+					<p></p>
+				</div>
+		 	</div>
+ 
+
+	   		<div id='about' ng-switch on="User.userViewSwitch">
+				<div ng-switch-when='Myaccount' >
+		 	 		<div class='loginDirection'>About Your Account</div>
+			 	 		<div class ="userProfile">
+							<div data-ng-show="User.userState==='loggedIn' ">
+
+					  			<div class="userProfile"  >
+						  			<li>Name :{{User.username}}</li>
+						  			<li>Member since:{{User.created}}</li>
+						  			<li>Display Name :{{}}   Change Display Name?</li>
+						  			<li>Email (private):{{User.email}}.   Change E-mail?</li>
+
+						  			<li>About You (public):{{User.userAbout}}</li>
+					  			</div>
+
+
+					  			<div class="form group">
+					  				<form 
+										data-ng-submit="User.updateUserAbout(User)"
+ 										name = "aboutForm" 
+										novalidate>
+
+									<label class="labelspace">Tell other community members about yourself and about your perfect day.</label>
+ 	
+									<input class= "form-control"
+									id='aboutfield' 
+									name='aboutForm'
+									type="text" 
+									value= "Enter"
+									data-ng-model="User.userAbout"
+									placeholder="My perfect day would be..."
+									required></input>
+					
+									<input  
+									class="btn btn-success btn-sm btn-block" 
+ 									type="submit" 
+									value="Enter">
+									</input>
+								</div>	
+  		
+	  						</div>
+						</div>
+			  		</div>  
+  				<div class='closeModal' 
+					data-ng-show="User.userViewSwitch==='Myaccount' ">
+ 					<a data-ng-click="User.userViewSwitch=null ">
+						Close this pop-up.
+					</a>
+				</div>
+
+				<div class='closeModal' 
+					data-ng-show="User.userViewSwitch==='Myaccount' ">
+ 					<a data-ng-click="User.userViewSwitch='deleteaccount' ">
+	 					Delete this account?					
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>	 
+</div>  
+
+<div class='spacer'>
+</div>

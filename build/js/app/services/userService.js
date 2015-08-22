@@ -133,6 +133,30 @@ this.checktheemail = function( email,callback){
 };
 
 
+
+
+
+this.updateUserAbout = function(userabout, callback){
+
+  $http({
+    method    : 'POST',
+    url       : '/api/updateuserinfo',
+    data      : { userabout         :  userabout},
+    headers   : {'Content-Type' : 'application/json'}
+    })
+    .success(function(data){
+      console.log('userabout');
+      callback();
+      })
+    .error(function(data,status, headers, config){
+          console.log("data is: " + data);
+          self.uniqueEmail = false;
+       }); 
+};
+
+
+
+
 //working above
 ///////////
 //models below

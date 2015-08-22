@@ -40,11 +40,19 @@ var db = mongoose.connect(uristring);
 
 var User = db.model('user', 
     {   
-    userName    :  String,
-    password    :  {type: String, select: false}, //!important
-    email       :  String,
-    created     :  {type: Date},
-    userAbout   :  String
+    userName            :  String,
+    displayname         :  String,
+    displayimage        :  String,
+    password            :  {type: String, select: false}, //!important
+    email               :  String,
+    created             :  {type: Date},
+    userAbout           :  String,
+    deletedon           :  {type: Date},
+    visitcount          :  String,
+    visitdatetimes      :  {type:Date},
+    dayscreatedcount    :  String,
+    likesgivencount     :  String,
+    likesreceivedcount  :  String
     });
 
 var Day = db.model('day',
@@ -154,7 +162,7 @@ router.route('/registerValidUser').post(function(req,res,next){
     var user = new User({   userName: req.body.username,
                             created: Date.now(),
                             email: req.body.email,
-                            userAbout: "Placeholder Fun"
+                            userAbout: "My perfect day would be..... "
                          });
     //asynchronous call of bcrypt
     bcrypt.hash(req.body.password, 10, function(err, hash) {    
