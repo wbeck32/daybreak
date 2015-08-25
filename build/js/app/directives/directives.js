@@ -1,12 +1,19 @@
-angular.module('dayBreak').directive('locationList', function(){
+angular.module('dayBreak')
 
-return {
-	restrict: 'E',
-	replace: false,
-	scope: true,
-	templateUrl:'/locationList.html',
-	 link: function( scope, elem, attrs) {
+.directive('locationList', function(){
+	return {
+	restrict	: 'E',
+	replace		: false,
+	scope		: true,
+	templateUrl	:'/locationList.html',
+	link		: function( scope, elem, attrs) {
  	 }
-};
+	};
+}) 
 
+.directive('myUserFunctions', function(){
+
+	return {
+  		templateUrl: '/templates/my-user-functions.html'
+	};
 });

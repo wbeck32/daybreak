@@ -20,5 +20,4 @@ this.addDay = function() {
 	var dayGroup = this.dayGroup;
 	dayService.addDay(dayName, userName, dayDesc, dayGroup,$rootScope.dayLocations);
 };
-
 }]);

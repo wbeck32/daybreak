@@ -40,11 +40,19 @@ var db = mongoose.connect(uristring);
 
 var User = db.model('user', 
     {   
-    userName    :  String,
-    password    :  {type: String, select: false}, //!important
-    email       :  String,
-    created     :  {type: Date},
-    userAbout   :  String
+    userName            :  String,
+    displayname         :  String,
+    displayimage        :  String,
+    password            :  {type: String, select: false}, //!important
+    email               :  String,
+    created             :  {type: Date},
+    userAbout           :  String,
+    deletedon           :  {type: Date},
+    visitcount          :  String,
+    visitdatetimes      :  {type:Date},
+    dayscreatedcount    :  String,
+    likesgivencount     :  String,
+    likesreceivedcount  :  String
     });
 
 var Day = db.model('day',
@@ -71,6 +79,45 @@ router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
+/////////////////////////////////////////////////////////////////////
+
+//tag based search rewrite of login
+app.get('/tagsearch', function(req,res){
+
+    //not needed
+    //request is from logged in user?
+    var token = req.headers['x-auth'];
+    console.log ("token is " + token);
+    var auth  = jwt.decode(token, secretKey);
+    console.log('auth is ' + auth);
+    console.log('auth.username is ' + auth.username);
+    /////
+
+    Days.find({tag: req.searchtag}, function(err,user){
+
+        res.json(user.userName, user.email, user.userAbout);
+        console.log("user.userName is " + user.userName);
+
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
 /* GET home page. */
     router.get('/', function(req, res) {
@@ -96,7 +143,7 @@ app.get('/show', function(req,res,next){
 
 app.get('/api/show', function(req,res,next){
     //now we sort via mongoose, not in angular, then truncate and respond
-    Day.find({}).sort({dayCreateDate: 'descending'}).limit(6).exec(function(err, Days){
+    Day.find({}).sort({dayCreateDate: 'descending'}).limit(20).exec(function(err, Days){
         if (err) 
             {return next(err)}
         else
@@ -154,7 +201,7 @@ router.route('/registerValidUser').post(function(req,res,next){
     var user = new User({   userName: req.body.username,
                             created: Date.now(),
                             email: req.body.email,
-                            userAbout: "Placeholder Fun"
+                            userAbout: "My perfect day would be..... "
                          });
     //asynchronous call of bcrypt
     bcrypt.hash(req.body.password, 10, function(err, hash) {    
@@ -339,7 +386,7 @@ router.route('/session').post(function(req,res,next){
     User.findOne({userName: req.body.username})
         .select('password')
         .select('email')
-        .select('create')
+        .select('created')
         .select('userName')
         .select('userAbout')   //grab password of that username
         .exec(function(err,user){
