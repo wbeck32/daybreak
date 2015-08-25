@@ -79,6 +79,45 @@ router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
+/////////////////////////////////////////////////////////////////////
+
+//tag based search rewrite of login
+app.get('/tagsearch', function(req,res){
+
+    //not needed
+    //request is from logged in user?
+    var token = req.headers['x-auth'];
+    console.log ("token is " + token);
+    var auth  = jwt.decode(token, secretKey);
+    console.log('auth is ' + auth);
+    console.log('auth.username is ' + auth.username);
+    /////
+
+    Days.find({tag: req.searchtag}, function(err,user){
+
+        res.json(user.userName, user.email, user.userAbout);
+        console.log("user.userName is " + user.userName);
+
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
 /* GET home page. */
     router.get('/', function(req, res) {
