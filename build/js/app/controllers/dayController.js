@@ -21,5 +21,4 @@ this.addDay = function() {
 	dayService.addDay(dayName, userName, dayDesc, dayGroup,$rootScope.dayLocations);
 };
 
-
 }]);

@@ -294,8 +294,7 @@
 <div class="form-group" data-ng-controller="dayController as Day">
 	<form data-ng-submit="Day.addDay()">
 	<input type="text" class="form-control" data-ng-model="Day.dayName" placeholder="Give your day a name">
-	
-	<select class="form-control" data-ng-model="Day.dayGroup" placeholder="Who is in your group?">
+	<select class="form-control"  data-ng-model="Day.dayGroup">
 		<option value="single" selected="selected">Single</option>
 		<option value="couple">Couple</option>
 		<option value="fsk">Family with small kids</option>

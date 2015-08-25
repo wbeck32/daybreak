@@ -1,3 +1,4 @@
+deploy.sh
 mongolaboinfo.js
 data/mongolabinfo.js
 public/css/styles/*.css
