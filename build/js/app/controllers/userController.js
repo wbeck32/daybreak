@@ -181,13 +181,5 @@ dayBreak.controller('userController',
  				 
  		};
 	
-	}])
-
-
-// .directive('myUserFunctions', function(){
-// 	return {
-// 		templateUrl: '/templates/my-user-functions.html'
-// 	};
-// })
-;  
+	}]);  
 //END userController

@@ -99,11 +99,11 @@ article {
 
 .list-group-item{
 	font-size: .7em;
-	width: 500px;
+	width: 30%;
 	background-color: #E0F9F3;
 	border: black solid 2px;
-	margin: 10px;
-	padding: 10px;
+	margin: 1%;
+	padding: 1%px;
 	border-radius: 15px;
 }
 
@@ -192,3 +192,43 @@ height:30%;
 
 .messages {background-color: grey;
 			height:28px;}
+
+
+.bestDaysFrame{ 
+ 	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: left;
+	margin: 0 auto;
+	border: 1px solid black;
+ }
+
+.singleDayDisplay { 
+		width:320px; 
+		height: 320px; 
+		background-color: #F3F3F3; 
+		margin: 20px;
+		padding:10px;
+		text-align: left;
+		border-radius: 25px;
+  }
+
+ .showbox {
+    float: left;
+    border: 1px solid black;
+    -webkit-transition: .5s ease-in-out;
+    -moz-transition: .5s ease-in-out;
+    -o-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+  }
+
+  .sortFrame {
+ 	margin: 0 auto;
+	width: 450px;
+	padding: 20px;
+	border: 2px black solid;
+	border-radius: 10px;
+	background-color: #E0F9F3;
+	margin-bottom: 10px;
+
+  }

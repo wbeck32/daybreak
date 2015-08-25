@@ -15,9 +15,11 @@
 
 <body>
  
- <div ng-controller="userController as User">
+
+<div ng-controller="userController as User">
 	<div my-user-functions></div>
 </div>
+
 
 
 <div class="container-fluid">
@@ -75,27 +77,67 @@
 
 <div data-ng-controller="dayController" class="container">
 <h3>Great Days Shared by Our Community</h3>
-<h5>Here's a list of great Days!</h5>
-  
-<ul class='list-group'>
-	<li data-ng-repeat="day in days" class='list-group-item'> 
- 		Title: 			{{ 	day.dayName }}<br>
-		User: 			{{ 	day.userName }}<br>
-		Day Date: 		{{ 	day.dayDate}}<br>
- 		Reporting Date: {{ 	day.dayCreateDate  }}<br>
- 		Updated on: 	{{	day.dayUpdateDate  }}<br>
-		Description: 	{{	day.dayDesc}}<br>
-		Who was there: 	{{	day.dayGroup}}<br>
-		Tags: 			{{	day.dayTags}}<br>
-		Locations: 		{{	day.locations}}<br>
+<h5>Here are some great Days!</h5>
+ 
 
-	</li>
-</ul>
+
+<div class="sortFrame">
+
+	<div class="form group">
+		<label class="label-space">Tag Search</label>
+
+			<input class= "form-control" 
+			type="text"
+ 			data-ng-model="User.username"
+  			data-ng-change="User.checkthename(User.username)" 
+
+ 							placeholder="Enter search words."
+ 							required>		
+
+ 			<input  class="btn btn-success btn-sm btn-block" 
+			type="submit" 
+			value="Search">		
+	</div> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 </div>
 
+<div class="bestDaysFrame">
 
+ 		<div data-ng-repeat="day in days" class='singleDayDisplay showbox'> 
+
+	 		Title: 			{{ 	day.dayName }}<br>
+			User: 			{{ 	day.userName }}<br>
+			Day Date: 		{{ 	day.dayDate}}<br>
+	 		Reporting Date: {{ 	day.dayCreateDate  }}<br>
+	 		Updated on: 	{{	day.dayUpdateDate  }}<br>
+			Description: 	{{	day.dayDesc}}<br>
+			Who was there: 	{{	day.dayGroup}}<br>
+			Tags: 			{{	day.dayTags}}<br>
+			Locations: 		{{	day.locations}}<br>
+
+		</div>
+	</div>
+
+</div>
 
 
 
