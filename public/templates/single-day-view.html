@@ -1,0 +1,24 @@
+<div> Single Day View </div>
+<p> SHOULD SWAP WITH MULTI-DAY VIEW ARRAY</p>
+
+	<div class = 'daydisplay'>
+	 	<div data-ng-controller="dayController" class="container">
+		
+		<h3>Here's the Day You Selected</h3>
+ 	 	Day.dayChoice is: {{Day.dayChoice}}
+			<div class="bestDaysFrame">
+ 				 	<div class='title'>Title:			{{ 	day.dayName[0] }}</div>
+				 	<div class='tags'>Tags:			{{	day.dayTags[3]}}</div>
+					<div class='description'>Description: 	{{	day.dayDesc}}</div>
+					<div class='whowasthere'>Who was there? {{	day.dayGroup}}</div>
+					<div class='daydate'>When? 	{{ 	day.dayDate}}</div>
+					<div class='user'>By: 	{{ 	day.userName }}</div>
+					<div class='user'>ID?: 	{{ 	day._id }}</div>
+ 
+
+					<div class ='photo'> photo here</div> 
+
+ 			</div>
+
+		</div>  <!-- close day controller -->
+	</div>

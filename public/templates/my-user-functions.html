@@ -11,13 +11,21 @@
 						</div>
 				</a></li>
 
-				<li><a data-ng-show="User.userState==='loggedIn'" data-ng-click="User.signOut()" > 
-		 		  		Logout
+				<li><a data-ng-show="User.userState==='loggedIn'" 
+					   data-ng-click="User.signOut()" > 
+		 		  		Logout (User.userState is: {{User.userState}})
+
 		 		</a></li>
 
-				<li><a data-ng-show="User.userState==='loggedOut'" data-ng-click="User.userViewSwitch='Log';User.LoginError = false ">
-				  		Login
+				<li><a data-ng-show="User.userState==='loggedOut'" 
+					data-ng-click="User.userViewSwitch='Log'; User.LoginError = false ">
+				  		Login (User.userState is: {{User.userState}})
 				</a></li>	
+
+ <!-- 				<li><a	data-ng-show="User.userState==='loggedIn'"
+			  	  		data-ng-click="User.userViewSwitch ='ShareDayForm'"> 
+			  	  		Share a Day! 
+			  	</a></li> -->
 
 			  	 <li><a	data-ng-show="User.userState==='loggedOut'"
 			  	  		data-ng-click="User.userViewSwitch ='NEWREG'"> 
@@ -324,6 +332,3 @@
 		</div>
 	</div>	 
 </div>  
-
-<div class='spacer'>
-</div>

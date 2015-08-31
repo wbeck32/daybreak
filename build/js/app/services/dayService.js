@@ -24,4 +24,23 @@ this.addDay = function(dayName, userName, dayDesc, dayGroup, dayLocations){
 	}
 };
 
+//
+this.getDay = function(dayID){
+	if(dayID){
+		$http({
+			method: 'GET',
+			url: 	'/api/getday',
+			headers:{'Content-Type': 'application/json'}	 
+		})
+		.success(function(data,status,headers,config){
+			console.log("found the requested day", data._id);
+		})
+		.error(function(data,status,headers,config){
+				console.log("DID NOT FIND the requested day");
+		});
+	}
+};
+
+
+
 }]);

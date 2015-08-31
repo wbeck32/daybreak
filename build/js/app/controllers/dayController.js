@@ -22,5 +22,12 @@ this.addDay = function() {
 };
 
 
+this.showOneDay = function(dayID){
+
+	console.log("showOneDay function in controller", dayID);
+	//dayService.getDay(dayID);
+
+	};
+
 
 }]);

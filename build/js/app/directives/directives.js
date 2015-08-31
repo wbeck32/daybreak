@@ -16,4 +16,12 @@ angular.module('dayBreak')
 	return {
   		templateUrl: '/templates/my-user-functions.html'
 	};
+})
+
+
+.directive('singleDayView', function(){
+
+	return {
+  		templateUrl: '/templates/single-day-view.html'
+	};
 });
