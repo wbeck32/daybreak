@@ -30,7 +30,6 @@ dayBreak.service('userService', ['$http', function($http ){
 //login service
 this.login = function(username, password, callback){
 
-
  	$http({
 		method: 'POST',
 		url:'/api/session',

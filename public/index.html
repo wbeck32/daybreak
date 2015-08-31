@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-ng-app="dayBreak">
+
 <head>
 	<meta charset="utf-8" />
     <meta property="og:type" content="website">
@@ -10,134 +11,173 @@
 	<script src="js/modernizr.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500' rel='stylesheet' type='text/css'>
 	<title>Daybreak - Share and Find the Perfect Day</title>
-	
 </head>
 
 <body>
  
 
-<div ng-controller="userController as User">
+<div ng-controller="userController as User"  class='controller'> <!--important! this wraps all functions -->
+1 userState is: {{User.userState}}
+1.1 User.username is: {{User.username}}
+	
 	<div my-user-functions></div>
-	</div>
+
+
+	<div class="container"  >
+
+	2 userState is: {{User.userState}}
+	2.1 User.username is: {{User.username}}
+
+<!-- 		<div data-ng-switch on='User.userState'>
+		   		<div data-ng-switch-when='loggedIn'> -->
+
+				<div data-ng-switch on='User.userFormView'>
+		   			<div data-ng-switch-when="hide">
+						<a class='createdaybutton' data-ng-click="User.userFormView='show' ">
+	 			  		Create a New Day? </a>
+	 			  		<p>SHOULD ONLY APPEAR WHEN LOGGED IN! </p>
+
+					</div>
+				</div>
+
+				<div data-ng-switch on='User.userFormView'>
+		   			<div data-ng-switch-when="show">
+						<a class='createdayhide' data-ng-click="User.userFormView='hide' ">
+				 		Close the Form</a>
+					</div>
+				</div>
+
+<!-- 			</div>
+		</div> -->
+
+		<div data-ng-controller="dayController as Day" class='controller' style="border: 2px red solid;" >
+	   
+			<div data-ng-switch on='User.userFormView'>
+			   	<div data-ng-switch-when="show" >
+
+					<div class="col-md-6">
+					<h2  >My Day by&nbsp;{{User.username}}</h2>
+					<h6>Share your adventure</h6>
+
+						<section >
+							<div class="form-group" >
+								<form data-ng-submit="Day.addDay()">
+								<input type="text" class="form-control" data-ng-model="Day.dayName" placeholder="Give your day a name">
+				
+								<select class="form-control" data-ng-model="Day.dayGroup" placeholder="Who is in your group?">
+									<option value="single" selected="selected">Single</option>
+									<option value="couple">Couple</option>
+									<option value="fsk">Family with small kids</option>
+									<option value="fwtweens">Family with tweens</option>
+									<option value="fwteens">Family with teenagers</option>
+									<option value="adults">Group of adults</option>
+								</select>
+								<textarea class="form-control desc" rows="5" data-ng-model="Day.dayDesc" placeholder="Describe your day"></textarea> 
+
+								<!-- LOCATION -->
+								<div data-ng-controller="locationController as Location" class="form-group controller" style="margin:10px 0;">
+									<h4>Find a location</h4>
+									<input type="text" class="form-control" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
+									<textarea class="form-control" data-ng-bind="locDesc" rows="3" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
+								<!--TODO: Add functionality for uploading photos -->
+								<!-- <div>Share a picture from your Day - <input type="file" accept="image/*"></div> -->
+								<!--TODO-->
+									<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locName,locURL,locDesc)">Add this location</div>
+								<!-- END LOCATION BOX -->
+								</div> <!-- END LOCATION CONTROLLER -->
+
+								<div data-ng-controller="tagController as Tag" class="form-group controller">
+									<div>Use commas between tags.</div>
+									<input type="text" id="tags" class="form-control" data-ng-change="Tag.enterTag()" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
+
+
+									<div class="sortFrame">    <!--  tag search begin -->
+										<div class="form group">
+											<label class="label-space">Tag Search</label>
+
+												<input class= "form-control" 
+												type="text"
+									 			data-ng-model="User.username"
+									  			data-ng-change="User.checkthename(User.username)" 
+									 			placeholder="Enter search words."
+												required>		
+
+									 			<input  class="btn btn-success btn-sm btn-block" 
+												type="submit" 
+												value="Search">		
+										</div> 
+									</div>         <!--  tag search end -->
+
+								</div> <!--END TAG CONTROLLER -->
+								<button class="btn btn-default" type="submit">Add this day</button>
+								 
+								<button class="btn btn-default" type="submit">Discard without Saving</button>
+
+								</form>
+
+							</div>  
+
+						</section>
+					</div>
+				
+					<aside class="pull-right col-md-5">
+						<div class="locList">
+							<h3>Location list</h3>
+							<location-list></location-list>
+						</div>
+							<div id="map-canvas"></div>		
+					</aside>
+
+				</div>   <!--end show hide based on logged in and requested form  -->
+			</div>    <!--close user form view -->
+
+
+		 	<div class = 'daydisplay'>
+			 	<div  class="container">
+				<h3>Great Days Shared by Our Community</h3>
+				<h5>Here are some great Days!</h5>
 
 
 
-<div class="container-fluid">
-
-<div class="col-md-6">
-<h1>My Day</h1>
-<p>Share your adventure</p>
-
-<section>
-<div class="form-group" data-ng-controller="dayController as Day">
-	<form data-ng-submit="Day.addDay()">
-	<input type="text" class="form-control" data-ng-model="Day.dayName" placeholder="Give your day a name">
-	<select class="form-control"  data-ng-model="Day.dayGroup">
-		<option value="single" selected="selected">Single</option>
-		<option value="couple">Couple</option>
-		<option value="fsk">Family with small kids</option>
-		<option value="fwtweens">Family with tweens</option>
-		<option value="fwteens">Family with teenagers</option>
-		<option value="adults">Group of adults</option>
-	</select>
-	<textarea class="form-control desc" rows="5" data-ng-model="Day.dayDesc" placeholder="Describe your day"></textarea> 
-
-<!-- LOCATION -->
-<div data-ng-controller="locationController as Location" class="form-group" style="margin:10px 0;">
-	<h4>Find a location</h4>
-	<input type="text" class="form-control" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
-	<textarea class="form-control" data-ng-bind="locDesc" rows="3" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
-<!--TODO: Add functionality for uploading photos -->
-<!-- <div>Share a picture from your Day - <input type="file" accept="image/*"></div> -->
-<!--TODO-->
-	<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locName,locURL,locDesc)">Add this location</div>
-<!-- END LOCATION BOX -->
-</div> <!-- END LOCATION CONTROLLER -->
-
-<div data-ng-controller="tagController as Tag" class="form-group">
-	<div>Use commas between tags.</div>
-		<input type="text" id="tags" class="form-control" data-ng-change="Tag.enterTag()" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
-</div> <!--END TAG CONTROLLER -->
-	<button class="btn btn-default" type="submit">Add this day</button>
-</form>
-</div> <!-- END DAY CONTROLLER -->
-</section>
-</div>
-	<aside class="pull-right col-md-5">
-		<div class="locList">
-		<h3>Location list</h3>
-		<location-list></location-list>
-		</div>
-		<div id="map-canvas"></div>		
-	</aside>
-</div>
 
 
+					<div class="bestDaysFrame">
+					 	<div data-ng-repeat="day in days" class='singleDayDisplay showbox'> 
+						 	<div class='title'>			{{ 	day.dayName }}</div>
+						 	<div class='tags'>			{{	day.dayTags}}</div>
+							<div class='description'> Description: 	{{	day.dayDesc}}</div>
+							<div class='whowasthere'> Who was there? {{	day.dayGroup}}</div>
+							<div class='daydate'>		When? 	{{ 	day.dayDate}}</div>
+							<div class='user'>			By: 	{{ 	day.userName }}</div>
+							<div class='user'>			ID?: 	{{ 	day._id }}</div>
+							
+							<form data-ng-submit="Day.showOneDay()">
+		 
+							<input 	type="button" 
+									value='Explore This Day'   
+									class = 'exploreOneDayButton' 
+									data-ng-click = "Day.showOneDay()" >
 
-<div data-ng-controller="dayController" class="container">
-<h3>Great Days Shared by Our Community</h3>
-<h5>Here are some great Days!</h5>
+							<div class ='photo'> photo here</div> 
+
+						</div>
+					</div>
+
+				</div>      <!-- close container -->
+			</div>      <!-- close daydisplay -->
+
+
+			<div single-day-view>
+			</div>
+
+		</div>     <!-- close dayController -->
+
+	</div>    <!--  close container -->
+
+</div>   <!-- close user controller -->
+
  
-
-
-<div class="sortFrame">
-
-	<div class="form group">
-		<label class="label-space">Tag Search</label>
-
-			<input class= "form-control" 
-			type="text"
- 			data-ng-model="User.username"
-  			data-ng-change="User.checkthename(User.username)" 
-
- 							placeholder="Enter search words."
- 							required>		
-
- 			<input  class="btn btn-success btn-sm btn-block" 
-			type="submit" 
-			value="Search">		
-	</div> 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-
-<div class="bestDaysFrame">
-
- 		<div data-ng-repeat="day in days" class='singleDayDisplay showbox'> 
-
-	 		Title: 			{{ 	day.dayName }}<br>
-			User: 			{{ 	day.userName }}<br>
-			Day Date: 		{{ 	day.dayDate}}<br>
-	 		Reporting Date: {{ 	day.dayCreateDate  }}<br>
-	 		Updated on: 	{{	day.dayUpdateDate  }}<br>
-			Description: 	{{	day.dayDesc}}<br>
-			Who was there: 	{{	day.dayGroup}}<br>
-			Tags: 			{{	day.dayTags}}<br>
-			Locations: 		{{	day.locations}}<br>
-
-		</div>
-	</div>
-
-</div>
-
+ 
 
 
 

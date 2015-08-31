@@ -20,4 +20,14 @@ this.addDay = function() {
 	var dayGroup = this.dayGroup;
 	dayService.addDay(dayName, userName, dayDesc, dayGroup,$rootScope.dayLocations);
 };
+
+
+
+this.showOneDay = function(dayID){
+
+	console.log("showOneDay function in controller", dayID);
+	//dayService.getDay(dayID);
+
+	};
+
 }]);

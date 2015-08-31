@@ -27,6 +27,7 @@ var transporter = nodemailer.createTransport(smtpTransport({
   
 app.use(favicon(__dirname + '/public/images/daybreaksun16px.ico'));
 app.use(express.static(__dirname + '/public')); //
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -442,5 +443,5 @@ app.get('/user', function(req,res){
 
 app.use('/api',router);  //this needs to be near bottom of page
  
-app.listen(3000);
-console.log('listening on port 3000!');
+    app.listen(3000);
+    console.log('listening on port 3000!');
