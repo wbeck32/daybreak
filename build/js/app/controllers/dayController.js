@@ -13,16 +13,15 @@ $http({
 	console.log("failure ***");
 	});
 
-this.addDay = function() {
-	var dayName=this.dayName;
-	var userName=this.userName;
-	var dayDesc = this.dayDesc;
-	var dayGroup = this.dayGroup;
-	dayService.addDay(dayName, userName, dayDesc, dayGroup,$rootScope.dayLocations);
+this.addDay = function(Day, User) {
+	var dayName=Day.dayName;
+	var userName=User.username;
+	var dayDesc = Day.dayDesc;
+	var dayGroup = Day.dayGroup;
+	var dayTags = window.localStorage.getItem('dayTags');
+	var tagArray = dayTags.split(',');
+	dayService.addDay(dayName, userName, dayDesc, dayGroup, $rootScope.dayLocations, tagArray);
 };
-
-
-
 
 function chosenDay(data) {
 
@@ -39,5 +38,4 @@ this.showOneDay = function(dayID){
 
 	};
 
- 
 }]);
