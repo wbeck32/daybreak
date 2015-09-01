@@ -189,7 +189,7 @@ router.route('/getday').post(function(req,res, next){
             {
     console.log("~~~~~~~found day requested at api", Day);
 
-            res.status(201).json(Day);  //???
+            res.json(Day);  //???
             }
     })
 });
