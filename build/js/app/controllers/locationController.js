@@ -57,7 +57,7 @@ this.addLoc = function(Location,locName,locURL) {
 		$scope.locName = locName;
 		$scope.locURL = locURL;
 		$scope.locDesc = Location.locDesc;
-		console.log('adding another location: ',$scope.locName,$scope.locURL,$scope.locDesc);
+		//console.log('adding another location: ',$scope.locName,$scope.locURL,$scope.locDesc);
 		var l = ({location:$scope.locName,url:$scope.locURL,desc:$scope.locDesc});
 		$rootScope.dayLocations.push(l);
 		var tagField = document.getElementById('tags');

@@ -1,8 +1,7 @@
 angular.module('dayBreak').service('dayService',['$http', function($http){
 
 
-this.addDay = function(dayName, userName, dayDesc, dayGroup, dayLocations){
-	var dayTags = window.localStorage.getItem('dayTags');
+this.addDay = function(dayName, userName, dayDesc, dayGroup, dayLocations, dayTags){
 	if(dayName){
 		$http({
 			method: 'POST',
@@ -43,28 +42,6 @@ this.getDay = function(dayID, callback){
 		});
 	//}
 };
-
-///////////////////////EXAMPLE
-this.checktheemail = function( email,callback){
-    $http({
-    method    : 'POST',
-    url       : '/api/checkemail',
-    data      : { email         :  email},
-    headers   : {'Content-Type' : 'application/json'}
-    })
-    .success(function(data){
-      console.log('data in email service: ',data);
-      callback(data);
-      })
-    .error(function(data,status, headers, config){
-          console.log("data is: " + data);
-          self.uniqueEmail = false;
-          //cb(); //update scope
-      }); 
-};
-//////////////////////EXAMPLE
-
-
 
 
 }]);

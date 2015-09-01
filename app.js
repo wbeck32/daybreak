@@ -102,24 +102,6 @@ app.get('/tagsearch', function(req,res){
 
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   
 /* GET home page. */
     router.get('/', function(req, res) {
@@ -197,7 +179,6 @@ router.route('/getday').post(function(req,res, next){
 
 /* POST to Add Trip Service */
 router.route('/addday').post(function(req, res) {
-//console.log('in add day: ', req);
     var newDayDoc = new Day({
         dayName:       req.body.dayName,
         userName:       req.body.userName,

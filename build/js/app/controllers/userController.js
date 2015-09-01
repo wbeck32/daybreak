@@ -1,7 +1,7 @@
 dayBreak.controller('userController',
 		['$scope', '$rootScope','$http', 'userService', function($scope,$rootscope, $http,userService){
+		
 
- 	
 		$scope.User.testing 	= "testing testing";
 
 		$scope.User.userFormView = 'hide';    		
@@ -9,6 +9,7 @@ dayBreak.controller('userController',
 		$scope.User.userViewSwitch 	= null;
  
  		$scope.User.password 		= null;
+
 		$scope.User.passwordConfirm	= null; // note these are not equal to start
 		$scope.User.email = null;
 		$scope.User.created = Date;	//not necessary
@@ -27,8 +28,8 @@ dayBreak.controller('userController',
 		$scope.User.validPassword = false; 
 				    
  		$scope.User.LoginError = false;	     
-				    
-		$scope.User.username = userService.username;
+
+		$scope.User.username = userService.username;	    
 		$scope.User.userState 			= userService.userState;
 		//$rootscope.User.userState 			= userService.userState;
 //		$scope.User.userState 			= 'loggedOut';
@@ -91,6 +92,7 @@ dayBreak.controller('userController',
 
     		 // $scope.User.userFormView='show';  //loggedIn user can open day creation form
 		      $scope.User.userState = 'loggedIn';
+
 		      //$rootscope.User.userState = 'loggedIn'
  		      $scope.User.userViewSwitch = null;
 		      $scope.User.email = status.email;
@@ -140,9 +142,6 @@ dayBreak.controller('userController',
 			$scope.User.email = null;
 			$scope.User.matchingPassword= null;
 			$scope.User.uniqueEmail= '';   //important, not false or null
-
-
- 
 
     	console.log("2 setting $scope.User.userState at changeUserState", $scope.User.userState );
 
