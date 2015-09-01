@@ -7,8 +7,8 @@ dayBreak.controller('userController',
 		$scope.User.userFormView = 'hide';    		
 
 		$scope.User.userViewSwitch 	= null;
- 		$scope.User.username = 'StartingValue-userController';
-		$scope.User.password 		= null;
+ 
+ 		$scope.User.password 		= null;
 		$scope.User.passwordConfirm	= null; // note these are not equal to start
 		$scope.User.email = null;
 		$scope.User.created = Date;	//not necessary
@@ -28,6 +28,7 @@ dayBreak.controller('userController',
 				    
  		$scope.User.LoginError = false;	     
 				    
+		$scope.User.username = userService.username;
 		$scope.User.userState 			= userService.userState;
 		//$rootscope.User.userState 			= userService.userState;
 //		$scope.User.userState 			= 'loggedOut';
@@ -37,7 +38,6 @@ dayBreak.controller('userController',
 		// this.showDeleteAccount 	= false;
  
  
-
 
 //////////////////////////////////////////////////////
 	//on keyup test password for match and other criteria.
@@ -142,8 +142,7 @@ dayBreak.controller('userController',
 			$scope.User.uniqueEmail= '';   //important, not false or null
 
 
-			$scope.$apply();
-
+ 
 
     	console.log("2 setting $scope.User.userState at changeUserState", $scope.User.userState );
 

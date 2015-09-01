@@ -17,28 +17,23 @@
  
 
 <div ng-controller="userController as User"  class='controller'> <!--important! this wraps all functions -->
-1 userState is: {{User.userState}}
-1.1 User.username is: {{User.username}}
-	
-	<div my-user-functions></div>
 
-	
+<!-- 1 userState is: {{User.userState}}
+1.1 User.username is: {{User.username}}
+ -->	
+	<div my-user-functions>
+	</div>
 
 	<div class="container"  >
 
-	2 userState is: {{User.userState}}
-	2.1 User.username is: {{User.username}}
-
-<!-- 		<div data-ng-switch on='User.userState'>
-		   		<div data-ng-switch-when='loggedIn'> -->
+		<div data-ng-switch on='User.userState'>
+		   	<div data-ng-switch-when='loggedIn'>
 
 				<div data-ng-switch on='User.userFormView'>
 		   			<div data-ng-switch-when="hide">
 						<a class='createdaybutton' data-ng-click="User.userFormView='show' ">
 	 			  		Create a New Day? </a>
-	 			  		<p>SHOULD ONLY APPEAR WHEN LOGGED IN! </p>
-
-					</div>
+ 					</div>
 				</div>
 
 				<div data-ng-switch on='User.userFormView'>
@@ -48,8 +43,8 @@
 					</div>
 				</div>
 
-<!-- 			</div>
-		</div> -->
+			</div>     
+		</div>
 
 		<div data-ng-controller="dayController as Day" class='controller' style="border: 2px red solid;" >
 	   
@@ -138,43 +133,37 @@
 				<h3>Great Days Shared by Our Community</h3>
 				<h5>Here are some great Days!</h5>
 
-
-
-
-
 					<div class="bestDaysFrame">
 					 	<div data-ng-repeat="day in days" class='singleDayDisplay showbox'> 
-						 	<div class='title'>			{{ 	day.dayName }}</div>
+						 	<div class='title'> {{ 	day.dayName }}</div>
 						 	<div class='tags'>			{{	day.dayTags}}</div>
-							<div class='description'> Description: 	{{	day.dayDesc}}</div>
-							<div class='whowasthere'> Who was there? {{	day.dayGroup}}</div>
-							<div class='daydate'>		When? 	{{ 	day.dayDate}}</div>
-							<div class='user'>			By: 	{{ 	day.userName }}</div>
-							<div class='user'>			ID?: 	{{ 	day._id }}</div>
+							<div class='description'> Description:&nbsp;{{	day.dayDesc}}</div>
+							<div class='whowasthere'> Who was there?&nbsp; {{	day.dayGroup}}</div>
+							<div class='daydate'>		When?&nbsp;{{ 	day.dayDate}}</div>
+							<div class='user'>			By:&nbsp;{{ 	day.username }}</div>
+							<div class='user'>			ID?:&nbsp;{{ 	day._id }}</div>
 							
-							<form data-ng-submit="Day.showOneDay()">
+							<!-- <form data-ng-submit="Day.showOneDay()"> -->
 		 
 							<input 	type="button" 
 									value='Explore This Day'   
 									class = 'exploreOneDayButton' 
-									data-ng-click = "Day.showOneDay()" >
+									data-ng-click = "Day.showOneDay(day._id)" >
 
 							<div class ='photo'> photo here</div> 
-
 						</div>
 					</div>
-
 				</div>      <!-- close container -->
 			</div>      <!-- close daydisplay -->
 
 
+ 	 	xx Day.chosenDay.dayName is: {{Day.chosenDay.dayName}}</br>
+ 
 			<div single-day-view>
 			</div>
 
 		</div>     <!-- close dayController -->
-
 	</div>    <!--  close container -->
-
 </div>   <!-- close user controller -->
 
  
