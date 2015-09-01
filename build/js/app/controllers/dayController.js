@@ -20,4 +20,24 @@ this.addDay = function() {
 	var dayGroup = this.dayGroup;
 	dayService.addDay(dayName, userName, dayDesc, dayGroup,$rootScope.dayLocations);
 };
+
+
+
+
+function chosenDay(data) {
+
+		console.log("data.dayName", data[0].dayName);
+
+ 		$scope.Day.chosenDay = data[0];
+ 		console.log ('&&&&&&running callback chosenDay(data) after finding', data);
+		}
+
+this.showOneDay = function(dayID){
+
+	console.log("showOneDay function in controller", dayID);
+	dayService.getDay(dayID, chosenDay);
+
+	};
+
+ 
 }]);

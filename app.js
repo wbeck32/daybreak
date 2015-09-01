@@ -27,6 +27,7 @@ var transporter = nodemailer.createTransport(smtpTransport({
   
 app.use(favicon(__dirname + '/public/images/daybreaksun16px.ico'));
 app.use(express.static(__dirname + '/public')); //
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -67,6 +68,7 @@ var Day = db.model('day',
     dayTags            : Array, 
     locations          : Array,
     images             : Array
+ 
     });
 
 var anImage = db.model('image',{
@@ -150,6 +152,44 @@ app.get('/api/show', function(req,res,next){
             {
             console.log("we good at the api");
             res.status(201).json(Days); //returns saved Days object
+            }
+    })
+});
+
+
+// app.get('/api/getday', function(req,res,next){
+
+//     var dayID= req.dayID;
+
+//     console.log ('api endpoint receives dayID', req.dayID, req._id, req);
+
+//     Day.find(dayID).exec(function(err){
+//         if (err)
+//             {console.log('error at api endpoint');
+//              return next(err);}
+//         else
+//             {
+//             console.log("found the specific day requested at api");
+//             res.status(201).json(Day);  //???
+//             }
+//     })
+// });
+
+router.route('/getday').post(function(req,res, next){
+
+     console.log ('@@@@@@@@@ api endpoint receives dayID', req.body.dayID);
+  
+
+    Day.find( { '_id':  req.body.dayID   } ).exec(function(err, Day)
+        {
+        if (err)
+            {console.log('error at api endpoint');
+             return next(err);}
+        else
+            {
+    console.log("~~~~~~~found day requested at api", Day);
+
+            res.status(201).json(Day);  //???
             }
     })
 });
@@ -442,5 +482,5 @@ app.get('/user', function(req,res){
 
 app.use('/api',router);  //this needs to be near bottom of page
  
-app.listen(3000);
-console.log('listening on port 3000!');
+    app.listen(3000);
+    console.log('listening on port 3000!');

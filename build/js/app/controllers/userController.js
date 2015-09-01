@@ -1,12 +1,14 @@
 dayBreak.controller('userController',
-		['$scope', '$http', 'userService', function($scope,$http,userService){
+		['$scope', '$rootScope','$http', 'userService', function($scope,$rootscope, $http,userService){
 
+ 	
 		$scope.User.testing 	= "testing testing";
- 		
+
+		$scope.User.userFormView = 'hide';    		
 
 		$scope.User.userViewSwitch 	= null;
- 		$scope.User.username = null;
-		$scope.User.password 		= null;
+ 
+ 		$scope.User.password 		= null;
 		$scope.User.passwordConfirm	= null; // note these are not equal to start
 		$scope.User.email = null;
 		$scope.User.created = Date;	//not necessary
@@ -26,12 +28,17 @@ dayBreak.controller('userController',
 				    
  		$scope.User.LoginError = false;	     
 				    
+		$scope.User.username = userService.username;
 		$scope.User.userState 			= userService.userState;
+		//$rootscope.User.userState 			= userService.userState;
+//		$scope.User.userState 			= 'loggedOut';
 		
 		// this.userRegister 		= userService.userRegister; //mh
 		// this.showPasswordChange = false;
 		// this.showDeleteAccount 	= false;
  
+ 
+
 //////////////////////////////////////////////////////
 	//on keyup test password for match and other criteria.
 	this.passconfirm = function(pass, passconfirm){
@@ -78,8 +85,14 @@ dayBreak.controller('userController',
 //////////////////////////////////////////////////////
     function loginState(status) {
 	    if(status.status === 200) {
+
+    	console.log("loginState 1 setting $scope.User.userState at loginState()", $scope.User.userState );
+    	console.log("loginState 1a setting $scope.User.username at loginState()", $scope.User.username );
+
+    		 // $scope.User.userFormView='show';  //loggedIn user can open day creation form
 		      $scope.User.userState = 'loggedIn';
-		      $scope.User.userViewSwitch = null;
+		      //$rootscope.User.userState = 'loggedIn'
+ 		      $scope.User.userViewSwitch = null;
 		      $scope.User.email = status.email;
 		      $scope.User.username = status.userName;
 		      $scope.User.userAbout = status.userAbout;
@@ -87,8 +100,16 @@ dayBreak.controller('userController',
 		   	  $scope.User.created = status.created.substring(0,10);
 			  //format: {"$date": "2015-08-20T18:37:47.626Z"}
 
+    	console.log("loginState 2 setting $scope.User.userState at loginState()", $scope.User.userState );
+		console.log("loginState 2a setting $scope.User.username at loginState()", $scope.User.username );
+
+
+
 	    } else {
+	    	//  $scope.User.userFormView='hide';
 		      $scope.User.userState = 'loggedOut';
+		      //$rootscope.User.userState = 'loggedOut'
+
 		      $scope.User.LoginError = true;           
 		      $scope.User.userViewSwitch = 'Log';
 		      $scope.User.password = '';
@@ -97,7 +118,7 @@ dayBreak.controller('userController',
 	    }
 
 	this.login = function(){  
-      userService.login(this.username, this.password,loginState);
+      userService.login(this.username, this.password, loginState);
 		};
 
 
@@ -105,6 +126,9 @@ dayBreak.controller('userController',
 		//in userController
 
     function changeUserState(){
+
+    	console.log("1 setting $scope.User.userState at changeUserState", $scope.User.userState );
+
 	      $scope.User.username = '';
 	      $scope.User.userState = 'loggedOut';
 	      $scope.User.userViewSwitch = null;
@@ -116,6 +140,12 @@ dayBreak.controller('userController',
 			$scope.User.email = null;
 			$scope.User.matchingPassword= null;
 			$scope.User.uniqueEmail= '';   //important, not false or null
+
+
+ 
+
+    	console.log("2 setting $scope.User.userState at changeUserState", $scope.User.userState );
+
 		    }
 
  	this.signOut = function(){
