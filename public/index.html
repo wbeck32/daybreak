@@ -27,7 +27,6 @@
 		<div data-ng-switch on='User.userState'>
 		   	<div data-ng-switch-when='loggedIn'>
 
-
 				<div data-ng-switch on='User.userFormView'>
 		   			<div data-ng-switch-when="hide"> 
 						<a class='createdaybutton' data-ng-click="User.userFormView='show' ">
@@ -101,7 +100,7 @@
 							<location-list></location-list>
 						</div>
 					</aside>
-
+ 
 				</div>   <!--end show hide based on logged in and requested form  -->
 			</div>    <!--close user form view -->
 
@@ -121,36 +120,24 @@
 					</div> 
 				</div>  <!--  tag search end -->
 				</div>       <!-- tag controller end -->
+ 
+		 
 
-				<h3>Great Days Shared by Our Community</h3>
-				<h5>Here are some great Days!</h5>
-
-					<div class="bestDaysFrame">
-					 	<div data-ng-repeat="day in days" class='singleDayDisplay showbox'> 
-						 	<div class='title'> {{ 	day.dayName }}</div>
-						 	<div class='tags'>			{{	day.dayTags}}</div>
-							<div class='description'> Description:&nbsp;{{	day.dayDesc}}</div>
-							<div class='whowasthere'> Who was there?&nbsp; {{	day.dayGroup}}</div>
-							<div class='daydate'>		When?&nbsp;{{ 	day.dayDate}}</div>
-							<div class='user'>			By:&nbsp;{{ 	day.username }}</div>
-							<div class='user'>			ID?:&nbsp;{{ 	day._id }}</div>
-							
- 		 
-							<input 	type="button" 
-									value='Explore This Day'   
-									class = 'exploreOneDayButton' 
-									data-ng-click = "Day.showOneDay(day._id)" >
-
-							<div class ='photo'> photo here</div> 
-						</div>
+			<div    data-ng-switch on='User.userDayView'>
+	   			<div   data-ng-switch-when="grid"> 
+ 					<div grid-day-view>
+ 
 					</div>
-				</div>      <!-- close container -->
-			</div>      <!-- close daydisplay -->
-
-
-  
-			<div single-day-view>
+ 				</div>
 			</div>
+
+			<div data-ng-switch on='User.userDayView'>
+	   			<div data-ng-switch-when="single"> 
+					<div single-day-view>
+					</div>
+ 	  			</div>
+ 			</div>
+
 
 		</div>     <!-- close dayController -->
 	</div>    <!--  close container -->

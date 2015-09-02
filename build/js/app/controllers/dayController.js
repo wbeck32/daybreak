@@ -43,6 +43,10 @@ function chosenDay(data) {
 
  		$scope.Day.chosenDay = data[0];
  		console.log ('&&&&&&running callback chosenDay(data) after finding', data);
+		
+ 		$scope.User.userDayView = 'single';  
+ 		//on successful find change from grid to single
+
 		}
 
 this.showOneDay = function(dayID){

@@ -24,4 +24,12 @@ angular.module('dayBreak')
 	return {
   		templateUrl: '/templates/single-day-view.html'
 	};
+})
+
+
+.directive('gridDayView', function(){
+
+	return {
+  		templateUrl: '/templates/grid-day-view.html'
+	};
 });

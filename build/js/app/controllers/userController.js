@@ -2,7 +2,9 @@ dayBreak.controller('userController',
 		['$scope', '$rootScope','$http', 'userService', function($scope,$rootscope, $http,userService){
 		
 		$scope.User.userFormView = 'hide';    		
-		$scope.User.userDayView = 'grid';
+ 
+		$scope.User.userDayView =  "grid";  //user can change to 'single'
+ 
 		$scope.User.userViewSwitch 	= null;
  
  		$scope.User.password 		= null;
@@ -16,10 +18,8 @@ dayBreak.controller('userController',
 		$scope.User.uniqueEmail 	= '';  // email is unique in database
   
 		$scope.matchingPassword		= '';
-		//$scope.validPassword = userService.validPassword; 
 
-		//$scope.User.longUsername 	= true;
-		$scope.User.uniqueUserName 	= '';
+ 		$scope.User.uniqueUserName 	= '';
 		$scope.User.longUsername	= false;
 
 		$scope.User.validPassword = false; 
@@ -27,16 +27,11 @@ dayBreak.controller('userController',
  		$scope.User.LoginError = false;	     
 
 		$scope.User.username = userService.username;	    
-		$scope.User.userState = userService.userState;
-		//$rootscope.User.userState 			= userService.userState;
-//		$scope.User.userState 			= 'loggedOut';
-		
-		// this.userRegister 		= userService.userRegister; //mh
-		// this.showPasswordChange = false;
-		// this.showDeleteAccount 	= false;
+ 
+		$scope.User.userState 			= userService.userState;
  
  
-
+ 
 //////////////////////////////////////////////////////
 	//on keyup test password for match and other criteria.
 	this.passconfirm = function(pass, passconfirm){
