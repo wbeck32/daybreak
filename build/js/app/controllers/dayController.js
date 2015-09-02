@@ -1,5 +1,7 @@
 angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', function($scope, $rootScope,$http,dayService){
 	
+populateDayGrid();
+function populateDayGrid() {
 $http({
 	method: 'GET',
 	url: '/api/show',
@@ -8,10 +10,18 @@ $http({
 .success(function(data,status,headers, config){
 	console.log("success ***");
 	$scope.days = data;
-		})
+})
 .error(function(data, status,headers,config){
 	console.log("failure ***");
-	});
+});
+}
+
+function updateDayGrid() {
+	$scope.User.userFormView = 'hide';
+	$scope.User.userDayView = 'grid';
+	populateDayGrid();
+}
+
 
 this.addDay = function(Day, User) {
 	var dayName=Day.dayName;
@@ -19,8 +29,12 @@ this.addDay = function(Day, User) {
 	var dayDesc = Day.dayDesc;
 	var dayGroup = Day.dayGroup;
 	var dayTags = window.localStorage.getItem('dayTags');
-	var tagArray = dayTags.split(',');
-	dayService.addDay(dayName, userName, dayDesc, dayGroup, $rootScope.dayLocations, tagArray);
+	var tagArray = [];
+	if(dayTags) {
+		tagArray = dayTags.split(',');
+	}
+	dayService.addDay(dayName, userName, dayDesc, dayGroup, $rootScope.dayLocations, tagArray, updateDayGrid);
+
 };
 
 function chosenDay(data) {

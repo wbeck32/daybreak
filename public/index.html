@@ -91,10 +91,9 @@
 								</form>
 					
 							</div>  
-
 						</section>
 					</div>
-				
+
 					<aside class="pull-right col-md-5">
 						<div id="map-canvas"></div>		
 						<div class="locList">
@@ -105,8 +104,8 @@
 
 				</div>   <!--end show hide based on logged in and requested form  -->
 			</div>    <!--close user form view -->
-			
-		 	<div>
+
+		 <div class="daydisplay">
 			 	<div class="container">
 			 	<div data-ng-controller="tagController as Tag"> <!-- tag controller begin -->
 				<div class="sortFrame">    <!--  tag search begin -->
@@ -114,8 +113,6 @@
 						<label class="label-space">Tag Search</label>
 							<input class= "form-control" 
 							type="text"
-				 			data-ng-model="User.username"
-				  			data-ng-change="User.checkthename(User.username)" 
 				 			placeholder="Enter search words."
 							required>		
 				 			<input class="btn btn-success btn-sm btn-block" 

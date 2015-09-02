@@ -1,7 +1,7 @@
 angular.module('dayBreak').service('dayService',['$http', function($http){
 
 
-this.addDay = function(dayName, userName, dayDesc, dayGroup, dayLocations, dayTags){
+this.addDay = function(dayName, userName, dayDesc, dayGroup, dayLocations, dayTags, callback){
 	if(dayName){
 		$http({
 			method: 'POST',
@@ -16,7 +16,8 @@ this.addDay = function(dayName, userName, dayDesc, dayGroup, dayLocations, dayTa
 			headers: {'Content-Type': 'application/json'}	
 			}).success(function(data, status, headers, config){
 				console.log('success!');
-				window.localStorage.clear('dayTags');
+				callback();
+				window.localStorage.removeItem('dayTags');
 			}).error(function(data,status,headers,config){
 				console.log('failure!');
 	 		});

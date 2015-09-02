@@ -1,11 +1,8 @@
 dayBreak.controller('userController',
 		['$scope', '$rootScope','$http', 'userService', function($scope,$rootscope, $http,userService){
 		
-
-		$scope.User.testing 	= "testing testing";
-
 		$scope.User.userFormView = 'hide';    		
-
+		$scope.User.userDayView = 'grid';
 		$scope.User.userViewSwitch 	= null;
  
  		$scope.User.password 		= null;
@@ -30,7 +27,7 @@ dayBreak.controller('userController',
  		$scope.User.LoginError = false;	     
 
 		$scope.User.username = userService.username;	    
-		$scope.User.userState 			= userService.userState;
+		$scope.User.userState = userService.userState;
 		//$rootscope.User.userState 			= userService.userState;
 //		$scope.User.userState 			= 'loggedOut';
 		

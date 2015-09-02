@@ -33,11 +33,17 @@ google.maps.event.addListener(searchBox, 'places_changed', function() {
     });
   $scope.map.panTo(marker.position);
 
+var popupString = '<div style="font-weight:bold">'+places[0].name+'</div>';
+
+if (places[0].formatted_address) {
+  popupString += '<div>'+places[0].formatted_address+'</div>';
+}
+if (places[0].formatted_phone_number) {
+  popupString += '<div>'+places[0].formatted_phone_number+'</div>';
+}
 
 var infowindow = new google.maps.InfoWindow({
-  content:'<div style="font-weight:bold">'+places[0].name+'</div>'+
-          '<div>'+places[0].formatted_address+'</div>'+
-          '<div>'+places[0].formatted_phone_number+'</div>'
+  content: popupString
 });
 marker.setMap($scope.map);
 

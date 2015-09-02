@@ -6,6 +6,11 @@ this.enterTag = function() {
 	window.localStorage.setItem('dayTags',dayTags);
 };
 
+this.retrieveTag = function() {
+
+
+};
+
 
 
 }]);
