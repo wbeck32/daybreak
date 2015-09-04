@@ -1,6 +1,7 @@
 angular.module('dayBreak').service('dayService',['$http', function($http){
 
 
+
 this.addDay = function(dayName, userName, dayDesc, dayGroup, dayLocations, dayTags, callback){
 	if(dayName){
 		$http({
@@ -24,6 +25,28 @@ this.addDay = function(dayName, userName, dayDesc, dayGroup, dayLocations, dayTa
 	}
 };
 
+
+
+this.findTag = function(tag,callback){
+	console.log('$$$$$$ tag service ', tag);
+
+//	if(tag){
+		$http({
+			method: 'POST',
+			url:  '/api/taglookup',
+			data: {tag: tag},
+			headers: {'Content-Type': 'application/json'}	
+			})
+			.success(function(data){
+				console.log('tag success at dayService data is: ', data);
+ 				callback(data);
+			})
+			.error(function(data){
+				console.log('tag failure');
+		});
+//	}
+};
+
 //
 this.getDay = function(dayID, callback){
 	console.log('********in dayService incoming dayID is: ', dayID);
@@ -38,11 +61,12 @@ this.getDay = function(dayID, callback){
 			console.log("found the requested day, returning data.dayID", data, " and data.dayName ", data.dayName);
 			callback(data);
 		})
-		.error(function(data,status,headers,config){
+		.error(function(data){
 				console.log("DID NOT FIND the requested day");
 		});
 	//}
-};
+	};
 
 
 }]);
+

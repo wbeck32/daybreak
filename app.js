@@ -83,25 +83,8 @@ router.use(function(req, res, next) {
 
 /////////////////////////////////////////////////////////////////////
 
-//tag based search rewrite of login
-app.get('/tagsearch', function(req,res){
 
-    //not needed
-    //request is from logged in user?
-    var token = req.headers['x-auth'];
-    console.log ("token is " + token);
-    var auth  = jwt.decode(token, secretKey);
-    console.log('auth is ' + auth);
-    console.log('auth.username is ' + auth.username);
-    /////
 
-    Days.find({tag: req.searchtag}, function(err,user){
-
-        res.json(user.userName, user.email, user.userAbout);
-        console.log("user.userName is " + user.userName);
-
-    });
-});
   
 /* GET home page. */
     router.get('/', function(req, res) {
@@ -138,30 +121,52 @@ app.get('/api/show', function(req,res,next){
     })
 });
 
+ 
+//tag based search  
+router.route('/taglookup').post(function(req,res,next){
+        console.log ("at api incoming req.tag is... " + req.body.tag);
+        
+        tagString = req.body.tag;
+        //console.log('tagString is: ', tagString)
+        
+        //transform incoming string to array
+        //find commas, create array (which has different commas)
+        tagArray = tagString.split(",");
 
-// app.get('/api/getday', function(req,res,next){
 
-//     var dayID= req.dayID;
 
-//     console.log ('api endpoint receives dayID', req.dayID, req._id, req);
+//WHILE ARRAY IS > 0
 
-//     Day.find(dayID).exec(function(err){
-//         if (err)
-//             {console.log('error at api endpoint');
-//              return next(err);}
-//         else
-//             {
-//             console.log("found the specific day requested at api");
-//             res.status(201).json(Day);  //???
-//             }
-//     })
-// });
+        //hand the array to mongo - require $all tags to be present
+        Day.find( { dayTags: { $all: tagArray  }}).exec(function(err,Day)
+
+
+            //IF DAY=== undefined
+                //CUT LAST ELEMENT OFF ARRAY
+                //RECURSIVELY CALL DAY.FIND
+                //UNTIL DAY.LENGTH > 0 
+                    //RETURN DAY
+
+
+
+        {
+        if (err)
+            {console.log('error at tag api endpoint');
+             return next(err);}
+        else
+            {
+            console.log("~~~~~~at lookup API found tag...: ", Day );
+
+
+            res.json(Day);  //???
+            }
+        })
+});
 
 router.route('/getday').post(function(req,res, next){
 
-     console.log ('@@@@@@@@@ api endpoint receives dayID', req.body.dayID);
+    console.log ('@@@@@@@@@ api endpoint receives dayID', req.body.dayID);
   
-
     Day.find( { '_id':  req.body.dayID   } ).exec(function(err, Day)
         {
         if (err)
@@ -169,8 +174,7 @@ router.route('/getday').post(function(req,res, next){
              return next(err);}
         else
             {
-    console.log("~~~~~~~found day requested at api", Day);
-
+        console.log("~~~~~~~at getday API found day requested at api", Day);
             res.json(Day);  //???
             }
     })
@@ -187,7 +191,7 @@ router.route('/addday').post(function(req, res) {
         dayDate:       Date.now(),
         dayDesc:       req.body.dayDesc,
         dayGroup:      req.body.dayGroup,
-        dayTags:           req.body.dayTags,
+        dayTags:        req.body.dayTags,
         locations:      req.body.dayLocations,
         images:         req.body.images
         });

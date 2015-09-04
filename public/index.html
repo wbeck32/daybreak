@@ -6,10 +6,22 @@
     <meta property="og:type" content="website">
 	<meta property="og:title" content="Daybreak is the pefect way to share your Perfect Day.">
     <meta property="og:description" content="Use Daybreak discover other people's favorite days and favorite places, and share your perfect day.">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+
+<!--     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ -->	
 	<link rel="stylesheet" href="css/styles.css" />
 	<script src="js/modernizr.js"></script>
+
 	<link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500' rel='stylesheet' type='text/css'>
+
+	 <!-- Compiled and minified MATERIALIZE CSS -->
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+
+
+  	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	
 	<title>Daybreak - Share and Find the Perfect Day</title>
 </head>
 
@@ -18,41 +30,48 @@
 
 <div ng-controller="userController as User"> <!--important! this wraps all functions -->
 
+
 	
 	<div my-user-functions></div>
 
 
-	<div class="container" >
 
-		<div data-ng-switch on='User.userState'>
+	<div  >
+
+
+
+
+		<div class='buttonHolder' data-ng-switch on='User.userState'>
 		   	<div data-ng-switch-when='loggedIn'>
 
 				<div data-ng-switch on='User.userFormView'>
 		   			<div data-ng-switch-when="hide"> 
-						<a class='createdaybutton' data-ng-click="User.userFormView='show' ">
+						<a class='createdaybutton' 
+						data-ng-click="User.userFormView='show' ">
 	 			  		Create a New Day? </a>
  					</div>
 				</div>
 
 				<div data-ng-switch on='User.userFormView'>
 		   			<div data-ng-switch-when="show">
-						<a class='createdayhide' data-ng-click="User.userFormView='hide' ">
-				 		Close the Form</a>
+ 
+				 		<i data-ng-click = "User.userFormView='hide' "  
+						class="material-icons left small" 
+						style ='cursor: pointer;'>clear</i>
+
 					</div>
 				</div>
-
 			</div>     
 		</div>
 
 		<div data-ng-controller="dayController as Day">
 	   
 			<div data-ng-switch on='User.userFormView'>
-			   	<div data-ng-switch-when="show" >
+			   	<div class='row' data-ng-switch-when="show" >
 
-					<div class="col-md-6">
+					<div class="col s6	 ">
 					<h2>My Day by&nbsp;{{User.username}}</h2>
-					<h6>Share your adventure</h6>
-
+ 
 						<section>
 							<div class="form-group" >
 								<form data-ng-submit="Day.addDay(Day, User)">
@@ -79,6 +98,7 @@
 									<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locName,locURL,locDesc)">Add this location</div>
 								</div> <!-- END LOCATION CONTROLLER -->
 
+
 								<div data-ng-controller="tagController as Tag" class="form-group">
 									<div>Use commas between tags.</div>
 									<input type="text" id="tags" class="form-control" data-ng-change="Tag.enterTag()" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
@@ -93,10 +113,10 @@
 						</section>
 					</div>
 
-					<aside class="pull-right col-md-5">
+					<aside class="col s6 m2 ">
 						<div id="map-canvas"></div>		
 						<div class="locList">
-							<h3>Location list</h3>
+							<h6>Location list</h6>
 							<location-list></location-list>
 						</div>
 					</aside>
@@ -104,49 +124,82 @@
 				</div>   <!--end show hide based on logged in and requested form  -->
 			</div>    <!--close user form view -->
 
-		 <div class="daydisplay">
+
+
+
+
+
+<!-- SEARCH AND DISPLAY -->
+
+			<div class="daydisplay">
 			 	<div class="container">
-			 	<div data-ng-controller="tagController as Tag"> <!-- tag controller begin -->
-				<div class="sortFrame">    <!--  tag search begin -->
-					<div class="form group">
-						<label class="label-space">Tag Search</label>
-							<input class= "form-control" 
-							type="text"
-				 			placeholder="Enter search words."
-							required>		
-				 			<input class="btn btn-success btn-sm btn-block" 
-							type="submit" 
-							value="Search">		
-					</div> 
-				</div>  <!--  tag search end -->
-				</div>       <!-- tag controller end -->
+
+
+								
+
+			 		<div data-ng-controller="tagController as Tag"> <!-- tag controller begin -->
+						<div class="tagFrame">    <!--  tag search begin -->
+							 
+								<label class="label-space"></label>
+
+									<input 
+ 									data-ng-model="Day.tag"
+									class= "form-control" 
+									type="text"
+						 			placeholder="Enter search words, separated by spaces. (Example: Boston hiking restaurant.)"
+									required>
+								
+									<input 
+						 			data-ng-click = "Day.findTag()"  
+						 			class="btn btn-sm btn-block right" 
+									type="submit" 
+									value="Clear Results">	
+
+						 			<input 
+						 			data-ng-click = "Day.findTag(Day.tag)"  
+						 			class="btn btn-sm btn-block center" 
+									type="submit" 
+									value="Search">		
+
+									
+
+						</div>  <!--  tag search end -->
+					</div>       <!-- tag controller end -->
  
 		 
 
-			<div    data-ng-switch on='User.userDayView'>
-	   			<div   data-ng-switch-when="grid"> 
- 					<div grid-day-view>
- 
+					<div    data-ng-switch on='User.userDayView'>
+			   			<div   data-ng-switch-when="grid"> 
+		 					<div grid-day-view>
+		 					</div>
+		 				</div>
 					</div>
- 				</div>
-			</div>
 
-			<div data-ng-switch on='User.userDayView'>
-	   			<div data-ng-switch-when="single"> 
-					<div single-day-view>
-					</div>
- 	  			</div>
- 			</div>
+					<div data-ng-switch on='User.userDayView'>
+			   			<div data-ng-switch-when="single"> 
+							<div single-day-view>
+							</div>
+		 	  			</div>
+		 			</div>
+
 
 
 		</div>     <!-- close dayController -->
 	</div>    <!--  close container -->
 </div>   <!-- close user controller -->
 
- 
+</div>   <!-- extra mystery div spreads footer across bottom -->
+         
+<div foot-of-page></div>
+
  
 
 
+
+ <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+ <!-- Compiled and minified JavaScript -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
 
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
