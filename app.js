@@ -128,27 +128,23 @@ router.route('/taglookup').post(function(req,res,next){
         
         tagString = req.body.tag;
         //console.log('tagString is: ', tagString)
-        
-        //transform incoming string to array
+       //transform incoming string to array
         //find commas, create array (which has different commas)
         tagArray = tagString.split(",");
 
 
-
-//WHILE ARRAY IS > 0
+//WHILE ARRAY.length IS > 0
 
         //hand the array to mongo - require $all tags to be present
-        Day.find( { dayTags: { $all: tagArray  }}).exec(function(err,Day)
+        Day.find( { dayTags: { $all: tagArray  }})
+            .sort({dayCreateDate: 'descending'})
+            .exec(function(err,Day)
 
-
-            //IF DAY=== undefined
+             //IF DAY=== undefined
                 //CUT LAST ELEMENT OFF ARRAY
                 //RECURSIVELY CALL DAY.FIND
                 //UNTIL DAY.LENGTH > 0 
                     //RETURN DAY
-
-
-
         {
         if (err)
             {console.log('error at tag api endpoint');

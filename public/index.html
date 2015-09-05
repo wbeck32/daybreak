@@ -66,10 +66,11 @@
 
 		<div data-ng-controller="dayController as Day">
 	   
-			<div data-ng-switch on='User.userFormView'>
+			<div style="margin 0 auto; background-color: #F2F6F6;"
+				 data-ng-switch on='User.userFormView'>
 			   	<div class='row' data-ng-switch-when="show" >
 
-					<div class="col s6	 ">
+					<div class="col s6 " >
 					<h2>My Day by&nbsp;{{User.username}}</h2>
  
 						<section>
@@ -99,9 +100,14 @@
 								</div> <!-- END LOCATION CONTROLLER -->
 
 
-								<div data-ng-controller="tagController as Tag" class="form-group">
-									<div>Use commas between tags.</div>
-									<input type="text" id="tags" class="form-control" data-ng-change="Tag.enterTag()" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
+								<div  class="form-group">
+									<div>Use spaces between tags.</div>
+									<input type="text" 
+									id="tags" 
+									class="form-control" 
+									data-ng-change="Day.enterTag()" 
+									placeholder="Enter some tags" 
+									data-ng-model="Day.dayTags">
 								</div> <!--END TAG CONTROLLER -->
 								<button class="btn btn-default" type="submit">Add this day</button>
 								 
@@ -113,7 +119,7 @@
 						</section>
 					</div>
 
-					<aside class="col s6 m2 ">
+					<aside class="col s6 m2" >
 						<div id="map-canvas"></div>		
 						<div class="locList">
 							<h6>Location list</h6>
@@ -153,13 +159,18 @@
 						 			data-ng-click = "Day.findTag()"  
 						 			class="btn btn-sm btn-block right" 
 									type="submit" 
-									value="Clear Results">	
+									value="Show All Days">	
 
 						 			<input 
 						 			data-ng-click = "Day.findTag(Day.tag)"  
-						 			class="btn btn-sm btn-block center" 
+						 			class="btn btn-sm btn-block left" 
 									type="submit" 
-									value="Search">		
+									value="Search">	
+
+									<div class='resultCount center'
+									data-ng-show="Day.searchResultLength>1"> 
+									 	{{Day.searchResultLength }} Results
+									</div>	
 
 									
 

@@ -1,12 +1,40 @@
-angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', function($scope, $rootScope,$http,dayService){
+angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService',  function($scope,$rootScope,$http,dayService){
 	
 populateDayGrid();
 
+$scope.Day.searchResultLength = 0;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//mh MOVED enterTag from tagController to dayContrller and changed index.html
+//as required
+
+this.enterTag = function() {
+	var dayTags = this.dayTags;
+	console.log('incoming at tagController- start|'+dayTags+'|end');
+
+	//change to standard lowercase alphanumeric only tag format
+	dayTags=dayTags.trim().toLowerCase().replace(/\W+/g, " ");
+	//every white space string becomes a comma below
+	dayTags = dayTags.replace(/\s+/g, ',');
+
+	console.log("trimmed and lowered for saving - start|"+tags+"|end" );	
+
+	window.localStorage.setItem('dayTags',dayTags);
+};
+	
+
+this.retrieveTag = function() {
+};
+
+//mh moved above from dayController //////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
  
 function foundTag(data){
 	console.log('doing foundTag', data );
 	$scope.days = data;  //updates grid with results?
+  	$scope.Day.searchResultLength = data.length;
 }
 
 this.findTag = function(tag, foundtag){
@@ -35,6 +63,8 @@ this.findTag = function(tag, foundtag){
 		//call dayService
 		dayService.findTag(tag, foundTag);
 		}
+
+
 };
 
 
@@ -63,6 +93,10 @@ function updateDayGrid() {
 	$scope.User.userFormView = 'hide';
 	$scope.User.userDayView = 'grid';
 	populateDayGrid();
+	
+	$scope.Day.searchResultLength = 0;  //reset to 0 so result count does not display
+
+
 }
 
 
@@ -72,10 +106,18 @@ this.addDay = function(Day, User) {
 	var dayDesc = Day.dayDesc;
 	var dayGroup = Day.dayGroup;
 	var dayTags = window.localStorage.getItem('dayTags');
+
+	console.log(dayTags," is dayTags at dayController addDay() ");
+
 	var tagArray = [];
+
 	if(dayTags) {
-		tagArray = dayTags.split(',');
+ 		tagArray = dayTags.split(',');
 	}
+ 	else {console.log('88888888'); 
+ 		  this.enterTag(Day.dayTags);  }
+
+
 	dayService.addDay(dayName, userName, dayDesc, dayGroup, $rootScope.dayLocations, tagArray, updateDayGrid);
 
 };

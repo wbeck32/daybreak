@@ -64,11 +64,24 @@ this.addLoc = function(Location,locName,locURL) {
 		$scope.locURL = locURL;
 		$scope.locDesc = Location.locDesc;
 		//console.log('adding another location: ',$scope.locName,$scope.locURL,$scope.locDesc);
-		var l = ({location:$scope.locName,url:$scope.locURL,desc:$scope.locDesc});
-		$rootScope.dayLocations.push(l);
+
+		var l = ({location:$scope.locName, url:$scope.locURL, desc:$scope.locDesc});
+		
+    $rootScope.dayLocations.push(l);
+
 		var tagField = document.getElementById('tags');
-		tagField.value += $scope.locName+','+' ';
-		window.localStorage.setItem('dayTags',tagField.value);
+
+    //console.log(tagField," is tagField at location controller");
+
+		//tagField.value += $scope.locName+','+' ';
+    tagField.value += ' '+$scope.locName+' ';  //new way mh proposes 
+
+        window.localStorage.setItem('dayTags',tagField.value);
+
+    // tagField.value += ' '+$scope.locDesc+' ';  //mh adds description to tags
+    //     window.localStorage.setItem('dayTags',tagField.value);
+
+
 		$scope.locDesc = '';
 		$scope.locName = '';
 		$scope.locURL = '';
