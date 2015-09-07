@@ -30,15 +30,9 @@
 
 <div ng-controller="userController as User"> <!--important! this wraps all functions -->
 
+	<div my-user-functions></div> <!--  Nav Bar -->
 
-	
-	<div my-user-functions></div>
-
-
-
-	<div  >
-
-
+	<div>
 
 
 		<div class='buttonHolder' data-ng-switch on='User.userState'>
@@ -64,9 +58,11 @@
 			</div>     
 		</div>
 
-		<div data-ng-controller="dayController as Day">
+
+		<div    
+			data-ng-controller="dayController as Day">
 	   
-			<div style="margin 0 auto; background-color: #F2F6F6;"
+			<div  style="margin: 0 auto; background-color: #F2F6F6; width: 70%"
 				 data-ng-switch on='User.userFormView'>
 			   	<div class='row' data-ng-switch-when="show" >
 
@@ -86,7 +82,7 @@
 									<option value="fwteens">Family with teenagers</option>
 									<option value="adults">Group of adults</option>
 								</select>
-								<textarea class="form-control desc" rows="5" data-ng-model="Day.dayDesc" placeholder="Describe your day"></textarea> 
+								<textarea class="form-control desc" rows="5" data-ng-model="Day.dayDesc" placeholder="This was a great day for us because... "></textarea> 
 
 								<!-- LOCATION controller begin-->
 								<div data-ng-controller="locationController as Location" class="form-group controller" style="margin:10px 0;">
