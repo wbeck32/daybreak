@@ -38,10 +38,13 @@ function foundTag(data){
 }
 
 this.findTag = function(tag, foundtag){
-		console.log('^^^^^tag is ', tag);
+
+	$scope.User.userDayView	= 'grid';   //on search always switch to grid view
+
+	console.log('^^^^^tag is ', tag);
 			//strip leading trailing space and to lowercase
 		//tag=tag.trim().toLowerCase().replace(/\W+/g, " ");	
-	    console.log("incoming for finding start|"+tag+"|end" );	
+	 console.log("incoming for finding start|"+tag+"|end" );	
  
  	if( tag!==undefined){
 
