@@ -286,13 +286,14 @@
  
 
 	   		<div id='about' ng-switch on="User.userViewSwitch">
-				<div ng-switch-when='Myaccount' >
-		 	 		<div class='loginDirection'>About Your Account</div>
 
-					<i data-ng-click = "User.userViewSwitch=null "  
+				<i data-ng-click = "User.userViewSwitch=null "  
 						class="material-icons right small" 
 						style ='cursor: pointer;'>clear
-					</i>
+				</i>
+
+				<div ng-switch-when='Myaccount' >
+		 	 		<div class='loginDirection'>About Your Account</div>
 
 		 	 		<div class ="userProfile">
 						<div data-ng-show="User.userState==='loggedIn' ">
@@ -306,12 +307,12 @@
 					  			<li>Display Name :&nbsp;{{User.username}}&nbsp; &nbsp; 
 					  				<span class='link'>Change Display Name?</span></li>
 
-					  			<li>Email (private):&nbsp;{{User.email}}. &nbsp; &nbsp; &nbsp; &nbsp; <span class='link'>Change E-mail?</span></li>
+					  			<li>Email (private):&nbsp;{{User.email}}.  &nbsp; &nbsp;
+					  				 <span class='link'>Change E-mail?</span></li>
 
 					  			<li>About You (public):&nbsp;{{User.userAbout}}</li>
 
 				  			</div>
-
 
 				  			<div class="form group">
 				  				<form 

@@ -63,19 +63,23 @@
 		<div    
 			data-ng-controller="dayController as Day">
 
+			<div class='buttonHolder' data-ng-switch on='User.userState'>
+		   		<div data-ng-switch-when='loggedIn'>
+
+					<div class="buttonHolder" 
+						data-ng-switch on='User.userFormView'>
+			   			<div data-ng-switch-when="hide"> 
+							<a class='createdaybutton' 
+							data-ng-click= "Day.viewEditUserDays(User.username)">
+		 			  		View and Edit Days for {{User.username}}</a>
+							</div>	
+					</div>
+
+					<!-- data-ng-click="User.userFormView='show' -->
+				</div>
+			</div>   
 
 
-			<div class="buttonHolder" 
-				data-ng-switch on='User.userFormView'>
-	   			<div data-ng-switch-when="hide"> 
-					<a class='createdaybutton' 
-					data-ng-click= "Day.viewEditUserDays(User.username)">
- 			  		View and Edit Days for {{User.username}}</a>
-					</div>	
-			</div>
-
-			<!-- data-ng-click="User.userFormView='show' -->
-	   
 			<div  style="margin: 0 auto; background-color: #F2F6F6; width: 70%"
 				 data-ng-switch on='User.userFormView'>
 			   	<div class='row' data-ng-switch-when="show" >

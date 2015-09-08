@@ -193,7 +193,7 @@ dayBreak.controller('userController',
 //////////////////////////////////////////////////////
 
 	function userInfoUpdated(data){
-		console.log("calback following write of updated user info to database")
+		console.log("calback following write of updated user info to database");
 	}
 
 
