@@ -81,12 +81,17 @@
 			   	<div class='row' data-ng-switch-when="show" >
 
 					<div class="col s6 " >
-					<h2>My Day by&nbsp;{{User.username}}</h2>
- 
+<!-- 					<h2>My Day by&nbsp;{{User.username}}</h2>
+ --> 
 						<section>
 							<div class="form-group" >
 								<form data-ng-submit="Day.addDay(Day, User)">
+
+								<h4>Tell us about your day!</h4>
+
 								<input type="text" class="form-control" data-ng-model="Day.dayName" placeholder="Give your day a name">
+
+								<div> by &nbsp;{{User.username}}</div>
 				
 								<select class="form-control" data-ng-model="Day.dayGroup" placeholder="Who is in your group?">
 									<option value="single" selected="selected">Single</option>
@@ -96,11 +101,11 @@
 									<option value="fwteens">Family with teenagers</option>
 									<option value="adults">Group of adults</option>
 								</select>
-								<textarea class="form-control desc" rows="5" data-ng-model="Day.dayDesc" placeholder="This was a great day for us because... "></textarea> 
+								<textarea class="form-control desc" rows="5" data-ng-model="Day.dayDesc" placeholder="This was a great day because... "></textarea> 
 
 								<!-- LOCATION controller begin-->
 								<div data-ng-controller="locationController as Location" class="form-group controller" style="margin:10px 0;">
-									<h4>Find a location</h4>
+									<h5>Find one location or add many!</h5>
 									<input type="text" class="form-control" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
 									<textarea class="form-control" data-ng-bind="locDesc" rows="3" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
 								<!--TODO: Add functionality for uploading photos -->
@@ -166,13 +171,14 @@
 									required>
 								
 									<input 
-						 			data-ng-click = "Day.findTag()"  
+						 			data-ng-click = "Day.findTag()"
 						 			class="btn btn-sm btn-block right" 
 									type="submit" 
 									value="Show All Days">	
 
 						 			<input 
-						 			data-ng-click = "Day.findTag(Day.tag)"  
+						 			data-ng-click = "Day.findTag(Day.tag)" 
+
 						 			class="btn btn-sm btn-block left" 
 									type="submit" 
 									value="Search">	
@@ -184,7 +190,8 @@
 						</div>  <!--  tag search end -->
 
 						<div class = 'searchResultsMessage'>
-							Search Results Message: >>> {{User.searchResultsMessage}}
+							
+							{{Day.searchResultsMessage}}
 
 							<div class='resultCount center'
 									data-ng-show="Day.searchResultLength>1"> 

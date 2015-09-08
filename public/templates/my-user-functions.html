@@ -289,11 +289,6 @@
 				<div ng-switch-when='Myaccount' >
 		 	 		<div class='loginDirection'>About Your Account</div>
 
- 					<!-- <i data-ng-click="User.userViewSwitch=null  "  
-							class="material-icons right" 
-							style ='cursor: pointer;'>done
-					</i> -->
-
 					<i data-ng-click = "User.userViewSwitch=null "  
 						class="material-icons right small" 
 						style ='cursor: pointer;'>clear
@@ -320,18 +315,17 @@
 
 				  			<div class="form group">
 				  				<form 
-									data-ng-submit="User.updateUserAbout(User)"
+									data-ng-submit="User.updateUserInfo()"
 										name = "aboutForm" 
 									novalidate>
 
-								<label class="labelspace">Tell other community members about yourself and about your perfect day.</label>
+								<label class="labelspace">Tell other community members about yourself and your ideal day.</label>
 	
 								<input class= "form-control"
 								id='aboutfield' 
 								name='aboutForm'
 								type="text" 
-								value= "Enter"
-								data-ng-model="User.userAbout"
+ 								data-ng-model="User.userAbout"
 								placeholder="My perfect day would be..."
 								required></input>
 				
@@ -351,7 +345,7 @@
 								</a>
 							</div>	
 		
-  						</div>
+  						</div> <!--   end ngshow -->
 					</div>
 		  		</div>  
 

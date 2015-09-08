@@ -4,6 +4,8 @@ populateDayGrid();
 
 $scope.Day.searchResultLength = 0;
 
+$scope.Day.searchResultsMessage = null;
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //mh MOVED enterTag from tagController to dayContrller and changed index.html
@@ -43,6 +45,9 @@ this.viewEditUserDays = function(username, callback){
 
 	console.log ('entering viewEditUserDays');
 	console.log('username in daycontroller is ', username);
+
+	$scope.Day.searchResultsMessage='Now Showing My Days Only'; 
+
 	dayService.getDaysOfUser(username, completeViewEditUserDays);
 
 };
@@ -57,10 +62,12 @@ function foundTag(data){
 
 this.findTag = function(tag, foundtag){
 
+
+
 	$scope.User.userDayView	= 'grid';   //on search always switch to grid view
 
 	console.log('^^^^^tag is ', tag);
-			//strip leading trailing space and to lowercase
+		//strip leading trailing space and to lowercase
 		//tag=tag.trim().toLowerCase().replace(/\W+/g, " ");	
 	 console.log("incoming for finding start|"+tag+"|end" );	
  
@@ -78,10 +85,18 @@ this.findTag = function(tag, foundtag){
 
 	    if (tag===undefined){
 	    	console.log("tag is undefined");
-	    	updateDayGrid();}  //refresh default grid
- 
+
+ 			$scope.Day.searchResultsMessage='Now Showing All Days'; 
+
+	    	updateDayGrid();
+
+	    	}  //refresh default grid
+
 	    else {
 		//call dayService
+		$scope.Day.searchResultsMessage='Now Showing Tag Search Results'; 
+		console.log(tag, " is tag at dayService");
+
 		dayService.findTag(tag, foundTag);
 		}
 

@@ -176,7 +176,6 @@ router.route('/getdaysofuser').post(function(req,res,next){
         else
             {
             console.log("~~~~~~at getdaysforuser API found username...: ", Day );
-
             res.json(Day); 
             }
         })
@@ -265,6 +264,13 @@ router.route('/registerValidUser').post(function(req,res,next){
         });
     });
 });
+
+router.route('/updateuserabout').post(function(req,res,next){
+    console.log(req.User,"is req.User incoming at API");
+
+})
+
+
 
 
 //THE REAL THING HERE ////////////////////////////////////////////////
