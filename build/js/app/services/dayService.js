@@ -67,6 +67,28 @@ this.getDay = function(dayID, callback){
 	//}
 	};
 
+//////////////////////////////////////////////////////////////////////////
+
+this.getDaysOfUser = function(username, callback){
+
+	console.log('^^^^^^^^in dayService incoming user is: ', username);
+	//if(dayID){
+ 		$http({
+			method: 'POST',
+			url: 	'/api/getdaysofuser',
+			data: {	username : username},
+			headers:{'Content-Type': 'application/json'}	 
+		})
+		.success(function(data){
+			console.log("found the requested username, returning data.dayID", data, " and data.dayName ", data.dayName);
+			callback(data);
+		})
+		.error(function(data){
+				console.log("DID NOT FIND the requested username");
+		});
+	//}
+	};
+
 
 }]);
 

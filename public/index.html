@@ -55,12 +55,26 @@
 
 					</div>
 				</div>
+
 			</div>     
 		</div>
 
 
 		<div    
 			data-ng-controller="dayController as Day">
+
+
+
+			<div class="buttonHolder" 
+				data-ng-switch on='User.userFormView'>
+	   			<div data-ng-switch-when="hide"> 
+					<a class='createdaybutton' 
+					data-ng-click= "Day.viewEditUserDays(User.username)">
+ 			  		View and Edit Days for {{User.username}}</a>
+					</div>	
+			</div>
+
+			<!-- data-ng-click="User.userFormView='show' -->
 	   
 			<div  style="margin: 0 auto; background-color: #F2F6F6; width: 70%"
 				 data-ng-switch on='User.userFormView'>
@@ -163,14 +177,22 @@
 									type="submit" 
 									value="Search">	
 
-									<div class='resultCount center'
-									data-ng-show="Day.searchResultLength>1"> 
-									 	{{Day.searchResultLength }} Results
-									</div>	
+									
 
 									
 
 						</div>  <!--  tag search end -->
+
+						<div class = 'searchResultsMessage'>
+							Search Results Message: >>> {{User.searchResultsMessage}}
+
+							<div class='resultCount center'
+									data-ng-show="Day.searchResultLength>1"> 
+									 	{{Day.searchResultLength }} Results
+							</div>	
+
+						</div>
+
 					</div>       <!-- tag controller end -->
  
 		 

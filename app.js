@@ -110,7 +110,7 @@ app.get('/show', function(req,res,next){
 
 app.get('/api/show', function(req,res,next){
     //now we sort via mongoose, not in angular, then truncate and respond
-    Day.find({}).sort({dayCreateDate: 'descending'}).limit(20).exec(function(err, Days){
+    Day.find({}).sort({dayCreateDate: 'descending'}).limit(100).exec(function(err, Days){
         if (err) 
             {return next(err)}
         else
@@ -158,6 +158,31 @@ router.route('/taglookup').post(function(req,res,next){
             }
         })
 });
+
+
+//getdaysforuser  
+router.route('/getdaysofuser').post(function(req,res,next){
+
+        console.log ("at api incoming req.username is... " + req.body.username);
+        
+        Day.find( {userName : req.body.username}  )
+            .sort({dayCreateDate: 'descending'})
+            .exec(function(err,Day)
+            
+        {
+        if (err)
+            {console.log('error at getdaysforuser api endpoint');
+             return next(err);}
+        else
+            {
+            console.log("~~~~~~at getdaysforuser API found username...: ", Day );
+
+            res.json(Day); 
+            }
+        })
+});
+
+
 
 router.route('/getday').post(function(req,res, next){
 

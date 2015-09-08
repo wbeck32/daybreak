@@ -30,6 +30,24 @@ this.retrieveTag = function() {
 //mh moved above from dayController //////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+function completeViewEditUserDays(data){
+	console.log('callback setting found days for user', data);
+	$scope.days = data;  //updates grid with results
+  	$scope.Day.searchResultLength = data.length;
+
+}
+
+
+this.viewEditUserDays = function(username, callback){
+
+	console.log ('entering viewEditUserDays');
+	console.log('username in daycontroller is ', username);
+	dayService.getDaysOfUser(username, completeViewEditUserDays);
+
+};
+
+
  
 function foundTag(data){
 	console.log('doing foundTag', data );

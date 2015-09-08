@@ -303,12 +303,18 @@
 						<div data-ng-show="User.userState==='loggedIn' ">
 
 				  			<div class="userProfile"  >
+
 					  			<li>Name:&nbsp;{{User.username}}</li>
+
 					  			<li>Member since:&nbsp;{{User.created}}</li>
-					  			<li>Display Name :&nbsp;{{User.username}}&nbsp; &nbsp; &nbsp; &nbsp; <span class='link'>Change Display Name?</span></li>
+
+					  			<li>Display Name :&nbsp;{{User.username}}&nbsp; &nbsp; 
+					  				<span class='link'>Change Display Name?</span></li>
+
 					  			<li>Email (private):&nbsp;{{User.email}}. &nbsp; &nbsp; &nbsp; &nbsp; <span class='link'>Change E-mail?</span></li>
 
 					  			<li>About You (public):&nbsp;{{User.userAbout}}</li>
+
 				  			</div>
 
 
