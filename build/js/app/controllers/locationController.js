@@ -70,27 +70,23 @@ this.addLoc = function(Location,locName,locURL) {
       locDescArray=Location.locDesc.split(' ');
 
     }
-    else{console.log('oops');}
+    else{console.log('oops ');}
 
 
-
+    
 		var l = ({location:$scope.locName, url:$scope.locURL, desc:locDescArray});
 		
     $rootScope.dayLocations.push(l);
-
-
 
 		var tagField = document.getElementById('tags');
 
     var tempArray = [];
 
-
     tempArray= $scope.locName.split(' ');
 
     var locTagArray = tempArray.map(function(tag){return tag.toLowerCase(); }) ;
 
-console.log(locTagArray, "is locTagArray");
-
+    //console.log(locTagArray, "is locTagArray");
     //  console.log(tagField," is tagField at location controller");
 
 		tagField.value += $scope.locName+' ';
