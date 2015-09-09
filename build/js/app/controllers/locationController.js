@@ -67,8 +67,12 @@ this.addLoc = function(Location,locName,locURL) {
 		var l = ({location:$scope.locName,url:$scope.locURL,desc:$scope.locDesc});
 		$rootScope.dayLocations.push(l);
 		var tagField = document.getElementById('tags');
-		tagField.value += $scope.locName+','+' ';
-		window.localStorage.setItem('dayTags',tagField.value);
+
+    var locTagArray = [];
+    locTagArray.push($scope.locName.split(' ');
+		tagField.value += locTagArray;
+		
+    window.localStorage.setItem('dayTags',tagField.value);
 		$scope.locDesc = '';
 		$scope.locName = '';
 		$scope.locURL = '';
