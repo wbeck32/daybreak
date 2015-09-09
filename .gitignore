@@ -1,3 +1,4 @@
+*.crt
 deploy.sh
 mongolaboinfo.js
 data/mongolabinfo.js
