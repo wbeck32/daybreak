@@ -1,26 +1,23 @@
-		  
 
-				<h3>Great Days Shared by Our Community</h3>
-				<h5>Here are some great Days!</h5>
+<div ng-show="Days.day.length>0">
+<h5>Great Days Shared by Our Community</h5>
+</div>
 
-					<div class="bestDaysFrame">
-					 	<div data-ng-repeat="day in days" class='singleDayDisplay showbox'> 
-						 	<div class='title'> {{ 	day.dayName }}</div>
-						 	<div class='tags'>			{{	day.dayTags}}</div>
-							<div class='description'> Description:&nbsp;{{	day.dayDesc}}</div>
-							<div class='whowasthere'> Who was there?&nbsp; {{	day.dayGroup}}</div>
-							<div class='daydate'>		When?&nbsp;{{ 	day.dayDate}}</div>
-							<div class='user'>			By:&nbsp;{{ 	day.username }}</div>
-							<div class='user'>			ID?:&nbsp;{{ 	day._id }}</div>
-							
- 		 
-							<input 	type="button" 
-									value='Explore This Day'   
-									class = 'exploreOneDayButton' 
-									data-ng-click = "Day.showOneDay(day._id)" >
+<div ng-show="Days.length=0"> nothing 
+</div>
 
-							<div class ='photo'> photo here</div> 
-						</div>
-					</div>
-				</div>      <!-- close container -->
-			</div>      <!-- close grid view -->
+<div class="bestDaysFrame">
+ 	<div data-ng-repeat="day in days" class='singleDayDisplay showbox'> 
+  		<div data-ng-click = "Day.showOneDay(day._id)" style ='cursor: pointer;' >
+		 	<div class='title'> 	{{ 	day.dayName }}</div>
+		 	<div class='tags'>		{{	day.dayTags}}</div>
+			<div class='description'> Description:&nbsp;{{	day.dayDesc}}</div>
+			<div class='whowasthere'> Who was there?&nbsp; {{	day.dayGroup}}</div>
+			<div class='daydate'>When?&nbsp;{{ 	day.dayDate}}</div>
+			<div class='user'>By:&nbsp;{{day.userName }}</div>
+			<div class ='photo'> photo here</div> 
+			
+ 		</div>	
+	</div>
+</div>
+ 

@@ -1,6 +1,7 @@
 dayBreak.controller('userController',
 		['$scope', '$rootScope','$http', 'userService', function($scope,$rootscope, $http,userService){
 		
+
 		$scope.User.userFormView = 'hide';    		
  
 		$scope.User.userDayView =  "grid";  //user can change to 'single'
@@ -191,14 +192,23 @@ dayBreak.controller('userController',
 
 //////////////////////////////////////////////////////
 
-	// function uniqueEmail(data) {
- // 		 	$scope.User.uniqueEmail = data;
-	// 		}
+	function userInfoUpdated(data){
+		console.log("calback following write of updated user info to database");
+	}
 
-	this.updateUserAbout = function(userabout){
+
+	this.updateUserInfo = function(User){
+
+		//if logged in user then hand all User values to service.
+		//then Service takes all User values and sends to API
+		// then API writes /over writes all User values.
+
+		console.log ($scope.User.username, " is $scope.User.username");
 		
-		console.log("updateUserAbout in controller");
- 		userService.updateUserAbout(User.userabout);
+		console.log(User," is User at updateUserInfo in controller");
+
+
+ 		userService.updateUserInfo(User);
  				 
  		};
 	

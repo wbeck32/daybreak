@@ -12,24 +12,24 @@ angular.module('dayBreak')
 }) 
 
 .directive('myUserFunctions', function(){
-
-	return {
-  		templateUrl: '/templates/my-user-functions.html'
+	return {templateUrl: '/templates/my-user-functions.html'
 	};
 })
 
 
 .directive('singleDayView', function(){
-
-	return {
-  		templateUrl: '/templates/single-day-view.html'
+	return {templateUrl: '/templates/single-day-view.html'
 	};
 })
 
 
 .directive('gridDayView', function(){
-
-	return {
-  		templateUrl: '/templates/grid-day-view.html'
+	return {templateUrl: '/templates/grid-day-view.html'
 	};
-});
+})
+
+.directive('footOfPage', function(){
+	return {templateUrl: '/templates/foot-of-page.html'
+	};
+})
+;

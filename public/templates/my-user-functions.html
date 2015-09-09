@@ -1,9 +1,12 @@
 <!-- <div data-ng-controller= "userController as User">  -->   
-	<nav class = 'navbar navbar-default'>
+
+<div class="navbar-fixed">
+
+	<nav>
 		<div id = "titleGraphic">Daybreak</div>
  	  	<div class="container" >
  	  		
-			<ul class='nav navbar-nav navfont'>
+			<ul class='right hide-on-small-and-down button-collapse'>
 
 				<li><a><div 
 						data-ng-click="User.userViewSwitch = null ">
@@ -19,7 +22,8 @@
 
 				<li><a><div 	
 			   	  		data-ng-model="User"  
-			  	  		data-ng-show="User.userState==='loggedIn'" >
+			  	  		data-ng-show="User.userState==='loggedIn'" 
+			  	  		data-ng-click="User.userViewSwitch = null ">
 			  			Welcome:  {{User.username}} 
 				  		</div>
 				 </a></li>
@@ -79,6 +83,7 @@
 					</div>
 
 					<form data-ng-submit="User.login()">
+
 
 						<div class="form group">
 							<label class="label-space">User Name</label>
@@ -281,63 +286,72 @@
  
 
 	   		<div id='about' ng-switch on="User.userViewSwitch">
+
+				<i data-ng-click = "User.userViewSwitch=null "  
+						class="material-icons right small" 
+						style ='cursor: pointer;'>clear
+				</i>
+
 				<div ng-switch-when='Myaccount' >
 		 	 		<div class='loginDirection'>About Your Account</div>
-			 	 		<div class ="userProfile">
-							<div data-ng-show="User.userState==='loggedIn' ">
 
-					  			<div class="userProfile"  >
-						  			<li>Name:&nbsp;{{User.username}}</li>
-						  			<li>Member since:&nbsp;{{User.created}}</li>
-						  			<li>Display Name :&nbsp;{{User.username}}&nbsp; &nbsp; &nbsp; &nbsp; <span class='link'>Change Display Name?</span></li>
-						  			<li>Email (private):&nbsp;{{User.email}}. &nbsp; &nbsp; &nbsp; &nbsp; <span class='link'>Change E-mail?</span></li>
+		 	 		<div class ="userProfile">
+						<div data-ng-show="User.userState==='loggedIn' ">
 
-						  			<li>About You (public):&nbsp;{{User.userAbout}}</li>
-					  			</div>
+				  			<div class="userProfile"  >
 
+					  			<li>Name:&nbsp;{{User.username}}</li>
 
-					  			<div class="form group">
-					  				<form 
-										data-ng-submit="User.updateUserAbout(User)"
- 										name = "aboutForm" 
-										novalidate>
+					  			<li>Member since:&nbsp;{{User.created}}</li>
 
-									<label class="labelspace">Tell other community members about yourself and about your perfect day.</label>
- 	
-									<input class= "form-control"
-									id='aboutfield' 
-									name='aboutForm'
-									type="text" 
-									value= "Enter"
-									data-ng-model="User.userAbout"
-									placeholder="My perfect day would be..."
-									required></input>
-					
-									<input  
-									class="btn btn-success btn-sm btn-block" 
- 									type="submit" 
-									value="Enter">
-									</input>
-								</div>	
-  		
-	  						</div>
-						</div>
-			  		</div>  
-  				<div class='closeModal' 
-					data-ng-show="User.userViewSwitch==='Myaccount' ">
- 					<a data-ng-click="User.userViewSwitch=null ">
-						Close this pop-up.
-					</a>
-				</div>
+					  			<li>Display Name :&nbsp;{{User.username}}&nbsp; &nbsp; 
+					  				<span class='link'>Change Display Name?</span></li>
 
-				<div class='closeModal' 
-					data-ng-show="User.userViewSwitch==='Myaccount' ">
- 					<a data-ng-click="User.userViewSwitch='deleteaccount' ">
-	 					Delete this account?					
-					</a>
-				</div>
+					  			<li>Email (private):&nbsp;{{User.email}}.  &nbsp; &nbsp;
+					  				 <span class='link'>Change E-mail?</span></li>
+
+					  			<li>About You (public):&nbsp;{{User.userAbout}}</li>
+
+				  			</div>
+
+				  			<div class="form group">
+				  				<form 
+									data-ng-submit="User.updateUserInfo()"
+										name = "aboutForm" 
+									novalidate>
+
+								<label class="labelspace">Tell other community members about yourself and your ideal day.</label>
+	
+								<input class= "form-control"
+								id='aboutfield' 
+								name='aboutForm'
+								type="text" 
+ 								data-ng-model="User.userAbout"
+								placeholder="My perfect day would be..."
+								required></input>
+				
+								<input  
+								class="btn btn-success btn-sm btn-block" 
+									type="submit" 
+								value="Save">
+								</input>
+							</div>
+							
+							<br>
+
+							<div class='closeModal' 
+								data-ng-show="User.userViewSwitch==='Myaccount' ">
+									<a data-ng-click="User.userViewSwitch='deleteaccount' ">
+ 								Delete this account?					
+								</a>
+							</div>	
+		
+  						</div> <!--   end ngshow -->
+					</div>
+		  		</div>  
+
+				
 			</div>
 		</div>
 	</div>	 
-<!-- </div>  
- -->
+</div>  

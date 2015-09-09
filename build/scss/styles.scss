@@ -33,7 +33,7 @@ a:hover{
 .locList {
 	border:1px solid black;
 	margin: 0 0 10px 0;
-	width: 400px;
+	width: 300px;
 	padding:10px;
 }
 
@@ -52,7 +52,7 @@ p {
   }
 }
 
-navfont {font-size: 1em; }
+navfont {font-size: 1.2em; }
 
 h1 {
 	font-weight:500;
@@ -62,27 +62,27 @@ h1 {
 
 #titleGraphic{
 	padding-left: 15px;
-	padding-top: 18px;
-	margin-right: 40px;
+	padding-top: 1px;
+	margin-right: 30px;
 	font-size: 1.5em;
 	float: left;
 }
 
-.joinMessage{height: 30px; 
-			padding-top: 4px;
+.joinMessage{ 
 			padding-left: 20px;
 			padding-right: 20px;
 			border-radius: 15px;
 			font-size: 1.2em;
-			background-color: #66FF33;
+			background-color: pink;
 			border: 1px solid black;}
+
 
 .container-fluid {
 	padding:1%;
 
 	section {
 		display: inline-block;
-		width:60%;
+		width:100%;
 	}
 	aside {
 		display:inline-block;
@@ -91,22 +91,25 @@ h1 {
 }
 
 .container {
- 	padding:1%;
-	margin: 1%;
+	width: auto;
+ 	margin: 1%;
 }
+
+.buttonHolder{
+		margin:30px;
+		width: 100%;
+		height: 30px;
+		border: 1px dotted clear;
+	}
 
 .createdaybutton{
 	font-size:1.3em;
- 	background-color: #66FF33;
-	color: black;
+ 	color: black;
 	border: 1px solid black;
   	padding-left: 20px;
-	padding-right: 20px;
-
-	height:200px;
-	border-radius: 5px;
-	margin-right: 20px;
-	margin-bottom: 30px;
+ 	padding-right: 20px;
+ 	border-radius: 5px;
+ 	 
 }
 
 .createdayhide{
@@ -120,9 +123,8 @@ h1 {
 	margin-bottom: 30px;
 }
 
-.daydisplay{ padding: 1%;	
-			clear:left;
-
+.daydisplay{ width: 100%;
+			 margin:1%  
 			}
 
 input {
@@ -146,7 +148,7 @@ article {
 
 .list-group-item{
 	font-size: .7em;
-	width: 30%;
+	width: 20%;
 	background-color: #E0F9F3;
 	border: black solid 2px;
 	margin: 1%;
@@ -161,15 +163,18 @@ height:30%;
 
 
 .userContainer{
-	margin: 0 auto 10px;
+	margin: 0 auto ;
 	width: 450px;
-	padding: 20px;
-	border: 2px black dashed;
+
+	padding: 50px;
+	border: 2px black solid;
 	border-radius: 10px;
 	background-color: #E0F9F3;
 	}
 
 .surround {
+
+	padding-top: 70px;
 
 }
 
@@ -245,6 +250,7 @@ height:30%;
 
 
 .bestDaysFrame{ 
+	width: 100%;
  	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -253,7 +259,7 @@ height:30%;
  }
 
 .singleDayDisplay { 
-		width:320px; 
+		width:220px; 
 		height: 320px; 
 		background-color: #F3F3F3; 
 		margin: 20px;
@@ -373,35 +379,42 @@ height:30%;
 
 .title1 { font-size: 1.2em;}  
 
+.location1{ margin: 20px;
+		padding: 3px;
+		border: 1px solid black;
+		background-color: #CCCCFF;
+		font-size: 1.4em;
+		}
+
 .user1 { margin: 3px;
 		padding: 3px;
 		border: 1px solid black;
 		background-color: #CCCCFF;
-		font-size: 2em;}
+		font-size: 1.4em;}
 
 .daydate1 { margin: 3px;
 		padding: 3px;
 		border: 1px solid black;
 		background-color: #CCCCFF;
-		font-size: 2em;}
+		font-size: 1.4em;}
 
 .description1 { margin: 3px;
 		padding: 3px;
 		border: 1px solid black;
 		background-color: #CCCCFF;
-		font-size: 2em;}
+		font-size: 1.4em;}
 
 .whowasthere1 { margin: 3px;
 		padding: 3px;
 		border: 1px solid black;
 		background-color: #CCCCFF;
-		font-size: 2em;}
+		font-size: 1.4em;}
 
 .tags1 { margin: 3px;
 		padding: 3px;
 		border: 1px solid black;
 		background-color: #CCCCFF;
-		font-size: 2em;}
+		font-size: 1.2em;}
 
 .photo1 {height:200px;
 		width:100%;
@@ -409,5 +422,27 @@ height:30%;
 		border: 1px solid black;
 		background-color:#009999}
 	 
+
+.resultCount {
+		font-size: 1.4em;
+		color: blue;
+		text-align: center;		
+		}
+
+.singleDayTitle{
+ 	margin-top: 20px; 
+ 	font-size: 1.5em; 
+ 	width:100%; 
+ 	background-color: #ffccbc deep-orange lighten-4; 
+ 	} 
+
+ .searchResultsMessage {
+ 	margin-top: 40px;
+ 	width: 100%;
+ 	background-color: #E0F9F3;
+ 	border: 1px solid black;
+ 	font-size: 1.1em;
+
+ }
 
 

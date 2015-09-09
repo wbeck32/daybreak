@@ -133,14 +133,14 @@ this.checktheemail = function( email,callback){
 
 
 
+this.updateUserInfo = function(User, callback){
 
-
-this.updateUserAbout = function(userabout, callback){
+  console.log(user, " is user incoming at userService");
 
   $http({
     method    : 'POST',
     url       : '/api/updateuserinfo',
-    data      : { userabout         :  userabout},
+    data      : { User         :  user},
     headers   : {'Content-Type' : 'application/json'}
     })
     .success(function(data){
@@ -149,8 +149,7 @@ this.updateUserAbout = function(userabout, callback){
       })
     .error(function(data,status, headers, config){
           console.log("data is: " + data);
-          self.uniqueEmail = false;
-       }); 
+        }); 
 };
 
 

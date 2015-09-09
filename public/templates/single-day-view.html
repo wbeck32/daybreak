@@ -1,19 +1,27 @@
-	<div >
-
-		 <input 	type="button" 
-					value='Back to Grid View'   
-					class = 'xexploreOneDayButton' 
-					data-ng-click = "User.userDayView='grid' " >
-	 	 		
-		<h3>Here's the Day You Selected</h3>
- 			<div class="singleDayFrame">
-			<div class='title1'>Title:{{ 	Day.chosenDay.dayName }}</div>
-			<div class='tags1'>Tags:	{{	Day.chosenDay.dayTags}}</div>
-			<div class='description1'>Description: 	{{	Day.chosenDay.dayDesc}}</div>
-			<div class='whowasthere1'>Who was there? {{	Day.chosenDay.dayGroup}}</div>
-			<div class='daydate1'>When? 	{{ 	Day.chosenDay.dayDate}}</div>
-			<div class='user1'>By: 	{{ 	Day.chosenDay.userName }}</div>
-			<div class='user1'>ID?: 	{{ 	Day.chosenDay._id }}</div>
-			<div class ='photo1'> photo here</div> 
-		</div>
+<div > 		
+	<br>
+	<div class ='singleDayTitle'>{{Day.chosenDay.dayName }} by &nbsp;{{ Day.chosenDay.userName }}
 	</div>
+		 
+	<span style="float: right">Close&nbsp;</span>
+	<i data-ng-click = "User.userDayView='grid' "  
+		class="material-icons right" style ='cursor: pointer;'>clear
+	</i>
+		
+	<div class="singleDayFrame">
+		<div class='description1'>This was a great day for us because... 	{{	Day.chosenDay.dayDesc}}</div>
+		<div class='location1'>Where we went. 
+
+			<div data-ng-repeat="x in Day.chosenDay.locations"> 
+				<div class='tags1'> {{x.location}}
+				</div>
+			</div>
+
+		</div>
+
+		<div class='tags1'>Tags:	{{	Day.chosenDay.dayTags}}</div>
+			<div class='whowasthere1'>Who was there? {{	Day.chosenDay.dayGroup}}</div>
+		<div class='daydate1'>When? 	{{ 	Day.chosenDay.dayDate}}</div>
+ 		<div class ='photo1'> photo here</div> 
+	</div>
+</div>
