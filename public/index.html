@@ -32,42 +32,37 @@
 
 	<div my-user-functions></div> <!--  Nav Bar -->
 
-	<div>
+		<div data-ng-controller="dayController as Day">
 
+			<div class='buttonHolder' data-ng-switch on='User.userState'>
+			   	<div data-ng-switch-when='loggedIn'>
 
-		<div class='buttonHolder' data-ng-switch on='User.userState'>
-		   	<div data-ng-switch-when='loggedIn'>
-
-				<div data-ng-switch on='User.userFormView'>
-		   			<div data-ng-switch-when="hide"> 
-						<a class='createdaybutton' 
-						data-ng-click="User.userFormView='show' ">
-	 			  		Create a New Day? </a>
- 					</div>
-				</div>
-
-				<div data-ng-switch on='User.userFormView'>
-		   			<div data-ng-switch-when="show">
- 
-				 		<i data-ng-click = "User.userFormView='hide' "  
-						class="material-icons left small" 
-						style ='cursor: pointer;'>clear</i>
-
+					<div data-ng-switch on='User.userFormView'>
+			   			<div data-ng-switch-when="hide"> 
+							<a class='createdaybutton' 
+							data-ng-click="User.userFormView='show' ">
+		 			  		Create a New Day? </a>
+	 					</div>
 					</div>
-				</div>
 
-			</div>     
-		</div>
+					<div data-ng-switch on='User.userFormView'>
+			   			<div data-ng-switch-when="show">
+	 
+					 		<i data-ng-click = "User.userFormView='hide' "  
+							class="material-icons left small" 
+							style ='cursor: pointer;'>clear</i>
 
+						</div>
+					</div>
 
-		<div    
-			data-ng-controller="dayController as Day">
+				</div>     
+			</div>
+
 
 			<div class='buttonHolder' data-ng-switch on='User.userState'>
 		   		<div data-ng-switch-when='loggedIn'>
 
-					<div class="buttonHolder" 
-						data-ng-switch on='User.userFormView'>
+					<div data-ng-switch on='User.userFormView'>
 			   			<div data-ng-switch-when="hide"> 
 							<a class='createdaybutton' 
 							data-ng-click= "Day.viewEditUserDays(User.username)">
@@ -119,12 +114,13 @@
 								</div> <!-- END LOCATION CONTROLLER -->
 
 
-								<div  class="form-group">
+								<div  data-ng-controller="tagController as Tag" 
+									  class="form-group">
 									<div>Use spaces between tags.</div>
 									<input type="text" 
 									id="tags" 
 									class="form-control" 
-									data-ng-change="Day.enterTag()" 
+									data-ng-change="Tag.enterTag()" 
 									placeholder="Enter some tags" 
 									data-ng-model="Day.dayTags">
 								</div> <!--END TAG CONTROLLER -->
@@ -222,14 +218,11 @@
 		 	  			</div>
 		 			</div>
 
-
-
 		</div>     <!-- close dayController -->
 	</div>    <!--  close container -->
 </div>   <!-- close user controller -->
 
-</div>   <!-- extra mystery div spreads footer across bottom -->
-         
+          
 <div foot-of-page></div>
 
  

@@ -7,30 +7,7 @@ $scope.Day.searchResultLength = 0;
 $scope.Day.searchResultsMessage = null;
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//mh MOVED enterTag from tagController to dayContrller and changed index.html
-//as required
 
-this.enterTag = function() {
-	var dayTags = this.dayTags;
-	console.log('incoming at tagController- start|'+dayTags+'|end');
-
-	//change to standard lowercase alphanumeric only tag format
-	dayTags=dayTags.trim().toLowerCase().replace(/\W+/g, " ");
-	//every white space string becomes a comma below
-	dayTags = dayTags.replace(/\s+/g, ',');
-
-	console.log("trimmed and lowered for saving - start|"+tags+"|end" );	
-
-	window.localStorage.setItem('dayTags',dayTags);
-};
-	
-
-this.retrieveTag = function() {
-};
-
-//mh moved above from dayController //////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 function completeViewEditUserDays(data){
@@ -61,8 +38,6 @@ function foundTag(data){
 }
 
 this.findTag = function(tag, foundtag){
-
-
 
 	$scope.User.userDayView	= 'grid';   //on search always switch to grid view
 
@@ -146,15 +121,22 @@ this.addDay = function(Day, User) {
 	console.log(dayTags," is dayTags at dayController addDay() ");
 
 	var tagArray = [];
+	var dayDescArray= [];
+
+	if (dayDesc)
+		{dayDescArray = dayDesc.split(' ');}
+	else
+		{console.log('some kind of problem dayDescArray');}
+
 
 	if(dayTags) {
  		tagArray = dayTags.split(',');
 	}
- 	else {console.log('88888888'); 
- 		  this.enterTag(Day.dayTags);  }
+ 	else {console.log('error'); 
+ 		    }
 
 
-	dayService.addDay(dayName, userName, dayDesc, dayGroup, $rootScope.dayLocations, tagArray, updateDayGrid);
+	dayService.addDay(dayName, userName, dayDescArray, dayGroup, $rootScope.dayLocations, tagArray, updateDayGrid);
 
 };
 

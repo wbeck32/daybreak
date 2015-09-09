@@ -65,22 +65,46 @@ this.addLoc = function(Location,locName,locURL) {
 		$scope.locDesc = Location.locDesc;
 		//console.log('adding another location: ',$scope.locName,$scope.locURL,$scope.locDesc);
 
-		var l = ({location:$scope.locName, url:$scope.locURL, desc:$scope.locDesc});
+    var locDescArray = [];
+    if (Location.locDesc){
+      locDescArray=Location.locDesc.split(' ');
+
+    }
+    else{console.log('oops');}
+
+
+
+		var l = ({location:$scope.locName, url:$scope.locURL, desc:locDescArray});
 		
     $rootScope.dayLocations.push(l);
 
+
+
 		var tagField = document.getElementById('tags');
 
-    //console.log(tagField," is tagField at location controller");
+    var tempArray = [];
 
-		//tagField.value += $scope.locName+','+' ';
-    tagField.value += ' '+$scope.locName+' ';  //new way mh proposes 
 
-        window.localStorage.setItem('dayTags',tagField.value);
+    tempArray= $scope.locName.split(' ');
 
-    // tagField.value += ' '+$scope.locDesc+' ';  //mh adds description to tags
-    //     window.localStorage.setItem('dayTags',tagField.value);
+    var locTagArray = tempArray.map(function(tag){return tag.toLowerCase(); }) ;
 
+console.log(locTagArray, "is locTagArray");
+
+    //  console.log(tagField," is tagField at location controller");
+
+		tagField.value += $scope.locName+' ';
+    //tagField.value += $scope.locName+','+' ';  //new way mh proposes 
+
+    console.log(tagField.value, "is tagfield.value");
+
+      var temp = window.localStorage.getItem('dayTags');
+
+      locTagArray.push(temp);
+ 
+      window.localStorage.setItem('dayTags',locTagArray);
+
+   
 
 		$scope.locDesc = '';
 		$scope.locName = '';

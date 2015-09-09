@@ -40,7 +40,7 @@ try {
 var db = mongoose.connect(uristring);
 
 var User = db.model('user', 
-    {   
+    {
     userName            :  String,
     displayname         :  String,
     displayimage        :  String,
@@ -63,7 +63,8 @@ var Day = db.model('day',
     dayCreateDate      : {type: Date},
     dayUpdateDate      : {type: Date},
     dayDate            : {type: Date},
-    dayDesc            : String,
+    //dayDesc            : String,
+    dayDesc            : Array,
     dayGroup           : String,
     dayTags            : Array, 
     locations          : Array,
@@ -136,7 +137,17 @@ router.route('/taglookup').post(function(req,res,next){
 //WHILE ARRAY.length IS > 0
 
         //hand the array to mongo - require $all tags to be present
-        Day.find( { dayTags: { $all: tagArray  }})
+      //  Day.find( { dayTags: { $all: tagArray  }})
+      //  Day.find(  {dayTags: {$in: tagArray}} )
+        
+
+
+        Day.find(  {$or:[   {dayTags: {$in: tagArray} }, 
+                            {dayDesc: {$in: tagArray} },
+                            {locations:{desc:{$in:tagArray}} } 
+                            ] 
+                         })
+      
             .sort({dayCreateDate: 'descending'})
             .exec(function(err,Day)
 
@@ -266,7 +277,7 @@ router.route('/registerValidUser').post(function(req,res,next){
 });
 
 router.route('/updateuserabout').post(function(req,res,next){
-    console.log(req.User,"is req.User incoming at API");
+    console.log(req.User,"is req.User incoming at API")
 
 })
 

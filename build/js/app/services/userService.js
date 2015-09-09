@@ -133,7 +133,7 @@ this.checktheemail = function( email,callback){
 
 
 
-this.updateUserInfo = function(user, callback){
+this.updateUserInfo = function(User, callback){
 
   console.log(user, " is user incoming at userService");
 

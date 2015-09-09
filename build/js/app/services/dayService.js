@@ -2,7 +2,7 @@ angular.module('dayBreak').service('dayService',['$http', function($http){
 
 
 
-this.addDay = function(dayName, userName, dayDesc, dayGroup, dayLocations, dayTags, callback){
+this.addDay = function(dayName, userName, dayDescArray, dayGroup, dayLocations, tagArray, callback){
 	if(dayName){
 		$http({
 			method: 'POST',
@@ -10,9 +10,9 @@ this.addDay = function(dayName, userName, dayDesc, dayGroup, dayLocations, dayTa
 			data: 	{ 	dayLocations : dayLocations,
 						dayName : dayName,
 						userName : userName,
-						dayDesc : dayDesc,
+						dayDesc : dayDescArray,
 						dayGroup: dayGroup,
-						dayTags: dayTags
+						dayTags: tagArray
 			},
 			headers: {'Content-Type': 'application/json'}	
 			}).success(function(data, status, headers, config){
