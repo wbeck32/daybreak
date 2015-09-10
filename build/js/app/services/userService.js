@@ -43,8 +43,11 @@ this.login = function(username, password, callback){
       console.log("token is: " + response.data.token);
       console.log("email is: " + response.data.email);
       console.log("userabout is: " + response.data.userAbout);
-      console.log("userName is: " + response.data.userName);   
+      console.log("userName is: " + response.data.userName); 
+      console.log("created is: " + response.data.created);
+  
       console.log("response object is: " + response.data);
+ 
 
 		if (response.data.token){
 			window.localStorage.setItem("token", response.data.token);
@@ -133,19 +136,24 @@ this.checktheemail = function( email,callback){
 
 
 
-this.updateUserInfo = function(User, callback){
 
-  console.log(user, " is user incoming at userService");
+
+
+this.updateUserInfo = function(username, userAbout){
+
+  console.log( userAbout," is userAbout incoming at userService))))))");
+  console.log( username," is userName incoming at userService)))))))");
 
   $http({
     method    : 'POST',
     url       : '/api/updateuserinfo',
-    data      : { User         :  user},
+    data      : { userAbout     :  userAbout,
+                  userName      :  username},
     headers   : {'Content-Type' : 'application/json'}
     })
     .success(function(data){
       console.log('userabout');
-      callback();
+      //callback();
       })
     .error(function(data,status, headers, config){
           console.log("data is: " + data);

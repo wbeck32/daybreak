@@ -103,9 +103,16 @@ function updateDayGrid() {
 	console.log ("update day grid");
 	$scope.User.userFormView = 'hide';
 	$scope.User.userDayView = 'grid';
+	$scope.Day.dayName='';
+	$scope.Day.dayDesc='';
+	$scope.Day.dayGroup='';
+
+ 
+
 	populateDayGrid();
 	
 	$scope.Day.searchResultLength = 0;  //reset to 0 so result count does not display
+
 
 
 }

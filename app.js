@@ -276,8 +276,32 @@ router.route('/registerValidUser').post(function(req,res,next){
     });
 });
 
-router.route('/updateuserabout').post(function(req,res,next){
-    console.log(req.User,"is req.User incoming at API")
+router.route('/updateuserinfo').post(function(req,res,next){
+ 
+
+     console.log(req.body.userAbout,"is req.body.userAbout incoming at API")
+     console.log(req.body.userName,"is req.body.userName incoming at API")
+
+
+    if (req.body.userName){
+
+        User.findOne({userName: req.body.userName}, function(err, user){
+            if (err) 
+                { return next(err); }
+            else
+                {console.log ('no error on findOne');}
+
+            console.log(user.userName, ' is found at user');
+            user.userAbout = req.body.userAbout; 
+            user.save(function(err) {
+                if (err) { return next(err); }
+                else {console.log('new userabout saved to userAbout 999999');}
+            });
+        });
+    }
+
+
+
 
 })
 
@@ -505,5 +529,5 @@ app.get('/user', function(req,res){
 
 app.use('/api',router);  //this needs to be near bottom of page
  
-    app.listen(3000);
-    console.log('listening on port 3000!');
+    app.listen(8090);
+    console.log('listening on port 8090!');
