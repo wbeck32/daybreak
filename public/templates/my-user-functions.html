@@ -298,40 +298,69 @@
 		 	 		<div class ="userProfile">
 						<div data-ng-show="User.userState==='loggedIn' ">
 
-							<form  	data-ng-submit="User.updateUserInfo()"
-									name = "aboutForm" 
-									novalidate >
 
-					  			<div class="userProfile" >
+							<div class='publicPrivateLabel'>Public</div>
 
-						  			<div class='profileLabel'>Name:&nbsp; {{User.username}}</div>
+							<div class="profilePublic">
 
-						  			<div class='profileLabel'>Member since:&nbsp; {{User.created}}</div>
+								<form  	data-ng-submit="User.updateUserInfo()"
+										name = "aboutForm" 
+										novalidate >
 
-						  			<div class='profileLabel'>Email (private):&nbsp; {{User.email}}.</div>
-						  			
-						  			<span class='link'>Change E-mail?</span> 
+						  			<div class="userProfile" >
 
-						  			<div class='profileLabel'>About You (public):&nbsp;{{User.userAbout}}</div>
-						  			
+							  			<div class='profileLabel'>Name:
+							  				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							  				<span class='profileInfo'>{{User.username}}</span>
+							  			</div>
+
+							  			<div class='profileLabel'>Member since:&nbsp; 
+							  				<span class='profileInfo'>{{User.created}}</span>
+							  			</div>
  
-					  			</div>
+										<div class="profileLabel">About Me:
+										 	 
+											<textarea rows='6' maxlength='150' 
+											
+			 								data-ng-model="User.userAbout"
+											placeholder="My perfect day would be... (140 characters)"
+											required>
 
-					  			<div class="form group">
-					  				
-	 
-									<input class= "form-control"
-	 								type="text" 
-	 								data-ng-model="User.userAbout"
-									placeholder="My perfect day would be..."
-									required>
-					
-	 							</div>
+											</textarea>
+											 
+										</div>			
+										
+						  			</div>
 
-								<input  
-									class="btn btn-success btn-sm btn-block" 
-									type="submit" 
-									value="Save">
+						  			
+
+									<input  
+										class="btn btn-success btn-sm btn-block" 
+										class="waves-effect waves-light btn"
+										type="submit" 
+										value="Save">
+
+								</div>
+
+
+								<div class='publicPrivateLabel'>Private</div>
+
+								<div class= 'profilePrivate'>
+
+							  			<div class='profileLabel'>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							  				<span class='profileInfo'> {{User.email}}</span>
+							  				<span class='link'>Change?</span> 
+							  			</div>
+							  			
+							  		
+							  			<div class ='profileLabel'>Password:&nbsp;
+							  				<span class='profileInfo'>  ******** &nbsp;</span>
+							  				<span class='link'>Change?</span>  
+							  			</div>
+
+							  			
+
+							  	</div>  
 								
 							<br>
 
@@ -341,6 +370,8 @@
  								Delete this account?					
 								</a>
 							</div>	
+
+
 		
   						</div> <!--   end ngshow -->
 					</div>
