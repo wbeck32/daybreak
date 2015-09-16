@@ -1,27 +1,31 @@
-<div > 		
+<div> 		
 	<br>
-	<div class ='singleDayTitle'>{{Day.chosenDay.dayName }} by &nbsp;{{ Day.chosenDay.userName }}
+	<div class ='singleDayTitle'>
+		<span data-make-editable class="editable">{{Day.chosenDay.dayName }}</span>
+	&nbsp;by&nbsp;{{ Day.chosenDay.userName }}
 	</div>
 		 
 	<span style="float: right">Close&nbsp;</span>
-	<i data-ng-click = "User.userDayView='grid' "  
+	<i data-ng-click ="User.userDayView='grid' "  
 		class="material-icons right" style ='cursor: pointer;'>clear
 	</i>
 		
 	<div class="singleDayFrame">
-		<div class='description1'>This was a great day for us because... 	{{	Day.chosenDay.dayDesc}}</div>
+		<div class='description1'>This was a great day for us because...&nbsp;
+			<span data-make-editable class="editable">{{Day.chosenDay.dayDesc}}</span>
+		</div>
 		<div class='location1'>Where we went. 
 
-			<div data-ng-repeat="x in Day.chosenDay.locations"> 
-				<div class='tags1'> {{x.location}}
+			<div data-ng-repeat="x in Day.chosenDay.locations">
+				<div class='tags1'>{{x.location}} - {{x.desc}}
 				</div>
 			</div>
 
 		</div>
 
-		<div class='tags1'>Tags:	{{	Day.chosenDay.dayTags}}</div>
+		<div class='tags1'>Tags: <span data-make-editable class="editable">{{Day.chosenDay.dayTags}}</span></div>
 			<div class='whowasthere1'>Who was there? {{	Day.chosenDay.dayGroup}}</div>
-		<div class='daydate1'>When? 	{{ 	Day.chosenDay.dayDate}}</div>
+		<div class='daydate1'>When? {{ 	Day.chosenDay.dayDate}}</div>
  		<div class ='photo1'> photo here</div> 
 	</div>
 </div>

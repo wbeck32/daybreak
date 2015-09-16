@@ -63,8 +63,7 @@ var Day = db.model('day',
     dayCreateDate      : {type: Date},
     dayUpdateDate      : {type: Date},
     dayDate            : {type: Date},
-    //dayDesc            : String,
-    dayDesc            : Array,
+    dayDesc            : String,
     dayGroup           : String,
     dayTags            : Array, 
     locations          : Array,
@@ -82,10 +81,7 @@ router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
-/////////////////////////////////////////////////////////////////////
-
-
-
+////////////////////////////////////////////////////////////////////
   
 /* GET home page. */
     router.get('/', function(req, res) {
@@ -133,29 +129,16 @@ router.route('/taglookup').post(function(req,res,next){
         //find commas, create array (which has different commas)
         tagArray = tagString.split(",");
 
+        // Day.find(  {$or:[   {dayTags: {$in: tagArray} }, 
+        //                     {dayDesc: {$in: tagArray} },
+        //                     {locations:{desc:{$in:tagArray}} } 
+        //                     ] 
+        //                  })
+        Day.find({dayTags: {$in:tagArray}})
 
-//WHILE ARRAY.length IS > 0
-
-        //hand the array to mongo - require $all tags to be present
-      //  Day.find( { dayTags: { $all: tagArray  }})
-      //  Day.find(  {dayTags: {$in: tagArray}} )
-        
-
-
-        Day.find(  {$or:[   {dayTags: {$in: tagArray} }, 
-                            {dayDesc: {$in: tagArray} },
-                            {locations:{desc:{$in:tagArray}} } 
-                            ] 
-                         })
-      
             .sort({dayCreateDate: 'descending'})
             .exec(function(err,Day)
 
-             //IF DAY=== undefined
-                //CUT LAST ELEMENT OFF ARRAY
-                //RECURSIVELY CALL DAY.FIND
-                //UNTIL DAY.LENGTH > 0 
-                    //RETURN DAY
         {
         if (err)
             {console.log('error at tag api endpoint');
@@ -163,8 +146,6 @@ router.route('/taglookup').post(function(req,res,next){
         else
             {
             console.log("~~~~~~at lookup API found tag...: ", Day );
-
-
             res.json(Day);  //???
             }
         })
@@ -505,5 +486,5 @@ app.get('/user', function(req,res){
 
 app.use('/api',router);  //this needs to be near bottom of page
  
-    app.listen(3000);
-    console.log('listening on port 3000!');
+    app.listen(8090);
+    console.log('listening on port 8090!');

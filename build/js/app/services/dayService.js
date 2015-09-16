@@ -1,23 +1,50 @@
 angular.module('dayBreak').service('dayService',['$http', function($http){
 
+this.populateDayGrid = function(callback) {
+	data = null;  //clear data for use in refresh?
+	$http({
+		method: 'GET',
+		url: '/api/show',
+		headers: {'Content-Type' : 'application/json'}
+	})
+	.success(function(data,status,headers, config){
+		console.log("success ***: ", data);
+		callback(data);
+	})
+	.error(function(data, status,headers,config){
+		console.log("failure ***");
+	});
+};
 
 
-this.addDay = function(dayName, userName, dayDescArray, dayGroup, dayLocations, tagArray, callback){
+this.addDay = function(dayName, userName, dayDesc, dayGroup, dayLocations, tagArray, callback) {
 	if(dayName){
+		var lowerTagArray = [];
+		tagArray.forEach(function(elem, index, array){
+			elem = elem.toLowerCase();
+			lowerTagArray.push(elem);
+		});
+		tagArray = lowerTagArray;
+		var uniqueTags = [];
+		for (i=0;i<=tagArray.length;i++) {
+			if (uniqueTags.indexOf(tagArray[i]) == -1 && tagArray[i] !== '' && tagArray[i]) {
+				uniqueTags.push(tagArray[i]);
+			}
+		}
 		$http({
 			method: 'POST',
 			url: 	'/api/addday',
 			data: 	{ 	dayLocations : dayLocations,
 						dayName : dayName,
 						userName : userName,
-						dayDesc : dayDescArray,
+						dayDesc : dayDesc,
 						dayGroup: dayGroup,
-						dayTags: tagArray
+						dayTags: uniqueTags
 			},
 			headers: {'Content-Type': 'application/json'}	
 			}).success(function(data, status, headers, config){
 				console.log('success!');
-				callback();
+				callback(data);
 				window.localStorage.removeItem('dayTags');
 			}).error(function(data,status,headers,config){
 				console.log('failure!');
@@ -25,29 +52,6 @@ this.addDay = function(dayName, userName, dayDescArray, dayGroup, dayLocations, 
 	}
 };
 
-
-
-this.findTag = function(tag,callback){
-	console.log('$$$$$$ tag service ', tag);
-
-//	if(tag){
-		$http({
-			method: 'POST',
-			url:  '/api/taglookup',
-			data: {tag: tag},
-			headers: {'Content-Type': 'application/json'}	
-			})
-			.success(function(data){
-				console.log('tag success at dayService data is: ', data);
- 				callback(data);
-			})
-			.error(function(data){
-				console.log('tag failure');
-		});
-//	}
-};
-
-//
 this.getDay = function(dayID, callback){
 	console.log('********in dayService incoming dayID is: ', dayID);
 	//if(dayID){
@@ -58,7 +62,7 @@ this.getDay = function(dayID, callback){
 			headers:{'Content-Type': 'application/json'}	 
 		})
 		.success(function(data){
-			console.log("found the requested day, returning data.dayID", data, " and data.dayName ", data.dayName);
+			//console.log("found the requested day, returning data.dayID", data, " and data.dayName ", data.dayName);
 			callback(data);
 		})
 		.error(function(data){
@@ -80,7 +84,7 @@ this.getDaysOfUser = function(username, callback){
 			headers:{'Content-Type': 'application/json'}	 
 		})
 		.success(function(data){
-			console.log("found the requested username, returning data.dayID", data, " and data.dayName ", data.dayName);
+			console.log("found the requested username, returning data.dayID", data, " and data.dayName ", data[0].dayName);
 			callback(data);
 		})
 		.error(function(data){

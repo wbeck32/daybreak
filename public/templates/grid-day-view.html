@@ -1,13 +1,13 @@
-
-<div ng-show="Days.day.length>0">
+<!-- 
+<div ng-show="Days.length>0">{{Day.length}}
 <h5>Great Days Shared by Our Community</h5>
 </div>
 
 <div ng-show="Days.length=0"> nothing 
-</div>
+</div> -->
 
 <div class="bestDaysFrame">
- 	<div data-ng-repeat="day in days" class='singleDayDisplay showbox'> 
+ 	<div data-ng-repeat="day in Day.days" class='singleDayDisplay showbox'> 
   		<div data-ng-click = "Day.showOneDay(day._id)" style ='cursor: pointer;' >
 		 	<div class='title'> 	{{ 	day.dayName }}</div>
 		 	<div class='tags'>		{{	day.dayTags}}</div>

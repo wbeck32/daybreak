@@ -30,6 +30,14 @@ a:hover{
 	text-decoration: underline;
 }
 
+label {
+	float:right;
+}
+
+.switch {
+	margin: 5px 0;
+}
+
 .locList {
 	border:1px solid black;
 	margin: 0 0 10px 0;

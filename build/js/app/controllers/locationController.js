@@ -20,9 +20,11 @@ var searchBox = new google.maps.places.SearchBox(input, {
 });
 
 google.maps.event.addListener(searchBox, 'places_changed', function() { 
-    var places = searchBox.getPlaces();
-    var lat = places[0].geometry.location.G;
-    var lon = places[0].geometry.location.K;
+    var places = searchBox.getPlaces(); console.log(places[0]);
+    // var lat = places[0].geometry.location.G;
+    // var lon = places[0].geometry.location.K;
+    var lat = places[0].geometry.location.H;
+    var lon = places[0].geometry.location.L;
     var myLatLong = ({lat:lat,lng:lon});
     var markerBounds = new google.maps.LatLngBounds();
     var newLatLong = new google.maps.LatLng(myLatLong);
@@ -63,46 +65,28 @@ this.addLoc = function(Location,locName,locURL) {
 		$scope.locName = locName;
 		$scope.locURL = locURL;
 		$scope.locDesc = Location.locDesc;
-		//console.log('adding another location: ',$scope.locName,$scope.locURL,$scope.locDesc);
 
-    var locDescArray = [];
-    if (Location.locDesc){
-      locDescArray=Location.locDesc.split(' ');
-
-    }
-    else{console.log('oops ');}
-
-
-    
-		var l = ({location:$scope.locName, url:$scope.locURL, desc:locDescArray});
-		
+		var l = ({location:$scope.locName, url:$scope.locURL, desc:$scope.locDesc});
     $rootScope.dayLocations.push(l);
-
-		var tagField = document.getElementById('tags');
+    var tagField = document.getElementById('tags');
+    tagField.value += $scope.locName+' ';
 
     var tempArray = [];
+    var locDescArray = [];
+    var locTagArray = [];
 
-    tempArray= $scope.locName.split(' ');
+    tempArray=$scope.locName.split(' ');
+    
+    if (Location.locDesc){
+      locDescArray=Location.locDesc.split(' ');
+    }
+    
+    Array.prototype.push.apply(tempArray,locDescArray);
+    var temp = window.localStorage.getItem('dayTags');
+    tempArray.push(temp);
+    window.localStorage.setItem('dayTags',tempArray);
 
-    var locTagArray = tempArray.map(function(tag){return tag.toLowerCase(); }) ;
-
-    //console.log(locTagArray, "is locTagArray");
-    //  console.log(tagField," is tagField at location controller");
-
-		tagField.value += $scope.locName+' ';
-    //tagField.value += $scope.locName+','+' ';  //new way mh proposes 
-
-    console.log(tagField.value, "is tagfield.value");
-
-      var temp = window.localStorage.getItem('dayTags');
-
-      locTagArray.push(temp);
- 
-      window.localStorage.setItem('dayTags',locTagArray);
-
-   
-
-		$scope.locDesc = '';
+    $scope.locDesc = '';
 		$scope.locName = '';
 		$scope.locURL = '';
 		Location.locDesc = '';

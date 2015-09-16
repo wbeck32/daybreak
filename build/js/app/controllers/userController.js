@@ -1,5 +1,5 @@
 dayBreak.controller('userController',
-		['$scope', '$rootScope','$http', 'userService', function($scope,$rootscope, $http,userService){
+		['$scope', '$rootScope','$http', 'userService', 'dayService',function($scope,$rootscope, $http,userService,dayService){
 		
 
 		$scope.User.userFormView = 'hide';    		
@@ -29,9 +29,8 @@ dayBreak.controller('userController',
 
 		$scope.User.username = userService.username;	    
  
-		$scope.User.userState 			= userService.userState;
- 
- 
+		$scope.User.userState = userService.userState;
+ 	
  
 //////////////////////////////////////////////////////
 	//on keyup test password for match and other criteria.
@@ -94,6 +93,7 @@ dayBreak.controller('userController',
 			  //remove time of account creation for public presentation
 		   	  $scope.User.created = status.created.substring(0,10);
 			  //format: {"$date": "2015-08-20T18:37:47.626Z"}
+
 
     	console.log("loginState 2 setting $scope.User.userState at loginState()", $scope.User.userState );
 		console.log("loginState 2a setting $scope.User.username at loginState()", $scope.User.username );

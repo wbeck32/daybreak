@@ -32,4 +32,18 @@ angular.module('dayBreak')
 	return {templateUrl: '/templates/foot-of-page.html'
 	};
 })
-;
+
+.directive('makeEditable', function(){
+	return {
+		restrict: 'AE',
+		replace: false,
+		scope: true,
+		link: function(scope,elem,attrs) {
+			console.log(scope,elem,attrs);
+			if(scope.User.userState === 'loggedIn'){
+				elem[0].contentEditable = true;
+			}
+		}
+
+	};
+});
