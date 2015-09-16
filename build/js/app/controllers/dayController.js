@@ -46,7 +46,7 @@ this.viewEditUserDays = function(username, callback){
 	$scope.Day.searchResultsMessage='Now Showing My Days Only'; 
 	dayService.getDaysOfUser(username, completeViewEditUserDays);
 };
-
+ 
 this.addDay = function(Day, User) {
 	var dayName=Day.dayName;
 	var userName=User.username;

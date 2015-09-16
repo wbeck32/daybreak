@@ -453,4 +453,39 @@ height:30%;
 
  }
 
+ .profileLabel{ font-size: 1em;
+ 				margin:  4px;
+ 				padding: 3px;
+ 				}
 
+ #pname {width: 100%; background-color: yellow;}
+
+ #pdate {width:50px;}
+
+
+ .profileInfo{  font-size: 1.2em; 
+ 				border: 1px solid black;
+ 				margin: 1px;
+ 				padding: 1px;
+ 				padding-left: 5px;
+ 				padding-right: 5px;
+ 				width: 98%;
+ 				}
+
+
+ .profilePublic{ width: 95%;
+ 				 border: 1px solid black; 
+ 				 border-radius: 5px;
+ 				 margin-bottom:10px;
+ 				 padding:10px;}
+
+ .profilePrivate{ width: 95%;
+ 				 border: 1px solid black; 
+ 				 background-color:  green lighten-3; 
+ 				 border-radius: 5px;
+ 				 margin-bottom:10px;
+ 				 padding:10px;}
+
+.publicPrivateLabel{font-size: 1.1 em;
+					color: blue;
+					padding: 4px;}

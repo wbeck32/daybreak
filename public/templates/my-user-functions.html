@@ -15,7 +15,7 @@
 				</a></li>
 
 
-			  	 <li><a	data-ng-show="User.userState==='loggedOut'"
+			  	<li><a	data-ng-show="User.userState==='loggedOut'"
 			  	  		data-ng-click="User.userViewSwitch ='NEWREG'"> 
 			  	  		Register 
 			  	</a></li>
@@ -50,14 +50,13 @@
 				  		<div class='joinMessage'> Share Your Favorite Day!  </div>
 				</a></li>	
 
-				 
-
-
 		   	</ul>
 	  	</div>
 	</nav>
 
+
 	<div class = 'surround'>	
+
 		<div class = 'userContainer'
 			data-ng-show= "User.userViewSwitch === 'Log' " >
 			<div id='login' ng-switch on="User.userViewSwitch">
@@ -115,9 +114,7 @@
 			</div>
 
 			
-		<div id='NEWREGISTER'
-		   			data-ng-switch on='User.userViewSwitch'
- 		   			>
+		<div id='NEWREGISTER' data-ng-switch on='User.userViewSwitch'>
 		   		<div data-ng-switch-when="NEWREG">
 					<form 
 						data-ng-submit="User.registerValidUser(User)"
@@ -151,8 +148,7 @@
 							type="text"
  							data-ng-model="User.username"
   							data-ng-change="User.checkthename(User.username)" 
-
- 							placeholder="Six character minimum. Public."
+							placeholder="Six character minimum. Public."
  							required>				
 						</div>   
   
@@ -163,7 +159,6 @@
 							<span class="alertinform" 
 							ng-show="regForm.email.$error.email">
     						Please enter a valid email.</span>
-
 
 							<span class="alertsuccess" 
 							ng-show="!regForm.email.$error.email && 
@@ -228,10 +223,8 @@
 							id='passwordConfirm' 
 							name='passwordConfirm'
 							type="password" 
-							data-ng-model="User.passwordConfirm"
- 							
+							data-ng-model="User.passwordConfirm"	
  							data-ng-keyup="User.passconfirm(User.password, User.passwordConfirm)"
-
 							placeholder="Reenter password."
 							required>
 						</div>	
@@ -245,18 +238,13 @@
 						User.email.length === error" 
 						class="btn btn-success btn-sm btn-block" 
 						type="submit" 
-						value="Register Now!">
-
-				<!-- 		<span class='alertwarn'  
-							data-ng-show ="User.password === User.username &&
-							User.password.length > 5">
-							User name and password cannot be identical.
-  						</span> -->
+						value="Register Now!"> 
 
 					</form>
 				</div>
 		 	</div>
 		 
+
 			<div id='resetPassword' 
 				data-ng-switch on='User.userViewSwitch'
 				data-ng-submit="User.resetPassword()"
@@ -298,45 +286,64 @@
 		 	 		<div class ="userProfile">
 						<div data-ng-show="User.userState==='loggedIn' ">
 
-				  			<div class="userProfile"  >
+							<div class='publicPrivateLabel'>Public</div>
 
-					  			<li>Name:&nbsp;{{User.username}}</li>
+							<div class="profilePublic">
 
-					  			<li>Member since:&nbsp;{{User.created}}</li>
-
-					  			<li>Display Name :&nbsp;{{User.username}}&nbsp; &nbsp; 
-					  				<span class='link'>Change Display Name?</span></li>
-
-					  			<li>Email (private):&nbsp;{{User.email}}.  &nbsp; &nbsp;
-					  				 <span class='link'>Change E-mail?</span></li>
-
-					  			<li>About You (public):&nbsp;{{User.userAbout}}</li>
-
-				  			</div>
-
-				  			<div class="form group">
-				  				<form 
-									data-ng-submit="User.updateUserInfo()"
+								<form  	data-ng-submit="User.updateUserInfo()"
 										name = "aboutForm" 
-									novalidate>
+										novalidate >
 
-								<label class="labelspace">Tell other community members about yourself and your ideal day.</label>
-	
-								<input class= "form-control"
-								id='aboutfield' 
-								name='aboutForm'
-								type="text" 
- 								data-ng-model="User.userAbout"
-								placeholder="My perfect day would be..."
-								required></input>
-				
-								<input  
-								class="btn btn-success btn-sm btn-block" 
-									type="submit" 
-								value="Save">
-								</input>
-							</div>
-							
+									<div class="userProfile" >
+
+							  			<div class='profileLabel' >Name:
+							  				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							  				<span class='profileInfo' id='pname'>{{User.username}}</span>
+							  			</div>
+
+							  			<div class='profileLabel' >Member since:&nbsp; 
+							  				<span class='profileInfo' id='pdate'>{{User.created}}</span>
+							  			</div>
+ 
+										<div class="profileLabel">About Me:
+										 	 
+											<textarea rows='6' maxlength='150' 
+											
+			 								data-ng-model="User.userAbout"
+											placeholder="My perfect day would be... (140 characters)"
+											required>
+
+											</textarea>
+											 
+										</div>			
+										
+						  			</div>
+
+									<input  
+										class="btn btn-success btn-sm btn-block" 
+										class="waves-effect waves-light btn"
+										type="submit" 
+										value="Save">
+
+								</div>
+
+
+								<div class='publicPrivateLabel'>Private</div>
+
+								<div class= 'profilePrivate'>
+
+							  			<div class='profileLabel'>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							  				<span class='profileInfo'> {{User.email}}</span>
+							  				<span class='link'>Change?</span> 
+							  			</div>
+							  			
+							  		
+							  			<div class ='profileLabel'>Password:&nbsp;
+							  				<span class='profileInfo'>  ******** &nbsp;</span>
+							  				<span class='link'>Change?</span>  
+							  			</div>
+							  	</div>  
+								
 							<br>
 
 							<div class='closeModal' 
@@ -345,6 +352,8 @@
  								Delete this account?					
 								</a>
 							</div>	
+
+
 		
   						</div> <!--   end ngshow -->
 					</div>
