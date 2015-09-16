@@ -27,6 +27,7 @@
     "jwt-simple": "^0.3.0",
     "lodash": "^3.10.1",
     "method-override": "^2.3.3",
+    "moment": "^2.10.6",
     "mongodb": "~2.0.33",
     "mongoose": "^4.0.6",
     "monk": "~1.0.1",

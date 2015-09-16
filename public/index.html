@@ -11,6 +11,7 @@
 <!--     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
  -->	
 	<link rel="stylesheet" href="css/styles.css" />
+
 	<script src="js/modernizr.js"></script>
 
 	<link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500' rel='stylesheet' type='text/css'>
@@ -25,12 +26,14 @@
 	<title>Daybreak - Share and Find the Perfect Day</title>
 </head>
 
+
+
 <body>
  
 
 <div ng-controller="userController as User"> <!--important! this wraps all functions -->
 
-	<div my-user-functions></div> <!--  Nav Bar -->
+	<div my-user-functions></div> <!--  Nav Bar and User Register/Login/Account Controls-->
 
 		<div data-ng-controller="dayController as Day">
 
@@ -101,7 +104,7 @@
 									<option value="adults">Group of adults</option>
 								</select>
 
-								
+
 								<textarea class="form-control desc" rows="5" data-ng-model="Day.dayDesc" placeholder="This was a great day because... "></textarea> 
 
 								<!-- LOCATION controller begin-->
@@ -228,9 +231,6 @@
 <div foot-of-page></div>
 
  
-
-
-
  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
  <!-- Compiled and minified JavaScript -->
@@ -239,7 +239,9 @@
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+
 <script src="js/main.js"></script>
+
 </body>
 
 </html>

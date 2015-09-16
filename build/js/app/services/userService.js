@@ -13,6 +13,8 @@ dayBreak.service('userService', ['$http', function($http ){
   var self = this; 
 /////////////////////////////////////////////////////////////////
 
+//TODO: INIT WRAP IN FUNCTION...
+
 //check if valid token exists from previous session
 
   if (window.localStorage.getItem('token')) 
@@ -49,6 +51,8 @@ this.login = function(username, password, callback){
       console.log("response object is: " + response.data);
  
 
+//does token exist, is date recent, and is it authenticate
+
 		if (response.data.token){
 			window.localStorage.setItem("token", response.data.token);
 			window.localStorage.setItem("user", response.data.userName);
@@ -67,6 +71,8 @@ this.login = function(username, password, callback){
 
 //////////////////////////////////////////////////////
 //logOut signOut service)  
+// signOut is client only: TODO - add save signout time and user signed out tracking on server
+///////////////////////////////////////////////////////
 this.signOut = function(callback){
     console.log("service signOut");
     window.localStorage.removeItem('token');
@@ -74,6 +80,8 @@ this.signOut = function(callback){
     callback(); //callback function is changeUserState
 };
 
+
+//////////////////////////////////////////////////////
 
 this.registerUser = function(User,callback){
   $http({
@@ -177,8 +185,8 @@ this.resetPassword = function(username){
 
 };
 
-
 this.deleteAccount = function(cb){
+/// set save User.activestatus for loggedIn user = 'delete' 
 
 };
 

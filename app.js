@@ -3,17 +3,17 @@ var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
+
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-
 var mongoose = require('mongoose');
- 
+var moment = require('moment');
+
 var jwt = require('jwt-simple');
 var token = jwt.encode({username: 'milesh'}, 'supersecretkey');
-var _ = require('lodash');  //utility library for common tasks
+var _ = require('lodash');  
 var secretKey = 'supersecretkey';
 var bcrypt = require('bcrypt');
-
 
 var loginmailgun = require('./data/loginmailgun.js');
 var transporter = nodemailer.createTransport(smtpTransport({
@@ -27,18 +27,20 @@ var transporter = nodemailer.createTransport(smtpTransport({
   
 app.use(favicon(__dirname + '/public/images/daybreaksun16px.ico'));
 app.use(express.static(__dirname + '/public')); //
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-try {
-        var uristring = require('./data/mongolabinfo.js').loginstring;
+try {var uristring = require('./data/mongolabinfo.js').loginstring;
     }
-        catch(err){
+    catch(err){
     }   
 
-var db = mongoose.connect(uristring);
 
+var jwtKey = process.env.JWTKEY;
+var jwtKey = secretKey;
+
+var token = null;
+var db = mongoose.connect(uristring);
 var User = db.model('user', 
     {
     userName            :  String,
@@ -53,7 +55,8 @@ var User = db.model('user',
     visitdatetimes      :  {type:Date},
     dayscreatedcount    :  String,
     likesgivencount     :  String,
-    likesreceivedcount  :  String
+    likesreceivedcount  :  String,
+    activestatus        :  String   //values null/activated/deactivated, eg. deleted
     });
 
 var Day = db.model('day',
@@ -74,62 +77,53 @@ var Day = db.model('day',
 
 var anImage = db.model('image',{
     userName            : String,
-    dayImage           : { data: Buffer, contentType: String } 
+    dayImage            : { data: Buffer, contentType: String } 
 });
 
 router.use(function(req, res, next) {
-    //console.log('Router.use is happening.');
-    next(); // make sure we go to the next routes and don't stop here
+     next(); // make sure we go to the next routes and don't stop here
 });
 
 /////////////////////////////////////////////////////////////////////
 
 
+// add token check here?
+/* GET . */
+    // router.get('/', function(req, res) {
+    //     console.log('zzzzzzz');
+    //   res.json({ message: 'Welcome to the Daybreak API!' });
+    // });
 
-  
-/* GET home page. */
-    router.get('/', function(req, res) {
-      res.json({ message: 'hooray! welcome to our api!' });
-    });
 
-//SERVES AN HTML PAGE, NEXT ONE IS API ENDPOINT SERVING JSON
-app.get('/show', function(req,res,next){
-    Day.find(function(err, Days){
-        if (err) 
-            {return next(err)}
-        else
-            {
-            //res.json({message: ' that worked '})  return success message
-            //console.log("we good");
-            res.sendFile(__dirname + '/public/show.html')  //returns show.html
-            }
-    })
- })
 
-//SERVES A JSON OBJECT
-//find first N items
 
 app.get('/api/show', function(req,res,next){
-    //now we sort via mongoose, not in angular, then truncate and respond
-    Day.find({}).sort({dayCreateDate: 'descending'}).limit(100).exec(function(err, Days){
+    var getSize = 100;
+
+    console.log(req,' is incoming req');
+
+    console.log(req.token,' is incoming token');
+
+
+    Day.find({}).sort({dayCreateDate: 'descending'}).limit(getSize).exec(function(err, Days){
         if (err) 
             {return next(err)}
-        else
-            {
+        else{
             console.log("we good at the api");
+
+            //insert verification of token here?  RECENT AND REAL - WRITE AUTH FUNCTION
+
             res.status(201).json(Days); //returns saved Days object
             }
     })
 });
-
  
 //tag based search  
 router.route('/taglookup').post(function(req,res,next){
         console.log ("at api incoming req.tag is... " + req.body.tag);
-        
         tagString = req.body.tag;
         //console.log('tagString is: ', tagString)
-       //transform incoming string to array
+        //transform incoming string to array
         //find commas, create array (which has different commas)
         tagArray = tagString.split(",");
 
@@ -139,8 +133,6 @@ router.route('/taglookup').post(function(req,res,next){
         //hand the array to mongo - require $all tags to be present
       //  Day.find( { dayTags: { $all: tagArray  }})
       //  Day.find(  {dayTags: {$in: tagArray}} )
-        
-
 
         Day.find(  {$or:[   {dayTags: {$in: tagArray} }, 
                             {dayDesc: {$in: tagArray} },
@@ -251,22 +243,23 @@ router.route('/addday').post(function(req, res) {
 // 3) not duplicate email  4) user clicks registration button
 //////////////////////////////////////////////////////////
  
+
 router.route('/registerValidUser').post(function(req,res,next){
-    //console.log("Create user request for user : " + req.body.username );
-    //assign all values except password
+  
+//create user record
     var user = new User({   userName: req.body.username,
                             created: Date.now(),
                             email: req.body.email,
-                            userAbout: "My perfect day would be..... "
-                         });
+                            userAbout: "My perfect day would be..."
+                        });
     //asynchronous call of bcrypt
     bcrypt.hash(req.body.password, 10, function(err, hash) {    
     // Store hash in password DB.
         //console.log("BCRYPT password hash is " + hash);
         user.password = hash;//note definition of user.password in schema
         //all values of user object now assigned
-        //console.log(user);
-        user.save(function(err){
+
+            user.save(function(err){
             if (err){
                 throw next(err);
             } else {
@@ -274,13 +267,50 @@ router.route('/registerValidUser').post(function(req,res,next){
             }
         });
     });
+
+
+
+//second register email 
+    console.log (req.body.email, " is registration email request");
+
+    var token = "123abc";
+
+    var verifyEmailOptions = {
+              from: 'PerfectDayBreak Team <hello@perfectdaybreak.com>', // sender address
+
+              to: 'miles.hochstein@gmail.com',  //TODO DELETE OWN EMAIL!!!!! 
+
+              subject: 'Please confirm your Perfect Daybreak email address', // Subject line
+              text: 'Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone.', // plaintext body
+              html: 'Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone. <br/><a href="http://localhost:8090/api/verifyemail?access_token='+token+'">Click here to confirm your email address</a>.'
+            };
+
+    transporter.sendMail(verifyEmailOptions, function(err, info) {
+              if (err) console.log(err);  
+              console.log('Email sent!');
+            });
 });
 
-router.route('/updateuserinfo').post(function(req,res,next){
- 
 
-     console.log(req.body.userAbout,"is req.body.userAbout incoming at API")
-     console.log(req.body.userName,"is req.body.userName incoming at API")
+
+app.get('/api/verifyemail', function(req,res,next){
+
+    console.log(req._parsedOriginalUrl.query, " is access token for email verification response.");
+
+    //IF incoming token = tokenized username plus email
+    //THEN save username, encrypted password, created date and userAbout
+    //THEN callback to allow user login
+
+    res.status(201).json(req._parsedOriginalUrl.query)
+});
+
+
+
+/////////////////////////////////////////////////////////////////
+
+router.route('/updateuserinfo').post(function(req,res,next){
+    console.log(req.body.userAbout,"is req.body.userAbout incoming at API")
+    console.log(req.body.userName,"is req.body.userName incoming at API")
 
 
     if (req.body.userName){
@@ -295,17 +325,12 @@ router.route('/updateuserinfo').post(function(req,res,next){
             user.userAbout = req.body.userAbout; 
             user.save(function(err) {
                 if (err) { return next(err); }
-                else {console.log('new userabout saved to userAbout 999999');}
+                else {console.log('new userabout saved to userAbout');}
             });
         });
     }
 
-
-
-
 })
-
-
 
 
 //THE REAL THING HERE ////////////////////////////////////////////////
@@ -381,7 +406,7 @@ app.post('/api/passwordresetemail', function(req, res) {
 
 // });
 
-//roadwarrior code
+//borrowed/modified roadwarrior code
 app.post('/api/passwordresetemail DEMONSTRATION ONLY', function(req, res) {
   var db = app.get('mongo');
   var users = db.collection('users');
@@ -476,12 +501,17 @@ router.route('/session').post(function(req,res,next){
         .select('created')
         .select('userName')
         .select('userAbout')   //grab password of that username
+        .select('activestatus')
         .exec(function(err,user){
 
         if (err){
             return next(err);
         } else if(!user) {
                 console.log("APP.JS: user not found in session");
+                res.sendStatus(401);
+//TODO: use this flag to activate after email confirm, and deactivate on user request.
+        } else if (user.activestatus==='delete') {
+                console.log("username exists but account status is delete");
                 res.sendStatus(401);
         } else {
         bcrypt.compare(req.body.password, user.password, function(err,valid) {
@@ -490,41 +520,94 @@ router.route('/session').post(function(req,res,next){
             }
             // !valid means invalid name password combo - bcrypt asigns boolean
             else if(!valid){
-                console.log("APP.JS: user found, but pwd not good");
+                console.log("user found, but pwd not good");
                 res.sendStatus(401);
             } else {
             //if valid then generate token based on user name
             //encode the incoming req.body.username with secretKey   
-                var token = jwt.encode({username: req.body.username}, secretKey);
+                var token = jwt.encode({username: req.body.username  }, secretKey);
                 console.log("APP.JS: user/pwd combo found and token is " + token);
-                res.json({token:    token, 
-                        userName:   user.userName, 
-                        email:      user.email, 
-                        userAbout:  user.userAbout, 
-                        created:    user.created,
-                        status: 200});   
+                res.json({  token:      token, 
+                            userName:   user.userName, 
+                            email:      user.email, 
+                            userAbout:  user.userAbout, 
+                            created:    user.created,
+                            status:     200});   
             }           
         });
     };
 });
 });
 
-
+///NOT CURRENTLY IN USE!
 //3 decode jwt token to return username
 //Takes the jwt token stored client side and returns the username
-app.get('/user', function(req,res){
-    var token = req.headers['x-auth'];
-    console.log ("token is " + token);
-    var auth  = jwt.decode(token, secretKey);
-    console.log('auth is ' + auth);
-    console.log('auth.username is ' + auth.username);
-    User.findOne({userName: auth.username}, function(err,user){
+// app.get('/user', function(req,res){
+//     var token = req.headers['x-auth'];
+//                     console.log ("token is " + token);
+//     var auth  = jwt.decode(token, secretKey);
+//                     console.log('auth is ' + auth);
+//                     console.log('auth.username is ' + auth.username);
+//     User.findOne({userName: auth.username}, function(err,user){
 
-        res.json(user.userName, user.email, user.userAbout);
-        console.log("user.userName is " + user.userName);
+//         res.json(user.userName, user.email, user.userAbout);
+//         console.log("user.userName is " + user.userName);
 
-    });
-});
+//     });
+// });
+
+/////////roadwarrior
+
+function authenticate (userid, email){
+  var expires = moment().add(7, 'days').valueOf();
+  var token = jwt.encode({
+    iss: userid,
+    exp: expires,
+    email: email
+  }, jwtKey);
+  return token;
+}
+
+function passwordResetAuthenticate (userid){
+  var expires = moment().add(1, 'hours').valueOf();
+  var token = jwt.encode({
+    iss: userid,
+    exp: expires
+  }, jwtKey);
+  return token;
+}
+
+function jwtAuth (req, res, next){
+
+  var token =   (req.body && req.body.access_token) || 
+                (req.query && req.query.access_token) || 
+                req.headers['x-access-token'] || 
+                req.params.token;
+  if (token) {
+    try {
+      var decoded = jwt.decode(token, jwtKey); //check for decoded.email
+      if (decoded.exp <= Date.now()){
+        res.end('Access token expired', 400);
+      }
+      var db = app.get('mongo');
+      var users = db.collection('users');
+      users.find({_id: ObjectId(decoded.iss)}, {password: 0}).toArray(function(err, docs) {
+        req.user = docs[0];
+        req.email = decoded.email;
+        next();
+      });
+    } catch (err) {
+      next();
+    }
+  } else {
+    next();
+  }
+
+};
+
+
+ 
+
 
 
 app.use('/api',router);  //this needs to be near bottom of page
