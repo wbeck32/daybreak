@@ -233,8 +233,32 @@ this.resetPassword = function(username){
 
 // };
 
- 
-  this.passwordChange = function(password, newPassword) {
+
+
+//////////////////////////////////////////////////////
+//Username password RECOVERY for loggedout user, 
+//distinct from logged in user password reset
+  this.passwordreset = function(knownemail) {
+
+    console.log('at user service knownemail is: ', knownemail);
+
+    $http({
+      method: 'POST',
+      url: '/api/passwordreset',
+      data: {
+        knownemail: knownemail
+      },
+      headers: {'Content-Type': 'application/json'}
+    }).success(function(data, status, headers, config){
+      console.log('reset post successful');
+      alert('An email has been sent to your account, go check it out to proceed. You can close this window.');
+    }).error(function(data, status, headers, config){
+      console.log('reset post failed: ' + data);
+    });
+  };
+
+//password change while logged in 
+   this.changepassword = function(password, newPassword) {
     $http({
       method: 'POST',
       url: '/api/passwordchange',
@@ -256,24 +280,8 @@ this.resetPassword = function(username){
     });
   };
 
-  this.passwordreset = function(knownemail) {
 
-    console.log('at user service knownemail is: ', knownemail);
 
-    $http({
-      method: 'POST',
-      url: '/api/passwordreset',
-      data: {
-        knownemail: knownemail
-      },
-      headers: {'Content-Type': 'application/json'}
-    }).success(function(data, status, headers, config){
-      console.log('reset post successful');
-      alert('An email has been sent to your account, go check it out to proceed. You can close this window.');
-    }).error(function(data, status, headers, config){
-      console.log('reset post failed: ' + data);
-    });
-  };
 
 
   // this.deleteaccount = function(username, changeUserState) {

@@ -149,10 +149,15 @@ userService.init(completeInit);
 	};
 
 //////////////////////////////////////////////////////
-
-
+//Username password RECOVERY for unknown user, 
+//distinct from logged in user password reset
 this.passwordreset = function(knownemail){
 	userService.passwordreset(knownemail);
+};
+
+//password change while logged in 
+this.changepassword = function(xxx){
+	userService.changepassword(xxx);
 };
 
 
@@ -213,7 +218,7 @@ this.passwordreset = function(knownemail){
 	
 		usernameToDelete = username;  //preserve only this
   		$scope.User.userViewSwitch 	= null; 	  //close modal
-  		
+
  		userService.deleteaccountService(usernameToDelete, changeUserState); //then send db command
 		// changeUserState();
 	};

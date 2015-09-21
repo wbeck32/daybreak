@@ -259,11 +259,10 @@ router.route('/registerValidUser').post(function(req,res,next){
             };
 
 
-///TODO UNCOMMENT!!!!
-    // transporter.sendMail(verifyEmailOptions, function(err, info) {
-    //           if (err) console.log(err);  
-    //           console.log('Email sent!');
-    //         });
+            transporter.sendMail(verifyEmailOptions, function(err, info) {
+              if (err) console.log(err);  
+              console.log('Email sent!');
+            })
 });
 
 
@@ -324,9 +323,12 @@ app.get('/api/verifyemailreset', function(req,res,next){
     }
  res.redirect('/');  //back to application
  });
+ 
 
-/////////////////////////////////////////////////////////////////
-//user remembers only his/her email
+//////////////////////////////////////////////////////
+//Username password RECOVERY for loggedout user, 
+//distinct from logged in user password reset
+//THREE ENDPOINTS IN PROCESS 
 /////////////////////////////////////////////////////////////////
  router.route('/passwordreset').post(function(req,res,next){
     
@@ -397,21 +399,72 @@ app.get('/api/verifypasswordreset/:temptoken', function(req,res,next){
 app.post('/api/verifypasswordreset/:temptoken', function(req, res){
   
     console.log('NOW POSTING NEW PASSWORD TO /api/verifypasswordreset/:temptoken');
+    console.log(req.body.passwordreset, req.body.passwordresetverify, ' are incoming passwords');
 
-    //check for valid token
+    //check for valid token (good email and recent date)
     var decoded = jwt.decode(req.params.temptoken, jwtKey); //check for decoded.email
     var email   = decoded.email;
+    var exp     = decoded.exp;
 
-        //get email
-        // User.findOne({email: knownemail})
-        //     .select('email')
-        //     .exec(function(err, user){ };
+    function recentToken(){
+
+        console.log('recentToken!');
+    };
+
+    function equalPasswords(){
+        console.log('equalpasswords!');
+
+    };
+
+    function emailExists(){
+                console.log('emailExists!');
+    };
+
+
+    if (recentToken && equalPasswords && emailExists)
+       { console.log('all three true');   }
+    else {res.end('some error happened', 400)}
+
+
+
+
+    //check token not expired
+    // if (decoded.exp <= Date.now() ){
+    //         res.end('Access token expired', 400);
+    //     } else {
+
+    //     if (req.body.passwordreset !== req.body.passwordresetverify)
+    //         {res.end('Passwords did not match', 400);
+    //         } else {
+    //             //1
+    //             bcrypt.hash(validresetpasword, 10, function(err, hash){
+    //                 if (email)
+    //                     {        
+    //                     User.findOne( {email: email} )
+    //                         .select('email')
+    //                         .exec(function(err, user){ 
+    //                             console.log('found email for user in reset process',  email);
+    //                             //save encrypted password
+    //                              User.save( {password: validresetpassword } )
+    //                                 .exec(function(err) {
+    //                                 if (err) { 
+    //                                      return next(err); }
+    //                                 else {
+    //                                     console.log('saved new validresetpassword');
+    //                                     res.status(201).json( ); //returns saved day object
+    //                                     }
+
+    //                                 }) //close findOne
+    //                     } //close email exists test
+    //                 })//close bcrypt
+    //         } //close if
+    //     }//close if
 
         //db check email
 
         //if valid email
-            //bcrypt.hash(req.body.password, 10, function(err, hash){
-            //update password in database
+            // bcrypt.hash(req.body.password, 10, function(err, hash){
+            // update password in database
         //else
             //'there was a problem with password reset'
 
@@ -426,6 +479,12 @@ app.post('/api/verifypasswordreset/:temptoken', function(req, res){
   //   });  
   // });
 });
+
+/////////////////////////////////////////////////////////////////
+//password change while logged in 
+
+
+
 
 
 /////////////////////////////////////////////////////////////////

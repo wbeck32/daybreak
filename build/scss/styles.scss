@@ -462,21 +462,20 @@ height:30%;
  				padding: 3px;
  				}
 
- #pname {width: 100%; background-color: yellow;}
+ #pname {width: 100%;  }
 
- #pdate {width:50px; background-color: yellow;}
+ #pdate {width:50px;  }
 
 
  .profileInfo{  font-size: 1.1em; 
- 				border: 1px solid black;
- 				margin: 1px;
+  				margin: 1px;
  				padding: 1px;
  				padding-left: 5px;
  				padding-right: 5px;
- 				width: 98%;
- 				background-color: #1de9b6; 
- 				border: 1px black solid;
- 				}
+ 				padding-bottom: 5px;
+   				}
+
+ .textarea {background-color: #1de9b6; float:left; display: inline;}
 
  #deleteaccount{
  	margin-top: 5px;
