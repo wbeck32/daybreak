@@ -1,0 +1,39 @@
+			<div class="daydisplay animate-show">
+
+			 	<div class="container">
+			 		<div data-ng-controller="tagController as Tag"> <!-- tag controller begin -->
+						<div class="tagFrame">    <!--  tag search begin -->
+							 
+								<label class="label-space"></label>
+
+									<input 
+ 									data-ng-model="Tag.tag"
+									class= "form-control" 
+									type="text"
+						 			placeholder="Enter search words, separated by spaces. (Example: Boston hiking restaurant.)"
+									required>
+								
+									<input 
+						 			data-ng-click="Tag.findTag();Tag.tag = ''"
+						 			class="btn btn-sm btn-block right" 
+									type="submit" 
+									value="Show All Days">	
+
+						 			<input 
+						 			data-ng-click="Tag.findTag(Tag.tag)" 
+						 			class="btn btn-sm btn-block left" 
+									type="submit" 
+									value="Search">	
+						</div>  <!--  tag search end -->
+
+						<div class ="searchResultsMessage">				
+							{{Day.searchResultsMessage}}
+							<div class="resultCount center" data-ng-show="Day.searchResultLength == 1"> 
+								{{Day.searchResultLength }} Result
+							</div>	
+							<div class="resultCount center" data-ng-show="Day.searchResultLength > 1"> 
+								{{Day.searchResultLength }} Results
+							</div>	
+
+						</div>
+					</div>       <!-- tag controller end -->

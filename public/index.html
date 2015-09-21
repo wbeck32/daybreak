@@ -5,15 +5,14 @@
     <meta property="og:type" content="website">
 	<meta property="og:title" content="Daybreak is the pefect way to share your Perfect Day.">
     <meta property="og:description" content="Use Daybreak discover other people's favorite days and favorite places, and share your perfect day.">
-<!--     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
- -->	
+
+
 	<script src="js/modernizr.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500' rel='stylesheet' type='text/css'>
-	<!-- Compiled and minified MATERIALIZE CSS -->
   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
   	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="css/styles.css" />	
-	<title>Daybreak - Share and Find the Perfect Day</title>
+	<link rel="stylesheet" href="css/styles.css" />
+<title>Daybreak - Share and Find the Perfect Day</title>
 </head>
 
 <body>
@@ -30,7 +29,7 @@
 					<div data-ng-switch on='User.userFormView'>
 			   			<div data-ng-switch-when="hide"> 
 							<a class='createdaybutton' 
-							data-ng-click="User.userFormView='show' ">
+							data-ng-click="User.userFormView='show'">
 		 			  		Create a New Day? </a>
 	 					</div>
 					</div>
@@ -60,18 +59,15 @@
 							</div>	
 					</div>
 
-					<!-- data-ng-click="User.userFormView='show' -->
 				</div>
 			</div>   
 
 
-			<div  style="margin: 0 auto; background-color: #F2F6F6; width: 70%"
+			<div  style="margin:0 auto;background-color: #F2F6F6; width: 70%"
 				 data-ng-switch on='User.userFormView'>
-			   	<div class='row' data-ng-switch-when="show" >
+			   	<div class='row' data-ng-switch-when="show">
 
-					<div class="col s6 " >
-<!-- 					<h2>My Day by&nbsp;{{User.username}}</h2>
- --> 
+					<div class="col s6">
 						<section>
 							<div class="form-group" >
 								<form data-ng-submit="Day.addDay(Day, User)">
@@ -84,8 +80,6 @@
 								<div>by&nbsp;{{User.username}}</div>
 
 
-							
- 
 								<textarea class="form-control desc" rows="5" data-ng-model="Day.dayDesc" placeholder="This was a great day because... "></textarea> 
 
 								  <div class="switch form-control">Child-friendly?
@@ -113,15 +107,11 @@
 									<h5>Find one location or add many!</h5>
 									<input type="text" class="form-control" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
 									<textarea class="form-control" data-ng-bind="locDesc" rows="3" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
-								<!--TODO: Add functionality for uploading photos -->
-								<!-- <div>Share a picture from your Day - <input type="file" accept="image/*"></div> -->
-								<!--TODO-->
 									<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locName,locURL,locDesc)">Add this location</div>
 								</div> <!-- END LOCATION CONTROLLER -->
 
 
-								<div  data-ng-controller="tagController as Tag" 
-									  class="form-group">
+								<div data-ng-controller="tagController as Tag" class="form-group">
 									<div>Use spaces between tags.</div>
 									<input type="text" 
 									id="tags" 
@@ -130,9 +120,9 @@
 									placeholder="Enter some tags" 
 									data-ng-model="Tag.dayTags">
 								</div> <!--END TAG CONTROLLER -->
-								<button class="btn btn-default" type="submit">Add this day</button>
-								 
-								<button class="btn btn-default" type="submit">Discard without Saving</button>
+
+								<button class="btn btn-default" type="submit">Add this day</button> 
+								<button class="btn btn-default" type="submit">Discard without saving</button>
 
 								</form>
 					
@@ -152,69 +142,20 @@
 			</div>    <!--close user form view -->
 
 
-
-
-
-
-<!-- SEARCH AND DISPLAY -->
-
-			<div class="daydisplay">
-			 	<div class="container">
-
-
-								
-
-			 		<div data-ng-controller="tagController as Tag"> <!-- tag controller begin -->
-						<div class="tagFrame">    <!--  tag search begin -->
-							 
-								<label class="label-space"></label>
-
-									<input 
- 									data-ng-model="Tag.tag"
-									class= "form-control" 
-									type="text"
-						 			placeholder="Enter search words, separated by spaces. (Example: Boston hiking restaurant.)"
-									required>
-								
-									<input 
-						 			data-ng-click="Tag.findTag();Tag.tag = ''"
-						 			class="btn btn-sm btn-block right" 
-									type="submit" 
-									value="Show All Days">	
-
-						 			<input 
-						 			data-ng-click="Tag.findTag(Tag.tag)" 
-						 			class="btn btn-sm btn-block left" 
-									type="submit" 
-									value="Search">	
-						</div>  <!--  tag search end -->
-
-						<div class ="searchResultsMessage">				
-							{{Day.searchResultsMessage}}
-							<div class="resultCount center" data-ng-show="Day.searchResultLength == 1"> 
-								{{Day.searchResultLength }} Result
-							</div>	
-							<div class="resultCount center" data-ng-show="Day.searchResultLength>1"> 
-								{{Day.searchResultLength }} Results
-							</div>	
-
-						</div>
-					</div>       <!-- tag controller end -->
- 
-
-					<div    data-ng-switch on='User.userDayView'>
-			   			<div   data-ng-switch-when="grid"> 
-		 					<div grid-day-view>
-		 					</div>
+					<div data-ng-switch on='User.userDayView'>
+			   			<div data-ng-switch-when="grid">
+			   				<tag-search></tag-search> 
+		 					<div grid-day-view></div>
 		 				</div>
 					</div>
 
 					<div data-ng-switch on='User.userDayView'>
 			   			<div data-ng-switch-when="single"> 
-							<div single-day-view>
-							</div>
+			   				<tag-search></tag-search>
+							<div single-day-view></div>
 		 	  			</div>
 		 			</div>
+
 
 		</div>     <!-- close dayController -->
 	</div>    <!--  close container -->

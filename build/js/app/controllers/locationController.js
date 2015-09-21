@@ -1,9 +1,13 @@
-angular.module('dayBreak').controller('locationController',['$http','$scope','$rootScope','dayService','mapService',function($http,$scope,$rootScope,dayService,mapService){
+angular.module('dayBreak').controller('locationController',['$http','$scope','$sce','$rootScope','dayService','mapService',function($http,$scope,$sce,$rootScope,dayService,mapService){
 
 $rootScope.dayLocations = [];
 $scope.locName = '';
 $scope.locURL = '';
 $scope.locDesc = '';
+$scope.locLatLng = '';
+$scope.locPhotosLg = [];
+$scope.locPhotosThumb = [];
+$scope.lgPhotoInfo = {};
 
 var myLatlng = new google.maps.LatLng(-33.867957, 151.21117600000002);
 var mapOptions = {
@@ -53,20 +57,33 @@ marker.addListener('click', function() {
 	infowindow.open($scope.map, marker);
 });
 
+//console.log(places[0]);
 $scope.locName = places[0].name;
 $scope.locURL = places[0].website;
+$scope.locLatLng = myLatLong;
+
+if(places[0].photos){
+  for (i=0; i<=2; i++){
+    $scope.locPhotosThumb.push(places[0].photos[i].getUrl({'maxWidth':60,'maxHeight':60}));
+    $scope.lgPhotoInfo = {  url: places[0].photos[i].getUrl({'maxWidth':250,'maxHeight':250}), 
+                            attr: places[0].photos[i].html_attributions[0]
+                          };
+    $scope.locPhotosLg.push($scope.lgPhotoInfo);
+  }
+}
+
 $scope.$apply();
 
 });
 
 
-this.addLoc = function(Location,locName,locURL) {
+this.addLoc = function(Location,locName,locURL) { 
 	if(locName){
 		$scope.locName = locName;
 		$scope.locURL = locURL;
 		$scope.locDesc = Location.locDesc;
 
-		var l = ({location:$scope.locName, url:$scope.locURL, desc:$scope.locDesc});
+		var l = ({location:$scope.locName, url:$scope.locURL, desc:$scope.locDesc, latLong:$scope.locLatLng, photosLg:$scope.locPhotosLg,photosThumb:$scope.locPhotosThumb});
     $rootScope.dayLocations.push(l);
     var tagField = document.getElementById('tags');
     tagField.value += $scope.locName+' ';
@@ -89,6 +106,9 @@ this.addLoc = function(Location,locName,locURL) {
     $scope.locDesc = '';
 		$scope.locName = '';
 		$scope.locURL = '';
+    $scope.locLatLng = '';
+    $scope.locPhotosLg = [];
+    $scope.locPhotosThumb = [];
 		Location.locDesc = '';
 		Location.locName = '';
 		Location.locURL = '';

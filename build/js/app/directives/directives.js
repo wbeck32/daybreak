@@ -5,7 +5,7 @@ angular.module('dayBreak')
 	restrict	: 'E',
 	replace		: false,
 	scope		: true,
-	templateUrl	:'/locationList.html',
+	templateUrl	:'/templates/locationList.html',
 	link		: function( scope, elem, attrs) {
  	 }
 	};
@@ -39,11 +39,18 @@ angular.module('dayBreak')
 		replace: false,
 		scope: true,
 		link: function(scope,elem,attrs) {
-			console.log(scope,elem,attrs);
+			//console.log(scope,elem,attrs);
 			if(scope.User.userState === 'loggedIn'){
 				elem[0].contentEditable = true;
 			}
 		}
 
+	};
+})
+.directive('tagSearch', function(){
+	return {
+		restrict: 'E',
+		replace: false,
+		templateUrl: '/templates/tagSearch.html'
 	};
 });

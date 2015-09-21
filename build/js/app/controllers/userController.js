@@ -4,6 +4,7 @@ dayBreak.controller('userController',
 		$scope.User.userFormView 	= 'hide';  //can change to 'show'  		
  		$scope.User.userDayView 	= 'grid';  //user can change to 'single'
  		$scope.User.userViewSwitch 	= null;
+
  		$scope.User.password 		= null;
 		$scope.User.passwordConfirm	= null; 
 		$scope.User.email 			= null;
