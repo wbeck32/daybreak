@@ -25,6 +25,8 @@ dayBreak.controller('userController',
 
 //init callback function
 	function completeInit(response){
+		console.log('response.data is: ', response.data);
+ 
 		console.log('completeInit is happening');
 		$scope.User.userState 	='loggedIn';
 	 	$scope.User.username 	= response.data.userName;

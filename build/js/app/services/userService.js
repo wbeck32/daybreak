@@ -55,17 +55,17 @@ this.init = function(completeInit){
               },
         headers: {'Content-Type': 'application/json'}
     })
-    .then(function(response)   //success path
+    .then(
+    function(data,status,headers,config)   //success path
     {
-    console.log('found valid token and user name'); 
+    console.log('found valid token and user name and status is: ', status); 
 
-    completeInit(response);
+    completeInit(data);
     },
   //failure path here TODO: WE DO NOT EVER GET HERE?
-  function(data,status,headers,config){
+    function(data,status,headers,config){
     console.log('No token-userState is set to loggedout');
-    //this.userState = 'loggedOut';   
-    //completeInit(data.status); //callback fn loginState
+   
   });
 }
 };

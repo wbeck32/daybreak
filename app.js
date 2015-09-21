@@ -390,10 +390,12 @@ app.get('/api/verifypasswordreset/:temptoken', function(req,res,next){
     var email   = decoded.email;
     var expires = decoded.exp;
     
-    res.render('passwordresetform2');
+//  res.render('passwordresetform2');
+    res.redirect('/?modal=passwordresetform');
+
+
 
   });
-
 
 // after user fills out new password info, user posts to here
 app.post('/api/verifypasswordreset/:temptoken', function(req, res){
@@ -405,87 +407,61 @@ app.post('/api/verifypasswordreset/:temptoken', function(req, res){
     var decoded = jwt.decode(req.params.temptoken, jwtKey); //check for decoded.email
     var email   = decoded.email;
     var exp     = decoded.exp;
-
-    function recentToken(){
-
-        console.log('recentToken!');
+    var recentTokenValue = false;
+    var equalPasswordsValue = false;
+ 
+    recentToken(exp);
+    equalPasswords(req.body.passwordreset, req.body.passwordresetverify);
+ 
+    function recentToken(exp){
+        console.log('checking recentToken!');
+         if (exp <= Date.now() ){
+          res.end('Access token expired', 400);
+         } else { 
+            recentTokenValue= true;
+             }
     };
 
-    function equalPasswords(){
-        console.log('equalpasswords!');
-
+    function equalPasswords(passwordreset, passwordresetverify){
+        console.log('checking equalpasswords!');
+        if (passwordreset !==  passwordresetverify)
+             {res.end('Passwords did not match', 400);
+             } else { 
+                equalPasswordsValue = true; }
     };
 
-    function emailExists(){
-                console.log('emailExists!');
-    };
+    hashAndSave(recentTokenValue, equalPasswordsValue);
 
+    function hashAndSave(recentTokenValue,equalPasswordsValue){  
+    console.log('values are: ', recentTokenValue,equalPasswordsValue);     
+    if (  recentToken && equalPasswords )
+       {
+        console.log('all three conditions for password reset are true');    
+        bcrypt.hash(req.body.passwordreset, 10, function(err, hash) {    
+            if (email){
+                User.findOne({email: email}, function(err, user){
+                    if (err) 
+                        { return next(err); }
+                    else
+                        {console.log ('no error on findOne');}
+                    //console.log(user.userName, ' is found at user');
+                    user.password = hash; 
+                    user.save(function(err) {
+                        if (err) { return next(err); }
+                        else {console.log('new hashed password saved to password');}
+                        });
+                    });
+                }
+        });
 
-    if (recentToken && equalPasswords && emailExists)
-       { console.log('all three true');   }
-    else {res.end('some error happened', 400)}
-
-
-
-
-    //check token not expired
-    // if (decoded.exp <= Date.now() ){
-    //         res.end('Access token expired', 400);
-    //     } else {
-
-    //     if (req.body.passwordreset !== req.body.passwordresetverify)
-    //         {res.end('Passwords did not match', 400);
-    //         } else {
-    //             //1
-    //             bcrypt.hash(validresetpasword, 10, function(err, hash){
-    //                 if (email)
-    //                     {        
-    //                     User.findOne( {email: email} )
-    //                         .select('email')
-    //                         .exec(function(err, user){ 
-    //                             console.log('found email for user in reset process',  email);
-    //                             //save encrypted password
-    //                              User.save( {password: validresetpassword } )
-    //                                 .exec(function(err) {
-    //                                 if (err) { 
-    //                                      return next(err); }
-    //                                 else {
-    //                                     console.log('saved new validresetpassword');
-    //                                     res.status(201).json( ); //returns saved day object
-    //                                     }
-
-    //                                 }) //close findOne
-    //                     } //close email exists test
-    //                 })//close bcrypt
-    //         } //close if
-    //     }//close if
-
-        //db check email
-
-        //if valid email
-            // bcrypt.hash(req.body.password, 10, function(err, hash){
-            // update password in database
-        //else
-            //'there was a problem with password reset'
-
-        //  res.redirect('/');
-
-
-    res.redirect('/');
-
-    // bcrypt.hash(req.body.password, 10, function(err, hash){
-    // users.update({_id: req.user._id}, {$set:{password: hash}}, function(err, updateRes){
-    //   if (err) throw err;
-  //   });  
-  // });
+    //res.redirect('/');
+    } else  {
+            console.log('all two conditions for reset NOT TRUE');    
+            }
+    }
 });
 
-/////////////////////////////////////////////////////////////////
-//password change while logged in 
-
-
-
-
+ 
 
 /////////////////////////////////////////////////////////////////
 
