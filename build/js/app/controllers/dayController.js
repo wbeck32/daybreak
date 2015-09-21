@@ -1,26 +1,24 @@
-angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService',  function($scope,$rootScope,$http,dayService){
-
-// this.makeEditable = function() {
-	
-// 	console.log('change it!');
-
-// }
-
-function tagArrayToString(data){
-	Object.keys(data).forEach(function(key){
-		var tagString = '';
-		data[key].dayTags.forEach(function(elem){
-			tagString += ', '+elem;
-		}); 
-		tagString = tagString.substr(2);
-		data[key].dayTags = tagString;
-	});	
-	return data;
-}
+angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', 'commonService',  function($scope,$rootScope,$http,dayService,commonService){
 
 function setDayScope(data) {
-	tagArrayToString(data);
+	//console.log(data);
+	commonService.formatDates(data);
+	commonService.tagArrayToString(data);
 	$scope.Day.days = data;
+}
+
+function completeViewEditUserDays(data){
+	//console.log('callback setting found days for user', data);
+	commonService.tagArrayToString(data);
+	$scope.Day.days = data;  //updates grid with results
+	$scope.Day.searchResultLength = data.length;
+}
+
+function chosenDay(data) {
+	//console.log("data.dayTag", data[0].dayTag);
+	commonService.tagArrayToString(data);
+	$scope.Day.chosenDay = data[0];
+	$scope.User.userDayView = 'single';  
 }
 
 dayService.populateDayGrid(setDayScope);
@@ -28,21 +26,9 @@ dayService.populateDayGrid(setDayScope);
 $scope.Day.searchResultLength = 0;
 $scope.Day.searchResultsMessage = null;
 
-function updateDayGrid(data) {
-	console.log('data: ',data);
-	$scope.Day.days = data;
-}
-
-function completeViewEditUserDays(data){
-	console.log('callback setting found days for user', data);
-	tagArrayToString(data);
-	$scope.Day.days = data;  //updates grid with results
-	$scope.Day.searchResultLength = data.length;
-}
-
 this.viewEditUserDays = function(username, callback){
-	console.log ('entering viewEditUserDays');
-	console.log('username in daycontroller is ', username);
+	//console.log ('entering viewEditUserDays');
+	//console.log('username in daycontroller is ', username);
 	$scope.Day.searchResultsMessage='Now Showing My Days Only'; 
 	dayService.getDaysOfUser(username, completeViewEditUserDays);
 };
@@ -69,20 +55,13 @@ this.addDay = function(Day, User) {
 		Array.prototype.push.apply(tagArray,dayNameArray);
 	}
 
-	dayService.addDay(dayName, userName, dayDesc, dayGroup, $rootScope.dayLocations, tagArray, updateDayGrid);
+	dayService.addDay(dayName, userName, dayDesc, dayGroup, $rootScope.dayLocations, tagArray, setDayScope);
+	$scope.User.userDayView = 'grid';
 	dayService.populateDayGrid(setDayScope);
-	$scope.User.userFormView = 'hide';    		
+	$scope.User.userFormView = 'hide';   		
 	Day.dayName = '';
 	Day.dayDesc = '';
 };
-
-function chosenDay(data) {
-		//console.log("data.dayTag", data[0].dayTag);
-		tagArrayToString(data);
- 		$scope.Day.chosenDay = data[0];
-		$scope.User.userDayView = 'single';  
-}
-
 
 this.showOneDay = function(dayID){
 	dayService.getDay(dayID, chosenDay);

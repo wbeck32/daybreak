@@ -9,7 +9,7 @@ this.populateDayGrid = function(callback) {
 	})
 	.success(function(data,status,headers, config){
 		console.log("success ***: ", data);
-		callback(data);
+		callback(data); 
 	})
 	.error(function(data, status,headers,config){
 		console.log("failure ***");

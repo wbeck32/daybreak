@@ -1,23 +1,27 @@
-<!-- 
-<div ng-show="Days.length>0">{{Day.length}}
-<h5>Great Days Shared by Our Community</h5>
-</div>
+<div class="bestDaysFrame" style="height:100%;">
+ 	<div data-ng-repeat="day in Day.days" class="singleDay"> 
+  		<div data-ng-click = "Day.showOneDay(day._id)">
+		 	<div class="title">{{day.dayName }}</div>
+		 	<div class="user">{{day.userName }}</div>
+		 	<div class="daydate">{{day.dayDate}}</div>
 
-<div ng-show="Days.length=0"> nothing 
-</div> -->
+		 	<div class="description">{{day.dayDesc}}</div>
 
-<div class="bestDaysFrame">
- 	<div data-ng-repeat="day in Day.days" class='singleDayDisplay showbox'> 
-  		<div data-ng-click = "Day.showOneDay(day._id)" style ='cursor: pointer;' >
-		 	<div class='title'> 	{{ 	day.dayName }}</div>
-		 	<div class='tags'>		{{	day.dayTags}}</div>
-			<div class='description'> Description:&nbsp;{{	day.dayDesc}}</div>
-			<div class='whowasthere'> Who was there?&nbsp; {{	day.dayGroup}}</div>
-			<div class='daydate'>When?&nbsp;{{ 	day.dayDate}}</div>
-			<div class='user'>By:&nbsp;{{day.userName }}</div>
-			<div class ='photo'> photo here</div> 
-			
- 		</div>	
+			<div class="whowasthere">
+			<div>Teen friendly? [checkbox]</div>
+			<div>Kid friendly? [checkbox]</div>
+			</div>
+			<div data-ng-repeat="location in day.locations track by $index">
+				<div class="location">
+				<div class="locationName">{{location.location}}</div>
+				<div class="locDesc">{{location.desc}}</div>
+				<div data-ng-repeat="photo in location.photosThumb track by $index" style="display:inline;margin:0 5px;">
+					<img src="{{photo}}"></img>
+					</div>
+				</div>
+			</div>
+ 		</div>
+ 		<div class="tags">{{day.dayTags}}</div>
+	
 	</div>
 </div>
- 
