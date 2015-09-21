@@ -7,28 +7,36 @@ dayBreak.controller('userController',
  		$scope.User.password 		= null;
 		$scope.User.passwordConfirm	= null; 
 		$scope.User.email 			= null;
-		//$scope.User.created 		= Date;	//not necessary
+
 		$scope.User.userAbout 		= null;
- 		$scope.User.uniqueEmail 	= '';  // email is unique in database
+ 		$scope.User.uniqueEmail 	= '';    // email is unique in database
 		$scope.matchingPassword		= '';
  		$scope.User.uniqueUserName 	= '';
 		$scope.User.longUsername	= false;
- 
-		$scope.User.validPassword 	= false; 
+ 		$scope.User.validPassword 	= false; 
  		$scope.User.LoginError 		= false;	     
 		$scope.User.username 		= userService.username;	    
 		$scope.User.userState 		= userService.userState;
  
- 
+ 		$scope.User.oldemail= $scope.User.email;
+
 //////////////////////////////////////////////////////
 
-	this.init = function(){
-		//check for recent token 
-			// if token x`x``
+//init callback function
+	function completeInit(response){
+		console.log('completeInit is happening');
+		$scope.User.userState 	='loggedIn';
+	 	$scope.User.username 	= response.data.userName;
+	 	$scope.User.email 		= response.data.email;
+	 	$scope.User.userAbout 	= response.data.userAbout;
+ 	 	$scope.User.created 	= response.data.created.substring(0,10); //truncate time
+	}
 
-
-	};
-
+// do INIT() on page reload and callback completeInit 
+// to complete intializaiton if username and token are confirmed - 
+userService.init(completeInit);
+ 
+//////////////////////////////////////////////////////
 
 	//on keyup test password for match and other criteria.
 	this.passconfirm = function(pass, passconfirm){
@@ -79,69 +87,74 @@ dayBreak.controller('userController',
 //COULD ADD loginState depends on recent token
 //callback function for login
 
-
-    function loginState(status) {
-
-	    if(status.status === 200) {
-
-    	console.log("loginState 1 setting $scope.User.userState at loginState()", $scope.User.userState );
-    	console.log("loginState 1a setting $scope.User.username at loginState()", $scope.User.username );
-
- 
-    		 // $scope.User.userFormView='show';  //loggedIn user can open day creation form
-		      $scope.User.userState = 'loggedIn';
-
-		      //$rootscope.User.userState = 'loggedIn'
+	function loginState(response) {
+	    if(response.status === 200) {
+  		      $scope.User.userState = 'loggedIn';
  		      $scope.User.userViewSwitch = null;
-		      $scope.User.email = status.email;
-		      $scope.User.username = status.userName;
-		      $scope.User.userAbout = status.userAbout;
+		      $scope.User.email = response.email;
+		      $scope.User.username = response.userName;
+		      $scope.User.userAbout = response.userAbout;
 			  //remove time of account creation for public presentation
-		   	  $scope.User.created = status.created.substring(0,10);
+		   	  $scope.User.created = response.created.substring(0,10);
 			  //format: {"$date": "2015-08-20T18:37:47.626Z"}
- 
-    	console.log("loginState 2 setting $scope.User.userState at loginState()", $scope.User.userState );
-		console.log("loginState 2a setting $scope.User.username at loginState()", $scope.User.username );
-
-	    } else {
-	    	//  $scope.User.userFormView='hide';
+ 	    } else {
+	    	  // $scope.User.userFormView='hide';
 		      $scope.User.userState = 'loggedOut';
-		      //$rootscope.User.userState = 'loggedOut'
-
-		      $scope.User.LoginError = true;           
+ 		      $scope.User.LoginError = true;           
 		      $scope.User.userViewSwitch = 'Log';
 		      $scope.User.password = '';
 		      $scope.User.username = '';
 		    }
 	    }
 
-
 	this.login = function(){  
 	  $scope.User.LoginError = false; //stops persistence of error message after bad login attempt
       userService.login(this.username, this.password, loginState);
-		};
+	};
 
 
 //////////////////////////////////////////////////////
 //signout callback
-//////////////////////////////////////////////////////
+ 
     function changeUserState(){
+
+    	console.log('returning user state values to null at changeUserState');
+
      	$scope.User.userState = 'loggedOut';
       	$scope.User.userViewSwitch = null;
       	//below important for clearing reg form if user returns to it
       	$scope.User.username 		= null;
-		$scope.User.password 		= null;
-		$scope.User.passwordConfirm	= null; // note these are not equal to start
+		$scope.User.password 		= null; //should be null
+		$scope.User.passwordConfirm	= '';   //should be 0 length string
 		$scope.User.email 			= null;
 		$scope.User.matchingPassword= null;
-		$scope.User.uniqueEmail		= '';   //important, not false or null
+		$scope.User.uniqueEmail		= '';  //important, not false or null
 	    }
+
+
+  	this.signOut = function(){
+			   userService.signOut(changeUserState);
+  	};
 
 //////////////////////////////////////////////////////
 
- 	this.signOut = function(){
-			   userService.signOut(changeUserState);
-  	};
+
+	this.emailreset = function(newemail){
+		username = $scope.User.username;
+
+		console.log('requesting reset email following email change', newemail);		
+		console.log('requesting reset email for user: ', username);
+ 
+ 		userService.emailreset(newemail, username);
+	};
+
+//////////////////////////////////////////////////////
+
+
+this.passwordreset = function(knownemail){
+	userService.passwordreset(knownemail);
+};
+
 
 //////////////////////////////////////////////////////
 
@@ -194,8 +207,21 @@ dayBreak.controller('userController',
 
 //////////////////////////////////////////////////////
 
+
+	this.deleteaccount = function(username){
+		console.log('delete account for this user in CONTROLLER', username);
+	
+		usernameToDelete = username;  //preserve only this
+  		$scope.User.userViewSwitch 	= null; 	  //close modal
+  		
+ 		userService.deleteaccountService(usernameToDelete, changeUserState); //then send db command
+		// changeUserState();
+	};
+
+//////////////////////////////////////////////////////
+
 	function userInfoUpdated(data){
-		console.log("calback following write of updated user info to database");
+		console.log("callback following write of updated user info to database");
 	}
 
 
@@ -206,6 +232,7 @@ dayBreak.controller('userController',
 		var username = $scope.User.username;
  		userService.updateUserInfo(username, userAbout);			 
  		};
-	
+
+
 	}]);  
 //END userController

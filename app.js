@@ -10,9 +10,13 @@ var mongoose = require('mongoose');
 var moment = require('moment');
 
 var jwt = require('jwt-simple');
-var token = jwt.encode({username: 'milesh'}, 'supersecretkey');
+
+//var token = jwt.encode({username: 'milesh'}, 'supersecretkey');
+var token ='';
+
 var _ = require('lodash');  
 var secretKey = 'supersecretkey';
+var jwtKey='supersecretkey';
 var bcrypt = require('bcrypt');
 
 var loginmailgun = require('./data/loginmailgun.js');
@@ -23,8 +27,15 @@ var transporter = nodemailer.createTransport(smtpTransport({
     pass: loginmailgun.pass
   }
 }));
-   
-  
+
+var path = require('path');  
+ 
+//to support res.render 
+app.set('views', __dirname + '/public/views');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
+ 
 app.use(favicon(__dirname + '/public/images/daybreaksun16px.ico'));
 app.use(express.static(__dirname + '/public')); //
 app.use(bodyParser.json());
@@ -56,7 +67,8 @@ var User = db.model('user',
     dayscreatedcount    :  String,
     likesgivencount     :  String,
     likesreceivedcount  :  String,
-    activestatus        :  String   //values null/activated/deactivated, eg. deleted
+    activestatus        :  String,   //values null/activated/deactivated, eg. deleted
+    deactivationDate    :  {type: Date}
     });
 
 var Day = db.model('day',
@@ -71,7 +83,6 @@ var Day = db.model('day',
     dayTags            : Array, 
     locations          : Array,
     images             : Array
- 
     });
 
 var anImage = db.model('image',{
@@ -87,29 +98,18 @@ router.use(function(req, res, next) {
 ////////////////////////////////////////////////////////////////////
   
 /* GET home page. */
-    router.get('/', function(req, res) {
-      res.json({ message: 'hooray! welcome to our api!' });
+router.get('/', function(req, res) {
+    res.json({ message: 'hooray! welcome to our api!' });
     });
  
 
-
-
 app.get('/api/show', function(req,res,next){
-    var getSize = 100;
-
-    console.log(req,' is incoming req');
-
-    console.log(req.token,' is incoming token');
-
-
+    var getSize = 50;
     Day.find({}).sort({dayCreateDate: 'descending'}).limit(getSize).exec(function(err, Days){
         if (err) 
             {return next(err)}
         else{
             console.log("we good at the api");
-
-            //insert verification of token here?  RECENT AND REAL - WRITE AUTH FUNCTION
-
             res.status(201).json(Days); //returns saved Days object
             }
     })
@@ -119,16 +119,8 @@ app.get('/api/show', function(req,res,next){
 router.route('/taglookup').post(function(req,res,next){
         console.log ("at api incoming req.tag is... " + req.body.tag);
         tagString = req.body.tag;
-        //console.log('tagString is: ', tagString)
-        //transform incoming string to array
-        //find commas, create array (which has different commas)
         tagArray = tagString.split(",");
 
-        // Day.find(  {$or:[   {dayTags: {$in: tagArray} }, 
-        //                     {dayDesc: {$in: tagArray} },
-        //                     {locations:{desc:{$in:tagArray}} } 
-        //                     ] 
-        //                  })
         Day.find({dayTags: {$in:tagArray}})
             .sort({dayCreateDate: 'descending'})
             .exec(function(err,Day)
@@ -166,7 +158,6 @@ router.route('/getdaysofuser').post(function(req,res,next){
             }
         })
 });
-
 
 
 router.route('/getday').post(function(req,res, next){
@@ -229,11 +220,12 @@ router.route('/addday').post(function(req, res) {
 
 router.route('/registerValidUser').post(function(req,res,next){
   
-//create user record
-    var user = new User({   userName: req.body.username,
-                            created: Date.now(),
-                            email: req.body.email,
-                            userAbout: "My perfect day would be..."
+    //create user record
+    var user = new User({   userName    : req.body.username,
+                            created     : Date.now(),
+                            email       : req.body.email,
+                            userAbout   : "My perfect day would be...",
+                            activestatus: "active"
                         });
     //asynchronous call of bcrypt
     bcrypt.hash(req.body.password, 10, function(err, hash) {    
@@ -251,9 +243,7 @@ router.route('/registerValidUser').post(function(req,res,next){
         });
     });
 
-
-
-//second register email 
+    //second register email 
     console.log (req.body.email, " is registration email request");
 
     var token = "123abc";
@@ -268,10 +258,12 @@ router.route('/registerValidUser').post(function(req,res,next){
               html: 'Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone. <br/><a href="http://localhost:8090/api/verifyemail?access_token='+token+'">Click here to confirm your email address</a>.'
             };
 
-    transporter.sendMail(verifyEmailOptions, function(err, info) {
-              if (err) console.log(err);  
-              console.log('Email sent!');
-            });
+
+///TODO UNCOMMENT!!!!
+    // transporter.sendMail(verifyEmailOptions, function(err, info) {
+    //           if (err) console.log(err);  
+    //           console.log('Email sent!');
+    //         });
 });
 
 
@@ -280,6 +272,7 @@ app.get('/api/verifyemail', function(req,res,next){
 
     console.log(req._parsedOriginalUrl.query, " is access token for email verification response.");
 
+    checktokenvalid(req._parsedOriginalUrl.query );
     //IF incoming token = tokenized username plus email
     //THEN save username, encrypted password, created date and userAbout
     //THEN callback to allow user login
@@ -288,23 +281,166 @@ app.get('/api/verifyemail', function(req,res,next){
 });
 
 
+///////////////////////////////////////////////////////////
+//user resets email
+
+router.route('/emailreset').post(function(req,res,next){
+    //var resetemail = req.body.newemail;//TODO USE THIS LINE WHEN LIVE
+    var resetemail = 'miles.hochstein@gmail.com';  //TODO DELETE THIS LINE 
+    var token = maketoken(req.body.username, req.body.newemail);  
+
+    var verifyEmailOptions = {
+              from: 'PerfectDayBreak Team <hello@perfectdaybreak.com>',
+              to: resetemail,   
+              subject: 'Please confirm your change of Perfect Daybreak email address', // Subject line
+              text: 'Click this link to complete your email reset.', // plaintext body
+              html: 'Click this link to complete your email reset.  <br/><a href="http://localhost:8090/api/verifyemailreset?'+token+'">Click here to confirm '+resetemail+' as the new registered email for PerfectDayBreak.com. </a><br/> To leave email unchanged just ignore this email.'
+            };
+    transporter.sendMail(verifyEmailOptions, function(err, info) {
+              if (err) console.log(err);  
+                    console.log('Email reset email sent!');
+                    res.end('Email reset email sent!');
+                  })
+});
+
+
+app.get('/api/verifyemailreset', function(req,res,next){
+    tokenIN=req._parsedOriginalUrl.query;
+    var decoded = jwt.decode(tokenIN, jwtKey); //check for decoded.email
+    var username = decoded.iss;
+    var email = decoded.email;
+    if (username){
+        User.findOne({userName: username}, function(err, user){
+            if (err) 
+                { return next(err); }
+            else
+                {console.log ('no error on findOne');}
+            user.email = email; 
+            user.save(function(err) {
+                if (err) { return next(err); }
+                else {console.log('new user email saved to user.email');}
+            });
+        });
+    }
+ res.redirect('/');  //back to application
+ });
+
+/////////////////////////////////////////////////////////////////
+//user remembers only his/her email
+/////////////////////////////////////////////////////////////////
+ router.route('/passwordreset').post(function(req,res,next){
+    
+    var knownemail = req.body.knownemail;
+    console.log('incoming pwd reset request for email: ', knownemail);
+   
+    if (knownemail){
+        User.findOne({email: knownemail})
+            .select('userName')
+            .select('email')
+            .exec(function(err, user){
+            console.log('user is: ',user, ' and err is: ', err);
+
+            if(user){      
+                
+                if (err){ 
+                    console.log('some kind of error!');
+                    return next(err); 
+                    }
+                if ( user.email===undefined )
+                    {console.log(user.email, ' is email');
+                    console.log('user submitted email not found in db');
+                    return next(err);
+                    }
+                if (user.email === knownemail)  //only if knownemail found in db
+                    { 
+                    console.log('knownemail', knownemail, 'matched by db email of: ', user.email);
+                    var expires = moment().add(1, 'days').valueOf();   
+                    var token = jwt.encode({
+                        exp: expires,
+                        email: user.email
+                      }, jwtKey);
+
+                    var passwordResetOptions = {
+                              from: 'PerfectDayBreak Team <passwordreset@perfectdaybreak.com>',
+                              to: 'miles.hochstein@gmail.com',   
+                              subject: 'Please click link to create new password', // Subject line
+                              text: 'Click this link to create new password.', // plaintext body
+                              html: 'Click this link to create a new password <br/><a href="http://localhost:8090/api/verifypasswordreset/'+token+'">Click here to create a new password for your account at PerfectDayBreak.com. </a><br/> If you did not request this e-mail, feel free to ignore it'
+                            };
+                    transporter.sendMail(passwordResetOptions, function(err, info) {
+                              if (err) console.log(err);  
+                                    console.log('Password reset email sent!');
+                                    res.end('Password reset email sent!');
+                                  })
+                }
+            }
+        });
+    }
+});
+
+
+/////////////////////////////////////////////////////////////////
+app.get('/api/verifypasswordreset/:temptoken', function(req,res,next){
+
+    console.log('GETTING PASSWORD RESET FORM AT /api/verifypasswordreset/:temptoken');
+
+    var decoded = jwt.decode(req.params.temptoken, jwtKey); //check for decoded.email
+    var email   = decoded.email;
+    var expires = decoded.exp;
+    
+    res.render('passwordresetform2');
+
+  });
+
+
+// after user fills out new password info, user posts to here
+app.post('/api/verifypasswordreset/:temptoken', function(req, res){
+  
+    console.log('NOW POSTING NEW PASSWORD TO /api/verifypasswordreset/:temptoken');
+
+    //check for valid token
+    var decoded = jwt.decode(req.params.temptoken, jwtKey); //check for decoded.email
+    var email   = decoded.email;
+
+        //get email
+        // User.findOne({email: knownemail})
+        //     .select('email')
+        //     .exec(function(err, user){ };
+
+        //db check email
+
+        //if valid email
+            //bcrypt.hash(req.body.password, 10, function(err, hash){
+            //update password in database
+        //else
+            //'there was a problem with password reset'
+
+        //  res.redirect('/');
+
+
+    res.redirect('/');
+
+    // bcrypt.hash(req.body.password, 10, function(err, hash){
+    // users.update({_id: req.user._id}, {$set:{password: hash}}, function(err, updateRes){
+    //   if (err) throw err;
+  //   });  
+  // });
+});
+
 
 /////////////////////////////////////////////////////////////////
 
 router.route('/updateuserinfo').post(function(req,res,next){
-    console.log(req.body.userAbout,"is req.body.userAbout incoming at API")
-    console.log(req.body.userName,"is req.body.userName incoming at API")
-
-
+    // console.log(req.body.userAbout,"is req.body.userAbout incoming at API")
+    // console.log(req.body.userName,"is req.body.userName incoming at API")
     if (req.body.userName){
-
         User.findOne({userName: req.body.userName}, function(err, user){
             if (err) 
                 { return next(err); }
             else
                 {console.log ('no error on findOne');}
 
-            console.log(user.userName, ' is found at user');
+            //console.log(user.userName, ' is found at user');
             user.userAbout = req.body.userAbout; 
             user.save(function(err) {
                 if (err) { return next(err); }
@@ -312,117 +448,40 @@ router.route('/updateuserinfo').post(function(req,res,next){
             });
         });
     }
-
 })
+ 
 
-
-//THE REAL THING HERE ////////////////////////////////////////////////
-app.post('/api/passwordresetemail', function(req, res) {
-  //var db = app.get('mongo');
-  //var users = db.collection('users');
-
-  // FIND USER WITH req.body.email
-  // send email with 24 hour token
-   // TODO - Function that looks for 24 hour token, links to password reset page  
-
-
-  // users.find({username: req.body.username}).toArray(function(err, docs){
-  //   if (err) console.log(err);
-  //   if (docs[0].email) {
-  //     var resetPasswordMailOptions = {
-  //       from: 'Daybreak <hello@daybreak.com>', // sender address
-  //       to: docs[0].email, 
-  //       subject: 'Daybreak password reset', // Subject line
-  //       text: 'Please click on this link to reset your password', // plaintext body
-  //       html: '<div>Hello, </div><div>Please click <a href=http://www.daybreak.com/api/passwordreset/' + passwordResetAuthenticate(docs[0]._id) + '>here</a> to reset your password. This link will only be valid for 24 hours.</div><div>Thanks!</div><div>The Daybreak</div>' // html body
-  //     };
-  //     transporter.sendMail(resetPasswordMailOptions, function(err, info) {
-  //       if (err) console.log(err);  
-  //       console.log('Email sent!');
-  //       res.end('Email sent!');
-  //     });
-  //   } else {
-  //     res.end('Cannot reset password for this user');
-  //   }
-  // });
-});
-
-//3 reset password - rewrite for Daybreak
-// router.route('/passwordresetemail').post(function(req,res,next){
-    
-//     var user = new User({userName: req.body.email });
-    
-//     User.findOne({userName: req.body.email})
-//         .select('email') 
-//         .exec(function(err,user){                      
-//                 console.log(user +  " is user");
-
-//                 if (err){
-//                     console.log("error in mongoose findOne for email");
-//                     return next(err);
-//                     }
-//                 if(!user){
-//                     result = true;  //user with that email does not exist!
-//                     return res.json(result); 
-//                     }
-//                 else{
-//                     result = false;  //hooray a user with that email exists
-
-//                     var resetPasswordMailOptions = {
-//                         from: 'Daybreak <hello@daybreak.com>', // sender address
-//                         to: docs[0].email, 
-//                         subject: 'Daybreak Password Reset', // Subject line
-//                         text: 'Please click on this link to reset your password', // plaintext body
-//                         html: '<div>Hello, </div><div>Please click <a href=http://www.daybreak.com/api/passwordreset/' + passwordResetAuthenticate(docs[0]._id) + '>here</a> to reset your password. This link will only be valid for 24 hours.</div><div>Thanks!</div><div>The Daybreak</div>' // html body
-//                         };
-
-//                         transporter.sendMail(resetPasswordMailOptions, function(err, info) {
-//                             if (err) console.log(err);  
-//                             console.log('Email sent!');
-//                             res.end('Email sent!');
-//                             });
-
-//                     return res.json(result);
-//                 }
-//          });
-//   });
-
-// });
-
-//borrowed/modified roadwarrior code
-app.post('/api/passwordresetemail DEMONSTRATION ONLY', function(req, res) {
-  var db = app.get('mongo');
-  var users = db.collection('users');
-  users.find({username: req.body.username}).toArray(function(err, docs){
-    if (err) console.log(err);
-    if (docs[0].email) {
-      var resetPasswordMailOptions = {
-        from: 'Daybreak <hello@daybreak.com>', // sender address
-        to: docs[0].email, 
-        subject: 'Daybreak password reset', // Subject line
-        text: 'Please click on this link to reset your password', // plaintext body
-        html: '<div>Hello, </div><div>Please click <a href=http://www.daybreak.com/api/passwordreset/' + passwordResetAuthenticate(docs[0]._id) + '>here</a> to reset your password. This link will only be valid for 24 hours.</div><div>Thanks!</div><div>The Daybreak</div>' // html body
-      };
-      transporter.sendMail(resetPasswordMailOptions, function(err, info) {
-        if (err) console.log(err);  
-        console.log('Email sent!');
-        res.end('Email sent!');
-      });
-    } else {
-      res.end('Cannot reset password for this user');
+router.route('/deleteaccountapi').post(function(req,res,next){
+    //console.log(req.body.userAbout,"is req.body.userAbout incoming at API")
+     console.log(req.body.username,"is req.body.userName incoming at API")
+    if (req.body.username){
+        User.findOne({userName: req.body.username}, function(err, user){
+            if (err){ 
+                return next(err); }
+            else{
+                console.log ('no error on findOne');
+                user.activestatus='inactive'; 
+                user.deactivationDate = Date.now();  //user metrics: how long before deactive?
+                console.log("at save user.accountstatus is ", user.activestatus);
+                user.save(function(err) {
+                    if (err) { 
+                        return next(err); }
+                    else {
+                        console.log('*** user.activestatus status changed to inactive');
+                        res.status(201).json(user.activestatus); //returns saved day object
+                        }
+                })
+            }
+        });
     }
-  });
-});
+})
 
 
 
 //1d  checks for duplicate username - If UNIQUE then TRUE
 router.route('/checkusername').post(function(req,res,next){
-   
     var user = new User({userName: req.body.username });
-
-    console.log("in api userName to search is " +req.body.username);
-
+    //console.log("in api userName to search is " +req.body.username);
     User.findOne({userName: req.body.username})
         .select('userName') 
         .exec(function(err,user){                     
@@ -431,37 +490,29 @@ router.route('/checkusername').post(function(req,res,next){
                     return next(err);
                     }
                 if(user === null){ console.log('this is a unique user');
-                    res.send(true);  //hooray found a unique user!
+                    res.send(true);  //hooray found a unique username!
                     }
                 else{
-                    res.send(false);  //sorry name already exists
-
-                }
-            
+                    res.send(false);  //sorry username already exists
+                }            
          });
   });
 
 
 //1d  checks for duplicate email
 router.route('/checkemail').post(function(req,res,next){
-   
-    console.log("in api email to search is " +req.body.email);
-
+    //console.log("in api email to search is " +req.body.email);
     var user = new User({email: req.body.email });
-
     User.findOne({email: req.body.email})
         .select('email')
         .exec(function(err,user){
-
                 console.log(user+  " is user at checkemail route");
- 
                 if (err){
                     return next(err)
                 }
                 if(!user){
                     result = true;  //hooray found a unique email!
                     return res.json(result); 
-
                 }
                 else{
                     result = false;  //sorry email already exists
@@ -474,27 +525,22 @@ router.route('/checkemail').post(function(req,res,next){
 //2  LOGIN Takes user name and password hash stored client side, and 
 //bcrypt compares incoming password to hash password in db
 //If name pwd match, then returns a jwt token.
-router.route('/session').post(function(req,res,next){
+router.route('/login').post(function(req,res,next){
     console.log('session: ',req.body.username);
-    // Mongoose findOne method
-    // set username to incoming req.body.username and find that value
     User.findOne({userName: req.body.username})
-        .select('password')
-        .select('email')
-        .select('created')
-        .select('userName')
-        .select('userAbout')   //grab password of that username
-        .select('activestatus')
-        .exec(function(err,user){
+        .select('password').select('email').select('created').select('userName')
+        .select('userAbout').select('activestatus').exec(function(err,user){
+
+        console.log(user.activestatus, ' is user.activestatus at login api');
 
         if (err){
             return next(err);
         } else if(!user) {
-                console.log("APP.JS: user not found in session");
+                console.log("APP.JS: user not found at login api");
                 res.sendStatus(401);
-//TODO: use this flag to activate after email confirm, and deactivate on user request.
-        } else if (user.activestatus==='delete') {
-                console.log("username exists but account status is delete");
+//TODO: use this flag to activUser.ate after email confirm, and deactivate on user request.
+        } else if (user.activestatus==='inactive') {
+                console.log("username exists but account status is inactive at login api");
                 res.sendStatus(401);
         } else {
         bcrypt.compare(req.body.password, user.password, function(err,valid) {
@@ -503,41 +549,105 @@ router.route('/session').post(function(req,res,next){
             }
             // !valid means invalid name password combo - bcrypt asigns boolean
             else if(!valid){
-                console.log("user found, but pwd not good");
+                console.log("user found, but pwd not good at login api");
                 res.sendStatus(401);
-            } else {
-            //if valid then generate token based on user name
-            //encode the incoming req.body.username with secretKey   
-                var token = jwt.encode({username: req.body.username  }, secretKey);
-                console.log("APP.JS: user/pwd combo found and token is " + token);
-                res.json({  token:      token, 
+            } else {            
+            var token = maketoken(req.body.username, user.email);
+            console.log("APP.JS: user/pwd combo found and token is " + token);
+
+            res.json({      token:      token, 
                             userName:   user.userName, 
                             email:      user.email, 
                             userAbout:  user.userAbout, 
                             created:    user.created,
                             status:     200});   
-            }           
+                }           
         });
-    };
+        };
+    });
 });
+
+
+function maketoken (username, email){
+  var expires = moment().add(7, 'days').valueOf();  //about 6 minutes?
+  var token = jwt.encode({
+    iss: username,
+    exp: expires,
+    email: email
+  }, jwtKey);
+
+  console.log('start with ', username, expires,  email, ' to make token ', token);
+  return token;
+}
+
+
+
+//similar to login - login via username but use stored token for returning user.
+router.route('/loginrefresh').post(function(req,res,next){
+    
+    console.log('loginrefresh incoming username: ',req.body.username);
+    console.log('loginrefresh incoming token: '   ,req.body.token);
+
+    var username = jwt.decode(req.body.token, jwtKey).iss;
+
+    console.log('loginrefresh incoming token: '   ,username);
+
+    //console.log('here is user name inside token at app.js', username); 
+
+    User.findOne({userName: username})
+        .select('email').select('created').select('userName')
+        .select('userAbout').select('activestatus').exec(function(err,user){
+
+        console.log('HEY FOUND THE EMAILFOR THIS USER at loginrefresh', user.email);
+
+        var verifiedemail = user.email;
+
+        if (err){
+            return next(err);
+        } else if(!user) {
+                console.log("APP.JS: user not found in session");
+                res.sendStatus(401);
+//TODO: use this flag to activate after email confirm, and deactivate on user request.
+        } else if (user.activestatus==='inactive') {
+                console.log("username exists but account status is delete");
+                res.sendStatus(401);
+        } else {
+//the email is the registered email used to set the token 
+            var tokenresult = checktokenvalid(req.body.token, verifiedemail);
+            console.log('checktokenvalid() gives tokenresult of: ', tokenresult);
+            console.log('for sending to client: ', user.userName, user.email, user.userAbout, user.created);
+        
+            if(tokenresult===true){
+            res.json({      token:      token,
+                            userName:   user.userName, 
+                            email:      user.email, 
+                            userAbout:  user.userAbout, 
+                            created:    user.created,
+                            status:     200});
+                }
+//the email is not the registered email used to set the token
+            else if (tokenresult!==true){
+                console.log ('no valid token at api on loginrefresh');
+        }
+        }           
+    });
 });
 
-///NOT CURRENTLY IN USE!
-//3 decode jwt token to return username
-//Takes the jwt token stored client side and returns the username
-// app.get('/user', function(req,res){
-//     var token = req.headers['x-auth'];
-//                     console.log ("token is " + token);
-//     var auth  = jwt.decode(token, secretKey);
-//                     console.log('auth is ' + auth);
-//                     console.log('auth.username is ' + auth.username);
-//     User.findOne({userName: auth.username}, function(err,user){
 
-//         res.json(user.userName, user.email, user.userAbout);
-//         console.log("user.userName is " + user.userName);
 
-//     });
-// });
+
+
+ 
+
+router.route('/auth').post(function(req,res,next){
+
+    console.log(req.body.username, ' is incoming username');
+    console.log(req.body.token,    ' is incoming token at api');
+
+
+});
+
+
 
 /////////roadwarrior
 
@@ -551,6 +661,7 @@ function authenticate (userid, email){
   return token;
 }
 
+
 function passwordResetAuthenticate (userid){
   var expires = moment().add(1, 'hours').valueOf();
   var token = jwt.encode({
@@ -559,6 +670,62 @@ function passwordResetAuthenticate (userid){
   }, jwtKey);
   return token;
 }
+
+//look up user by plain text username - 
+//IF positive match on decoded email and recent date
+//return true
+//else return false
+
+function checktokenvalid(tokenIN, verifiedemail){
+    if (tokenIN) {
+            console.log('token exists', tokenIN);
+            var decoded = jwt.decode(tokenIN, jwtKey); //check for decoded.email
+            console.log('values are: ', decoded.iss, decoded.exp, decoded.email);
+
+            if (decoded.exp <= Date.now() ) {
+                res.end('Access token expired', 400);
+                next(err); 
+                }
+            else if(decoded.email = verifiedemail){
+                console.log('decoded token email matches stored email.');
+                tokenresult = true;
+                return tokenresult;
+                }
+    }
+}
+
+
+
+function jwtAuth2 (req, res, next){
+
+  var token =   (req.body && req.body.access_token) || 
+                (req.query && req.query.access_token) || 
+                req.headers['x-access-token'] || 
+                req.params.token;
+  if (token) {
+    try {
+      var decoded = jwt.decode(token, jwtKey); //check for decoded.email
+      if (decoded.exp <= Date.now()){
+        res.end('Access token expired', 400);
+      }
+      //var db = app.get('mongo');
+      //var users = db.collection('users');
+
+      Users.find({_id: ObjectId(decoded.iss)}, {password: 0})
+        .toArray(function(err, docs) {
+            req.user = docs[0];
+            req.email = decoded.email;
+            next();
+        });
+    } catch (err) {
+      next();
+    }
+  } else {
+    next();
+  }
+};
+
+
 
 function jwtAuth (req, res, next){
 
@@ -589,11 +756,11 @@ function jwtAuth (req, res, next){
 };
 
 
- 
+
 
 
 
 app.use('/api',router);  //this needs to be near bottom of page
  
-    app.listen(8090);
-    console.log('listening on port 8090!');
+app.listen(8090);
+console.log('listening on port 8090!');

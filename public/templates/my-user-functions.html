@@ -57,24 +57,34 @@
 
 	<div class = 'surround'>	
 
-		<div class = 'userContainer'
-			data-ng-show= "User.userViewSwitch === 'Log' " >
-			<div id='login' ng-switch on="User.userViewSwitch">
-				<div ng-switch-when='Log' >
-					<div class='loginDirection'>
-						Login with your Facebook account.
-					</div>
-				</div>
-			</div>
-		</div>
 
-		<div class= 'spacer'> </div>
-
+		
 		<div class = 'userContainer' 
 		data-ng-show= "User.userViewSwitch !== null " >
 
+			<div  data-ng-show= "User.userViewSwitch === 'Log' " >
+				<div id='login' ng-switch on="User.userViewSwitch">
+					<div ng-switch-when='Log' >
+						<div class='loginDirection'>
+							Login with your Facebook account.
+
+							<input class="btn btn-success btn-sm btn-block right" type="submit" value="*Facebook*"	>
+						</div>
+					</div>
+				</div>
+			</div>
+
+ 
+			<div class= 'spacer'> </div>
+
 			<div id='login' ng-switch on="User.userViewSwitch">
 				<div ng-switch-when='Log' >
+
+					<i data-ng-click = "User.userViewSwitch=null "  
+							class="material-icons right small" 
+							style ='cursor: pointer;'>clear
+					</i>
+
 
 					<div class='loginDirection'>
 						Login with your user name and password.  
@@ -103,23 +113,30 @@
 						
 						<div class='spacer'></div>
 
-						<input class="btn btn-success btn-sm btn-block" type="submit" value="Login"	>
+						<input class="btn btn-success btn-sm btn-block right" type="submit" value="Login"	>
 
 					</form>
 				</div>
  
 				<div class='closeModal' data-ng-show="User.userViewSwitch==='Log' ">
- 					<a data-ng-click="User.userViewSwitch='Reset'">Reset Password</a>
+ 					<a data-ng-click="User.userViewSwitch='recoverPassword'">Forgot Username or Password</a>
 				</div>
 			</div>
 
 			
-		<div id='NEWREGISTER' data-ng-switch on='User.userViewSwitch'>
+
+
+			<div id='NEWREGISTER' data-ng-switch on='User.userViewSwitch'>
 		   		<div data-ng-switch-when="NEWREG">
 					<form 
 						data-ng-submit="User.registerValidUser(User)"
  						name = "regForm" 
 						novalidate>
+
+						<i data-ng-click = "User.userViewSwitch=null "  
+							class="material-icons right small" 
+							style ='cursor: pointer;'>clear
+						</i>
 
 						<div class='loginDirection'>
 							Register 
@@ -127,6 +144,8 @@
 							<span class="link" data-ng-click="User.userViewSwitch = 'Log'">(or Login with Facebook)</span>
   						</div>
 						
+			
+
 						<div class="form group">
 							<label class="label-space">Username</label>
 
@@ -245,25 +264,107 @@
 		 	</div>
 		 
 
-			<div id='resetPassword' 
-				data-ng-switch on='User.userViewSwitch'
-				data-ng-submit="User.resetPassword()"
-				>
+			<div id='passwordreset' data-ng-switch on='User.userViewSwitch'>
+		   		<div data-ng-switch-when="passwordreset">
 
-				<div data-ng-switch-when='Reset'>
+					<i data-ng-click = "User.userViewSwitch=null "  
+						class="material-icons right small" 
+						style ='cursor: pointer;'>clear
+					</i>
+
+
 					<form 
-					data-ng-submit="User.resetPassword()">	
+						data-ng-submit="User.changepassword(User)"
+ 						name = "regForm" 
+						novalidate>
+
+						<div class='loginDirection'>
+							Password Reset 
+						</div>
+						 
 						<div class="form group">
-							<label>Forgot Password? Enter E-Mail</label>
+
+							<label class="label-space">Password</label>
+
+							<span class='alertinform' data-ng-model="User.password" data-ng-show ="User.password.length < 5">
+							You need {{5-User.password.length}} more characters.
+  							</span>
+						
+							<span class='alertsuccess' data-ng-model="User.password" data-ng-show ="User.password.length > 4">
+							Good! Or add more for extra security.
+  							</span>
+
+							<input class= "form-control"
+							id='passwordFirst' 
+							type="password" 
+							name='password'
+							data-ng-model="User.password"
+
+ 							data-ng-keyup="User.passconfirm(User.password, User.passwordConfirm)"
+ 
+ 							placeholder="Enter secret password. Must be 5 characters. "
+							required>
+						</div>
+
+						<div class="form group">
+							<label class="label-space">Password Confirm</label>
+
+							<span class='alertinform' data-ng-model="User.password" data-ng-show ="User.matchingPassword === false">
+ 							Passwords must match.
+  							</span>				
+
+  							<span class='alertsuccess' data-ng-model="User.password" data-ng-show ="User.matchingPassword === true">
+ 							You matched it!
+  							</span>			
+
+							<input class= "form-control"
+							id='passwordConfirm' 
+							name='passwordConfirm'
+							type="password" 
+							data-ng-model="User.passwordConfirm"	
+ 							data-ng-keyup="User.passconfirm(User.password, User.passwordConfirm)"
+							placeholder="Reenter password."
+							required>
+						</div>	
+		
+ 						<input  
+ 						data-ng-show ="User.matchingPassword === true" 
+						class="btn btn-success btn-sm btn-block" 
+						type="submit" 
+						value="Save New Password"> 
+
+					</form>
+				</div>
+		 	</div>
+
+
+
+
+			<div id='recoverPassword' 
+				data-ng-switch on='User.userViewSwitch'
+				data-ng-submit="User.resetPassword()">
+
+				<div data-ng-switch-when='recoverPassword'>
+
+					<i data-ng-click = "User.userViewSwitch=null "  
+						class="material-icons right small" 
+						style ='cursor: pointer;'>clear
+					</i>
+
+					<form 
+					data-ng-submit="User.passwordreset(User.knownemail)">	
+
+						<div class="form group">
+							<label>Forgot Password? Enter E-Mail Used to Register Your Account</label>
 							<input class= "form-control" 
 							type="text" 
-							data-ng-model="User.email">
+							data-ng-model="User.knownemail">
 						</div>
 
 						<div class='spacer'></div>
 
 						<input 
-						class="btn btn-success btn-sm btn-block" 
+						class="" 
 						type="submit" 
 						value="Send Password Reset Link">
 						</input>
@@ -271,17 +372,84 @@
 					<p></p>
 				</div>
 		 	</div>
+
+
+
  
+			<div id='deleteaccount' 
+				data-ng-switch on='User.userViewSwitch'">
+
+				<div data-ng-switch-when='deleteaccount'>
+
+					<i data-ng-click = "User.userViewSwitch=null "  
+						class="material-icons right small" 
+						style ='cursor: pointer;'>clear
+					</i>
+
+					<form 
+					data-ng-submit="User.deleteaccount(User.username)">	
+
+						<!-- Switch -->
+						  <div class="switch">
+						    <label>
+						      No
+						      <input type="checkbox">
+						      <span class="lever"></span>
+						      Yes
+						    </label>
+						  </div>
+						
+						<br>
+
+						<div class="form group">
+							<label>Delete this account?</label>
+						</div>
+
+						<div class='spacer'>We're sorry to see you go!</div>
+
+
+						<input 
+						class="btn  btn-sm btn-block left"
+						type="submit" 
+						value="Permanently Delete Account">
+						</input>
+
+					</form>
+ 				</div>
+		 	</div>
+
+
+
+
+			<div id='deleteaccountMessage' 
+				data-ng-switch on='User.userViewSwitch' >
+
+				<div data-ng-switch-when='deleteaccountMessage'>
+
+					<i data-ng-click = "User.userViewSwitch=null "  
+						class="material-icons right small" 
+						style ='cursor: pointer;'>clear
+					</i>
+
+ 					<div> Account Deleted </div>
+
+ 				</div>
+		 	</div>
+
+
+
+
+
 
 	   		<div id='about' ng-switch on="User.userViewSwitch">
 
-				<i data-ng-click = "User.userViewSwitch=null "  
-						class="material-icons right small" 
-						style ='cursor: pointer;'>clear
-				</i>
-
 				<div ng-switch-when='Myaccount' >
 		 	 		<div class='loginDirection'>About Your Account</div>
+
+		 	 		<i data-ng-click = "User.userViewSwitch=null "  
+						class="material-icons right small" 
+ 						style ='cursor: pointer;'>clear
+					</i>
 
 		 	 		<div class ="userProfile">
 						<div data-ng-show="User.userState==='loggedIn' ">
@@ -307,7 +475,8 @@
  
 										<div class="profileLabel">About Me:
 										 	 
-											<textarea rows='6' maxlength='150' 
+											<textarea style="background-color: #1de9b6;"
+											rows='6' maxlength='150' 
 											
 			 								data-ng-model="User.userAbout"
 											placeholder="My perfect day would be... (140 characters)"
@@ -320,7 +489,7 @@
 						  			</div>
 
 									<input  
-										class="btn btn-success btn-sm btn-block" 
+
 										class="waves-effect waves-light btn"
 										type="submit" 
 										value="Save">
@@ -332,24 +501,40 @@
 
 								<div class= 'profilePrivate'>
 
-							  			<div class='profileLabel'>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							  				<span class='profileInfo'> {{User.email}}</span>
-							  				<span class='link'>Change?</span> 
-							  			</div>
+							  			<div class='profileLabel'>Current Registered Email - Enter New Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+ 							  				<input data-ng-model="User.email"
+ 											class='profileInfo'   > 
+							  				 </input>
+
+							  				</br><br>
+
+							  				<div  
+							  				class="btn btn-sm btn-block left" 
+							  				data-ng-click="User.emailreset(User.email)">
+							  				Submit Request - Check Your Email</div> 
+										
+										</div>
 							  			
+							  			<br>
+							  			<br>
 							  		
 							  			<div class ='profileLabel'>Password:&nbsp;
-							  				<span class='profileInfo'>  ******** &nbsp;</span>
-							  				<span class='link'>Change?</span>  
+							  				<span class='profileInfo' id='pname'>  ******** &nbsp;
+							  				</span>
+
+							  				<span class="btn btn-sm btn-block right" 
+							  				data-ng-click="User.userViewSwitch='passwordreset'">Change Password?</span> 
 							  			</div>
 							  	</div>  
 								
-							<br>
+							</br>
+
 
 							<div class='closeModal' 
 								data-ng-show="User.userViewSwitch==='Myaccount' ">
 									<a data-ng-click="User.userViewSwitch='deleteaccount' ">
- 								Delete this account?					
+ 								Delete account?					
 								</a>
 							</div>	
 
@@ -357,10 +542,12 @@
 		
   						</div> <!--   end ngshow -->
 					</div>
-		  		</div>  
-
-				
+		  		</div>  	
 			</div>
+
+
+
+
 		</div>
 	</div>	 
 </div>  

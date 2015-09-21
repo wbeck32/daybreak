@@ -171,10 +171,14 @@ height:30%;
 
 
 .userContainer{
-	margin: 0 auto ;
-	width: 450px;
+  position: fixed;
+  z-index:200;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
 
-	padding: 50px;
+  	width: 500px;
+ 	padding: 10px;
 	border: 2px black solid;
 	border-radius: 10px;
 	background-color: #E0F9F3;
@@ -182,7 +186,7 @@ height:30%;
 
 .surround {
 
-	padding-top: 70px;
+	padding-top: 80px;
 
 }
 
@@ -203,7 +207,7 @@ height:30%;
 .diagnostics {font-size: 9px; font-color: blue;
 }
 
-.spacer {height: 20px;}
+.spacer {  padding-top: 20px; padding-bottom: 20px;}
 
 .centerText { margin: 0 auto;
 			 font-size: 1.3em;}
@@ -453,24 +457,31 @@ height:30%;
 
  }
 
- .profileLabel{ font-size: 1em;
+ .profileLabel{ font-size: 1.1em;
  				margin:  4px;
  				padding: 3px;
  				}
 
  #pname {width: 100%; background-color: yellow;}
 
- #pdate {width:50px;}
+ #pdate {width:50px; background-color: yellow;}
 
 
- .profileInfo{  font-size: 1.2em; 
+ .profileInfo{  font-size: 1.1em; 
  				border: 1px solid black;
  				margin: 1px;
  				padding: 1px;
  				padding-left: 5px;
  				padding-right: 5px;
  				width: 98%;
+ 				background-color: #1de9b6; 
+ 				border: 1px black solid;
  				}
+
+ #deleteaccount{
+ 	margin-top: 5px;
+ 	padding-top: 5px;
+ }
 
 
  .profilePublic{ width: 95%;

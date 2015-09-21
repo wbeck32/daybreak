@@ -9,65 +9,117 @@ dayBreak.service('userService', ['$http', function($http ){
   this.uniqueUserName = false;    //we have not yet tested for unique
   this.uniqueEmail = false;       //we have not yet tested for unique
 
-//Critical.  "var self = this" enables functions to communicate with scope of service... which is part of scope of userController... which is accessed as User.VARIABLENAME in index.html
-  var self = this; 
 /////////////////////////////////////////////////////////////////
 
-//TODO: INIT WRAP IN FUNCTION...
+//Critical.  "var self = this" enables functions to communicate with scope of service... 
+//which is part of scope of userController... 
+//which is accessed as User.VARIABLENAME in index.html
+  var self = this; 
 
+/////////////////////////////////////////////////////////////////
+
+this.emailreset=function( newemail,username){
+  console.log('userService receives newemail value of : ', newemail);
+  console.log('userService receives username value of : ', username);
+
+  $http({
+      method: 'POST',
+      url: '/api/emailreset',
+      data: {
+        newemail: newemail,
+        username: username
+      },
+      headers: {'Content-Type': 'application/json'}
+    }).success(function(data, status, headers, config){
+
+      console.log('email reset send successful ');
+      alert('An email has been sent to your account, go check it out to proceed. You can close this window.');
+    }).error(function(data, status, headers, config){
+      console.log('email reset failed: ' + data);
+    });
+};
+
+ 
+this.init = function(completeInit){
 //check if valid token exists from previous session
-
-  if (window.localStorage.getItem('token')) 
+  console.log("start init in app.js -------------------");
+  if (window.localStorage.getItem('token') ) 
     {
+    this.token    = window.localStorage.getItem('token');
     this.username = window.localStorage.getItem('user');
-    this.userState = 'loggedIn';
-    console.log("found token and userState set to logged in");
-    }
-  else{
-  	console.log('No token-userState is currently logged out');
-  	//this.userState = 'loggedOut';  //default so not needed
-	}
+
+    $http({
+        method: 'POST',
+        url:'/api/loginrefresh',
+        data: { token    : this.token  
+              },
+        headers: {'Content-Type': 'application/json'}
+    })
+    .then(function(response)   //success path
+    {
+    console.log('found valid token and user name'); 
+
+    completeInit(response);
+    },
+  //failure path here TODO: WE DO NOT EVER GET HERE?
+  function(data,status,headers,config){
+    console.log('No token-userState is set to loggedout');
+    //this.userState = 'loggedOut';   
+    //completeInit(data.status); //callback fn loginState
+  });
+}
+};
+
   
 //////////////////////////////////////////////////////  
-//login service
-this.login = function(username, password, callback){
+// login service
+// Case: user supplies valide username and password - we set username and token
+//////////////////////////////////////////////////////
 
+this.login = function(username, password, callback){
  	$http({
 		method: 'POST',
-		url:'/api/session',
+		url:'/api/login',
 		data: {	username: username, 
 				    password: password },
 		headers: {'Content-Type': 'application/json'}
 	})
 //success here
 	.then(function(response){
-      console.log("status is: " + response.data.status);
-      console.log("token is: " + response.data.token);
-      console.log("email is: " + response.data.email);
-      console.log("userabout is: " + response.data.userAbout);
-      console.log("userName is: " + response.data.userName); 
-      console.log("created is: " + response.data.created);
-  
-      console.log("response object is: " + response.data);
- 
-
-//does token exist, is date recent, and is it authenticate
-
-		if (response.data.token){
+  		if (response.data.token){
 			window.localStorage.setItem("token", response.data.token);
-			window.localStorage.setItem("user", response.data.userName);
+			//window.localStorage.setItem("user", response.data.userName);
     	} 
-      //callback(response.data.status); //callback fn loginState
       callback(response.data); //callback fn loginState
-
-
-		},
+	},
   //failure here
 	function(data,status,headers,config){
     callback(data.status); //callback fn loginState
 	});
 };
 
+//Case: user has token stored locally and refreshes page
+this.loginRefresh = function(username, login, callback){
+  $http({
+    method: 'POST',
+    url:'/api/loginrefresh',
+    data: { username: username, 
+            token: token },
+    headers: {'Content-Type': 'application/json'}
+  })
+//success here
+  .then(function(response){
+  if (response.data.token){
+      window.localStorage.setItem("token", response.data.token);
+      window.localStorage.setItem("user", response.data.userName);
+      } 
+  callback(response.data); //callback fn loginState
+  },
+  //failure here
+  function(data,status,headers,config){
+  callback(data.status); //callback fn loginState
+  });
+};
 
 //////////////////////////////////////////////////////
 //logOut signOut service)  
@@ -99,13 +151,11 @@ this.registerUser = function(User,callback){
           .error(function(data,status, headers, config){
             console.log("no user created ");
         }); 
-
 };
-
 
 //////////////////////////////////////////////////////
  
-this.checkthename = function checkthename(username,callback){
+ this.checkthename = function checkthename(username,callback){
 
     $http({
     method    : 'POST',
@@ -117,11 +167,9 @@ this.checkthename = function checkthename(username,callback){
       callback(data);
     }).error(function(data,status, headers, config){
       console.log("In userService data is: " + data);
-      console.log("NOTHING FOUND RIGHT?");
+      console.log("NOTHING FOUND ?");
     }); 
-
 };
-
 
 //////////////////////////////////////////////////////
 this.checktheemail = function( email,callback){
@@ -142,11 +190,7 @@ this.checktheemail = function( email,callback){
       }); 
 };
 
-
-
-
-
-
+//////////////////////////////////////////////////////
 this.updateUserInfo = function(username, userAbout){
 
   console.log( userAbout," is userAbout incoming at userService))))))");
@@ -168,8 +212,7 @@ this.updateUserInfo = function(username, userAbout){
         }); 
 };
 
-
-
+//////////////////////////////////////////////////////
 
 //working above
 ///////////
@@ -185,10 +228,10 @@ this.resetPassword = function(username){
 
 };
 
-this.deleteAccount = function(cb){
-/// set save User.activestatus for loggedIn user = 'delete' 
+// this.deleteAccount = function(cb){
+// /// set save User.activestatus for loggedIn user = 'delete' 
 
-};
+// };
 
  
   this.passwordChange = function(password, newPassword) {
@@ -213,12 +256,15 @@ this.deleteAccount = function(cb){
     });
   };
 
-  this.resetPassword = function(username) {
+  this.passwordreset = function(knownemail) {
+
+    console.log('at user service knownemail is: ', knownemail);
+
     $http({
       method: 'POST',
-      url: '/api/passwordresetemail',
+      url: '/api/passwordreset',
       data: {
-        username: username
+        knownemail: knownemail
       },
       headers: {'Content-Type': 'application/json'}
     }).success(function(data, status, headers, config){
@@ -229,40 +275,68 @@ this.deleteAccount = function(cb){
     });
   };
 
-  this.deleteAccount = function(cb) {
+
+  // this.deleteaccount = function(username, changeUserState) {
+
+  //   console.log('incoming service username for deletion is', username);
+     
+  //   $http({
+  //     method: 'POST',
+  //     url: '/api/deleteaccount',
+  //     data: {
+  //       username: username
+  //       },
+  //     headers: {'Content-Type': 'application/json'}
+  //   }).success(function(data, status, headers, config){
+      
+  //     console.log('returning success at service after deletion?');
+  //     console.log(data, ' is data on SUCCESS at service');
+  //     console.log(status, ' is status on SUCCESS at service');
+
+  //     changeUserState(); //logout
+
+  //    }).error(function(data, status, headers, config){
+  //     console.log(data.body, ' is data on FAILURE at service');
+      
+  //     changeUserState();
+
+  //   });
+  // };
+
+
+
+  this.deleteaccountService = function(username, changeUserState){
+
+    console.log('incoming service username for deletion is', username);
+     
     $http({
       method: 'POST',
-      url: '/api/deleteaccount',
+      url: '/api/deleteaccountapi',
       data: {
-        username: this.username,
-        access_token: window.localStorage.getItem('token')
-      },
+        username: username
+        },
       headers: {'Content-Type': 'application/json'}
-    }).success(function(data, status, headers, config){
-      console.log(data);
-      self.signOut();
-      cb();
-    }).error(function(data, status, headers, config){
-      console.log(data);
+    }) //success condition
+
+    .then(
+
+      function(data, status, headers, config){
+      
+      console.log('returning success at service after deletion?');
+      console.log(status, ' is status on SUCCESS at service');
+
+      changeUserState();
+
+       },
+    
+      //failure condition
+      function(data, status, headers, config){
+         console.log('FAILURE at service');
+      
+ 
     });
   };
 
+
 }]);
-
-
- 
-//////////////////////////////////////////
-// this.about = function(){
-//   $http.get('/user').
-//     then(function(response) {
-//       // this callback will be called asynchronously
-//       // when the response is available
-//       console.log("RESPONSE VALUES ARE: " + response.userName, response.email, response.aboutUser, response.created);
-
-//     }, function(response) {
-//       // called asynchronously if an error occurs
-//       // or server returns response with an error status.
-//       console.log ("oops error");
-//     });
-// };
 
