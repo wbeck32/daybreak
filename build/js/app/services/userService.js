@@ -257,21 +257,25 @@ this.resetPassword = function(username){
     });
   };
 
+//////////////////////////////////////////////////////
 //password change while logged in 
-   this.changepassword = function(password, newPassword) {
+
+   this.changepassword = function(User) {
+
+    console.log('changepassword Service', User.password, ' and ', User.username);
+
     $http({
       method: 'POST',
-      url: '/api/passwordchange',
+      url: '/api/changepassword',
       data: {
-        password: password,
-        newpassword: newPassword,
-        username: this.username,
-        access_token: window.localStorage.getItem('token')
+        password: User.password,
+        userName: User.username
       },
       headers: {'Content-Type': 'application/json'}
     }).success(function(data, status, headers, config){
-      if(data === '1') {
+      if(data) {
         alert("Password Changed!");
+
       } else {
         alert("Sorry, there was an error processing your request");
       }

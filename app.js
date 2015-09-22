@@ -668,12 +668,29 @@ router.route('/loginrefresh').post(function(req,res,next){
     });
 });
 
+//////////////////////////////////////////////////////
+//logged in user changes password
+router.route('/changepassword').post(function(req,res,next){ 
+    if (req.body.password){
+        User.findOne({userName: req.body.userName}, function(err, user){
+            if (err) 
+                { return next(err); }
+            else
+                {console.log ('no error on findOne');}
+            console.log(user.userName, ' is found at user');
+            bcrypt.hash(req.body.password, 10, function(err, hash) {                
+            user.password = hash;
+            user.save(function(err) {
+                if (err) { return next(err); }
+                else {console.log('new password saved for user', userName);}
+                });
+            });
+        })
+    }
+})
 
 
-
-
- 
-
+ //////////////////////////////////////////////////////
 router.route('/auth').post(function(req,res,next){
 
     console.log(req.body.username, ' is incoming username');

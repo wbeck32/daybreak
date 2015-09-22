@@ -158,9 +158,11 @@ this.passwordreset = function(knownemail){
 	userService.passwordreset(knownemail);
 };
 
+//////////////////////////////////////////////////////
 //password change while logged in 
-this.changepassword = function(xxx){
-	userService.changepassword(xxx);
+
+this.changepassword = function(User){
+	userService.changepassword(User);
 };
 
 
