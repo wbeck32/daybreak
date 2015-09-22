@@ -8,8 +8,14 @@
 		 	<div class="description">{{day.dayDesc}}</div>
 
 			<div class="whowasthere">
-			<div>Teen friendly? [checkbox]</div>
-			<div>Kid friendly? [checkbox]</div>
+			<div>      
+				<label for="filled-in-box">Teen friendly?</label>
+ 				<input type="checkbox" class="filled-in" id="filled-in-box" checked="checked" />
+    		</div>
+			<div>
+				<label for="filled-in-box">Kid friendly?</label>
+ 				<input type="checkbox" class="filled-in" id="filled-in-box" checked="checked" />
+ 			</div>
 			</div>
 			<div data-ng-repeat="location in day.locations track by $index">
 				<div class="location">

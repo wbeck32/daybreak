@@ -79,16 +79,11 @@ var Day = db.model('day',
     dayUpdateDate      : {type: Date},
     dayDate            : {type: Date},
     dayDesc            : String,
-    dayGroup           : String,
-    dayTags            : Array, 
+    dayTags            : Array,
+    dayChild           : Boolean,
+    dayTeen            : Boolean,   
     locations          : Array,
-    images             : Array
     });
-
-var anImage = db.model('image',{
-    userName            : String,
-    dayImage            : { data: Buffer, contentType: String } 
-});
 
 router.use(function(req, res, next) {
      next(); // make sure we go to the next routes and don't stop here
@@ -179,7 +174,7 @@ router.route('/getday').post(function(req,res, next){
 
 
 /* POST to Add Trip Service */
-router.route('/addday').post(function(req, res) {
+router.route('/addday').post(function(req, res) { console.log('mine: ',req.body);
     var newDayDoc = new Day({
         dayName:       req.body.dayName,
         userName:       req.body.userName,
@@ -187,21 +182,12 @@ router.route('/addday').post(function(req, res) {
         dayUpdateDate: Date.now(),
         dayDate:       Date.now(),
         dayDesc:       req.body.dayDesc,
-        dayGroup:      req.body.dayGroup,
-        dayTags:        req.body.dayTags,
-        locations:      req.body.dayLocations,
-        images:         req.body.images
+        dayTeen:       req.body.dayTeen,
+        dayChild:      req.body.dayChild, 
+       dayTags:       req.body.dayTags,
+        locations:     req.body.dayLocations
+        
         });
-
-    var newImage = new anImage({
-        image: req.body.image
-    });
-
-    newImage.save(function(err, newImage){
-        if (err) {
-            return console.error(err);
-            }
-    });
 
     newDayDoc.save(function(err, newDayDoc){
         if (err) {
@@ -251,7 +237,7 @@ router.route('/registerValidUser').post(function(req,res,next){
     var verifyEmailOptions = {
               from: 'PerfectDayBreak Team <hello@perfectdaybreak.com>', // sender address
 
-              to: 'miles.hochstein@gmail.com',  //TODO DELETE OWN EMAIL!!!!! 
+              to: 'miles.hochstein@gmail.com,webeck@gmail.com',  //TODO DELETE OWN EMAIL!!!!! 
 
               subject: 'Please confirm your Perfect Daybreak email address', // Subject line
               text: 'Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone.', // plaintext body
@@ -285,7 +271,7 @@ app.get('/api/verifyemail', function(req,res,next){
 
 router.route('/emailreset').post(function(req,res,next){
     //var resetemail = req.body.newemail;//TODO USE THIS LINE WHEN LIVE
-    var resetemail = 'miles.hochstein@gmail.com';  //TODO DELETE THIS LINE 
+    var resetemail = 'miles.hochstein@gmail.com,webeck@gmail.com';  //TODO DELETE THIS LINE 
     var token = maketoken(req.body.username, req.body.newemail);  
 
     var verifyEmailOptions = {
@@ -364,7 +350,7 @@ app.get('/api/verifyemailreset', function(req,res,next){
 
                     var passwordResetOptions = {
                               from: 'PerfectDayBreak Team <passwordreset@perfectdaybreak.com>',
-                              to: 'miles.hochstein@gmail.com',   
+                              to: 'miles.hochstein@gmail.com,webeck@gmail.com',   
                               subject: 'Please click link to create new password', // Subject line
                               text: 'Click this link to create new password.', // plaintext body
                               html: 'Click this link to create a new password <br/><a href="http://localhost:8090/api/verifypasswordreset/'+token+'">Click here to create a new password for your account at PerfectDayBreak.com. </a><br/> If you did not request this e-mail, feel free to ignore it'
@@ -381,6 +367,7 @@ app.get('/api/verifyemailreset', function(req,res,next){
 });
 
 
+
 /////////////////////////////////////////////////////////////////
 app.get('/api/verifypasswordreset/:temptoken', function(req,res,next){
 
@@ -390,11 +377,7 @@ app.get('/api/verifypasswordreset/:temptoken', function(req,res,next){
     var email   = decoded.email;
     var expires = decoded.exp;
     
-//  res.render('passwordresetform2');
-    res.redirect('/?modal=passwordresetform');
-
-
-
+    res.redirect('/#/?modal=pwr');
   });
 
 // after user fills out new password info, user posts to here
