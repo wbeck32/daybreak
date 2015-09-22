@@ -260,29 +260,53 @@ this.resetPassword = function(username){
 //////////////////////////////////////////////////////
 //password change while logged in 
 
-   this.changepassword = function(User) {
+   this.changepassword = function(User, closepwdchangemodal) {
 
-    console.log('changepassword Service', User.password, ' and ', User.username);
+    console.log('changepassword service', User.password, ' and ', User.username);
 
     $http({
       method: 'POST',
       url: '/api/changepassword',
       data: {
         password: User.password,
-        userName: User.username
+        username: User.username
       },
       headers: {'Content-Type': 'application/json'}
-    }).success(function(data, status, headers, config){
-      if(data) {
-        alert("Password Changed!");
+    })
+    //success here
+    .then(
+        function(data, status, headers, config){
+            
+            console.log('data.status is: ', data.status);
 
-      } else {
-        alert("Sorry, there was an error processing your request");
-      }
-    }).error(function(data, status, headers, config){
-      console.log('password change error');
-    });
+            if (data.status===200){
+                console.log("success at service");
+                closepwdchangemodal();
+                
+            }  else{ 
+                console.log("failure at service");
+            }
+        } 
+      );
   };
+
+
+
+
+    // .success(function(data, status, headers, config){
+    //   if(data) {
+    //     console.log('data is: ', data);
+    //     console.log('token is: ', token);
+    //     alert("Password Changed!");
+
+    //   } else {
+    //     alert("Sorry, there was an error processing your request");
+    //   }
+    // }).error(function(data, status, headers, config){
+    //   console.log('password change error');
+    // });
+//  };
+
 
 
 

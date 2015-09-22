@@ -1,6 +1,7 @@
 dayBreak.controller('userController',
 		['$scope', '$rootScope','$http', 'userService', 'dayService',function($scope,$rootscope, $http,userService,dayService){
 		
+		$scope.User.userMessage	 	= null;  
 		$scope.User.userFormView 	= 'hide';  //can change to 'show'  		
  		$scope.User.userDayView 	= 'grid';  //user can change to 'single'
  		$scope.User.userViewSwitch 	= null;
@@ -22,6 +23,8 @@ dayBreak.controller('userController',
  		$scope.User.oldemail= $scope.User.email;
 
 //////////////////////////////////////////////////////
+
+ 
 
 //init callback function
 	function completeInit(response){
@@ -152,17 +155,26 @@ userService.init(completeInit);
 	};
 
 //////////////////////////////////////////////////////
-//Username password RECOVERY for unknown user, 
-//distinct from logged in user password reset
+//email based password RECOVERY for non-loggedin user, 
+//distinct from logged in user password change
 this.passwordreset = function(knownemail){
 	userService.passwordreset(knownemail);
 };
 
+
+function closepwdchangemodal(){
+		console.log('running closepwdchangemodal');
+	 	$scope.User.userViewSwitch 	= null;
+	 	$scope.User.userMessage		= "Password change successful!";
+		$scope.User.userFormView 	= 'hide';  //can change to 'show'  		
+ 		$scope.User.userDayView 	= 'grid';  //user can change to 'single'
+}
+
 //////////////////////////////////////////////////////
 //password change while logged in 
-
-this.changepassword = function(User){
-	userService.changepassword(User);
+this.changepassword = function(User, callback){
+	
+	userService.changepassword(User, closepwdchangemodal);
 };
 
 

@@ -670,24 +670,50 @@ router.route('/loginrefresh').post(function(req,res,next){
 
 //////////////////////////////////////////////////////
 //logged in user changes password
+
 router.route('/changepassword').post(function(req,res,next){ 
+
+    console.log('incoming is: ', req.body.username, req.body.password);
     if (req.body.password){
-        User.findOne({userName: req.body.userName}, function(err, user){
+        User.findOne({userName: req.body.username}, function(err, user){
+
+            console.log(err,' is err', user, ' is user');
+
             if (err) 
-                { return next(err); }
+                {  
+                console.log('  findOne error');  
+                next(err);
+                }
             else
-                {console.log ('no error on findOne');}
-            console.log(user.userName, ' is found at user');
-            bcrypt.hash(req.body.password, 10, function(err, hash) {                
-            user.password = hash;
-            user.save(function(err) {
-                if (err) { return next(err); }
-                else {console.log('new password saved for user', userName);}
-                });
-            });
+                {console.log ('no error on findOne');
+
+                  if (user){
+
+                    console.log( '  at changepassword, matching: ', req.body.username);
+                    bcrypt.hash(req.body.password, 10, function(err, hash) { 
+                        user.password = hash;
+                        user.save(function(err, next) {
+                            if (err) 
+                                { console.log ('error on changepassword');
+                                  res.sendStatus(404);
+                                  next(err);
+                                }
+                            else 
+                                { console.log('new password saved for user');
+                                res.sendStatus(200);
+                                }
+                        });
+                    });
+
+                  }
+                  else{
+                     console.log('no user found ********');
+                  }
+                }
+
         })
     }
-})
+ })
 
 
  //////////////////////////////////////////////////////
