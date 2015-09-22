@@ -17,7 +17,7 @@ this.populateDayGrid = function(callback) {
 };
 
 
-this.addDay = function(dayName, userName, dayDesc, dayGroup, dayLocations, tagArray, callback) {
+this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayChild, dayTeen, daycallback) {
 	if(dayName){
 		var lowerTagArray = [];
 		tagArray.forEach(function(elem, index, array){
@@ -38,13 +38,14 @@ this.addDay = function(dayName, userName, dayDesc, dayGroup, dayLocations, tagAr
 						dayName : dayName,
 						userName : userName,
 						dayDesc : dayDesc,
-						dayGroup: dayGroup,
-						dayTags: uniqueTags
+						dayTags: uniqueTags,
+						dayChild : dayChild,
+						dayTeen : dayTeen
 			},
 			headers: {'Content-Type': 'application/json'}	
 			}).success(function(data, status, headers, config){
 				console.log('success!');
-				callback(data);
+				daycallback(data);
 				window.localStorage.removeItem('dayTags');
 			}).error(function(data,status,headers,config){
 				console.log('failure!');

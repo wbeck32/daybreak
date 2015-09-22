@@ -1,5 +1,5 @@
 angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', 'commonService',  function($scope,$rootScope,$http,dayService,commonService){
-
+//$scope.Day.child = '';
 function setDayScope(data) {
 	//console.log(data);
 	commonService.formatDates(data);
@@ -33,12 +33,13 @@ this.viewEditUserDays = function(username, callback){
 	dayService.getDaysOfUser(username, completeViewEditUserDays);
 };
  
-this.addDay = function(Day, User) {
+this.addDay = function(Day, User) { 
 	var dayName=Day.dayName;
 	var userName=User.username;
 	var dayDesc = Day.dayDesc;
-	var dayGroup = Day.dayGroup;
 	var dayTags = window.localStorage.getItem('dayTags');
+	var dayChild = Day.child;
+	var dayTeen = Day.teen;
 	var tagArray = [];
 	var dayDescArray= [];
 	var dayNameArray= [];
@@ -55,7 +56,7 @@ this.addDay = function(Day, User) {
 		Array.prototype.push.apply(tagArray,dayNameArray);
 	}
 
-	dayService.addDay(dayName, userName, dayDesc, dayGroup, $rootScope.dayLocations, tagArray, setDayScope);
+	dayService.addDay(dayName, userName, dayDesc, $rootScope.dayLocations, tagArray, dayChild, dayTeen, setDayScope);
 	$scope.User.userDayView = 'grid';
 	dayService.populateDayGrid(setDayScope);
 	$scope.User.userFormView = 'hide';   		

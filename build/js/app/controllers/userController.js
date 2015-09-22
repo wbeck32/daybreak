@@ -1,5 +1,5 @@
 dayBreak.controller('userController',
-		['$scope', '$rootScope','$http', 'userService', 'dayService',function($scope,$rootscope, $http,userService,dayService){
+		['$scope', '$rootScope','$http','$location','userService', 'dayService',function($scope,$rootscope, $http,$location,userService,dayService){
 		
 		$scope.User.userFormView 	= 'hide';  //can change to 'show'  		
  		$scope.User.userDayView 	= 'grid';  //user can change to 'single'
@@ -20,9 +20,15 @@ dayBreak.controller('userController',
 		$scope.User.userState 		= userService.userState;
  
  		$scope.User.oldemail= $scope.User.email;
-
+		if($location.search().modal){
+			var modal = $location.search().modal.valueOf();
+		}
+		
+		if (modal === 'pwr') {
+			console.log('popup the password reset modal');
+			$scope.User.userViewSwitch = 'passwordreset';
+		}
 //////////////////////////////////////////////////////
-
 //init callback function
 	function completeInit(response){
 		console.log('response.data is: ', response.data);

@@ -1,2 +1,2 @@
-var dayBreak = angular.module('dayBreak',[], function(){
+var dayBreak = angular.module('dayBreak',['ngRoute'], function(){
 });

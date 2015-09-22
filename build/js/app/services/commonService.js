@@ -24,6 +24,6 @@ this.formatDates = function(data) {
 
 	}
 return data;
-}
+};
 
 }]);
