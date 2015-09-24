@@ -1,32 +1,79 @@
 $phone: "(min-width:320px) and (max-width:767px)";
 $tablet: "(min-width: 768px) and (max-width: 1023px)";
 $desktop: "(min-width: 1024px)";
+
+@media #{$tablet} {
+	font-size: .5rem;
+}
+
+@media #{$tablet} {
+	font-size: .75rem;
+}
+
+@media #{$desktop} {
+	font-size: 1rem;
+}
 //changes these to mixins from this page
 //http://davidwalsh.name/write-media-queries-sass
 //http://learn.shayhowe.com/advanced-html-css/responsive-web-design/
 $white: #ffffff;
 $gray: #f3f3f3;
 $black: #000000;
+$lighten-2: #e57373;
+$lighten-3: #ef9a9a;
+
+html {
+	font-size: 16px; //1rem = 16px;
+}
 
 body {
 	font-family: 'Fira Sans', sans-serif;
-	width:100%;
-	margin:0;
-	padding:0;	
-}
-
-header {
 	width: 100%;
-	background-color:orange;
-	padding:10px;
-	margin:0;
-	text-align:right;
+	margin: 0;
+	padding: 0;	
 }
 
-a:hover{
-	cursor: pointer;
-	text-decoration: none;	
+nav {
+	background-color: $lighten-2;
+	height: 6rem;
+	padding: 1rem;
+
+	#titleGraphic{
+		font-size: 2rem;
+		float: left;
+	}
+
+	ul li:hover {
+		background-color:green;
+	}
 }
+
+.buttonHolder {
+	margin:3rem 1rem;
+	width: 50%;
+
+	.btn {
+		margin: .5rem 0 .75rem;
+		border-radius: 4px;
+
+	.glyphicons {
+		margin: .01rem;
+	}
+	
+	}
+}
+
+footer.page-footer {
+	height: 6rem;
+	padding: 1rem;
+	font-size: .75rem;
+	background-color: $lighten-2;
+}
+
+.thumbPhotos {
+	display: inline;
+}
+
 
 .link {
 	cursor:pointer;
@@ -42,13 +89,10 @@ a:hover{
 	text-transform: none;
 }
 
-footer.page-footer {
-	margin: 88px 0 0 0;
-	padding:20px;
-}
+.usermessage {
 
-label {
-	float:right;
+margin: 3rem 0 0 3rem;
+
 }
 
 .switch {
@@ -63,21 +107,13 @@ label {
 }
 
 p {
-	font-size: 10px !important;
+	//font-size: 10px !important;
 	color: blue;
  	-webkit-margin-before:0;
 	-webkit-margin-after:5px;
 
-  @media #{$tablet} {
-    font-size: 18px;
-  }
 
-  @media #{$desktop} {
-    font-size: 20px;
-  }
 }
-
-navfont {font-size: 1.2em; }
 
 h1 {
 	font-weight:500;
@@ -85,21 +121,16 @@ h1 {
 	-webkit-margin-before:0;
 }
 
-#titleGraphic{
-	padding-left: 15px;
-	padding-top: 1px;
-	margin-right: 30px;
-	font-size: 1.5em;
-	float: left;
-}
+
 
 .joinMessage{ 
-			padding-left: 20px;
-			padding-right: 20px;
-			border-radius: 15px;
-			font-size: 1.2em;
-			background-color: pink;
-			border: 1px solid black;}
+	padding-left: 20px;
+	padding-right: 20px;
+	border-radius: 15px;
+	font-size: 1.2em;
+	background-color: pink;
+	border: 1px solid black;
+}
 
 
 .container-fluid {
@@ -117,15 +148,9 @@ h1 {
 
 .container {
 	width: auto;
- 	margin: 1%;
 }
 
-.buttonHolder{
-		margin:30px;
-		width: 100%;
-		height: 30px;
-		border: 1px dotted clear;
-	}
+
 
 .createdaybutton{
 	font-size:1.3em;
@@ -152,9 +177,9 @@ h1 {
 			 margin:1%  
 			}
 
-input {
-	width:40%;
-}
+// input {
+// 	width:40%;
+// }
 
 .desc {
 	height:40px;
@@ -207,13 +232,15 @@ height:30%;
 
 }
 
-.userProfile{ 
-	font-size: 1em; }
+.userProfile { 
+	font-size: 1rem; 
+}
 
-.closeModal{
+.closeModal {
 	font-size: .9em;
 	font-color: blue;
-	padding: 5px;}
+	padding: 5px;
+}
 
 #map-canvas {
 	width:400px;
@@ -221,61 +248,63 @@ height:30%;
 	border:2px solid black;
 }
 
-.diagnostics {font-size: 9px; font-color: blue;
+.diagnostics {
+	font-size: 9px; font-color: blue;
 }
 
-.spacer {  padding-top: 20px; padding-bottom: 20px;}
+.spacer {  
+	padding-top: 20px; padding-bottom: 20px;
+}
 
-.centerText { margin: 0 auto;
-			 font-size: 1.3em;}
+.centerText { 
+	margin: 0 auto;
+	font-size: 1.3em;
+}
 
-.loginDirection{ font-size: 1.2em;
-				 color: blue;
-				 margin-bottom: 10px;
-				 margin-top: 10px;}
+.loginDirection{ 
+	font-size: 1.2em;
+	color: blue;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
 
-.label-space {margin: 5px;
-			  width: 120px;
-			   }		
+.label-space {
+	margin: 5px;
+	width: 120px;
+}		
+
+.alert {
+	height:20px;
+	width: 90%;
+	padding: .2rem .5rem 0 .5rem;
+   	font-size: 1rem;
+   	border-radius: 4px;
+   	border: 1px solid black;
+
+   	.alertwarn { 
+		background-color: #FFFCCC;
+	}
+
+	.alertinform {
+		background-color: #99CCFF;
+	}
+
+	.alertsuccess {
+		background-color: #47DA91;
+	}
+}
 
 
-.alertwarn{ height:20px;
-			width: 90%;
-			padding-top: 3px;
-			padding-left: 10px;
-			padding-right: 10px;
-		   color: red;
-		   background-color: #FFFFCC;
-		   font-size: 1em;
-		   border-radius: 4px;
-		   border: 1px solid black;}
+.formcontrol {
+	float: right;
+	width: 60%;
+	margin: 20px;
+}
 
-.alertinform{ height:20px;
-			width: 90%;
-			padding-top: 3px;
-			padding-left: 10px;
-			padding-right: 10px;
-		   background-color: #99CCFF;
-		   font-size: 1em;
-		   border-radius: 4px;
-		   border: 1px solid black;}
-
-.alertsuccess{	height:2opx;
-			width: 90%;
-			padding-top: 3px;
-			padding-left: 10px;
-			padding-right: 10px;
-		   background-color: #47DA91;
-		   font-size: 1em;
-		   border-radius: 4px;
-		   border: 1px solid black;}
-
-.formcontrol {float: right;
-			width: 60%;
-			 margin: 20px;}
-
-.messages {background-color: grey;
-			height:28px;}
+.messages {
+	background-color: grey;
+	height:28px;
+}
 
 
 
@@ -294,8 +323,7 @@ height:30%;
 		margin-top: 10px;
   }
 
-.exploreOneDayButton
-	{
+.exploreOneDayButton {
 	font-size:1em;
 	background-color: #66FF33;
 	color: black;
@@ -310,16 +338,12 @@ height:30%;
 	margin-bottom: 10px;
 	margin: 0 auto;
 	text-align: center;
-	}
+}
 
 
-.title { font-size: 1.2em;}  
-
-
-
-
-
-
+.title { 
+	font-size: 1.2em;
+}  
 
 .photo {height:100px;
 		width:290px;
@@ -377,7 +401,7 @@ height:30%;
 
 .title1 { font-size: 1.2em;}  
 
-.location1{ margin: 20px;
+.location1{ margin: 1.2rem;
 		padding: 3px;
 		border: 1px solid black;
 		background-color: #CCCCFF;
@@ -402,11 +426,30 @@ height:30%;
 		background-color: #CCCCFF;
 		font-size: 1.4em;}
 
-.whowasthere1 { margin: 3px;
-		padding: 3px;
-		border: 1px solid black;
-		background-color: #CCCCFF;
-		font-size: 1.4em;}
+.whowasthere { 
+		margin: 3px 0;
+		border: 1px solid $lighten-3;
+		float:left;
+		padding: 0.5rem;
+
+		div {
+			width:100%;
+			float:left;
+			padding:2px;
+		}
+
+		label {
+			font-size: 1rem;
+			color: $black;
+			float: left;
+		}
+
+		.checkBox {
+			position: relative;
+			float: right;
+		}
+
+	}
 
 
 
@@ -484,7 +527,7 @@ height:30%;
 					padding: 4px;}
 
 
- .bestDaysFrame{ 
+ .bestDaysFrame { 
 	width: 100%;
  	display: flex;
 	flex-direction: row;
@@ -493,7 +536,6 @@ height:30%;
 	margin: 0 auto;
 	overflow: hidden;
 	padding:5%;
-	background-color: $gray; 
 		
 	.singleDay {
 		width: 22%;
@@ -502,18 +544,19 @@ height:30%;
 		padding:1%;
 		margin:1%;
 
+
 	.daydate {
 		font-size:12px;
 		margin:0 0 8px 0;
 	}
 
 	.title {
-		font-size:16px;
-		font-weight:600;
+		font-size: 1rem;
+		font-weight: 600;
 	}
 	
 	.user {
-		font-size: 14px;
+		font-size: 0.9rem;
 	}
 
 	.tags { 
@@ -527,6 +570,7 @@ height:30%;
 		padding:1%;
 			
 			.locationName {
+				margin: 0.2rem 0 0 0;
 				border-bottom: 2px solid $black;
 				font-weight:600;
 			}

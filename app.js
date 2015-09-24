@@ -205,7 +205,7 @@ router.route('/addday').post(function(req, res) { console.log('mine: ',req.body)
  
 
 router.route('/registerValidUser').post(function(req,res,next){
-  
+    var userCreateSuccess = false;
     //create user record
     var user = new User({   userName    : req.body.username,
                             created     : Date.now(),
@@ -218,51 +218,62 @@ router.route('/registerValidUser').post(function(req,res,next){
     // Store hash in password DB.
         //console.log("BCRYPT password hash is " + hash);
         user.password = hash;//note definition of user.password in schema
-        //all values of user object now assigned
-
-            user.save(function(err){
+        user.save(function(err){
             if (err){
-                throw next(err);
+                next(err);
             } else {
-                res.sendStatus(201)
+                userCreateSuccess = true;
             }
         });
     });
 
     //second register email 
-    console.log (req.body.email, " is registration email request");
-
-    var token = "123abc";
+    //console.log (req.body.email, " is registration email request");
+    var expires = moment().add(1, 'days').valueOf();
+    var token = jwt.encode({
+        exp: expires,
+        email: req.body.email
+    }, jwtKey);
 
     var verifyEmailOptions = {
-              from: 'PerfectDayBreak Team <hello@perfectdaybreak.com>', // sender address
+        from: 'PerfectDayBreak Team <hello@perfectdaybreak.com>', // sender address
 
-              to: 'miles.hochstein@gmail.com,webeck@gmail.com',  //TODO DELETE OWN EMAIL!!!!! 
+        to: 'miles.hochstein@gmail.com,webeck@gmail.com',  //TODO DELETE OWN EMAIL!!!!! 
 
-              subject: 'Please confirm your Perfect Daybreak email address', // Subject line
-              text: 'Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone.', // plaintext body
-              html: 'Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone. <br/><a href="http://localhost:8090/api/verifyemail?access_token='+token+'">Click here to confirm your email address</a>.'
-            };
+        subject: 'Please confirm your Perfect Daybreak email address', // Subject line
+        text: 'Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone.', // plaintext body
+        html: 'Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone. <br/><a href="http://localhost:8090/api/verifyemail?access_token='+token+'&email='+req.body.email+'">Click here to confirm your email address</a>.'
+    };
 
-
-            transporter.sendMail(verifyEmailOptions, function(err, info) {
-              if (err) console.log(err);  
-              console.log('Email sent!');
-            })
+    transporter.sendMail(verifyEmailOptions, function(err, info) {
+        if (err) {
+            console.log(err); 
+        } else if(userCreateSuccess === true) {
+            res.status(200).end();
+        } 
+    });
 });
 
 
 
 app.get('/api/verifyemail', function(req,res,next){
+    //console.log(req._parsedOriginalUrl.query, " is access token for email verification response.");
+    var queryString = req._parsedOriginalUrl.query;
+    var q = queryString.split('=');
+    var email = q[2];
+    var token = q[1].split('&')[0];
 
-    console.log(req._parsedOriginalUrl.query, " is access token for email verification response.");
-
-    checktokenvalid(req._parsedOriginalUrl.query );
+    var emailVerified = checktokenvalid(token,email);
+    if(emailVerified === true) {
+        res.redirect('/');
+    } else {
+        res.status(404).end();
+    }
     //IF incoming token = tokenized username plus email
     //THEN save username, encrypted password, created date and userAbout
     //THEN callback to allow user login
 
-    res.status(201).json(req._parsedOriginalUrl.query)
+    
 });
 
 
@@ -353,7 +364,7 @@ app.get('/api/verifyemailreset', function(req,res,next){
                               to: 'miles.hochstein@gmail.com,webeck@gmail.com',   
                               subject: 'Please click link to create new password', // Subject line
                               text: 'Click this link to create new password.', // plaintext body
-                              html: 'Click this link to create a new password <br/><a href="http://localhost:8090/api/verifypasswordreset/'+token+'">Click here to create a new password for your account at PerfectDayBreak.com. </a><br/> If you did not request this e-mail, feel free to ignore it'
+                              html: 'Click this link to create a new password <br/><a href="http://localhost:8090/api/emailpasswordreset/'+token+'">Click here to create a new password for your account at PerfectDayBreak.com. </a><br/> If you did not request this e-mail, feel free to ignore it'
                             };
                     transporter.sendMail(passwordResetOptions, function(err, info) {
                               if (err) console.log(err);  
@@ -369,24 +380,26 @@ app.get('/api/verifyemailreset', function(req,res,next){
 
 
 /////////////////////////////////////////////////////////////////
-app.get('/api/verifypasswordreset/:temptoken', function(req,res,next){
+app.get('/api/emailpasswordreset/:temptoken', function(req,res,next){
 
-    console.log('GETTING PASSWORD RESET FORM AT /api/verifypasswordreset/:temptoken');
-
+    console.log('GETTING PASSWORD RESET FORM AT /api/emailpasswordreset/:temptoken');
     var decoded = jwt.decode(req.params.temptoken, jwtKey); //check for decoded.email
     var email   = decoded.email;
     var expires = decoded.exp;
-    
-    res.redirect('/#/?modal=pwr');
+    res.redirect('/#/?modal=pwr&tkn='+req.params.temptoken);
   });
 
 // after user fills out new password info, user posts to here
-app.post('/api/verifypasswordreset/:temptoken', function(req, res){
-  
-    console.log('NOW POSTING NEW PASSWORD TO /api/verifypasswordreset/:temptoken');
-    console.log(req.body.passwordreset, req.body.passwordresetverify, ' are incoming passwords');
+app.get('/api/verifypasswordreset/:temptoken/:pw/:pw2', function(req, res){
+//  console.log('NOW POSTING NEW PASSWORD TO /api/verifypasswordreset/:temptoken');
+  console.log( req.params.pw,req.params.pw2,' are incoming passwords');
+//  check for valid token (good email and recent date)
+    var pw = new Buffer(req.params.pw,'base64');
+    var passwordreset = pw.toString();
+    var pw2 = new Buffer(req.params.pw2,'base64');
+    var passwordresetverify = pw2.toString();
 
-    //check for valid token (good email and recent date)
+    console.log(passwordreset,passwordresetverify);
     var decoded = jwt.decode(req.params.temptoken, jwtKey); //check for decoded.email
     var email   = decoded.email;
     var exp     = decoded.exp;
@@ -394,7 +407,7 @@ app.post('/api/verifypasswordreset/:temptoken', function(req, res){
     var equalPasswordsValue = false;
  
     recentToken(exp);
-    equalPasswords(req.body.passwordreset, req.body.passwordresetverify);
+    equalPasswords(req.params.pw, req.params.pw2);
  
     function recentToken(exp){
         console.log('checking recentToken!');
@@ -420,7 +433,7 @@ app.post('/api/verifypasswordreset/:temptoken', function(req, res){
     if (  recentToken && equalPasswords )
        {
         console.log('all three conditions for password reset are true');    
-        bcrypt.hash(req.body.passwordreset, 10, function(err, hash) {    
+        bcrypt.hash(passwordreset, 10, function(err, hash) {    
             if (email){
                 User.findOne({email: email}, function(err, user){
                     if (err) 
@@ -430,8 +443,11 @@ app.post('/api/verifypasswordreset/:temptoken', function(req, res){
                     //console.log(user.userName, ' is found at user');
                     user.password = hash; 
                     user.save(function(err) {
-                        if (err) { return next(err); }
-                        else {console.log('new hashed password saved to password');}
+                        if (err) { return next(err); 
+                        } else {
+                            console.log('new hashed password saved to password');
+                            res.redirect('/');
+                            }
                         });
                     });
                 }
@@ -520,13 +536,13 @@ router.route('/checkusername').post(function(req,res,next){
 //1d  checks for duplicate email
 router.route('/checkemail').post(function(req,res,next){
     //console.log("in api email to search is " +req.body.email);
-    var user = new User({email: req.body.email });
+    console.log(req.body);
+    //var user = new User({email: req.body.email });
     User.findOne({email: req.body.email})
-        .select('email')
         .exec(function(err,user){
                 console.log(user+  " is user at checkemail route");
                 if (err){
-                    return next(err)
+                    next(err);
                 }
                 if(!user){
                     result = true;  //hooray found a unique email!
@@ -739,16 +755,18 @@ function passwordResetAuthenticate (userid){
 
 function checktokenvalid(tokenIN, verifiedemail){
     if (tokenIN) {
-            console.log('token exists', tokenIN);
-            var decoded = jwt.decode(tokenIN, jwtKey); //check for decoded.email
-            console.log('values are: ', decoded.iss, decoded.exp, decoded.email);
+            //console.log('token exists', tokenIN);
+
+            var decoded = jwt.decode(tokenIN, jwtKey); 
+            console.log('decoded ' ,decoded);//check for decoded.email
+            //console.log('values are: ', decoded.iss, decoded.exp, decoded.email);
 
             if (decoded.exp <= Date.now() ) {
-                res.end('Access token expired', 400);
+                res.end('Access token expired', 404);
                 next(err); 
                 }
             else if(decoded.email = verifiedemail){
-                console.log('decoded token email matches stored email.');
+                //console.log('decoded token email matches stored email.');
                 tokenresult = true;
                 return tokenresult;
                 }

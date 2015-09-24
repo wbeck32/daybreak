@@ -19,23 +19,21 @@ dayBreak.controller('userController',
  		$scope.User.LoginError 		= false;	     
 		$scope.User.username 		= userService.username;	    
 		$scope.User.userState 		= userService.userState;
- 
+ 		$scope.User.submitMethod	= null;
  		$scope.User.oldemail= $scope.User.email;
-		
-		if($location.search().modal){
+		var token = null;
+		if($location.search().modal && $location.search().tkn){
 			var modal = $location.search().modal.valueOf();
+			token = $location.search().tkn.valueOf();
+			if (modal === 'pwr') {
+				$scope.User.userViewSwitch = 'passwordreset';
+			}
 		}
 		
-		if (modal === 'pwr') {
-			console.log('popup the password reset modal');
-			$scope.User.userViewSwitch = 'passwordreset';
-		}
 //////////////////////////////////////////////////////
 
 //init callback function
-	function completeInit(response){
-		console.log('response.data is: ', response.data);
- 
+	function completeInit(response){ 
 		console.log('completeInit is happening');
 		$scope.User.userState 	='loggedIn';
 	 	$scope.User.username 	= response.data.userName;
@@ -88,7 +86,7 @@ userService.init(completeInit);
 		     	console.log ("Login requirements all good");
 		     	return true;  
 		  	 }else{
-		 		console.log($scope.User.uniqueUserName, $scope.User.uniqueEmail, $scope.User.validPassword, $scope.User.longUsername);
+		 		console.log('1: ',$scope.User.uniqueUserName, '2: ',$scope.User.uniqueEmail, '3: ',$scope.User.validPassword, '4: ',$scope.User.longUsername);
 		    	console.log ("Login requirements NOT met.");
 		     	return false;
 		    }
@@ -170,6 +168,7 @@ this.passwordreset = function(knownemail){
 
 function closepwdchangemodal(){
 		console.log('running closepwdchangemodal');
+		window.location.replace('/');
 	 	$scope.User.userViewSwitch 	= null;
 	 	$scope.User.userMessage		= "Password change successful!";
 		$scope.User.userFormView 	= 'hide';  //can change to 'show'  		
@@ -177,18 +176,23 @@ function closepwdchangemodal(){
 }
 
 //////////////////////////////////////////////////////
-//password change while logged in 
-this.changepassword = function(User, callback){
-	
+//password change while logged in - if logged out, submit the url
+this.changepassword = function(User, callback){ console.log($scope.User.userState);
+	if($scope.User.userState === 'loggedOut') {
+		var url = window.location.href.split('#')[0]+'api/verifypasswordreset/';
+		userService.pwdChangeLoggedOut(url,token,User,closepwdchangemodal);
+	} else {
 	userService.changepassword(User, closepwdchangemodal);
+	}
 };
 
 
 //////////////////////////////////////////////////////
 
-    function register(status){
-	      if(status === 201) {
-	        $scope.User.userViewSwitch = 'Log';
+    function register(status){ 
+	      if(status === 200) {
+	        $scope.User.userMessage = 'Registration confirmation email has been sent.';
+	        $scope.User.userViewSwitch = null;
 	      } else {
 	        $scope.User.userViewSwitch = 'NEWREG';
 	      }

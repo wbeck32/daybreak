@@ -1,7 +1,6 @@
 angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', 'commonService',  function($scope,$rootScope,$http,dayService,commonService){
 //$scope.Day.child = '';
 function setDayScope(data) {
-	//console.log(data);
 	commonService.formatDates(data);
 	commonService.tagArrayToString(data);
 	$scope.Day.days = data;
@@ -34,11 +33,15 @@ this.viewEditUserDays = function(username, callback){
 };
  
 this.addDay = function(Day, User) { 
+	console.log(Day.child);
+	var childCheck = '';
+	if (Day.child && Day.child == true) {childCheck='checked';}
+	console.log(childCheck);
 	var dayName=Day.dayName;
 	var userName=User.username;
 	var dayDesc = Day.dayDesc;
 	var dayTags = window.localStorage.getItem('dayTags');
-	var dayChild = Day.child;
+	var dayChild = childCheck;
 	var dayTeen = Day.teen;
 	var tagArray = [];
 	var dayDescArray= [];
@@ -67,5 +70,9 @@ this.addDay = function(Day, User) {
 this.showOneDay = function(dayID){
 	dayService.getDay(dayID, chosenDay);
 };
+
+this.closeSingleDayNoSave = function() {
+	$scope.User.userDayView = 'grid';
+}
 
 }]);

@@ -1,4 +1,12 @@
-<div class="singleDayView"> 		
+<div class="singleDayView"> 
+<button class="btn waves-effect waves-light right" type="submit" name="action" data-ng-click="Day.updateDay(Day)">Save changes
+    		<i class="material-icons right">send</i>
+  		</button>
+
+		<button class="btn waves-effect waves-light right" type="submit" name="action" data-ng-click="Day.closeSingleDayNoSave()">Close without saving
+    		<i class="material-icons right">send</i>
+  		</button>
+
 	<div class="singleDayTitle">
 		<span data-make-editable class="editable">{{Day.chosenDay.dayName}}</span>
 		<span>&nbsp;by&nbsp;{{ Day.chosenDay.userName }}</span>
@@ -28,12 +36,6 @@
 
 	
 
-	<button class="btn waves-effect waves-light right" type="submit" name="action">Save changes
-    		<i class="material-icons right">send</i>
-  		</button>
-
-		<button class="btn waves-effect waves-light right" type="submit" name="action">Close without saving
-    		<i class="material-icons right">send</i>
-  		</button>
+	
 	</div>
 </div>

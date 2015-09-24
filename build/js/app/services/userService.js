@@ -17,6 +17,23 @@ dayBreak.service('userService', ['$http', function($http ){
   var self = this; 
 
 /////////////////////////////////////////////////////////////////
+this.pwdChangeLoggedOut = function(url,token,User,callback) { 
+var pw1 = btoa(User.password);
+var pw2 = btoa(User.passwordConfirm);
+
+  $http({
+    method:'GET',
+    url: '/api/verifypasswordreset/'+token+'/'+pw1+'/'+pw2,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function(response){
+      console.log('success: ',response);
+      callback();
+
+  },
+    function(response){
+    console.log('failure: ',response);
+  });
+};
 
 this.emailreset=function( newemail,username){
   console.log('userService receives newemail value of : ', newemail);
@@ -42,7 +59,7 @@ this.emailreset=function( newemail,username){
  
 this.init = function(completeInit){
 //check if valid token exists from previous session
-  console.log("start init in app.js -------------------");
+  console.log("start init in userService.js -------------------");
   if (window.localStorage.getItem('token') ) 
     {
     this.token    = window.localStorage.getItem('token');
@@ -139,18 +156,17 @@ this.registerUser = function(User,callback){
   $http({
           method: 'POST',
           url: '/api/registerValidUser',
-          data: {username    :User.username, 
+          data: {username  : User.username, 
                  password  : User.password,
                  email     : User.email},
           headers: {'Content-Type': 'application/json'}
           })
-          .success(function(data, status, headers, config){
-            callback(status);              
-
-          })
-          .error(function(data,status, headers, config){
+          .then(function(response){
+            callback(response.status);              
+          }),
+          function(response){
             console.log("no user created ");
-        }); 
+          }; 
 };
 
 //////////////////////////////////////////////////////
@@ -186,7 +202,6 @@ this.checktheemail = function( email,callback){
     .error(function(data,status, headers, config){
           console.log("data is: " + data);
           self.uniqueEmail = false;
-          //cb(); //update scope
       }); 
 };
 
