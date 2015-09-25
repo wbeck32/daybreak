@@ -7,13 +7,13 @@ this.populateDayGrid = function(callback) {
 		url: '/api/show',
 		headers: {'Content-Type' : 'application/json'}
 	})
-	.success(function(data,status,headers, config){
-		console.log("success ***: ", data);
-		callback(data); 
-	})
-	.error(function(data, status,headers,config){
+	.then(function(response){
+		console.log("success ***: ", response);
+		callback(response.data); 
+	}),
+	function(data, status,headers,config){
 		console.log("failure ***");
-	});
+	};
 };
 
 
@@ -30,7 +30,7 @@ this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayCh
 			if (uniqueTags.indexOf(tagArray[i]) == -1 && tagArray[i] !== '' && tagArray[i]) {
 				uniqueTags.push(tagArray[i]);
 			}
-		}
+		} 
 		$http({
 			method: 'POST',
 			url: 	'/api/addday',
@@ -44,8 +44,8 @@ this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayCh
 			},
 			headers: {'Content-Type': 'application/json'}	
 			}).success(function(data, status, headers, config){
-				console.log('success!');
-				daycallback(data);
+				console.log('success!');console.log('skfjdlksjfalkdjs: ',data.dayChild);
+				daycallback(data); 
 				window.localStorage.removeItem('dayTags');
 			}).error(function(data,status,headers,config){
 				console.log('failure!');
@@ -53,23 +53,25 @@ this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayCh
 	}
 };
 
-this.getDay = function(Day, callback){
-	console.log('********in dayService incoming dayID is: ', Day.chosenDay);
-	//if(dayID){
+
+this.getDay = function(dayID,callback){
+	console.log('********in dayService incoming dayID is: ', dayID);
+	
+	if(dayID){
  		$http({
 			method: 'POST',
 			url: 	'/api/getday',
-			data: {	 },
+			data:   {dayID : dayID	 },
 			headers:{'Content-Type': 'application/json'}	 
 		})
 		.success(function(data){
-			//console.log("found the requested day, returning data.dayID", data, " and data.dayName ", data.dayName);
+			console.log("found the requested day, returning data", data);
 			callback(data);
 		})
 		.error(function(data){
 				console.log("DID NOT FIND the requested day");
 		});
-	//}
+	}
 	};
 
 //////////////////////////////////////////////////////////////////////////

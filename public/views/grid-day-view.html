@@ -9,21 +9,21 @@
 
 			<div class="whowasthere">
 			<div>      
-				<label for="filled-in-box">Teen friendly?</label>
- 				<input type="checkbox" class="filled-in" id="filled-in-box" checked="checked" />
+				<input type="checkbox" class="checkBox" id="test6 teenCheckbox" data-ng-model="day.dayTeen" data-ng-checked="{{day.dayTeen}}" />
+ 				<label for="teenCheckbox">Teen friendly?</label>
     		</div>
 			<div>
-				<label for="filled-in-box">Kid friendly?</label>
- 				<input type="checkbox" class="filled-in" id="filled-in-box" checked="checked" />
+				<input type="checkbox" class="checkBox" id="test6 kidCheckbox" data-ng-model="day.dayChild" data-ng-checked="{{day.dayChild}}" />
+				<label for="kidCheckbox">Kid friendly?</label>
  			</div>
 			</div>
 			<div data-ng-repeat="location in day.locations track by $index">
 				<div class="location">
 				<div class="locationName">{{location.location}}</div>
 				<div class="locDesc">{{location.desc}}</div>
-				<div data-ng-repeat="photo in location.photosThumb track by $index" style="display:inline;margin:0 5px;">
+				<div data-ng-repeat="photo in location.photosThumb track by $index" class="thumbPhotos">
 					<img src="{{photo}}"></img>
-					</div>
+				</div>
 				</div>
 			</div>
  		</div>

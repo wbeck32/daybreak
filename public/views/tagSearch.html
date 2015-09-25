@@ -12,18 +12,20 @@
 									type="text"
 						 			placeholder="Enter search words, separated by spaces. (Example: Boston hiking restaurant.)"
 									required>
-								
-									<input 
-						 			data-ng-click="Tag.findTag();Tag.tag = ''"
-						 			class="btn btn-sm btn-block right" 
-									type="submit" 
-									value="Show All Days">	
 
-						 			<input 
+									<a 
 						 			data-ng-click="Tag.findTag(Tag.tag)" 
-						 			class="btn btn-sm btn-block left" 
-									type="submit" 
-									value="Search">	
+						 			class="waves-effect waves-light btn" 
+									type="submit">Search
+									<span class="glyphicons search"><img src="/images/glyphicons-search-wht.png"></span>
+									</a>
+								
+									<a 
+						 			data-ng-click="Tag.findTag();Tag.tag = ''"
+						 			class="waves-effect waves-light btn" 
+									type="submit">Show all days
+									<span class="glyphicons globe"><img src="/images/glyphicons-globe-wht.png"></span>	
+									</a>
 						</div>  <!--  tag search end -->
 
 						<div class ="searchResultsMessage">				

@@ -5,31 +5,31 @@ angular.module('dayBreak')
 	restrict	: 'E',
 	replace		: false,
 	scope		: true,
-	templateUrl	:'/templates/locationList.html',
+	templateUrl	:'/views/locationList.html',
 	link		: function( scope, elem, attrs) {
  	 }
 	};
 }) 
 
 .directive('myUserFunctions', function(){
-	return {templateUrl: '/templates/my-user-functions.html'
+	return {templateUrl: '/views/my-user-functions.html'
 	};
 })
 
 
 .directive('singleDayView', function(){
-	return {templateUrl: '/templates/single-day-view.html'
+	return {templateUrl: '/views/single-day-view.html'
 	};
 })
 
 
 .directive('gridDayView', function(){
-	return {templateUrl: '/templates/grid-day-view.html'
+	return {templateUrl: '/views/grid-day-view.html'
 	};
 })
 
 .directive('footOfPage', function(){
-	return {templateUrl: '/templates/foot-of-page.html'
+	return {templateUrl: '/views/foot-of-page.html'
 	};
 })
 
@@ -39,8 +39,7 @@ angular.module('dayBreak')
 		replace: false,
 		scope: true,
 		link: function(scope,elem,attrs) {
-			//console.log(scope,elem,attrs);
-			if(scope.User.userState === 'loggedIn'){
+			if(scope.User.userState === 'loggedIn' && (scope.User.username === scope.Day.chosenDay.userName)){
 				elem[0].contentEditable = true;
 			}
 		}
@@ -51,6 +50,7 @@ angular.module('dayBreak')
 	return {
 		restrict: 'E',
 		replace: false,
-		templateUrl: '/templates/tagSearch.html'
+		scope: true,
+		templateUrl: '/views/tagSearch.html'
 	};
 });

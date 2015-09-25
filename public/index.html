@@ -20,17 +20,19 @@
 <div ng-controller="userController as User"> <!--important! this wraps all functions -->
 
 	<div my-user-functions></div> <!--  Nav Bar and User Register/Login/Account Controls-->
+		<div class='usermessage'> {{User.userMessage}} </div>
 
 		<div data-ng-controller="dayController as Day">
 
-			<div class='buttonHolder' data-ng-switch on='User.userState'>
+			<div class="buttonHolder" data-ng-switch on='User.userState'>
 			   	<div data-ng-switch-when='loggedIn'>
 
 					<div data-ng-switch on='User.userFormView'>
 			   			<div data-ng-switch-when="hide"> 
-							<a class='createdaybutton' 
-							data-ng-click="User.userFormView='show'">
-		 			  		Create a New Day? </a>
+							<a class="waves-effect waves-light btn" 
+							data-ng-click="User.userFormView='show';User.userDayView=null">
+		 			  		Create a new day?<span class="glyphicons sun"><img src="/images/glyphicons-sun-wht.png"></span>
+							</a>
 	 					</div>
 					</div>
 
@@ -44,25 +46,18 @@
 						</div>
 					</div>
 
-				</div>     
-			</div>
-
-
-			<div class='buttonHolder' data-ng-switch on='User.userState'>
-		   		<div data-ng-switch-when='loggedIn'>
-
 					<div data-ng-switch on='User.userFormView'>
 			   			<div data-ng-switch-when="hide"> 
-							<a class='createdaybutton' 
+							<a class="waves-effect waves-light btn" 
 							data-ng-click= "Day.viewEditUserDays(User.username)">
-		 			  		View and Edit Days for {{User.username}}</a>
+		 			  		View and Edit Days for {{User.username}}<span class="glyphicons pencil">
+		 			  		<img src="/images/glyphicons-pencil-wht.png"></span>
+		 			  		</a>
 							</div>	
 					</div>
-
-				</div>
-			</div>   
-
-
+				</div>     
+			</div>
+  
 			<div  style="margin:0 auto;background-color: #F2F6F6; width: 70%"
 				 data-ng-switch on='User.userFormView'>
 			   	<div class='row' data-ng-switch-when="show">
@@ -70,7 +65,7 @@
 					<div class="col s6">
 						<section>
 							<div class="form-group" >
-								<form data-ng-submit="Day.addDay(Day, User)">
+								<form data-ng-submit="Day.addDay(Day, User);User.userDayView='grid';">
 
 								<h4>Tell us about your day!</h4>
 
