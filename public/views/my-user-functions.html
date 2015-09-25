@@ -5,8 +5,27 @@
 	<nav>
 		<div id = "titleGraphic">Daybreak</div>
  	  	<div class="container" >
+
+
  	  		
 			<ul class='right hide-on-small-and-down button-collapse'>
+
+
+				<li><a  data-ng-show="User.userState==='loggedIn'"
+					    data-ng-click="User.userFormView='show';
+						User.userDayView=null" >
+		 			  		Create New Day  
+					  
+ 				</a></li>	
+
+
+				<li><a data-ng-show="User.userState==='loggedIn'"
+					   data-ng-click= "Day.viewEditUserDays(User.username)">
+ 		 			  		 {{User.username}} Days    						 
+				</a></li>
+
+
+			
 
 				<li><a><div 
 						data-ng-click="User.userViewSwitch = null;User.userDayView = 'grid';">

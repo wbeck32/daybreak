@@ -316,6 +316,7 @@ app.get('/api/verifyemailreset', function(req,res,next){
     var decoded = jwt.decode(tokenIN, jwtKey); //check for decoded.email
     var username = decoded.iss;
     var email = decoded.email;
+
     if (username){
         User.findOne({userName: username}, function(err, user){
             if (err) 
@@ -323,6 +324,7 @@ app.get('/api/verifyemailreset', function(req,res,next){
             else
                 {console.log ('no error on findOne');}
             user.email = email; 
+            
             user.save(function(err) {
                 if (err) { return next(err); }
                 else {console.log('new user email saved to user.email');}

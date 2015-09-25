@@ -10,10 +10,10 @@ this.populateDayGrid = function(callback) {
 	.then(function(response){
 		console.log("success ***: ", response);
 		callback(response.data); 
-	}),
+	},
 	function(data, status,headers,config){
 		console.log("failure ***");
-	};
+	});
 };
 
 
@@ -64,15 +64,16 @@ this.getDay = function(dayID,callback){
 			data:   {dayID : dayID	 },
 			headers:{'Content-Type': 'application/json'}	 
 		})
-		.success(function(data){
+		.then(
+		function(data){
 			console.log("found the requested day, returning data", data);
 			callback(data);
-		})
-		.error(function(data){
+		},
+		function(data){
 				console.log("DID NOT FIND the requested day");
 		});
 	}
-	};
+};
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -86,11 +87,12 @@ this.getDaysOfUser = function(username, callback){
 			data: {	username : username},
 			headers:{'Content-Type': 'application/json'}	 
 		})
-		.success(function(data){
+		.then(
+		function(data){
 			console.log("found the requested username, returning data.dayID", data, " and data.dayName ", data[0].dayName);
 			callback(data);
-		})
-		.error(function(data){
+		},
+		function(data){
 				console.log("DID NOT FIND the requested username");
 		});
 	//}
@@ -104,21 +106,18 @@ this.saveDayChanges = function(Day,User, completeSaveDayChanges){
 	$http({
 			method: 'POST',
 			url: 	'/api/savedaychanges',
-			data: {	dayID : dayID,
-
-
-					},
+			data: {	dayID : dayID },
 			headers:{'Content-Type': 'application/json'}	 
 		})
-		.success(function(data){
+		.then(
+		function(data){
 			//console.log("found the requested day, returning data.dayID", data, " and data.dayName ", data.dayName);
 			callback(data);
-		})
-		.error(function(data){
+		},
+		function(data){
 				console.log("DID NOT FIND the requested day");
 		});
-
-};
+	};
 
 
 }]);

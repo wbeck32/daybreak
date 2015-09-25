@@ -18,46 +18,12 @@
 <body>
  
 <div ng-controller="userController as User"> <!--important! this wraps all functions -->
+	<div data-ng-controller="dayController as Day">
 
-	<div my-user-functions></div> <!--  Nav Bar and User Register/Login/Account Controls-->
-		<div class='usermessage'> {{User.userMessage}} </div>
-
-		<div data-ng-controller="dayController as Day">
-
-			<div class="buttonHolder" data-ng-switch on='User.userState'>
-			   	<div data-ng-switch-when='loggedIn'>
-
-					<div data-ng-switch on='User.userFormView'>
-			   			<div data-ng-switch-when="hide"> 
-							<a class="waves-effect waves-light btn" 
-							data-ng-click="User.userFormView='show';User.userDayView=null">
-		 			  		Create a new day?<span class="glyphicons sun"><img src="/images/glyphicons-sun-wht.png"></span>
-							</a>
-	 					</div>
-					</div>
-
-					<div data-ng-switch on='User.userFormView'>
-			   			<div data-ng-switch-when="show">
-	 
-					 		<i data-ng-click = "User.userFormView='hide' "  
-							class="material-icons left small" 
-							style ='cursor: pointer;'>clear</i>
-
-						</div>
-					</div>
-
-					<div data-ng-switch on='User.userFormView'>
-			   			<div data-ng-switch-when="hide"> 
-							<a class="waves-effect waves-light btn" 
-							data-ng-click= "Day.viewEditUserDays(User.username)">
-		 			  		View and Edit Days for {{User.username}}<span class="glyphicons pencil">
-		 			  		<img src="/images/glyphicons-pencil-wht.png"></span>
-		 			  		</a>
-							</div>	
-					</div>
-				</div>     
-			</div>
-  
+		<div my-user-functions></div> <!--  Nav Bar and User Register/Login/Account Controls-->
+		
+			<div class='usermessage'> {{User.userMessage}} </div>
+			 
 			<div  style="margin:0 auto;background-color: #F2F6F6; width: 70%"
 				 data-ng-switch on='User.userFormView'>
 			   	<div class='row' data-ng-switch-when="show">
@@ -152,8 +118,8 @@
 		 			</div>
 
 
-		</div>     <!-- close dayController -->
-	</div>    <!--  close container -->
+		</div>     <!-- close container-->
+	</div>    <!--  close day controller -->
 </div>   <!-- close user controller -->
 
           

@@ -36,7 +36,7 @@ this.viewEditUserDays = function(username, callback){
 this.addDay = function(Day, User) { 
 	console.log(Day.child);
 	var childCheck = '';
-	if (Day.child && Day.child == true) {childCheck='checked';}
+	if (Day.child && Day.child === true) {childCheck='checked';}
 	console.log(childCheck);
 	var dayName=Day.dayName;
 	var userName=User.username;
@@ -70,7 +70,7 @@ this.addDay = function(Day, User) {
 
 this.showOneDay = function(dayID){
 
-	console.log('dayID is ooooooooooooooo', dayID);
+	console.log('dayID is', dayID);
 	
 	dayService.getDay(dayID, chosenDay);
 };

@@ -35,7 +35,7 @@ body {
 
 nav {
 	background-color: $lighten-2;
-	height: 6rem;
+	height: 5rem;
 	padding: 1rem;
 
 	#titleGraphic{
@@ -64,7 +64,8 @@ nav {
 }
 
 footer.page-footer {
-	height: 6rem;
+	position: fixed; 
+	height: 2rem;
 	padding: 1rem;
 	font-size: .75rem;
 	background-color: $lighten-2;

@@ -163,10 +163,11 @@ this.registerUser = function(User,callback){
           })
           .then(function(response){
             callback(response.status);              
-          }),
+          },
           function(response){
+
             console.log("no user created ");
-          }; 
+          }); 
 };
 
 //////////////////////////////////////////////////////
@@ -264,12 +265,23 @@ this.resetPassword = function(username){
         knownemail: knownemail
       },
       headers: {'Content-Type': 'application/json'}
-    }).success(function(data, status, headers, config){
+    })
+    .then(function(data, status, headers, config){
       console.log('reset post successful');
       alert('An email has been sent to your account, go check it out to proceed. You can close this window.');
-    }).error(function(data, status, headers, config){
+    },
+    function(data, status, headers, config){
       console.log('reset post failed: ' + data);
     });
+
+   // .success(function(data, status, headers, config){
+   //    console.log('reset post successful');
+   //    alert('An email has been sent to your account, go check it out to proceed. You can close this window.');
+   //  }).error(function(data, status, headers, config){
+   //    console.log('reset post failed: ' + data);
+    
+
+
   };
 
 //////////////////////////////////////////////////////
