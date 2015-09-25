@@ -24,12 +24,14 @@ dayBreak.controller('userController',
 		var token = null;
 		if($location.search().modal && $location.search().tkn){
 			var modal = $location.search().modal.valueOf();
+ 
 			token = $location.search().tkn.valueOf();
 			if (modal === 'pwr') {
 				$scope.User.userViewSwitch = 'passwordreset';
 			}
 		}
 		
+ 
 //////////////////////////////////////////////////////
 
 //init callback function
@@ -164,6 +166,8 @@ userService.init(completeInit);
 this.passwordreset = function(knownemail){
 	userService.passwordreset(knownemail);
 };
+
+
 
 
 function closepwdchangemodal(){

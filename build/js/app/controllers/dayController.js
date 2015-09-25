@@ -20,6 +20,7 @@ function chosenDay(data) {
 	$scope.User.userDayView = 'single';  
 }
 
+
 dayService.populateDayGrid(setDayScope);
 
 $scope.Day.searchResultLength = 0;
@@ -68,11 +69,32 @@ this.addDay = function(Day, User) {
 };
 
 this.showOneDay = function(dayID){
+
+	console.log('dayID is ooooooooooooooo', dayID);
+	
 	dayService.getDay(dayID, chosenDay);
 };
 
-this.closeSingleDayNoSave = function() {
-	$scope.User.userDayView = 'grid';
+ 
+this.closeSingleDayNoSave = function(){
+	$scope.User.userDayView = 'grid';  
+};
+
+function completeUpdateDay(){
+	console.log('completeSaveDayChanges in callback');
 }
 
+this.updateDay = function(Day, User){
+	console.log('saveDayChanges controller - values of Day.chosenDay');
+
+	//console.log(Day.chosenDay.username);
+	//console.log(Day.chosenDay._id);
+
+	console.log(Day.chosenDay.dayName);
+	console.log(Day.chosenDay.dayDesc);
+
+
+	dayService.saveDayChanges(Day,User,completeUpdateDay);
+};
+ 
 }]);
