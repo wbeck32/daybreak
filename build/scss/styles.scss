@@ -239,9 +239,10 @@ height:30%;
 			   }		
 
 
-.alertwarn{ height:20px;
+.alertwarn{ height:35px;
 			width: 90%;
-			padding-top: 3px;
+ 			padding-top: 3px;
+ 
 			padding-left: 10px;
 			padding-right: 10px;
 		   color: red;
@@ -250,9 +251,10 @@ height:30%;
 		   border-radius: 4px;
 		   border: 1px solid black;}
 
-.alertinform{ height:20px;
+.alertinform{ height:35px;
 			width: 90%;
-			padding-top: 3px;
+ 			padding-top: 3px;
+ 
 			padding-left: 10px;
 			padding-right: 10px;
 		   background-color: #99CCFF;
@@ -260,10 +262,11 @@ height:30%;
 		   border-radius: 4px;
 		   border: 1px solid black;}
 
-.alertsuccess{	height:2opx;
+.alertsuccess{	height:35px;
 			width: 90%;
-			padding-top: 3px;
-			padding-left: 10px;
+ 
+			padding-top:3px;
+ 			padding-left: 10px;
 			padding-right: 10px;
 		   background-color: #47DA91;
 		   font-size: 1em;
@@ -271,7 +274,7 @@ height:30%;
 		   border: 1px solid black;}
 
 .formcontrol {float: right;
-			width: 60%;
+			 width: 60%;
 			 margin: 20px;}
 
 .messages {background-color: grey;
