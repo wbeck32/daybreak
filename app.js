@@ -762,12 +762,9 @@ function passwordResetAuthenticate (userid){
 
 function checktokenvalid(tokenIN, verifiedemail){
     if (tokenIN) {
-            //console.log('token exists', tokenIN);
-
             var decoded = jwt.decode(tokenIN, jwtKey); 
             console.log('decoded ' ,decoded);//check for decoded.email
             //console.log('values are: ', decoded.iss, decoded.exp, decoded.email);
-
             if (decoded.exp <= Date.now() ) {
                 res.end('Access token expired', 404);
                 next(err); 

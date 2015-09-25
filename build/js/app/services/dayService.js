@@ -43,11 +43,12 @@ this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayCh
 						dayTeen : dayTeen
 			},
 			headers: {'Content-Type': 'application/json'}	
-			}).success(function(data, status, headers, config){
+			}).then(function(data, status, headers, config){
 				console.log('success!');console.log('skfjdlksjfalkdjs: ',data.dayChild);
 				daycallback(data); 
 				window.localStorage.removeItem('dayTags');
-			}).error(function(data,status,headers,config){
+			},
+			function(data,status,headers,config){
 				console.log('failure!');
 	 		});
 	}
@@ -56,7 +57,7 @@ this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayCh
 
 this.getDay = function(dayID,callback){
 	console.log('********in dayService incoming dayID is: ', dayID);
-	
+
 	if(dayID){
  		$http({
 			method: 'POST',
@@ -74,6 +75,7 @@ this.getDay = function(dayID,callback){
 		});
 	}
 };
+
 
 //////////////////////////////////////////////////////////////////////////
 

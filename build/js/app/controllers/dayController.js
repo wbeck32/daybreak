@@ -1,5 +1,7 @@
 angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', 'commonService',  function($scope,$rootScope,$http,dayService,commonService){
-//$scope.Day.child = '';
+
+$scope.Day.dayWelcomeMsg = '';
+
 function setDayScope(data) {
 	commonService.formatDates(data);
 	commonService.tagArrayToString(data);
@@ -63,7 +65,7 @@ this.addDay = function(Day, User) {
 	dayService.addDay(dayName, userName, dayDesc, $rootScope.dayLocations, tagArray, dayChild, dayTeen, setDayScope);
 	$scope.User.userDayView = 'grid';
 	dayService.populateDayGrid(setDayScope);
-	$scope.User.userFormView = 'hide';   		
+	//$scope.User.userFormView = 'hide';   		
 	Day.dayName = '';
 	Day.dayDesc = '';
 };
@@ -83,6 +85,7 @@ this.closeSingleDayNoSave = function(){
 function completeUpdateDay(){
 	console.log('completeSaveDayChanges in callback');
 }
+
 
 this.updateDay = function(Day, User){
 	console.log('saveDayChanges controller - values of Day.chosenDay');

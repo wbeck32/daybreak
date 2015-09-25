@@ -12,10 +12,12 @@
   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
   	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="css/styles.css" />
+
 <title>Daybreak - Share and Find the Perfect Day</title>
 </head>
 
 <body>
+
  
 <div ng-controller="userController as User"> <!--important! this wraps all functions -->
 	<div data-ng-controller="dayController as Day">
@@ -24,83 +26,8 @@
 		
 			<div class='usermessage'> {{User.userMessage}} </div>
 			 
-			<div  style="margin:0 auto;background-color: #F2F6F6; width: 70%"
-				 data-ng-switch on='User.userFormView'>
-			   	<div class='row' data-ng-switch-when="show">
+			
 
-					<div class="col s6">
-						<section>
-							<div class="form-group" >
-								<form data-ng-submit="Day.addDay(Day, User);User.userDayView='grid';">
-
-								<h4>Tell us about your day!</h4>
-
-								<input type="text" class="form-control" data-ng-model="Day.dayName" placeholder="Give your day a name">
-
- 
-								<div>by&nbsp;{{User.username}}</div>
-
-
-								<textarea class="form-control desc" rows="5" data-ng-model="Day.dayDesc" placeholder="This was a great day because... "></textarea> 
-
-								  <div class="switch form-control">Child-friendly?
-								    <label>
-								      No
-								      <input type="checkbox" id="child" data-ng-model="Day.child">
-								      <span class="lever"></span>
-								      Yes
-								    </label>
-								  </div>
-
-								    <!-- Switch -->
-								  <div class="switch form-control">Teen-friendly?
-								    <label>
-								      No
-								      <input type="checkbox" id="teen" data-ng-model="Day.teen">
-								      <span class="lever"></span>
-								      Yes
-								    </label>
-								  </div>
-
-
-								<!-- LOCATION controller begin-->
-								<div data-ng-controller="locationController as Location" class="form-group controller" style="margin:10px 0;">
-									<h5>Find one location or add many!</h5>
-									<input type="text" class="form-control" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
-									<textarea class="form-control" data-ng-bind="locDesc" rows="3" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
-									<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locName,locURL,locDesc)">Add this location</div>
-								</div> <!-- END LOCATION CONTROLLER -->
-
-
-								<div data-ng-controller="tagController as Tag" class="form-group">
-									<div>Use spaces between tags.</div>
-									<input type="text" 
-									id="tags" 
-									class="form-control" 
-									data-ng-change="Tag.enterTag(dayTags)" 
-									placeholder="Enter some tags" 
-									data-ng-model="Tag.dayTags">
-								</div> <!--END TAG CONTROLLER -->
-
-								<button class="btn btn-default" type="submit">Add this day</button> 
-								<button class="btn btn-default" type="submit">Discard without saving</button>
-
-								</form>
-					
-							</div>  
-						</section>
-					</div>
-
-					<aside class="col s6 m2" >
-						<div id="map-canvas"></div>		
-						<div class="locList">
-							<h6>Location list</h6>
-							<location-list></location-list>
-						</div>
-					</aside>
- 
-				</div>   <!--end show hide based on logged in and requested form  -->
-			</div>    <!--close user form view -->
 
 
 					<div data-ng-switch on='User.userDayView'>
@@ -113,7 +40,7 @@
 					<div data-ng-switch on='User.userDayView'>
 			   			<div data-ng-switch-when="single"> 
 			   				<tag-search></tag-search>
-							<div single-day-view></div>
+							<single-day-view></single-day-view>
 		 	  			</div>
 		 			</div>
 
@@ -122,9 +49,9 @@
 	</div>    <!--  close day controller -->
 </div>   <!-- close user controller -->
 
-          
+ <!-- Go to www.addthis.com/dashboard to customize your tools -->
 <div foot-of-page></div>
- 
+ <!-- Go to www.addthis.com/dashboard to customize your tools -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
