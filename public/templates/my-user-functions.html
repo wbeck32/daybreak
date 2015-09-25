@@ -264,7 +264,7 @@
 		 	</div>
 		 
 
-			<div id='passwordreset' data-ng-switch on='User.userViewSwitch'>
+			<div id='changepassword' data-ng-switch on='User.userViewSwitch'>
 		   		<div data-ng-switch-when="passwordreset">
 
 					<i data-ng-click = "User.userViewSwitch=null "  
@@ -279,7 +279,7 @@
 						novalidate>
 
 						<div class='loginDirection'>
-							Password Reset 
+							Password Change 
 						</div>
 						 
 						<div class="form group">
@@ -340,7 +340,7 @@
 
 
 
-			<div id='recoverPassword' 
+			<div id='passwordreset' 
 				data-ng-switch on='User.userViewSwitch'
 				data-ng-submit="User.resetPassword()">
 

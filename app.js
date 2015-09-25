@@ -100,7 +100,7 @@ router.get('/', function(req, res) {
 
 app.get('/api/show', function(req,res,next){
     var getSize = 50;
-    Day.find({}).sort({dayCreateDate: 'descending'}).limit(getSize).exec(function(err, Days){
+    Day.find( {} ).sort({dayCreateDate: 'descending'}).limit(getSize).exec(function(err, Days){
         if (err) 
             {return next(err)}
         else{
@@ -109,7 +109,18 @@ app.get('/api/show', function(req,res,next){
             }
     })
 });
- 
+
+
+
+// function activeAccount(username){
+//     User.findOne({userName: username})
+//         .select('activestatus').exec(function(err,user){
+//             if (activestatus===inactive){return false;}
+//             else {return true;}
+//         };
+// };
+
+
 //tag based search  
 router.route('/taglookup').post(function(req,res,next){
         console.log ("at api incoming req.tag is... " + req.body.tag);
@@ -437,7 +448,6 @@ app.post('/api/verifypasswordreset/:temptoken', function(req, res){
                 }
         });
 
-    //res.redirect('/');
     } else  {
             console.log('all two conditions for reset NOT TRUE');    
             }
@@ -448,17 +458,13 @@ app.post('/api/verifypasswordreset/:temptoken', function(req, res){
 
 /////////////////////////////////////////////////////////////////
 
-router.route('/updateuserinfo').post(function(req,res,next){
-    // console.log(req.body.userAbout,"is req.body.userAbout incoming at API")
-    // console.log(req.body.userName,"is req.body.userName incoming at API")
+router.route('/updateuserinfo').post(function(req,res,next){ 
     if (req.body.userName){
         User.findOne({userName: req.body.userName}, function(err, user){
             if (err) 
                 { return next(err); }
             else
                 {console.log ('no error on findOne');}
-
-            //console.log(user.userName, ' is found at user');
             user.userAbout = req.body.userAbout; 
             user.save(function(err) {
                 if (err) { return next(err); }
@@ -499,8 +505,7 @@ router.route('/deleteaccountapi').post(function(req,res,next){
 //1d  checks for duplicate username - If UNIQUE then TRUE
 router.route('/checkusername').post(function(req,res,next){
     var user = new User({userName: req.body.username });
-    //console.log("in api userName to search is " +req.body.username);
-    User.findOne({userName: req.body.username})
+   User.findOne({userName: req.body.username})
         .select('userName') 
         .exec(function(err,user){                     
                 if (err){
@@ -519,7 +524,6 @@ router.route('/checkusername').post(function(req,res,next){
 
 //1d  checks for duplicate email
 router.route('/checkemail').post(function(req,res,next){
-    //console.log("in api email to search is " +req.body.email);
     var user = new User({email: req.body.email });
     User.findOne({email: req.body.email})
         .select('email')
@@ -556,7 +560,7 @@ router.route('/login').post(function(req,res,next){
         } else if(!user) {
                 console.log("APP.JS: user not found at login api");
                 res.sendStatus(401);
-//TODO: use this flag to activUser.ate after email confirm, and deactivate on user request.
+//TODO: use this flag to activate after email confirm, and deactivate on user request.
         } else if (user.activestatus==='inactive') {
                 console.log("username exists but account status is inactive at login api");
                 res.sendStatus(401);

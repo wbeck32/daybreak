@@ -53,13 +53,13 @@ this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayCh
 	}
 };
 
-this.getDay = function(dayID, callback){
-	console.log('********in dayService incoming dayID is: ', dayID);
+this.getDay = function(Day, callback){
+	console.log('********in dayService incoming dayID is: ', Day.chosenDay);
 	//if(dayID){
  		$http({
 			method: 'POST',
 			url: 	'/api/getday',
-			data: {	dayID : dayID},
+			data: {	 },
 			headers:{'Content-Type': 'application/json'}	 
 		})
 		.success(function(data){
@@ -93,6 +93,30 @@ this.getDaysOfUser = function(username, callback){
 		});
 	//}
 	};
+
+
+
+this.saveDayChanges = function(Day,User, completeSaveDayChanges){
+	console.log ('saveDayChanges in service');
+
+	$http({
+			method: 'POST',
+			url: 	'/api/savedaychanges',
+			data: {	dayID : dayID,
+
+
+					},
+			headers:{'Content-Type': 'application/json'}	 
+		})
+		.success(function(data){
+			//console.log("found the requested day, returning data.dayID", data, " and data.dayName ", data.dayName);
+			callback(data);
+		})
+		.error(function(data){
+				console.log("DID NOT FIND the requested day");
+		});
+
+};
 
 
 }]);
