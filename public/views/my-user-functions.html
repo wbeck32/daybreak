@@ -5,39 +5,19 @@
 	<nav>
 		<div id = "titleGraphic">Daybreak</div>
  	  	<div class="container" >
-
-
  	  		
 			<ul class='right hide-on-small-and-down button-collapse'>
 
-
-				<li><a  data-ng-show="User.userState==='loggedIn'"
-					    data-ng-click="User.userFormView='show';
-						User.userDayView=null" >
-		 			  		Create New Day  
-					  
- 				</a></li>	
-
-
-				<li><a data-ng-show="User.userState==='loggedIn'"
-					   data-ng-click= "Day.viewEditUserDays(User.username)">
- 		 			  		 {{User.username}} Days    						 
-				</a></li>
-
-
-			
-
 				<li><a><div 
-						data-ng-click="User.userViewSwitch = null;User.userDayView = 'grid';">
+						data-ng-click="User.userViewSwitch = null;
+						               User.userDayView = 'grid';
+						               User.userFormView = 'hide'; 
+						               User.userService.init(User.completeInit);
+						               ">
 						Home  
 						</div>
 				</a></li>
 
-
-			  	<li><a	data-ng-show="User.userState==='loggedOut'"
-			  	  		data-ng-click="User.userViewSwitch ='NEWREG'"> 
-			  	  		Register 
-			  	</a></li>
 
 				<li><a><div 	
 			   	  		data-ng-model="User"  
@@ -46,6 +26,26 @@
 			  			Welcome:  {{User.username}} 
 				  		</div>
 				 </a></li>
+
+				<li><a data-ng-show="User.userState==='loggedIn'"
+					   data-ng-click= "Day.viewEditUserDays(User.username)">
+ 		 			  		 {{User.username}} Days    						 
+				</a></li>
+			
+				<li><a  data-ng-show="User.userState==='loggedIn'"
+					    data-ng-click="User.userFormView='show';
+						User.userDayView=null" >
+		 			  		Create New Day  
+					  
+ 				</a></li>	
+				
+
+			  	<li><a	data-ng-show="User.userState==='loggedOut'"
+			  	  		data-ng-click="User.userViewSwitch ='NEWREG'"> 
+			  	  		Register 
+			  	</a></li>
+
+
 
 				<li><a data-ng-show="User.userState==='loggedIn'" data-ng-click="User.userViewSwitch ='Myaccount'">
 			  			My Account

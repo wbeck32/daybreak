@@ -69,9 +69,7 @@ this.addDay = function(Day, User) {
 };
 
 this.showOneDay = function(dayID){
-
-	console.log('dayID is', dayID);
-	
+	//console.log('dayID is', dayID);
 	dayService.getDay(dayID, chosenDay);
 };
 

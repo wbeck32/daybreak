@@ -273,13 +273,7 @@ this.resetPassword = function(username){
     function(data, status, headers, config){
       console.log('reset post failed: ' + data);
     });
-
-   // .success(function(data, status, headers, config){
-   //    console.log('reset post successful');
-   //    alert('An email has been sent to your account, go check it out to proceed. You can close this window.');
-   //  }).error(function(data, status, headers, config){
-   //    console.log('reset post failed: ' + data);
-    
+ 
 
 
   };
@@ -316,56 +310,6 @@ this.resetPassword = function(username){
         } 
       );
   };
-
-
-
-
-    // .success(function(data, status, headers, config){
-    //   if(data) {
-    //     console.log('data is: ', data);
-    //     console.log('token is: ', token);
-    //     alert("Password Changed!");
-
-    //   } else {
-    //     alert("Sorry, there was an error processing your request");
-    //   }
-    // }).error(function(data, status, headers, config){
-    //   console.log('password change error');
-    // });
-//  };
-
-
-
-
-
-
-  // this.deleteaccount = function(username, changeUserState) {
-
-  //   console.log('incoming service username for deletion is', username);
-     
-  //   $http({
-  //     method: 'POST',
-  //     url: '/api/deleteaccount',
-  //     data: {
-  //       username: username
-  //       },
-  //     headers: {'Content-Type': 'application/json'}
-  //   }).success(function(data, status, headers, config){
-      
-  //     console.log('returning success at service after deletion?');
-  //     console.log(data, ' is data on SUCCESS at service');
-  //     console.log(status, ' is status on SUCCESS at service');
-
-  //     changeUserState(); //logout
-
-  //    }).error(function(data, status, headers, config){
-  //     console.log(data.body, ' is data on FAILURE at service');
-      
-  //     changeUserState();
-
-  //   });
-  // };
-
 
 
   this.deleteaccountService = function(username, changeUserState){

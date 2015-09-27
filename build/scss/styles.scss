@@ -24,14 +24,26 @@ $lighten-3: #ef9a9a;
 
 html {
 	font-size: 16px; //1rem = 16px;
-}
+ }
 
 body {
 	font-family: 'Fira Sans', sans-serif;
 	width: 100%;
 	margin: 0;
 	padding: 0;	
+	 
+ 	display: flex;  		/* materialize stick footer */
+    min-height: 100vh;  	/* materialize stick footer */
+    flex-direction: column; /* materialize stick footer */
 }
+
+ 
+  main {
+    flex: 1 0 auto;  		/* materialize stick footer */
+  }
+     
+
+ 
 
 nav {
 	background-color: $lighten-2;
@@ -65,11 +77,17 @@ nav {
 
 footer.page-footer {
 	position: fixed; 
-	height: 2rem;
+	height: 12rem;
 	padding: 1rem;
 	font-size: .75rem;
 	background-color: $lighten-2;
 }
+
+
+
+
+
+
 
 .thumbPhotos {
 	display: inline;
@@ -562,7 +580,7 @@ height:30%;
 	padding:5%;
 		
 	.singleDay {
-		width: 22%;
+		width: 290px	;
 		border:1px solid $black;
 		border-radius: 25px;
 		padding:1%;

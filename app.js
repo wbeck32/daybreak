@@ -266,7 +266,7 @@ router.route('/registerValidUser').post(function(req,res,next){
 });
 
 
-
+    
 app.get('/api/verifyemail', function(req,res,next){
     //console.log(req._parsedOriginalUrl.query, " is access token for email verification response.");
     var queryString = req._parsedOriginalUrl.query;
