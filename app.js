@@ -175,7 +175,7 @@ router.route('/getday').post(function(req,res, next){
 
 
 /* POST to Add Trip Service */
-router.route('/addday').post(function(req, res) { console.log('mine: ',req.body);
+router.route('/addday').post(function(req, res) { 
     var newDayDoc = new Day({
         dayName:       req.body.dayName,
         userName:       req.body.userName,
@@ -301,17 +301,24 @@ router.route('/emailreset').post(function(req,res,next){
 });
 
 app.post('/api/userprofile', function(req, res, next){
-    console.log(req.body.username);
-    User.findOne({username : req.body.username}, function(err,user){
+    //console.log(req.body);
+    var data = {user:'',days:''};
+    User.find({userName: req.body.username}, function(err,user){
         if (err){
             next();
-        } else {
-            return res.json(user);
+        } else if (user && user[0].activestatus === 'active') {
+            data.user = user[0];
+            Day.find({userName : user[0].userName}, function(err, days) { 
+                if (err) {
+                    next();
+                } else if(days) { 
+                    data.days = days;
+                } 
+                res.status(201).json(data);
+            })        
         }
-    })
-
-})
-
+    }); 
+});
 
 app.get('/api/verifyemailreset', function(req,res,next){
     tokenIN=req._parsedOriginalUrl.query;

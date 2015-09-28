@@ -1,5 +1,5 @@
 angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', 'commonService',  function($scope,$rootScope,$http,dayService,commonService){
-
+$scope.Day.chosenDay = '';
 
 function setDayScope(data) {
 	commonService.formatDates(data);
@@ -8,14 +8,23 @@ function setDayScope(data) {
 	$scope.User.userDayView = 'grid';
 }
 
-function chosenDay(data) {
+function chosenDay(data) { console.log('data: ',data);
 	commonService.tagArrayToString(data);
 	$scope.Day.chosenDay = data;
 	$scope.User.userDayView = 'single';  
 }
 
 function showUserProfile(data) {
+	//check to see if this is my profile or not
 
+	// if ($scope.User.username == data.user.userName){
+	// 	//display my private info
+	// } else {
+	// 	//someone else's profile
+	// }
+	//viewswitch becomes profile
+	console.log(data);
+	console.log('display data on the profile page');
 }
 
 

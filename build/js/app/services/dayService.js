@@ -1,7 +1,7 @@
 angular.module('dayBreak').service('dayService',['$http', function($http){
 
 
-this.userProfile = function(username,callback) {
+this.userProfile = function(username,showUserProfile) {
 	$http({
 		method: 'POST',
 		url: '/api/userprofile',
@@ -10,7 +10,7 @@ this.userProfile = function(username,callback) {
 	})
 	.then(function(response){
 		console.log('response: ', response);
-		callback(response);
+		showUserProfile(response);
 	},
 	function(data, status, headers, config){
 
@@ -73,7 +73,7 @@ this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayCh
 
 
 
-this.getDay = function(dayID, callback){
+this.getDay = function(dayID, chosenDay){
 	console.log('********in dayService incoming dayID is: ', dayID);
 
 	if(dayID){
