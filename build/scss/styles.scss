@@ -12,7 +12,7 @@ html {
 }
 
 @media only screen and (min-width: 993px) {
-	color: pink;
+	color: green;
 	font-size: 1rem;
 }
 
@@ -240,17 +240,16 @@ height:30%;
 
 
 .userContainer{
-  position: fixed;
+  /* position: fixed; */
   z-index:200;
   margin: 0 auto;
   left: 0;
   right: 0;
 
-  	width: 500px;
+  	width: 70%;
  	padding: 10px;
-	border: 2px black solid;
-	border-radius: 10px;
-	background-color: #E0F9F3;
+	/*border-radius: 10px;*/
+	background-color: white;
 	}
 
 .surround {

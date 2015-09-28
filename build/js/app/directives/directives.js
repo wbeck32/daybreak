@@ -35,6 +35,7 @@ angular.module('dayBreak')
 		templateUrl: '/views/tagSearch.html'
 	};
 })
+
 .directive('singleDayView', function(){
 	return {
 		restrict: 'E',
@@ -55,4 +56,17 @@ angular.module('dayBreak')
 			}
 		}
 	};
-});
+})
+
+.directive('userFunctionView', function(){
+	return {
+		restrict: 'E',
+		replace: false,
+		scope: true,
+		templateUrl: '/views/user-function-view.html',
+		link: function(scope,elem,attrs) {
+
+			 }
+		};
+	})
+;

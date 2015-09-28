@@ -1,6 +1,7 @@
 dayBreak.controller('userController',
 		['$scope', '$rootScope','$http','$location','userService', 'dayService',function($scope,$rootscope, $http,$location,userService,dayService){
 		
+		$scope.User.userFunction 	= null; //determines visibility of user functions, Log, NEWREG, etc.
 		$scope.User.userMessage	 	= null;  
  		//$scope.User.userDayView 	= 'grid';  //user can change to 'single'
  		$scope.User.userViewSwitch 	= null; // single, grid, profile
@@ -103,6 +104,8 @@ userService.init(completeInit);
 	    if(response.status === 200) {
   		      $scope.User.userState = 'loggedIn';
  		      $scope.User.userViewSwitch = null;
+ 		      $scope.User.userFunction = null;
+
 		      $scope.User.email = response.email;
 		      $scope.User.username = response.userName;
 		      $scope.User.userAbout = response.userAbout;
@@ -112,8 +115,11 @@ userService.init(completeInit);
  	    } else {
 	    	  // $scope.User.userFormView='hide';
 		      $scope.User.userState = 'loggedOut';
- 		      $scope.User.LoginError = true;           
-		      $scope.User.userViewSwitch = 'Log';
+ 		      $scope.User.LoginError = true;   
+
+ 		      $scope.User.userViewSwitch = 'profile';
+         	  $scope.User.userFunction = 'Log';
+		      
 		      $scope.User.password = '';
 		      $scope.User.username = '';
 		    }

@@ -17,22 +17,33 @@
 <body>
 	<div ng-controller="userController as User"> <!--important! this wraps all functions -->
 		<div data-ng-controller="dayController as Day">
+			
+
 			<div my-user-functions></div> <!--  Nav Bar and User Register/Login/Account Controls-->
+			
+ 			<div data-ng-switch on='User.userViewSwitch'>
+ 				<div data-ng-switch-when="profile">
+ 					<user-function-view></user-function-view>
+ 				</div>
+ 			</div>
+
 			<div class="usermessage">{{User.userMessage}}</div>
 				<div class="hide-on-small-only">{{User}}</div>	
-			<div data-ng-switch on='User.userDayView'>
+			<div data-ng-switch on='User.userViewSwitch'>
 	   			<div data-ng-switch-when="grid">
 	   				<tag-search></tag-search> 
  					<div grid-day-view></div>
  				</div>
 			</div>
 
-			<div data-ng-switch on='User.userDayView'>
+			<div data-ng-switch on='User.userViewSwitch'>
 	   			<div data-ng-switch-when="single"> 
 					<!-- <tag-search></tag-search> -->						
 				<single-day-view></single-day-view>
  	  			</div>
  			</div>
+
+
 		</div>    <!--  close day controller -->
 	</div>   <!-- close user controller -->
 	<foot-of-page></foot-of-page>
