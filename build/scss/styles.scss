@@ -1,37 +1,38 @@
-$phone: "(min-width:320px) and (max-width:767px)";
-$tablet: "(min-width: 768px) and (max-width: 1023px)";
-$desktop: "(min-width: 1024px)";
+html {
+	font-size: 16px; //1rem = 16px;
 
-@media #{$tablet} {
-	font-size: .5rem;
+@media only screen and (min-width: 0px) and (max-width: 600px) {
+      font-size: 0.5rem;
+      color:red; 
 }
 
-@media #{$tablet} {
-	font-size: .75rem;
+@media only screen and (min-width: 600px) and (max-width: 992px) {
+	color: blue;
+	font-size: 0.75rem;
 }
 
-@media #{$desktop} {
+@media only screen and (min-width: 993px) {
+	color: pink;
 	font-size: 1rem;
 }
-//changes these to mixins from this page
-//http://davidwalsh.name/write-media-queries-sass
-//http://learn.shayhowe.com/advanced-html-css/responsive-web-design/
+
+
+}
+
 $white: #ffffff;
 $gray: #f3f3f3;
 $black: #000000;
 $lighten-2: #e57373;
 $lighten-3: #ef9a9a;
 
-html {
-	font-size: 16px; //1rem = 16px;
-}
+
 
 body {
 	font-family: 'Fira Sans', sans-serif;
 	width: 100%;
 	margin: 0;
 	padding: 0;	
-}
+
 
 nav {
 	background-color: $lighten-2;
@@ -46,6 +47,7 @@ nav {
 	ul li:hover {
 		background-color:green;
 	}
+}
 }
 
 .buttonHolder {
@@ -63,9 +65,10 @@ nav {
 	}
 }
 
-footer.page-footer {
-	position: fixed; 
-	height: 2rem;
+.page-footer {
+	position: absolute;
+	margin: 0;
+	width: 100%; 
 	padding: 1rem;
 	font-size: .75rem;
 	background-color: $lighten-2;
@@ -86,8 +89,9 @@ footer.page-footer {
 	padding:2px;
 }
 
-.btn {
-	text-transform: none;
+.searchForm {
+	width: 100%;
+	padding: 0 2rem;
 }
 
 .usermessage {
@@ -99,6 +103,8 @@ margin: 3rem 0 0 3rem;
 .switch {
 	margin: 5px 0;
 }
+
+
 
 .locList {
 	border:1px solid black;
@@ -364,7 +370,7 @@ height:30%;
 
 
 .title { 
-	font-size: 1.2em;
+	//font-size: 1.2em;
 }  
 
 .photo {height:100px;
@@ -421,7 +427,9 @@ height:30%;
 
 
 
-.title1 { font-size: 1.2em;}  
+.title {
+
+}  
 
 .location1{ margin: 1.2rem;
 		padding: 3px;
@@ -551,32 +559,35 @@ height:30%;
 
  
  .bestDaysFrame { 
- 
-	width: 100%;
- 	display: flex;
-	flex-direction: row;
+ 	width: 100%;
+  	display: flex;
+ 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: left;
+	align-items: baseline;
 	margin: 0 auto;
 	overflow: hidden;
 	padding:5%;
 		
 	.singleDay {
-		width: 22%;
+		width: 200px;
 		border:1px solid $black;
 		border-radius: 25px;
-		padding:1%;
-		margin:1%;
+		margin: 0.25rem;
+		padding: 1rem;
+		// padding:1%;
+		// margin:1%;
 
 
 	.daydate {
-		font-size:12px;
-		margin:0 0 8px 0;
+		font-size: 0.75rem;
+		margin:0 0 0.5rem 0;
 	}
 
 	.title {
-		font-size: 1rem;
-		font-weight: 600;
+		text-decoration: underline;
+		cursor: pointer;
+		font-weight: 500;
 	}
 	
 	.user {
@@ -586,7 +597,6 @@ height:30%;
 	.tags { 
 		margin: 3px;
 		padding: 3px;
-		font-size: 200;
 	}
 
 	.location {
@@ -607,5 +617,6 @@ height:30%;
 }
 
  }
+
 
 

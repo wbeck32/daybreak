@@ -10,7 +10,7 @@ this.tagArrayToString = function(data){
 			tagString = tagString.substr(2);
 			data[key].dayTags = tagString;
 		}
-	});	
+	});
 	return data;
 };
 

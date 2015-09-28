@@ -22,23 +22,11 @@ angular.module('dayBreak')
 })
 
 .directive('footOfPage', function(){
-	return {templateUrl: '/views/foot-of-page.html'
+	return {
+		restrict: 'E',
+		templateUrl: '/views/foot-of-page.html'
 	};
 })
-
-// .directive('makeEditable', function(){
-// 	return {
-// 		restrict: 'AE',
-// 		replace: false,
-// 		scope: true,
-// 		link: function(scope,elem,attrs) {
-// 			if(scope.User.userState === 'loggedIn' && (scope.User.username === scope.Day.chosenDay.userName)){
-// 				elem[0].contentEditable = true;
-// 			}
-// 		}
-
-// 	};
-//})
 .directive('tagSearch', function(){
 	return {
 		restrict: 'E',
@@ -54,13 +42,13 @@ angular.module('dayBreak')
 		scope: true,
 		templateUrl: '/views/single-day-view.html',
 		link: function(scope,elem,attrs) {
-			console.log('scope: ',scope,' elem: ',elem,' attrs: ',attrs);
 			scope.Day.dayWelcomeMsg = 'Check out this day!';
+			scope.User.userDayView = 'single'; 
 			if(scope.User.userState === 'loggedIn') {
-				if(scope.User.userAddDay === 'true' ) { console.log('li & ad');
+				if(scope.User.userAddDay === 'true' ) {
 					scope.Day.dayWelcomeMsg = 'Tell us about your day!';
-				}
-				if (scope.User.username === scope.Day.chosenDay.userName){
+				} 
+				if (scope.User.username === scope.Day.chosenDay.data[0].userName){
 					elem[0].contentEditable = true;
 					scope.Day.dayWelcomeMsg = 'Update your day.';
 				}

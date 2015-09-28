@@ -1,38 +1,41 @@
 angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', 'commonService',  function($scope,$rootScope,$http,dayService,commonService){
 
-$scope.Day.dayWelcomeMsg = '';
 
 function setDayScope(data) {
 	commonService.formatDates(data);
 	commonService.tagArrayToString(data);
 	$scope.Day.days = data;
-}
-
-function completeViewEditUserDays(data){
-	//console.log('callback setting found days for user', data);
-	commonService.tagArrayToString(data);
-	$scope.Day.days = data;  //updates grid with results
-	$scope.Day.searchResultLength = data.length;
+	$scope.User.userDayView = 'grid';
 }
 
 function chosenDay(data) {
-	//console.log("data.dayTag", data[0].dayTag);
 	commonService.tagArrayToString(data);
-	$scope.Day.chosenDay = data[0];
+	$scope.Day.chosenDay = data;
 	$scope.User.userDayView = 'single';  
+}
+
+function showUserProfile(data) {
+
 }
 
 
 dayService.populateDayGrid(setDayScope);
 
+$scope.Day.dayWelcomeMsg = '';
 $scope.Day.searchResultLength = 0;
 $scope.Day.searchResultsMessage = null;
+$scope.Day.dayUserName = '';
+
+this.getUserProfile = function(username){
+	dayService.userProfile(username, showUserProfile);
+
+};
 
 this.viewEditUserDays = function(username, callback){
 	//console.log ('entering viewEditUserDays');
 	//console.log('username in daycontroller is ', username);
 	$scope.Day.searchResultsMessage='Now Showing My Days Only'; 
-	dayService.getDaysOfUser(username, completeViewEditUserDays);
+	dayService.getDaysOfUser(username, setDayScope);
 };
  
 this.addDay = function(Day, User) { 
@@ -70,11 +73,8 @@ this.addDay = function(Day, User) {
 	Day.dayDesc = '';
 };
 
-this.showOneDay = function(dayID){
-
-	console.log('dayID is', dayID);
-	
-	dayService.getDay(dayID, chosenDay);
+this.showOneDay = function(dayID){	
+	dayService.getDay(dayID,chosenDay);
 };
 
  

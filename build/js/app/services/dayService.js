@@ -1,5 +1,22 @@
 angular.module('dayBreak').service('dayService',['$http', function($http){
 
+
+this.userProfile = function(username,callback) {
+	$http({
+		method: 'POST',
+		url: '/api/userprofile',
+		data: {username : username},
+		headers: {'Content-Type' : 'application/json'}
+	})
+	.then(function(response){
+		console.log('response: ', response);
+		callback(response);
+	},
+	function(data, status, headers, config){
+
+	});
+};
+
 this.populateDayGrid = function(callback) {
 	data = null;  //clear data for use in refresh?
 	$http({
@@ -55,7 +72,7 @@ this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayCh
 };
 
 
-this.getDay = function(dayID,callback){
+this.getDay = function(dayID, callback){
 	console.log('********in dayService incoming dayID is: ', dayID);
 
 	if(dayID){
@@ -91,8 +108,8 @@ this.getDaysOfUser = function(username, callback){
 		})
 		.then(
 		function(data){
-			console.log("found the requested username, returning data.dayID", data, " and data.dayName ", data[0].dayName);
-			callback(data);
+			console.log("found the requested username, returning data.dayID", data.data, " and data.dayName ");
+			callback(data.data);
 		},
 		function(data){
 				console.log("DID NOT FIND the requested username");
