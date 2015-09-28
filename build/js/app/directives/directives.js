@@ -16,34 +16,15 @@ angular.module('dayBreak')
 	};
 })
 
-
-.directive('singleDayView', function(){
-	return {templateUrl: '/views/single-day-view.html'
-	};
-})
-
-
 .directive('gridDayView', function(){
 	return {templateUrl: '/views/grid-day-view.html'
 	};
 })
 
 .directive('footOfPage', function(){
-	return {templateUrl: '/views/foot-of-page.html'
-	};
-})
-
-.directive('makeEditable', function(){
 	return {
-		restrict: 'AE',
-		replace: false,
-		scope: true,
-		link: function(scope,elem,attrs) {
-			if(scope.User.userState === 'loggedIn' && (scope.User.username === scope.Day.chosenDay.userName)){
-				elem[0].contentEditable = true;
-			}
-		}
-
+		restrict: 'E',
+		templateUrl: '/views/foot-of-page.html'
 	};
 })
 .directive('tagSearch', function(){
@@ -52,5 +33,26 @@ angular.module('dayBreak')
 		replace: false,
 		scope: true,
 		templateUrl: '/views/tagSearch.html'
+	};
+})
+.directive('singleDayView', function(){
+	return {
+		restrict: 'E',
+		replace: false,
+		scope: true,
+		templateUrl: '/views/single-day-view.html',
+		link: function(scope,elem,attrs) {
+			scope.Day.dayWelcomeMsg = 'Check out this day!';
+			scope.User.userDayView = 'single'; 
+			if(scope.User.userState === 'loggedIn') {
+				if(scope.User.userAddDay === 'true' ) {
+					scope.Day.dayWelcomeMsg = 'Tell us about your day!';
+				} 
+				if (scope.User.username === scope.Day.chosenDay.data[0].userName){
+					elem[0].contentEditable = true;
+					scope.Day.dayWelcomeMsg = 'Update your day.';
+				}
+			}
+		}
 	};
 });

@@ -1,8 +1,10 @@
-<div class="bestDaysFrame"  >
- 	<div data-ng-repeat="day in Day.days" class="singleDay"> 
-  		<div data-ng-click = "Day.showOneDay(day._id)">
-		 	<div class="title">{{day.dayName }}</div>
-		 	<div class="user">{{day.userName }}</div>
+
+
+	<div class="row bestDaysFrame" style="">
+
+ 	<div data-ng-repeat="day in Day.days" class="col singleDay"> 
+		 	<div class="title" data-ng-click ="Day.showOneDay(day._id,day.userName)">{{day.dayName}}</div>
+		 	<div class="user" data-ng-click=""><div data-ng-click="Day.getUserProfile(day.userName)">{{day.userName }}</a></div>
 		 	<div class="daydate">{{day.dayDate}}</div>
 
 		 	<div class="description">{{day.dayDesc}}</div>
@@ -26,7 +28,6 @@
 				</div>
 				</div>
 			</div>
- 		</div>
  		<div class="tags">{{day.dayTags}}</div>
 	
 	</div>

@@ -4,7 +4,7 @@ function foundTag(data){
 	commonService.tagArrayToString(data);
 	$scope.Day.days = data;  //updates grid with results?
   	$scope.Day.searchResultLength = data.length;
-	$scope.User.userFormView = 'hide';
+	//$scope.User.userFormView = 'hide';
   	$scope.User.userDayView = 'grid';
 }
 

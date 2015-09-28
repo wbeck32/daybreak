@@ -2,9 +2,9 @@ dayBreak.controller('userController',
 		['$scope', '$rootScope','$http','$location','userService', 'dayService',function($scope,$rootscope, $http,$location,userService,dayService){
 		
 		$scope.User.userMessage	 	= null;  
-		$scope.User.userFormView 	= 'hide';  //can change to 'show'  		
- 		$scope.User.userDayView 	= 'grid';  //user can change to 'single'
- 		$scope.User.userViewSwitch 	= null;
+ 		//$scope.User.userDayView 	= 'grid';  //user can change to 'single'
+ 		$scope.User.userViewSwitch 	= null; // single, grid, profile
+ 		$scope.User.userAddDay 		= null;
 
  		$scope.User.password 		= null;
 		$scope.User.passwordConfirm	= null; 
@@ -22,9 +22,9 @@ dayBreak.controller('userController',
  		$scope.User.submitMethod	= null;
  		$scope.User.oldemail= $scope.User.email;
 		var token = null;
+		
 		if($location.search().modal && $location.search().tkn){
 			var modal = $location.search().modal.valueOf();
- 
 			token = $location.search().tkn.valueOf();
 			if (modal === 'pwr') {
 				$scope.User.userViewSwitch = 'passwordreset';
@@ -175,7 +175,7 @@ function closepwdchangemodal(){
 		window.location.replace('/');
 	 	$scope.User.userViewSwitch 	= null;
 	 	$scope.User.userMessage		= "Password change successful!";
-		$scope.User.userFormView 	= 'hide';  //can change to 'show'  		
+		//$scope.User.userFormView 	= 'hide';  //can change to 'show'  		
  		$scope.User.userDayView 	= 'grid';  //user can change to 'single'
 }
 

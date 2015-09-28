@@ -111,16 +111,6 @@ app.get('/api/show', function(req,res,next){
 });
 
 
-
-// function activeAccount(username){
-//     User.findOne({userName: username})
-//         .select('activestatus').exec(function(err,user){
-//             if (activestatus===inactive){return false;}
-//             else {return true;}
-//         };
-// };
-
-
 //tag based search  
 router.route('/taglookup').post(function(req,res,next){
         console.log ("at api incoming req.tag is... " + req.body.tag);
@@ -309,6 +299,18 @@ router.route('/emailreset').post(function(req,res,next){
                     res.end('Email reset email sent!');
                   })
 });
+
+app.post('/api/userprofile', function(req, res, next){
+    console.log(req.body.username);
+    User.findOne({username : req.body.username}, function(err,user){
+        if (err){
+            next();
+        } else {
+            return res.json(user);
+        }
+    })
+
+})
 
 
 app.get('/api/verifyemailreset', function(req,res,next){
@@ -762,12 +764,9 @@ function passwordResetAuthenticate (userid){
 
 function checktokenvalid(tokenIN, verifiedemail){
     if (tokenIN) {
-            //console.log('token exists', tokenIN);
-
             var decoded = jwt.decode(tokenIN, jwtKey); 
             console.log('decoded ' ,decoded);//check for decoded.email
             //console.log('values are: ', decoded.iss, decoded.exp, decoded.email);
-
             if (decoded.exp <= Date.now() ) {
                 res.end('Access token expired', 404);
                 next(err); 

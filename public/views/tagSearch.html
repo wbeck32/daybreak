@@ -1,41 +1,40 @@
-			<div class="daydisplay animate-show">
+<div class="searchForm">
+ 		<div data-ng-controller="tagController as Tag"> <!-- tag controller begin -->
+			<div class="tagFrame">    <!--  tag search begin -->
+				 
+					<label class="label-space"></label>
 
-			 	<div class="container">
-			 		<div data-ng-controller="tagController as Tag"> <!-- tag controller begin -->
-						<div class="tagFrame">    <!--  tag search begin -->
-							 
-								<label class="label-space"></label>
+						<input 
+							data-ng-model="Tag.tag"
+						class= "form-control" 
+						type="text"
+			 			placeholder="Enter search words, separated by spaces. (Example: Boston hiking restaurant.)"
+						required>
 
-									<input 
- 									data-ng-model="Tag.tag"
-									class= "form-control" 
-									type="text"
-						 			placeholder="Enter search words, separated by spaces. (Example: Boston hiking restaurant.)"
-									required>
+						<a 
+			 			data-ng-click="Tag.findTag(Tag.tag)" 
+			 			class="waves-effect waves-light btn" 
+						type="submit">Search
+						<span class="glyphicons search"><img src="/images/glyphicons-search-wht.png"></span>
+						</a>
+					
+						<a 
+			 			data-ng-click="Tag.findTag();Tag.tag = ''"
+			 			class="waves-effect waves-light btn" 
+						type="submit">Show all days
+						<span class="glyphicons globe"><img src="/images/glyphicons-globe-wht.png"></span>	
+						</a>
+			</div>  <!--  tag search end -->
 
-									<a 
-						 			data-ng-click="Tag.findTag(Tag.tag)" 
-						 			class="waves-effect waves-light btn" 
-									type="submit">Search
-									<span class="glyphicons search"><img src="/images/glyphicons-search-wht.png"></span>
-									</a>
-								
-									<a 
-						 			data-ng-click="Tag.findTag();Tag.tag = ''"
-						 			class="waves-effect waves-light btn" 
-									type="submit">Show all days
-									<span class="glyphicons globe"><img src="/images/glyphicons-globe-wht.png"></span>	
-									</a>
-						</div>  <!--  tag search end -->
+			<!--<div class ="searchResultsMessage">				
+				{{Day.searchResultsMessage}}
+				<div class="resultCount center" data-ng-show="Day.searchResultLength == 1"> 
+					{{Day.searchResultLength }} Result
+				</div>	
+				<div class="resultCount center" data-ng-show="Day.searchResultLength > 1"> 
+					{{Day.searchResultLength }} Results
+				</div>	
 
-						<div class ="searchResultsMessage">				
-							{{Day.searchResultsMessage}}
-							<div class="resultCount center" data-ng-show="Day.searchResultLength == 1"> 
-								{{Day.searchResultLength }} Result
-							</div>	
-							<div class="resultCount center" data-ng-show="Day.searchResultLength > 1"> 
-								{{Day.searchResultLength }} Results
-							</div>	
-
-						</div>
-					</div>       <!-- tag controller end -->
+			</div> -->
+		</div>       <!-- tag controller end -->
+		</div>

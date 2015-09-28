@@ -5,6 +5,7 @@
 	<nav>
 		<div id = "titleGraphic">Daybreak</div>
  	  	<div class="container" >
+
  	  		
 			<ul class='right hide-on-small-and-down button-collapse'>
 
@@ -19,6 +20,7 @@
 				</a></li>
 
 
+
 				<li><a><div 	
 			   	  		data-ng-model="User"  
 			  	  		data-ng-show="User.userState==='loggedIn'" 
@@ -28,7 +30,7 @@
 				 </a></li>
 
 				<li><a data-ng-show="User.userState==='loggedIn'"
-					   data-ng-click= "Day.viewEditUserDays(User.username)">
+					   data-ng-click="Day.viewEditUserDays(User.username)">
  		 			  		 {{User.username}} Days    						 
 				</a></li>
 			
@@ -393,7 +395,7 @@
 
  
 			<div id='deleteaccount' 
-				data-ng-switch on='User.userViewSwitch'">
+				data-ng-switch on="User.userViewSwitch">
 
 				<div data-ng-switch-when='deleteaccount'>
 

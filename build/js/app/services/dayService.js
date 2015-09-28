@@ -1,5 +1,22 @@
 angular.module('dayBreak').service('dayService',['$http', function($http){
 
+
+this.userProfile = function(username,callback) {
+	$http({
+		method: 'POST',
+		url: '/api/userprofile',
+		data: {username : username},
+		headers: {'Content-Type' : 'application/json'}
+	})
+	.then(function(response){
+		console.log('response: ', response);
+		callback(response);
+	},
+	function(data, status, headers, config){
+
+	});
+};
+
 this.populateDayGrid = function(callback) {
 	data = null;  //clear data for use in refresh?
 	$http({
@@ -43,20 +60,22 @@ this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayCh
 						dayTeen : dayTeen
 			},
 			headers: {'Content-Type': 'application/json'}	
-			}).success(function(data, status, headers, config){
+			}).then(function(data, status, headers, config){
 				console.log('success!');console.log('skfjdlksjfalkdjs: ',data.dayChild);
 				daycallback(data); 
 				window.localStorage.removeItem('dayTags');
-			}).error(function(data,status,headers,config){
+			},
+			function(data,status,headers,config){
 				console.log('failure!');
 	 		});
 	}
 };
 
 
-this.getDay = function(dayID,chosenDay){
+
+this.getDay = function(dayID, callback){
 	console.log('********in dayService incoming dayID is: ', dayID);
-	
+
 	if(dayID){
  		$http({
 			method: 'POST',
@@ -74,6 +93,7 @@ this.getDay = function(dayID,chosenDay){
 		});
 	}
 };
+
 
 //////////////////////////////////////////////////////////////////////////
 
