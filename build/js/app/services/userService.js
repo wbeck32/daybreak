@@ -93,7 +93,7 @@ this.init = function(completeInit){
 // Case: user supplies valide username and password - we set username and token
 //////////////////////////////////////////////////////
 
-this.login = function(username, password, callback){
+this.login = function(username, password, callback){        console.log('service login ....');
  	$http({
 		method: 'POST',
 		url:'/api/login',
@@ -107,6 +107,7 @@ this.login = function(username, password, callback){
 			window.localStorage.setItem("token", response.data.token);
 			//window.localStorage.setItem("user", response.data.userName);
     	} 
+      console.log(response.data, "is response.data");
       callback(response.data); //callback fn loginState
 	},
   //failure here

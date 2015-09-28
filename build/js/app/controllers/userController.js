@@ -127,7 +127,9 @@ userService.init(completeInit);
 	    }
 
 	this.login = function(){  
-	  $scope.User.LoginError = false; //stops persistence of error message after bad login attempt
+	  $scope.User.LoginError = false; 
+	  console.log('in login function');
+	  //stops persistence of error message after bad login attempt
       userService.login(this.username, this.password, loginState);
 	};
 

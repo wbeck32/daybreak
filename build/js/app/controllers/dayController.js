@@ -2,6 +2,9 @@ angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','
 $scope.Day.chosenDay = '';
 $scope.Day.dayUserName = '';
 
+$scope.Day.dayUserName = null;
+$scope.Day.chosenDay = null;
+
 function setDayScope(data) {
 	commonService.formatDates(data);
 	commonService.tagArrayToString(data);
@@ -16,6 +19,13 @@ function chosenDay(data) {
 }
 
 function showUserProfile(data) {
+	
+	console.log ("xxxx", data.user.userName);
+
+	$scope.Day.dayUserName = data.user.userName;
+	$scope.User.userViewSwitch = 'profile';
+
+
 	//check to see if this is my profile or not
 	$scope.Day.dayUserName = data.user.userName;
 	$scope.User.userViewSwitch = 'profile';
@@ -35,6 +45,7 @@ $scope.Day.searchResultLength = 0;
 $scope.Day.searchResultsMessage = null;
 
 this.getUserProfile = function(username){
+	console.log("currrent user name ******", username);
 	dayService.userProfile(username, showUserProfile);
 
 };
