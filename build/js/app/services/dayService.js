@@ -54,7 +54,7 @@ this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayCh
 };
 
 
-this.getDay = function(dayID,callback){
+this.getDay = function(dayID,chosenDay){
 	console.log('********in dayService incoming dayID is: ', dayID);
 	
 	if(dayID){
@@ -67,7 +67,7 @@ this.getDay = function(dayID,callback){
 		.then(
 		function(data){
 			console.log("found the requested day, returning data", data);
-			callback(data);
+			chosenDay(data);
 		},
 		function(data){
 				console.log("DID NOT FIND the requested day");
@@ -89,8 +89,9 @@ this.getDaysOfUser = function(username, callback){
 		})
 		.then(
 		function(data){
-			console.log("found the requested username, returning data.dayID", data, " and data.dayName ", data[0].dayName);
-			callback(data);
+			console.log("found the requested username, returning data", 
+				data, " and data.data ", data.data);
+			callback(data.data);
 		},
 		function(data){
 				console.log("DID NOT FIND the requested username");
