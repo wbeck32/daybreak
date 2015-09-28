@@ -322,7 +322,7 @@
 
  
 			<div id='deleteaccount' 
-				data-ng-switch on="User.userViewSwitch">
+				data-ng-switch on="User.userFunction">
 
 				<div data-ng-switch-when='deleteaccount'>
 
@@ -384,9 +384,8 @@
 
 
 
-	   		<div id='about' ng-switch on="User.userViewSwitch">
-
-				<div ng-switch-when='Myaccount' >
+	   		<div id='about' ng-switch on="User.userFunction">
+				<div ng-switch-when='myAccount' >
 		 	 		<div class='loginDirection'>About Your Account</div>
 
 		 	 		<i data-ng-click = "User.userViewSwitch=null "  
@@ -432,7 +431,6 @@
 						  			</div>
 
 									<input  
-
 										class="waves-effect waves-light btn"
 										type="submit" 
 										value="Save">
@@ -440,43 +438,47 @@
 								</div>
 
 
-								<div class='publicPrivateLabel'>Private</div>
+								{{User.username}} is user.username and 
+								{{Day.dayUserName}} is Day.dayUserName
 
-								<div class= 'profilePrivate'>
+								<div data-ng-show ="User.username !== null" >
 
-							  			<div class='profileLabel'>Current Registered Email - Enter New Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<div class='publicPrivateLabel'>Private</div>
 
- 							  				<input data-ng-model="User.email"
- 											class='profileInfo'   > 
-							  				 </input>
+									<div class= 'profilePrivate'>
 
-							  				</br><br>
+								  			<div class='profileLabel'>Current Registered Email - Enter New Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-							  				<div  
-							  				class="btn btn-sm btn-block left" 
-							  				data-ng-click="User.emailreset(User.email)">
-							  				Submit Request - Check Your Email</div> 
-										
-										</div>
-							  			
-							  			<br>
-							  			<br>
-							  		
-							  			<div class ='profileLabel'>Password:&nbsp;
-							  				<span class='profileInfo' id='pname'>  ******** &nbsp;
-							  				</span>
+	 							  				<input data-ng-model="User.email"
+	 											class='profileInfo'   > 
+								  				 </input>
 
-							  				<span class="btn btn-sm btn-block right" 
-							  				data-ng-click="User.userFunction='passwordreset'">Change Password?</span> 
-							  			</div>
-							  	</div>  
-								
+								  				</br><br>
+
+								  				<div  
+								  				class="btn btn-sm btn-block left" 
+								  				data-ng-click="User.emailreset(User.email)">
+								  				Submit Request - Check Your Email</div> 
+											
+											</div>
+								  			
+								  			<br>
+								  			<br>
+								  		
+								  			<div class ='profileLabel'>Password:&nbsp;
+								  				<span class='profileInfo' id='pname'>  ******** &nbsp;
+								  				</span>
+
+								  				<span class="btn btn-sm btn-block right" 
+								  				data-ng-click="User.userFunction='passwordreset'">Change Password?</span> 
+								  			</div>
+								  	</div>  
+								</div>   <!-- close ng show -->
 							</br>
 
-
 							<div class='closeModal' 
-								data-ng-show="User.userViewSwitch==='Myaccount' ">
-									<a data-ng-click="User.userViewSwitch='deleteaccount' ">
+								data-ng-show="User.userViewSwitch==='profile' ">
+									<a data-ng-click="User.userFunction='deleteaccount' ">
  								Delete account?					
 								</a>
 							</div>	

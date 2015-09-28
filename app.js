@@ -304,6 +304,9 @@ app.post('/api/userprofile', function(req, res, next){
     //console.log(req.body);
     var data = {user:'',days:''};
     User.find({userName: req.body.username}, function(err,user){
+
+        console.log('user is: ', user);
+
         if (err){
             next();
         } else if (user && user[0].activestatus === 'active') {
@@ -314,6 +317,7 @@ app.post('/api/userprofile', function(req, res, next){
                 } else if(days) { 
                     data.days = days;
                 } 
+                console.log('api data is ', data);
                 res.status(201).json(data);
             })        
         }
@@ -786,66 +790,6 @@ function checktokenvalid(tokenIN, verifiedemail){
     }
 }
 
-
-
-function jwtAuth2 (req, res, next){
-
-  var token =   (req.body && req.body.access_token) || 
-                (req.query && req.query.access_token) || 
-                req.headers['x-access-token'] || 
-                req.params.token;
-  if (token) {
-    try {
-      var decoded = jwt.decode(token, jwtKey); //check for decoded.email
-      if (decoded.exp <= Date.now()){
-        res.end('Access token expired', 400);
-      }
-      //var db = app.get('mongo');
-      //var users = db.collection('users');
-
-      Users.find({_id: ObjectId(decoded.iss)}, {password: 0})
-        .toArray(function(err, docs) {
-            req.user = docs[0];
-            req.email = decoded.email;
-            next();
-        });
-    } catch (err) {
-      next();
-    }
-  } else {
-    next();
-  }
-};
-
-
-
-function jwtAuth (req, res, next){
-
-  var token =   (req.body && req.body.access_token) || 
-                (req.query && req.query.access_token) || 
-                req.headers['x-access-token'] || 
-                req.params.token;
-  if (token) {
-    try {
-      var decoded = jwt.decode(token, jwtKey); //check for decoded.email
-      if (decoded.exp <= Date.now()){
-        res.end('Access token expired', 400);
-      }
-      var db = app.get('mongo');
-      var users = db.collection('users');
-      users.find({_id: ObjectId(decoded.iss)}, {password: 0}).toArray(function(err, docs) {
-        req.user = docs[0];
-        req.email = decoded.email;
-        next();
-      });
-    } catch (err) {
-      next();
-    }
-  } else {
-    next();
-  }
-
-};
 
 
 

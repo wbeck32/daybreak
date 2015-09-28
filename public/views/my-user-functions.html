@@ -19,22 +19,21 @@
 			
 				<li><a  data-ng-show="User.userState==='loggedIn'"
 					    data-ng-click="User.userViewSwitch='single';" >
-		 			  	Create New Day  
-					  
+		 			  	Create New Day  					  
  				</a></li>	
 				
 
 			  	<li><a	data-ng-show="User.userState==='loggedOut'"
 			  	  		data-ng-click="User.userViewSwitch ='profile'; 
-			  	  					   User.userFunction='NEWREG'; "> 
+			  	  					   User.userFunction = 'NEWREG'; "> 
 			  	  		Register 
 			  	</a></li>
 
 
 				<li><a data-ng-show="User.userState==='loggedIn'" 
-					   data-ng-click="User.userViewSwitch ='profile';
-					   				  User.userFunction='Myaccount';">
-			  			My Account
+					   data-ng-click="Day.getUserProfile(User.username);
+					   				  User.userFunction='myAccount';">
+			  			My Account {{User.username}}
 				</a></li>
 
 
