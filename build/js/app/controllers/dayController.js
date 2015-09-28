@@ -1,5 +1,6 @@
 angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', 'commonService',  function($scope,$rootScope,$http,dayService,commonService){
 $scope.Day.chosenDay = '';
+$scope.Day.dayUserName = '';
 
 function setDayScope(data) {
 	commonService.formatDates(data);
@@ -8,22 +9,21 @@ function setDayScope(data) {
 	$scope.User.userDayView = 'grid';
 }
 
-function chosenDay(data) { console.log('data: ',data);
+function chosenDay(data) { 
 	commonService.tagArrayToString(data);
 	$scope.Day.chosenDay = data;
-	$scope.User.userDayView = 'single';  
+	$scope.User.userViewSwitch = 'single';  
 }
 
 function showUserProfile(data) {
 	//check to see if this is my profile or not
-
-	// if ($scope.User.username == data.user.userName){
+	$scope.Day.dayUserName = data.user.userName;
+	$scope.User.userViewSwitch = 'profile';
+	if ($scope.User.username == $scope.Day.dayUserName){
 	// 	//display my private info
-	// } else {
+	 } else {
 	// 	//someone else's profile
-	// }
-	//viewswitch becomes profile
-	console.log(data);
+	}
 	console.log('display data on the profile page');
 }
 
@@ -33,7 +33,6 @@ dayService.populateDayGrid(setDayScope);
 $scope.Day.dayWelcomeMsg = '';
 $scope.Day.searchResultLength = 0;
 $scope.Day.searchResultsMessage = null;
-$scope.Day.dayUserName = '';
 
 this.getUserProfile = function(username){
 	dayService.userProfile(username, showUserProfile);
@@ -48,16 +47,16 @@ this.viewEditUserDays = function(username, callback){
 };
  
 this.addDay = function(Day, User) { 
-	console.log(Day.child);
 	var childCheck = '';
 	if (Day.child && Day.child === true) {childCheck='checked';}
-	console.log(childCheck);
+	var teenCheck = '';
+	if (Day.teen && Day.teen === true) {teenCheck='checked';}
 	var dayName=Day.dayName;
 	var userName=User.username;
 	var dayDesc = Day.dayDesc;
 	var dayTags = window.localStorage.getItem('dayTags');
 	var dayChild = childCheck;
-	var dayTeen = Day.teen;
+	var dayTeen = teenCheck;
 	var tagArray = [];
 	var dayDescArray= [];
 	var dayNameArray= [];

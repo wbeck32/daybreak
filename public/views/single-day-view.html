@@ -1,14 +1,14 @@
 <div class="row"> <!-- open row tag -->
 	<div class="col s4 m6 l7 left-align" style="padding:1rem;"> <!-- open column one -->
-		<!-- Begin conditional for editable vs. non-editable single day view -->
+		<!-- End conditional for my day -->
+		<div data-ng-show="User.username === Day.chosenDay.data[0].userName">{{User.username}}+{{Day.chosenDay.data[0].userName}}
 		<div class="form-group">
-			<form data-ng-submit="Day.addDay(Day, User);User.userDayView='grid';">
-
+			<form data-ng-submit="Day.addDay(Day,User);User.userDayView='grid';">
 			<h4>{{Day.dayWelcomeMsg}}</h4>
 
 			<input type="text" class="form-control" data-ng-model="Day.dayName" placeholder="Give your day a name">
 
-			<div>by&nbsp;{{User.username}}</div>
+			<div>by&nbsp;{{Day.chosenDay.data[0].userName}}</div>
 			<textarea class="form-control desc" rows="5" data-ng-model="Day.dayDesc" placeholder="This was a great day because... "></textarea> 
 
 			<div class="switch form-control">Child-friendly?
@@ -56,7 +56,14 @@
 
 			</form>
 		</div> <!-- end form-group -->
-	<!-- End conditional for editable vs. non-editable single day view -->
+		</div> 
+	<!-- End conditional for my day -->
+<!-- Begin conditional for not my day -->
+<div data-ng-show="User.username !== Day.chosenDay.data[0].userName">
+Not my day!
+</div>
+<!-- End conditional for not my day -->
+
 	</div> <!-- close column 1 -->
 
 	<div class="col s8 m6 l5 left-align"> <!-- open column 2 -->
@@ -67,6 +74,9 @@
 		 </div>-->
 	</div> <!-- close column 2 -->
 </div>    <!--close row tag -->
+
+
+
 
 <!-- 
 

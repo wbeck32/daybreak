@@ -4,7 +4,7 @@ dayBreak.controller('userController',
 		$scope.User.userFunction 	= null; //determines visibility of user functions, Log, NEWREG, etc.
 		$scope.User.userMessage	 	= null;  
  		//$scope.User.userDayView 	= 'grid';  //user can change to 'single'
- 		$scope.User.userViewSwitch 	= null; // single, grid, profile
+ 		$scope.User.userViewSwitch 	= 'grid'; // single, grid, profile
  		$scope.User.userAddDay 		= null;
 
  		$scope.User.password 		= null;
@@ -39,6 +39,7 @@ dayBreak.controller('userController',
 	function completeInit(response){ 
 		console.log('completeInit is happening');
 		$scope.User.userState 	='loggedIn';
+		$scope.User.userViewSwitch = 'grid';
 	 	$scope.User.username 	= response.data.userName;
 	 	$scope.User.email 		= response.data.email;
 	 	$scope.User.userAbout 	= response.data.userAbout;
@@ -101,9 +102,9 @@ userService.init(completeInit);
 //callback function for login
 
 	function loginState(response) {
-	    if(response.status === 200) {
+	    if(response.status === 200) { console.log($scope.User.userState);
   		      $scope.User.userState = 'loggedIn';
- 		      $scope.User.userViewSwitch = null;
+ 		      $scope.User.userViewSwitch = 'grid';
  		      $scope.User.userFunction = null;
 
 		      $scope.User.email = response.email;

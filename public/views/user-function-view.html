@@ -384,9 +384,9 @@
 
 
 
-	   		<div id='about' ng-switch on="User.userViewSwitch">
+	   		<div id='about' data-ng-switch on="User.userFunction">
 
-				<div ng-switch-when='Myaccount' >
+				<div data-ng-switch-when='myAccount' >
 		 	 		<div class='loginDirection'>About Your Account</div>
 
 		 	 		<i data-ng-click = "User.userViewSwitch=null "  
@@ -475,8 +475,8 @@
 
 
 							<div class='closeModal' 
-								data-ng-show="User.userViewSwitch==='Myaccount' ">
-									<a data-ng-click="User.userViewSwitch='deleteaccount' ">
+								data-ng-show="User.userViewSwitch==='profile' ">
+									<a data-ng-click="User.userFunction='deleteaccount' ">
  								Delete account?					
 								</a>
 							</div>	

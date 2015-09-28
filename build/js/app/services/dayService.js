@@ -10,7 +10,7 @@ this.userProfile = function(username,showUserProfile) {
 	})
 	.then(function(response){
 		console.log('response: ', response);
-		showUserProfile(response);
+		showUserProfile(response.data);
 	},
 	function(data, status, headers, config){
 
