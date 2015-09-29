@@ -101,8 +101,8 @@ userService.init(completeInit);
 //COULD ADD loginState depends on recent token
 //callback function for login
 
-	function loginState(response) {
-	    if(response.status === 200) { console.log($scope.User.userState);
+	function loginState(response) { 
+	    if(response.status === 200) { 
   		      $scope.User.userState = 'loggedIn';
  		      $scope.User.userViewSwitch = 'grid';
  		      $scope.User.userFunction = null;
@@ -113,7 +113,7 @@ userService.init(completeInit);
 			  //remove time of account creation for public presentation
 		   	  $scope.User.created = response.created.substring(0,10);
 			  //format: {"$date": "2015-08-20T18:37:47.626Z"}
- 	    } else {
+ 	    } else { 
 	    	  // $scope.User.userFormView='hide';
 		      $scope.User.userState = 'loggedOut';
  		      $scope.User.LoginError = true;   

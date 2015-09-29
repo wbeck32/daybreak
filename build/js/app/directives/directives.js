@@ -53,7 +53,7 @@ angular.module('dayBreak')
 					} else {
 						scope.Day.dayWelcomeMsg = 'Check out this day!';
 					}
-				} else {
+				} else if (scope.User.userAddDay === true){
 					scope.Day.dayWelcomeMsg = 'Tell us about your day!';
 				}
 			}
