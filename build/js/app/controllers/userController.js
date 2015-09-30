@@ -1,6 +1,10 @@
 dayBreak.controller('userController',
 		['$scope', '$rootScope','$http','$location','userService', 'dayService',function($scope,$rootscope, $http,$location,userService,dayService){
 		
+		$scope.User.profileMode  = '';	
+
+		$scope.User.selfOrOther = 'other';
+
 		$scope.User.userFunction 	= null; //determines visibility of user functions, Log, NEWREG, etc.
 		$scope.User.userMessage	 	= null;  
  		//$scope.User.userDayView 	= 'grid';  //user can change to 'single'
@@ -32,8 +36,73 @@ dayBreak.controller('userController',
 			}
 		}
 		
+this.profileSelect = function(userview){
+
+console.log('state is: ', $scope.User.userState);
+console.log('User.username is: ', $scope.User.username);
+console.log('userFunction is: ', $scope.User.userFunction, userview);
+
+if ($scope.User.userState === 'loggedOut'){
+	if(userview === 'NEWREG') {
+		$scope.User.profileMode = 'NEWREG';
+		console.log('profileMode is', $scope.User.profileMode);
+	}
+	if(userview === 'Log') {
+		$scope.User.profileMode = 'Log';
+		console.log('profileMode is', $scope.User.profileMode);
+	}
+}
+
+if ($scope.User.userState === 'loggedIn')
+{
+	if(userview === 'deleteaccount' ){
+		$scope.User.profileMode = 'deleteaccount';}
+
+	if(userview === 'myAccount' ){
+		$scope.User.profileMode = 'myAccount';}
+
+		console.log('profileMode is', $scope.User.profileMode);
+
+	if(userview === 'passwordreset'){
+		$scope.User.profileMode = 'passwordreset';}
+		console.log('profileMode is', $scope.User.profileMode);
+	}
+
+};
+
+
+
+
+
+
+this.selfOrOther = function(){
+
+console.log('state is: ', $scope.User.userState);
+console.log('User.username is: ', $scope.User.username);
+
+console.log('userFunction is: ', $scope.User.userFunction);
+	
+if ($scope.User.userState === 'loggedOut') 
+	{$scope.User.selfOrOther = 'other'; }
+ 
+if ($scope.Day){
+
+		console.log('Day.day.username is: ', $scope.Day.dayUserName);
+
+		if ( ($scope.User.userState === 'loggedIn') && ($scope.User.username!== $scope.Day.dayUserName) )
+			{$scope.User.selfOrOther = 'other'; }
+
+		if ( ($scope.User.userState === 'loggedIn') && ($scope.User.username === $scope.Day.dayUserName) )
+			{$scope.User.selfOrOther = 'self'; }
+
+		}
+ 
+};
+
  
 //////////////////////////////////////////////////////
+
+
 
 //init callback function
 	function completeInit(response){ 

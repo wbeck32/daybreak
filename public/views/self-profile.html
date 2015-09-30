@@ -1,0 +1,99 @@
+<br>
+	<div class='loginDirection'>About Your Account</div>
+
+ 		<i data-ng-click = "User.userViewSwitch=null "  
+		class="material-icons right small" 
+			style ='cursor: pointer;'>clear
+		</i>
+
+ 		<div class ="userProfile">
+		<div data-ng-show="User.userState==='loggedIn' ">
+
+			<div class='publicPrivateLabel'>Public</div>
+
+			<div class="profilePublic">
+
+				<form  	data-ng-submit="User.updateUserInfo()"
+						name = "aboutForm" 
+						novalidate >
+
+					<div class="userProfile" >
+
+			  			<div class='profileLabel' >Name:
+			  				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			  				<span class='profileInfo' id='pname'>{{User.username}}</span>
+			  			</div>
+
+			  			<div class='profileLabel' >Member since:&nbsp; 
+			  				<span class='profileInfo' id='pdate'>{{User.created}}</span>
+			  			</div>
+
+						<div class="profileLabel">About Me:	
+						 	 
+							<textarea class='textarea' 
+							rows='6' maxlength='150' 
+							
+								data-ng-model="User.userAbout"
+							placeholder="My perfect day would be... (140 characters)"
+							required>
+
+							</textarea>
+						</div>
+		  			</div>
+
+					<input  
+						class="waves-effect waves-light btn"
+						type="submit" 
+						value="Save">
+				</div>
+
+
+				<div class='publicPrivateLabel'>Private</div>
+
+				<div class= 'profilePrivate'>
+
+			  			<div class='profileLabel'>Current Registered Email - Enter New Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+				  				<input data-ng-model="User.email"
+								class='profileInfo'   > 
+			  				 </input>
+
+			  				</br><br>
+
+			  				<div  
+			  				class="btn btn-sm btn-block left" 
+			  				data-ng-click="User.emailreset(User.email)">
+			  				Submit Request - Check Your Email</div> 
+						
+						</div>
+			  			
+			  			<br>
+			  			<br>
+			  		
+			  			<div class ='profileLabel'>Password:&nbsp;
+			  				<span class='profileInfo' id='pname'>  ******** &nbsp;
+			  				</span>
+
+			  				<span class="btn btn-sm btn-block right" 
+			  				data-ng-click="User.profileSelect('passwordreset')">Change Password?</span> 
+			  			</div>
+			  	</div>  
+				
+			</br>
+
+
+			<div class='closeModal' 
+				data-ng-show="User.userViewSwitch==='Myaccount' ">
+					<a data-ng-click="User.userViewSwitch='deleteaccount' ">
+					Delete account?					
+				</a>
+			</div>	
+		</div> <!--   end ngshow -->
+	</div>
+		  		 
+THEN GRID BELOW WITH USER DAYS ONLY
+<br>
+
+<grid-day-view></grid-day-view>
+
+ 

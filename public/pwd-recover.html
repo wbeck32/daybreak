@@ -1,0 +1,32 @@
+			<div id='passwordreset' 
+				data-ng-switch on='User.userFunction'
+				data-ng-submit="User.resetPassword()">
+
+				<div data-ng-switch-when='recoverPassword'>
+
+					<i data-ng-click = "User.userViewSwitch=null "  
+						class="material-icons right small" 
+						style ='cursor: pointer;'>clear
+					</i>
+
+					<form 
+					data-ng-submit="User.passwordreset(User.knownemail)">	
+
+						<div class="form group">
+							<label>Forgot Password? Enter E-Mail Used to Register Your Account</label>
+							<input class= "form-control" 
+							type="text" 
+							data-ng-model="User.knownemail">
+						</div>
+
+						<div class='spacer'></div>
+
+						<input 
+							class="btn  btn-sm btn-block left"
+							type="submit" 
+							value="Send Password Reset Link">
+						</input>
+					</form>
+					<p></p>
+				</div>
+		 	</div>

@@ -1,0 +1,54 @@
+ 
+<!-- LOGGED OUT FUNCTIONS -->
+
+<div data-ng-switch on='User.profileMode'>
+	 <div data-ng-switch-when="NEWREG">
+		<reg-view></reg-view>
+	</div>
+</div>
+
+<div data-ng-switch on='User.profileMode'>
+	 <div data-ng-switch-when="Log">
+		<login-view></login-view>
+	</div>
+</div>
+
+<div data-ng-switch on='User.profileMode'>
+	 <div data-ng-switch-when="pwdRecover">
+		<pwd-recover></pwd-recover>
+	</div>
+</div>
+
+<!-- LOGGED IN FUNCTIONS -->
+
+<div data-ng-switch on='User.profileMode'>
+	 <div data-ng-switch-when="myAccount">
+		<self-profile></self-profile>
+	</div>
+</div>
+
+<div data-ng-switch on='User.profileMode'>
+	 <div data-ng-switch-when="deleteaccount">
+	 	 <delete-account></delete-account>
+	</div>
+</div>
+
+<div data-ng-switch on='User.profileMode'>
+	 <div data-ng-switch-when="passwordreset">
+	 	 <password-reset></password-reset>
+	</div>
+</div>
+
+
+
+
+
+<!-- LOGGED IN OR OUT FUNCTIONS -->
+
+<div data-ng-switch on='User.profileSelect'>
+	 <div data-ng-switch-when="otherProfile">
+		<other-profile></other-profile>
+	</div>
+</div>
+
+

@@ -11,28 +11,29 @@
 
 				<li><a><div 
 						data-ng-click="User.userViewSwitch = 'grid';
-						               User.userService.init(completeInit);">
+						               User.userService.init(completeInit);
+						                ">
 						Home  
 						</div>
 				</a></li>
 			
 				<li><a  data-ng-show="User.userState==='loggedIn'"
 					    data-ng-click="User.userViewSwitch='single';
-					    User.userAddDay ='true';" >
+					    			   User.userAddDay='true';" >
 		 			  	Create New Day  					  
  				</a></li>	
 				
 
 			  	<li><a	data-ng-show="User.userState==='loggedOut'"
 			  	  		data-ng-click="User.userViewSwitch ='profile'; 
-			  	  					   User.userFunction = 'NEWREG'; "> 
+			  	  					   User.profileSelect('NEWREG'); "> 
 			  	  		Register 
 			  	</a></li>
 
 
 				<li><a data-ng-show="User.userState==='loggedIn'" 
 					   data-ng-click="Day.getUserProfile(User.username);
-					   User.userFunction='myAccount';">
+ 					   				  User.profileSelect('myAccount');">
 			  			My Account
 
 				</a></li>
@@ -44,18 +45,21 @@
 		 		</a></li>
 
 				<li><a data-ng-show="User.userState==='loggedOut'" 
-					data-ng-click="User.userViewSwitch='profile'; 
+					data-ng-click=" User.userViewSwitch='profile'; 
 									User.LoginError = false;
-									User.userFunction='Log'; ">
+									User.profileSelect('Log');   ">
 				  		Login  
 				</a></li>	
 
+
 				<li><a data-ng-show="User.userState==='loggedOut'" 
-					data-ng-click="User.userViewSwitch='profile'; 
+					data-ng-click=" User.userViewSwitch='profile'; 
 									User.LoginError = false;
-									User.userFunction='Log'; ">
-				  		<div class='joinMessage'> Share Your Favorite Day!  </div>
+									User.profileSelect('Log');   ">
+				  		<div class='joinMessage'> Share Your Favorite Day! </div>
 				</a></li>	
+
+				 
 
 			 
 

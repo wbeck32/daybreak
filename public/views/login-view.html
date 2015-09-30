@@ -1,0 +1,47 @@
+
+<br>
+
+<i data-ng-click = "User.userViewSwitch='grid';
+					User.profileSelect='CancelXXX'; "  
+		class="material-icons right small" 
+		style ='cursor: pointer;'>clear
+</i>
+
+<div class='loginDirection'>
+	Login with your user name and password.  
+	<span class="link" data-ng-click="User.userViewSwitch='profile';
+									  User.userFunction='NEWREG'; ">
+									  Register?</span>
+</div>
+
+<form data-ng-submit="User.login()">
+
+
+	<div class="form group">
+		<label class="label-space">User Name</label>
+		<input class= "form-control" type="text" ng-model="User.username">
+	</div>
+
+	<div class="form group">
+		<label class="label-space">Password</label>
+
+		<span class="alertwarn" 
+		data-ng-show="User.LoginError === true">
+		Unknown user name or password.</span>
+
+		<input class= "form-control" type="password" ng-model="User.password">
+
+	</div>
+	
+	
+	<div class='spacer'></div>
+
+	<input class="btn btn-success btn-sm btn-block right" type="submit" value="Login"	>
+
+</form>
+</div>
+
+<div class='closeModal' data-ng-show="User.userFunction==='Log' ">
+	<a data-ng-click=" User.userFunction='recoverPassword'; ">
+					  Forgot Username or Password</a>
+ 

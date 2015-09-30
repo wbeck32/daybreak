@@ -1,8 +1,8 @@
 <div class="row"> <!-- open row tag -->
 	<div class="col s4 m6 l7 left-align" style="padding:1rem;"> <!-- open column one -->
 		<!-- End conditional for my day -->
-		<div data-ng-show="User.username === Day.chosenDay.data[0].userName">
-		<div class="form-group">
+<!-- 		<div data-ng-show="User.username === Day.chosenDay.data[0].userName">
+ -->		<div class="form-group">
 			<form data-ng-submit="Day.addDay(Day,User);User.userDayView='grid';">
 			<h4>{{Day.dayWelcomeMsg}}</h4>
 
@@ -56,8 +56,8 @@
 
 			</form>
 		</div> <!-- end form-group -->
-		</div> 
-	<!-- End conditional for my day -->
+<!-- 		</div> 
+ -->	<!-- End conditional for my day -->
 
 <!-- Begin conditional for add day -->
 <div data-ng-show="User.userAddDay === 'true'">
