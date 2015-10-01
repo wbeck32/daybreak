@@ -13,7 +13,8 @@ function setDayScope(data) {
 }
 
 function chosenDay(data) { 
-	commonService.tagArrayToString(data);
+	commonService.tagArrayToString(data.data);
+	commonService.formatDates(data.data);
 	$scope.Day.chosenDay = data;
 	$scope.User.userViewSwitch = 'single';  
 }
@@ -23,12 +24,8 @@ function showUserProfile(data) {
 	console.log ("xxxx", data.user.userName);
 
 	$scope.Day.dayUserName = data.user.userName;
-	$scope.User.userViewSwitch = 'profile';
-
-
 	//check to see if this is my profile or not
 	$scope.Day.dayUserName = data.user.userName;
-	$scope.User.userViewSwitch = 'profile';
 	if ($scope.User.username == $scope.Day.dayUserName){
 	// 	//display my private info
 	 } else {
@@ -46,6 +43,7 @@ $scope.Day.searchResultsMessage = null;
 
 this.getUserProfile = function(username){
 	console.log("currrent user name ******", username);
+	$scope.User.userViewSwitch = 'profile';
 	dayService.userProfile(username, showUserProfile);
 
 };

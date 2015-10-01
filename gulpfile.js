@@ -17,7 +17,7 @@ gulp.task('default', function() {
 
 //TODO: autoprefixer isn't working correctly
 
-gulp.task('sass', function () {
+gulp.task('sass', function () { 
   return gulp.src('build/scss/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass())
@@ -30,7 +30,7 @@ gulp.task('sass', function () {
 });
 
 
- gulp.task('buildJs', function(){
+ gulp.task('buildJs', function(){ 
    return gulp.src('build/js/app/**/*.js')
      .pipe(jshint('.jshintrc'))
      .pipe(jshint.reporter('default'))
@@ -42,12 +42,12 @@ gulp.task('sass', function () {
      .pipe(livereload());
  });
 
-gulp.task('updateHTML', function(){
+gulp.task('updateHTML', function(){ 
   return gulp.src('public/index.html')
     .pipe(livereload());
 });
 
-gulp.task('watch',['buildJs','sass'],function(){
+gulp.task('watch',['buildJs','sass'],function(){ 
   livereload.listen();
   gulp.watch('build/scss/*.scss', ['sass']);
   gulp.watch('build/js/app/**/*.js', ['buildJs']);
@@ -57,7 +57,7 @@ gulp.task('watch',['buildJs','sass'],function(){
 });
 
 gulp.task('start', ['watch'], function() {
-  nodemon({
+  nodemon({ 
     //script: 'app.js'
   });
 });

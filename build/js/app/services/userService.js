@@ -74,8 +74,8 @@ this.init = function(completeInit){
     })
     .then(
     function(data,status,headers,config)   //success path
-    {
-    console.log('found valid token and user name and status is: ', status); 
+    { 
+    console.log('found valid token and user name and status is: ', data.status); 
 
     completeInit(data);
     },

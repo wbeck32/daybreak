@@ -46,15 +46,16 @@ angular.module('dayBreak')
 			scope.Day.dayWelcomeMsg = 'Check out this day!';
 			scope.User.userDayView = 'single'; 
 			if(scope.User.userState === 'loggedIn') {
+				if (scope.User.userAddDay === 'true'){ 
+					scope.Day.dayWelcomeMsg = 'Tell us about your day!';
+				}
 				if(scope.Day.chosenDay){
 					if (scope.User.username === scope.Day.chosenDay.data[0].userName){
 						elem[0].contentEditable = true;
 						scope.Day.dayWelcomeMsg = 'Update your day.';
 					} else {
-						scope.Day.dayWelcomeMsg = 'Check out this day!';
+						scope.Day.dayWelcomeMsg = 'Check out this day!';	
 					}
-				} else if (scope.User.userAddDay === true){
-					scope.Day.dayWelcomeMsg = 'Tell us about your day!';
 				}
 			}
 		}

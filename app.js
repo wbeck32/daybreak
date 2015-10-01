@@ -790,12 +790,6 @@ function checktokenvalid(tokenIN, verifiedemail){
     }
 }
 
-
-
-
-
-
-
 app.use('/api',router);  //this needs to be near bottom of page
  
 app.listen(8090);

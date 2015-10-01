@@ -88,7 +88,17 @@ nav {
 	background-color: $lighten-2;
 }
 
-
+.notMyDay {
+	div {
+		margin: 5px 0;
+	}
+	label {
+		color: $black;
+	}
+	input {
+		cursor: default;
+	}
+}
 
 
 

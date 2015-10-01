@@ -17,35 +17,43 @@ var mapOptions = {
 }; 
 
 $scope.map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
+var defaultBounds = new google.maps.LatLngBounds(
+  new google.maps.LatLng(-33.8902, 151.1759),
+  new google.maps.LatLng(-33.8474, 151.2631));
+
 
 var input = document.getElementById('pac-input');
-var searchBox = new google.maps.places.SearchBox(input, {
-    //bounds: defaultBounds
-});
 
-google.maps.event.addListener(searchBox, 'places_changed', function() { 
-    var places = searchBox.getPlaces(); console.log(places[0]);
+var searchBox = new google.maps.places.Autocomplete(input, {
+
+});
+//var searchBox = new google.maps.places.SearchBox(input, {
+    //bounds: defaultBounds
+//});
+
+google.maps.event.addListener(searchBox, 'place_changed', function() { 
+    var place = searchBox.getPlace(); console.log(place);
     // var lat = places[0].geometry.location.G;
     // var lon = places[0].geometry.location.K;
-    var lat = places[0].geometry.location.H;
-    var lon = places[0].geometry.location.L;
+    var lat = place.geometry.location.H;
+    var lon = place.geometry.location.L;
     var myLatLong = ({lat:lat,lng:lon});
     var markerBounds = new google.maps.LatLngBounds();
     var newLatLong = new google.maps.LatLng(myLatLong);
     var marker = new google.maps.Marker({
       position: myLatLong,
-      title: places[0].name,
+      title: place.name,
       animation: google.maps.Animation.DROP
     });
   $scope.map.panTo(marker.position);
 
-var popupString = '<div style="font-weight:bold">'+places[0].name+'</div>';
+var popupString = '<div style="font-weight:bold">'+place.name+'</div>';
 
-if (places[0].formatted_address) {
-  popupString += '<div>'+places[0].formatted_address+'</div>';
+if (place.formatted_address) {
+  popupString += '<div>'+place.formatted_address+'</div>';
 }
-if (places[0].formatted_phone_number) {
-  popupString += '<div>'+places[0].formatted_phone_number+'</div>';
+if (place.formatted_phone_number) {
+  popupString += '<div>'+place.formatted_phone_number+'</div>';
 }
 
 var infowindow = new google.maps.InfoWindow({
@@ -58,15 +66,15 @@ marker.addListener('click', function() {
 });
 
 //console.log(places[0]);
-$scope.locName = places[0].name;
-$scope.locURL = places[0].website;
+$scope.locName = place.name;
+$scope.locURL = place.website;
 $scope.locLatLng = myLatLong;
 
-if(places[0].photos){
+if(place.photos){
   for (i=0; i<=2; i++){
-    $scope.locPhotosThumb.push(places[0].photos[i].getUrl({'maxWidth':60,'maxHeight':60}));
-    $scope.lgPhotoInfo = {  url: places[0].photos[i].getUrl({'maxWidth':250,'maxHeight':250}), 
-                            attr: places[0].photos[i].html_attributions[0]
+    $scope.locPhotosThumb.push(place.photos[i].getUrl({'maxWidth':60,'maxHeight':60}));
+    $scope.lgPhotoInfo = {  url: place.photos[i].getUrl({'maxWidth':250,'maxHeight':250}), 
+                            attr: place.photos[i].html_attributions[0]
                           };
     $scope.locPhotosLg.push($scope.lgPhotoInfo);
   }
@@ -102,6 +110,9 @@ this.addLoc = function(Location,locName,locURL) {
     var temp = window.localStorage.getItem('dayTags');
     tempArray.push(temp);
     window.localStorage.setItem('dayTags',tempArray);
+    var lL = document.getElementById('locationList');
+    console.log(lL);
+    lL.innerHTML += "<div class='locationCard card-panel' draggable='true'><div class='card-title'>"+$scope.locName+"</div><div class='card-desc'>"+$scope.locDesc+"</div>";
 
     $scope.locDesc = '';
 		$scope.locName = '';

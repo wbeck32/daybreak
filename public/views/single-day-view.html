@@ -1,14 +1,77 @@
 <div class="row"> <!-- open row tag -->
-	<div class="col s4 m6 l7 left-align" style="padding:1rem;"> <!-- open column one -->
-		<!-- End conditional for my day -->
-		<div data-ng-show="User.username === Day.chosenDay.data[0].userName">
+	<div class="col s4 m6 l7 left-align" style="padding:1rem;"> <!-- open column one -->		
+
+		<!-- Begin conditional for update day -->
+		<div data-ng-show="User.username === Day.chosenDay.data[0].userName" class="updateDay">
+
+
 		<div class="form-group">
+			<form data-ng-submit="Day.updateDay(Day,User);User.userDayView='grid';">
+			<h4>{{Day.dayWelcomeMsg}}</h4>
+
+			<input type="text" class="form-control" data-ng-model="Day.dayName" value="{{Day.chosenDay.data[0].dayName}}">
+
+			<div>by&nbsp;{{Day.chosenDay.data[0].userName}}</div>				
+
+			<textarea class="form-control desc" rows="5" data-ng-model="Day.dayDesc">{{Day.chosenDay.data[0].dayDesc}}
+			</textarea> 
+
+			<div class="switch form-control">Child-friendly?
+				<label>
+				No
+				<input type="checkbox" id="child" data-ng-model="Day.child">
+				<span class="lever"></span>
+				Yes
+				</label>
+			</div>
+
+			<div class="switch form-control">Teen-friendly?
+				<label>
+				No
+				<input type="checkbox" id="teen" data-ng-model="Day.teen">
+				<span class="lever"></span>
+				Yes
+				</label>
+			</div>
+
+
+			<!-- LOCATION controller begin-->
+			<!-- <div data-ng-controller="locationController as Location" class="form-group controller" style="margin:10px 0;">
+				<h5>Find one location or add many!</h5>
+				<input type="text" class="form-control" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
+				<textarea class="form-control" data-ng-bind="locDesc" rows="3" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
+				<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locName,locURL,locDesc)">Add this location</div>
+			</div>  -->
+			<!-- END LOCATION CONTROLLER -->
+
+			<!-- TAG CONTROLLER BEGIN -->				
+			<div data-ng-controller="tagController as Tag" class="form-group">
+				<div>Use spaces between tags.</div>
+				<input type="text" 
+				id="tags" 
+				class="form-control" 
+				data-ng-change="Tag.enterTag(dayTags)" 
+				placeholder="Enter some tags" 
+				data-ng-model="Tag.dayTags">
+			</div> 
+			<!--END TAG CONTROLLER -->
+
+			<button class="btn btn-default" type="submit">Update this day</button> 
+			<button class="btn btn-default" type="submit">Discard without saving</button>
+
+			</form>
+		</div> <!-- end form-group -->
+		</div> 
+	<!-- End conditional for update day -->
+
+<!-- Begin conditional for add day -->
+<div data-ng-show="User.userAddDay === 'true'" class="addDay">
+<div class="form-group">
 			<form data-ng-submit="Day.addDay(Day,User);User.userDayView='grid';">
 			<h4>{{Day.dayWelcomeMsg}}</h4>
 
 			<input type="text" class="form-control" data-ng-model="Day.dayName" placeholder="Give your day a name">
-
-			<div>by&nbsp;{{Day.chosenDay.data[0].userName}}</div>
+			<div>by&nbsp;{{User.userName}}</div>
 			<textarea class="form-control desc" rows="5" data-ng-model="Day.dayDesc" placeholder="This was a great day because... "></textarea> 
 
 			<div class="switch form-control">Child-friendly?
@@ -33,9 +96,10 @@
 			<!-- LOCATION controller begin-->
 			<div data-ng-controller="locationController as Location" class="form-group controller" style="margin:10px 0;">
 				<h5>Find one location or add many!</h5>
-				<input type="text" class="form-control" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
+				<input type="text" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
 				<textarea class="form-control" data-ng-bind="locDesc" rows="3" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
 				<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locName,locURL,locDesc)">Add this location</div>
+				<div id="locationList"></div>
 			</div> 
 			<!-- END LOCATION CONTROLLER -->
 
@@ -56,25 +120,40 @@
 
 			</form>
 		</div> <!-- end form-group -->
-		</div> 
-	<!-- End conditional for my day -->
-
-<!-- Begin conditional for add day -->
-<div data-ng-show="User.userAddDay === 'true'">
-Adding a day!
 </div>
 <!-- End conditional for not my day -->
 
 <!-- Begin conditional for not my day -->
-<div data-ng-show="(User.username !== Day.chosenDay.data[0].userName) && User.userAddDay !== 'true'">
-Not my day! No touching!!!
+<div data-ng-show="(User.username !== Day.chosenDay.data[0].userName) && User.userAddDay !== 'true'" class="notMyDay">
+
+	<h4>{{Day.dayWelcomeMsg}}</h4>
+
+	<div>{{Day.chosenDay.data[0].dayName}}</div>
+	<div>by&nbsp;<a href="">{{Day.chosenDay.data[0].userName}}</a></div>				
+	<div>{{Day.chosenDay.data[0].dayDate}}</div>
+	<div>{{Day.chosenDay.data[0].dayDesc}}</div>
+
+	<div>      
+		<input type="checkbox" class="checkBox" id="test6 teenCheckbox" data-ng-model="day.dayTeen" data-ng-checked="{{Day.chosenDay.data[0].dayTeen}}" />
+			<label for="teenCheckbox">Teen friendly?</label>
+	</div>
+	<div>
+		<input type="checkbox" class="checkBox" id="test6 kidCheckbox" data-ng-checked="{{Day.chosenDay.data[0].dayChild}}" />
+		<label for="kidCheckbox">Kid friendly?</label>
+		</div>
+
+	<!-- LOCATION controller begin-->
+<!-- 	<div data-ng-controller="locationController as Location" class="form-group controller" style="margin:10px 0;">
+		<location-list></location-list>
+	</div>  -->
+	<!-- END LOCATION CONTROLLER -->
+
+	<div>Tags: {{Day.chosenDay.data[0].dayTags}}</div>
+	
+	<button class="btn btn-default" type="submit">Return home</button> 
 </div>
 <!-- End conditional for not my day -->
-
-
-
-
-	</div> <!-- close column 1 -->
+</div> <!-- close column 1 -->
 
 	<div class="col s8 m6 l5 left-align"> <!-- open column 2 -->
 		<div id="map-canvas"></div>		
@@ -85,53 +164,3 @@ Not my day! No touching!!!
 	</div> <!-- close column 2 -->
 </div>    <!--close row tag -->
 
-
-
-
-<!-- 
-
-
-
-
-<div class="singleDayView"> 
-
-<button class="btn waves-effect waves-light right" type="submit" name="action" data-ng-click="Day.updateDay(Day)">Save changes
-    		<i class="material-icons right">send</i>
-  		</button>
-
-		<button class="btn waves-effect waves-light right" type="submit" name="action" data-ng-click="Day.closeSingleDayNoSave()">Close without saving
-    		<i class="material-icons right">send</i>
-  		</button>
-
-	<div class="singleDayTitle">
-		<span data-make-editable class="editable">{{Day.chosenDay.dayName}}</span>
-		<span>&nbsp;by&nbsp;{{ Day.chosenDay.userName }}</span>
-		
-	</div>
-		 
-
-		
-	<div class="singleDayFrame">
-		<div class='description1'>This was a great day for us because...&nbsp;
-			<span data-make-editable class="editable">{{Day.chosenDay.dayDesc}}</span>
-		</div>
-		<div class='location1'>Where we went. 
-
-			<div data-ng-repeat="x in Day.chosenDay.locations track by $index">
-				<div class='tags1'>{{x.location}} - {{x.desc}}</div>
-					<div data-ng-repeat="photo in x.photosLg track by $index" style="display:inline-block;margin:0 5px;">
-					<img src="{{photo.url}}"></img>
-				</div>
-			</div>
-
-		</div>
-
-		<div class='tags1'>Tags: <span data-make-editable class="editable">{{Day.chosenDay.dayTags}}</span></div>
-			<div class='whowasthere1'>Who was there? {{	Day.chosenDay.dayGroup}}</div>
-		<div class='daydate1'>When? {{ 	Day.chosenDay.dayDate}}</div>
-
-	
-
-	
-	</div>
-</div> -->

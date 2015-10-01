@@ -5,7 +5,6 @@
     <meta property="og:type" content="website">
 	<meta property="og:title" content="Daybreak is the pefect way to share your Perfect Day.">
     <meta property="og:description" content="Use Daybreak discover other people's favorite days and favorite places, and share your perfect day.">
-
 	<script src="js/modernizr.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500' rel='stylesheet' type='text/css'>
   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
@@ -23,7 +22,14 @@
 			
  			<div data-ng-switch on='User.userViewSwitch'>
  				<div data-ng-switch-when="profile">
+ 					<div data-ng-switch on="User.userState">
+ 					<div data-ng-switch-when="loggedIn">
+ 					 	<div grid-day-view></div>
+ 					</div>
+ 					<div data-ng-switch-when="loggedOut">
  					<user-function-view></user-function-view>
+ 					</div>
+ 					</div>
  				</div>
  			</div>
 
@@ -41,16 +47,16 @@
  	  			</div>
  			</div>
 
-
 		</div>    <!--  close day controller -->
 	</div>   <!-- close user controller -->
 	<foot-of-page></foot-of-page>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+<script src="js/jquery-ui.min.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
