@@ -2,8 +2,6 @@ angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','
 $scope.Day.chosenDay = '';
 $scope.Day.dayUserName = '';
 
-$scope.Day.dayUserName = null;
-$scope.Day.chosenDay = null;
 
 function setDayScope(data) {
 	commonService.formatDates(data);
