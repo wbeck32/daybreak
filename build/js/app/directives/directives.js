@@ -107,14 +107,14 @@ angular.module('dayBreak')
 // 	};
 // })
 
-// .directive('otherProfile', function(){
-// 	return {
-// 		restrict: 'E',
-// 		replace: false,
-// 		scope: true,
-// 		templateUrl: '/views/other-profile.html'
-// 	};
-// })
+.directive('otherprofile', function(){
+	return {
+		restrict: 'E',
+		replace: false,
+		scope: true,
+		templateUrl: '/views/otherprofile.html'
+	};
+})
 
 .directive('gridDayView', function(){
 	return {

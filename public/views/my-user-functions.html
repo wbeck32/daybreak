@@ -1,14 +1,9 @@
-<!-- <div data-ng-controller= "userController as User">  -->   
-
 <div class="navbar-fixed" >
-
 	<nav>
 		<a style ='cursor: pointer;'><div class="left button-collapse" id="titleGraphic" 
 											data-ng-click="User.userViewSwitch='grid' ">
 				 Daybreak</div> </a>
- 	  	<div class="container" >
-
- 	  		
+ 	  	<div class="container" >		
 			<ul style ='cursor: pointer;'  class='right hide-on-small-and-down button-collapse'>
 
 				<li><a><div 
@@ -37,13 +32,11 @@
 					   data-ng-click="Day.getUserProfile(User.username);
  					   				  User.profileSelect('myAccount');">
 			  			&nbsp;-&nbsp;{{User.username}}&nbsp;-&nbsp;
-
 				</a></li>
 
 				<li><a data-ng-show="User.userState==='loggedIn'" 
 					   data-ng-click="User.signOut()" > 
 		 		  		Logout  
-
 		 		</a></li>
 
 				<li><a data-ng-show="User.userState==='loggedOut'" 
@@ -53,22 +46,13 @@
 				  		Login  
 				</a></li>	
 
-
 				<li><a data-ng-show="User.userState==='loggedOut'" 
 					data-ng-click=" User.userViewSwitch='profile'; 
 									User.LoginError = false;
 									User.profileSelect('Log');   ">
 				  		<div class='joinMessage'> Share Your Favorite Day! </div>
 				</a></li>	
-
-				 
-
-			 
-
 		   	</ul>
 	  	</div>
-	</nav>
-
-
- 
+	</nav> 
 </div>  

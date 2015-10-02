@@ -1,0 +1,34 @@
+
+<div class = "regSurround">
+ 	<div class='loginDirection'>Profile Page for {{Day.dayUserName}} </div>
+
+ 		<i data-ng-click = "User.userViewSwitch='grid'; "  
+			class="material-icons right small" 
+			style ='cursor: pointer;'>clear
+		</i>
+
+ 		<div class ="userProfile">
+		<div data-ng-show="User.userState==='loggedIn' ">
+			<div class="profilePublic">
+				<div class="userProfile" >
+ 
+			  			<div class='profileLabel' >Name:
+			  				<span class='profileInfo' id='pname'>{{Day.dayUserName}}</span>
+			  			</div>
+
+			  			<div class='profileLabel' >Member since:&nbsp; 
+			  				<span class='profileInfo' id='pdate'>{{Day.created}}</span>
+			  			</div>
+
+						<div class="profileLabel">About Me:	{{ Day.userAbout}}
+ 						</div>
+		  			 
+				</div>
+			</div>				
+		</div>  
+	</div>
+		  		 
+<p> My Days </p>
+<grid-day-view></grid-day-view>
+
+</div> 

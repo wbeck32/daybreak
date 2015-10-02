@@ -1,8 +1,7 @@
- 
-<!-- LOGGED OUT FUNCTIONS -->
+ <!-- LOGGED OUT FUNCTIONS -->
 
 <div data-ng-switch on='User.profileMode'>
-	
+
 	 <div data-ng-switch-when="NEWREG">
 		<reg-view></reg-view>
 	</div>
@@ -23,7 +22,8 @@
 		<facebook-login></facebook-login>
 	</div>
  
-<!-- LOGGED IN FUNCTIONS --> 
+<!-- LOGGED IN FUNCTIONS -->
+
 	 <div data-ng-switch-when="myAccount">
 		<self-profile></self-profile>
 	</div>
@@ -36,12 +36,12 @@
 	 	 <password-reset></password-reset>
 	</div>
 
-
 <!-- LOGGED IN OR OUT FUNCTIONS -->
  
-	 <div data-ng-switch-when="otherProfile">
-		<other-profile></other-profile>
+	 <div data-ng-switch-when="otherprofile">
+		<otherprofile></otherprofile>
 	</div>
+
 </div>
 
 

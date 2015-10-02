@@ -19,16 +19,21 @@ function chosenDay(data) {
 
 function showUserProfile(data) {
 	
-	console.log ("xxxx", data.user.userName);
+	console.log ("in showUserProfile", data.user.userName);
 
-	$scope.Day.dayUserName = data.user.userName;
-	//check to see if this is my profile or not
+ 	//check to see if this is my profile or not
 	$scope.Day.dayUserName = data.user.userName;
 	if ($scope.User.username == $scope.Day.dayUserName){
 	// 	//display my private info
+		console.log('777777 username and dayusername match');
+		$scope.User.profileSelect('myAccount');
+
 	 } else {
-	// 	//someone else's profile
-	}
+	 			console.log('8888888 username and dayusername NO MATCH');
+
+	 	$scope.User.profileSelect('otherprofile')
+
+ 	}
 	console.log('display data on the profile page');
 }
 

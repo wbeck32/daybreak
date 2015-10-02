@@ -2,19 +2,14 @@ dayBreak.controller('userController',
 		['$scope', '$rootScope','$http','$location','userService', 'dayService',function($scope,$rootscope, $http,$location,userService,dayService){
 		
 		$scope.User.profileMode  = '';	
-
 		$scope.User.selfOrOther = 'other';
-
 		$scope.User.userFunction 	= null; //determines visibility of user functions, Log, NEWREG, etc.
 		$scope.User.userMessage	 	= null;  
- 		//$scope.User.userDayView 	= 'grid';  //user can change to 'single'
- 		$scope.User.userViewSwitch 	= 'grid'; // single, grid, profile
+  		$scope.User.userViewSwitch 	= 'grid'; // single, grid, profile
  		$scope.User.userAddDay 		= null;
-
  		$scope.User.password 		= null;
 		$scope.User.passwordConfirm	= null; 
 		$scope.User.email 			= null;
-
 		$scope.User.userAbout 		= null;
  		$scope.User.uniqueEmail 	= '';    // email is unique in database
 		$scope.matchingPassword		= '';
@@ -67,6 +62,13 @@ if ($scope.User.userState === 'loggedOut'){
 		$scope.User.profileMode = 'recoverPassword';
 		console.log('profileMode is', $scope.User.profileMode);
 	}
+	if(userview === 'otherprofile') {
+		$scope.User.profileMode = 'otherprofile';
+
+
+		console.log('TTTTTTT  profileMode is', $scope.User.profileMode);
+	}
+
 
 
 }
@@ -92,6 +94,11 @@ if ($scope.User.userState === 'loggedIn')
 		$scope.User.password=null;
 		$scope.User.profileMode = 'passwordreset';
 	}
+	if(userview === 'otherprofile') {
+		$scope.User.profileMode = 'otherprofile';
+		console.log('UUUUUU profileMode is', $scope.User.profileMode);
+	}
+
 	
 	console.log('profileMode is', $scope.User.profileMode);
 	
@@ -102,9 +109,6 @@ else
 }
 
 };
-
-
-
 
 
 
@@ -129,8 +133,7 @@ if ($scope.Day){
 			{$scope.User.selfOrOther = 'self'; }
 
 		}
- 
-};
+ };
 
  
 //////////////////////////////////////////////////////
@@ -142,6 +145,8 @@ if ($scope.Day){
 		console.log('completeInit is happening');
 		$scope.User.userState 	='loggedIn';
 		$scope.User.userViewSwitch = 'grid';
+		$scope.User.userMessage = null;
+		$scope.User.LoginError = null;
 	 	$scope.User.username 	= response.data.userName;
 	 	$scope.User.email 		= response.data.email;
 	 	$scope.User.userAbout 	= response.data.userAbout;
@@ -200,7 +205,6 @@ userService.init(completeInit);
 
 //////////////////////////////////////////////////////
 //loginState REQUIRES 200 RESPONSE
-//COULD ADD loginState depends on recent token
 //callback function for login
 
 	function loginState(response) { 
@@ -240,7 +244,6 @@ userService.init(completeInit);
 //signout callback
  
     function changeUserState(){
-
     	console.log('returning user state values to null, loggedout and grid at changeUserState');
 
       	$scope.User.userState = 'loggedOut';
