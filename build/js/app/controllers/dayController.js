@@ -7,7 +7,7 @@ function setDayScope(data) {
 	commonService.formatDates(data);
 	commonService.tagArrayToString(data);
 	$scope.Day.days = data;
-	$scope.User.userDayView = 'grid';
+	$scope.User.userViewSwitch = 'grid';
 }
 
 function chosenDay(data) { 
@@ -28,6 +28,7 @@ function showUserProfile(data) {
 	// 	//display my private info
 	 } else {
 	// 	//someone else's profile
+
 	}
 	console.log('display data on the profile page');
 }
@@ -38,6 +39,14 @@ dayService.populateDayGrid(setDayScope);
 $scope.Day.dayWelcomeMsg = '';
 $scope.Day.searchResultLength = 0;
 $scope.Day.searchResultsMessage = null;
+
+this.addNewDay = function() {
+	//initializes add day form
+	$scope.User.userViewSwitch = 'single';
+	$scope.User.userAddDay = true;
+	$scope.Day.dayWelcomeMsg = 'Tell us about your day!';
+}
+
 
 this.getUserProfile = function(username){
 	console.log("currrent user name ******", username);
@@ -83,13 +92,12 @@ this.addDay = function(Day, User) {
 	dayService.addDay(dayName, userName, dayDesc, $rootScope.dayLocations, tagArray, dayChild, dayTeen, setDayScope);
 	$scope.User.userDayView = 'grid';
 	dayService.populateDayGrid(setDayScope);
-	//$scope.User.userFormView = 'hide';   		
 	Day.dayName = '';
 	Day.dayDesc = '';
 };
 
 this.showOneDay = function(dayID){
-	//console.log('dayID is', dayID);
+	$scope.User.userAddDay = false;
 	dayService.getDay(dayID, chosenDay);
 };
 
