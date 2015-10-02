@@ -1,21 +1,39 @@
-
-<br>
+<div class = "regSurround">
 
 <i data-ng-click = "User.userViewSwitch='grid';
-					User.profileSelect='CancelXXX'; "  
+ 					User.profileSelect(null); "  
 		class="material-icons right small" 
 		style ='cursor: pointer;'>clear
 </i>
 
+<br>
+
 <div class='loginDirection'>
-	Login with your user name and password.  
-	<span class="link" data-ng-click="User.userViewSwitch='profile';
-									  User.userFunction='NEWREG'; ">
-									  Register?</span>
+	Login with Facebook.  
+	<br>
+	<br>
+	<span >
+			<form data-ng-submit="User.facebook();
+								  User.profileSelect('facebook'); ">
+
+			<input class="btn btn-success btn-sm btn-block left" type="submit" value="Facebook"	>
+	</span>
 </div>
 
-<form data-ng-submit="User.login()">
+<br>
+<br>
+<br>
+<br>
 
+<div class='loginDirection'>
+	Login with your user name and password.  
+	<span class="link" data-ng-click=" User.userViewSwitch='profile'; 
+									   User.LoginError = false;
+									   User.profileSelect('NEWREG');   ">
+									    Register?</span>
+</div>
+
+<form>
 
 	<div class="form group">
 		<label class="label-space">User Name</label>
@@ -33,15 +51,24 @@
 
 	</div>
 	
-	
-	<div class='spacer'></div>
-
-	<input class="btn btn-success btn-sm btn-block right" type="submit" value="Login"	>
-
+	<input data-ng-click="User.userViewSwitch='grid'; 
+					  	  User.login();"
+			class="btn btn-success btn-sm btn-block left" 
+			type="submit" value="Login">
+ 
 </form>
+<br>
+<br>
+
+<div class='loginDirection link'  style ='cursor: pointer; margin-top: 20px;'
+ 		data-ng-click="User.profileSelect('recoverPassword'); ">
+	Forgot Username or Password? Click to Recover
+	 
 </div>
 
-<div class='closeModal' data-ng-show="User.userFunction==='Log' ">
-	<a data-ng-click=" User.userFunction='recoverPassword'; ">
-					  Forgot Username or Password</a>
+ 
+</div>
+
+
+
  

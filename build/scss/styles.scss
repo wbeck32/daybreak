@@ -177,7 +177,7 @@ h1 {
 	width: auto;
 }
 
-
+.regSurround {margin-top: 5px; margin-right: 30px; margin-left: 30px; margin-bottom: 30px;}
 
 .createdaybutton{
 	font-size:1.3em;
@@ -260,6 +260,8 @@ height:30%;
 
 .userProfile { 
 	font-size: 1rem; 
+	margin-bottom: 20px; 
+	padding-bottom: 50px;
 }
 
 .closeModal {
@@ -534,6 +536,7 @@ height:30%;
  .profileLabel{ font-size: 1.1em;
  				margin:  4px;
  				padding: 3px;
+ 				margin-bottom: 20px;
  				}
 
  #pname {width: 100%;  }

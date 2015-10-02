@@ -1,13 +1,15 @@
 <!-- <div data-ng-controller= "userController as User">  -->   
 
-<div class="navbar-fixed">
+<div class="navbar-fixed" >
 
 	<nav>
-		<div id = "titleGraphic">Daybreak</div>
+		<a style ='cursor: pointer;'><div class="left button-collapse" id="titleGraphic" 
+											data-ng-click="User.userViewSwitch='grid' ">
+				 Daybreak</div> </a>
  	  	<div class="container" >
 
  	  		
-			<ul class='right hide-on-small-and-down button-collapse'>
+			<ul style ='cursor: pointer;'  class='right hide-on-small-and-down button-collapse'>
 
 				<li><a><div 
 						data-ng-click="User.userViewSwitch = 'grid';

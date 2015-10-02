@@ -50,24 +50,34 @@ angular.module('dayBreak')
 	return {
 		restrict: 'E',
 		replace: false,
-		scope: true,
+		scope: false,
 		templateUrl: '/views/login-view.html',
  		link: function(scope,elem,attrs) {
-			 console.log('hello world in loginView directive');
-
-		 	// scope.User.profileSelect = '';
-		}
+  		}
 	};
 })
 
-// .directive('pwdRecover', function(){
-// 	return {
-// 		restrict: 'E',
-// 		replace: false,
-// 		scope: true,
-// 		templateUrl: '/views/pwd-recover.html'
-// 	};
-// })
+.directive('facebookLogin', function(){
+	return {
+		restrict: 'E',
+		replace: false,
+		scope: true,
+		templateUrl: '/views/facebook-login.html',
+ 		link: function(scope,elem,attrs) {
+ 
+ 		}
+	};
+})
+
+//logged out user submits email to reset password
+.directive('pwdRecover', function(){
+	return {
+		restrict: 'E',
+		replace: false,
+		scope: true,
+		templateUrl: '/views/pwd-recover.html'
+	};
+})
 
 .directive('selfProfile', function(){
 	return {
@@ -78,8 +88,7 @@ angular.module('dayBreak')
 	};
 })
 
-
-
+//TODO Is this stil needed?
 .directive('passwordReset', function(){
 	return {
 		restrict: 'E',

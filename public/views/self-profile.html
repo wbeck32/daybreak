@@ -1,8 +1,10 @@
-<br>
+
+<div class = "regSurround">
+
 	<div class='loginDirection'>About Your Account</div>
 
- 		<i data-ng-click = "User.userViewSwitch=null "  
-		class="material-icons right small" 
+ 		<i data-ng-click = "User.userViewSwitch='grid'; "  
+			class="material-icons right small" 
 			style ='cursor: pointer;'>clear
 		</i>
 
@@ -12,12 +14,10 @@
 			<div class='publicPrivateLabel'>Public</div>
 
 			<div class="profilePublic">
+				<div class="userProfile" >
 
-				<form  	data-ng-submit="User.updateUserInfo()"
-						name = "aboutForm" 
+					<form  	name = "aboutForm" 
 						novalidate >
-
-					<div class="userProfile" >
 
 			  			<div class='profileLabel' >Name:
 			  				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -30,21 +30,23 @@
 
 						<div class="profileLabel">About Me:	
 						 	 
-							<textarea class='textarea' 
-							rows='6' maxlength='150' 
-							
-								data-ng-model="User.userAbout"
+
+							<textarea style = 'border: 1 solid grey;'
+							rows = '3'  
+							data-ng-model="User.userAbout"
 							placeholder="My perfect day would be... (140 characters)"
 							required>
-
 							</textarea>
-						</div>
-		  			</div>
 
-					<input  
-						class="waves-effect waves-light btn"
+						</div>
+		  			
+
+					<input  ata-ng-submit="User.updateUserInfo()"
+						class="waves-effect waves-light btn right"
 						type="submit" 
-						value="Save">
+						value="Save"
+						>
+					</div>
 				</div>
 
 
@@ -52,18 +54,18 @@
 
 				<div class= 'profilePrivate'>
 
-			  			<div class='profileLabel'>Current Registered Email - Enter New Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			  			<div class='profileLabel'>Registered Email - Enter New Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 				  				<input data-ng-model="User.email"
 								class='profileInfo'   > 
 			  				 </input>
 
-			  				</br><br>
+			  			 
 
 			  				<div  
-			  				class="btn btn-sm btn-block left" 
+			  				class="btn btn-sm btn-block right" 
 			  				data-ng-click="User.emailreset(User.email)">
-			  				Submit Request - Check Your Email</div> 
+			  				Submit Request - Check New Email</div> 
 						
 						</div>
 			  			
@@ -91,9 +93,7 @@
 		</div> <!--   end ngshow -->
 	</div>
 		  		 
-THEN GRID BELOW WITH USER DAYS ONLY
-<br>
-
+<p> My Days </p>
 <grid-day-view></grid-day-view>
 
- 
+</div> 

@@ -14,10 +14,19 @@
 </div>
 
 <div data-ng-switch on='User.profileMode'>
-	 <div data-ng-switch-when="pwdRecover">
+	 <div data-ng-switch-when="recoverPassword">
 		<pwd-recover></pwd-recover>
 	</div>
 </div>
+
+
+<div data-ng-switch on='User.profileMode'>
+	 <div data-ng-switch-when="facebook">
+		<facebook-login></facebook-login>
+	</div>
+</div>
+
+
 
 <!-- LOGGED IN FUNCTIONS -->
 

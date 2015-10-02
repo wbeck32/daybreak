@@ -1,11 +1,10 @@
- 
- <br>
+<div class = "regSurround">
 	<form 
 		data-ng-submit="User.registerValidUser(User)"
 			name = "regForm" 
 		novalidate>
 
-		<i data-ng-click = "User.userViewSwitch=null "  
+		<i data-ng-click = "User.userViewSwitch='grid' "  
 			class="material-icons right small" 
 			style ='cursor: pointer;'>clear
 		</i>
@@ -13,8 +12,8 @@
 		<div class='loginDirection'>
 			Register 
 
-			<span class="link" data-ng-click="User.userViewSwitch = 'profile';
-											  User.userFunction='NEWREG'; ">
+			<span class="link" data-ng-click="User.userViewSwitch='profile'; 
+ 											  User.profileSelect('Log');">
 											  (or Login with Facebook)</span>
 			</div>
 		
@@ -23,12 +22,12 @@
 		<div class="form group">
 			<label class="label-space">Username</label>
 
-				<span class="alertinform" data-ng-show="User.username.length < 6">
+				<span class="alertinform" data-ng-show="User.username.length < 6 && User.username.length >1">
 				You need {{6-User.username.length}} more character(s).
 				</span>
 
 				<span class="alertinform" data-ng-show="User.uniqueUserName===false">
-				User name already in use. <span class="link" data-ng-click="User.userViewSwitch = 'Log'">Login?</span>
+				User name already in use. <span class="link" data-ng-click="User.userViewSwitch='profile'; User.profileSelect('Log')">Login?</span>
 				</span>
 
 				<span class="alertsuccess" data-ng-show="User.uniqueUserName===true && User.username.length > 5">
@@ -62,7 +61,10 @@
 				<span class="alertinform" 
 			data-ng-show="regForm.email.$valid && 
 			User.uniqueEmail === false  ">
-				E-mail exists. <span class="link" data-ng-click="User.userViewSwitch = 'Log'">Login?</span>
+				E-mail exists. <span class="link" data-ng-click=
+									"User.userViewSwitch='profile'; 
+									 User.LoginError = false;
+									 User.profileSelect('Log');   ">Login?</span>
 				</span>
 
 			<input class= "form-control"
@@ -129,10 +131,9 @@
 		"User.newRegValuesAllGood(User) === false ||
 		regForm.email.$error.email  ||
 		User.email.length === error" 
-		class="btn btn-success btn-sm btn-block" 
+		class="btn btn-success btn-sm btn-block left" 
 		type="submit" 
 		value="Register Now!"> 
 
 	</form>
-
- 
+</div> 

@@ -36,11 +36,18 @@ dayBreak.controller('userController',
 			}
 		}
 		
+
+this.facebook = function(){
+	console.log('user selects facebook login');
+};
+
+
+
 this.profileSelect = function(userview){
 
 console.log('state is: ', $scope.User.userState);
 console.log('User.username is: ', $scope.User.username);
-console.log('userFunction is: ', $scope.User.userFunction, userview);
+console.log('userview is: ', userview);
 
 if ($scope.User.userState === 'loggedOut'){
 	if(userview === 'NEWREG') {
@@ -51,22 +58,46 @@ if ($scope.User.userState === 'loggedOut'){
 		$scope.User.profileMode = 'Log';
 		console.log('profileMode is', $scope.User.profileMode);
 	}
+	if(userview === 'facebook') {
+		$scope.User.profileMode = 'facebook';
+		console.log('profileMode is', $scope.User.profileMode);
+	}
+	if(userview === 'recoverPassword') {
+		$scope.User.profileMode = 'recoverPassword';
+		console.log('profileMode is', $scope.User.profileMode);
+	}
+
+
 }
+	else
+{
+		console.log('at userController.profileSelect we NOT loggedOut');
+}
+
 
 if ($scope.User.userState === 'loggedIn')
 {
 	if(userview === 'deleteaccount' ){
-		$scope.User.profileMode = 'deleteaccount';}
+		$scope.User.profileMode = 'deleteaccount';
+	}
 
 	if(userview === 'myAccount' ){
-		$scope.User.profileMode = 'myAccount';}
+		$scope.User.profileMode = 'myAccount';
+	}
 
-		console.log('profileMode is', $scope.User.profileMode);
+	console.log('profileMode is', $scope.User.profileMode);
 
 	if(userview === 'passwordreset'){
-		$scope.User.profileMode = 'passwordreset';}
-		console.log('profileMode is', $scope.User.profileMode);
+		$scope.User.profileMode = 'passwordreset';
 	}
+	
+	console.log('profileMode is', $scope.User.profileMode);
+	
+}
+else
+{
+	console.log('at userController.profileSelect we are NOT loggedin');
+}
 
 };
 
