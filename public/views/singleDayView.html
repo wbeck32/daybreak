@@ -1,0 +1,18 @@
+<div data-ng-switch="User.userAddDay">
+
+	<div data-ng-switch-when="true">
+		<add-day></add-day>
+	</div>
+
+	<div data-ng-switch-when="false">
+
+		<div data-ng-show="User.username === Day.chosenDay.data[0].userName">
+			<update-day></update-day>
+		</div>
+
+		<div data-ng-show="User.username !== Day.chosenDay.data[0].userName">
+			<view-day></view-day>
+		</div>
+
+	</div>
+</div>

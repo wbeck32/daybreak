@@ -61,7 +61,7 @@ this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayCh
 			},
 			headers: {'Content-Type': 'application/json'}	
 			}).then(function(data, status, headers, config){
-				console.log('success!');console.log('skfjdlksjfalkdjs: ',data.dayChild);
+				console.log('success!');
 				daycallback(data); 
 				window.localStorage.removeItem('dayTags');
 			},

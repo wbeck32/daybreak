@@ -135,26 +135,49 @@ angular.module('dayBreak')
 		restrict: 'E',
 		replace: false,
 		scope: true,
-		templateUrl: '/views/single-day-view.html',
+		templateUrl: '/views/singleDayView.html',
 		link: function(scope,elem,attrs) {
-			scope.Day.dayWelcomeMsg = 'Check out this day!';
-			scope.User.userDayView = 'single'; 
-			if(scope.User.userState === 'loggedIn') {
-				if (scope.User.userAddDay === 'true'){ 
-					scope.Day.dayWelcomeMsg = 'Tell us about your day!';
-				}
-				if(scope.Day.chosenDay){
-					if (scope.User.username === scope.Day.chosenDay.data[0].userName){
-						elem[0].contentEditable = true;
-						scope.Day.dayWelcomeMsg = 'Update your day.';
-					} else {
-						scope.Day.dayWelcomeMsg = 'Check out this day!';	
-					}
-				}
-			}
+
 		}
 	};
 })
+.directive('addDay', function(){
+	return {
+		restrict: 'E',
+		replace: false,
+		scope: true,
+		templateUrl: '/views/addDay.html',
+		link: function(scope,elem,attrs) {
+			
+		}
+	}
+
+})
+.directive('updateDay', function(){
+	return {
+		restrict: 'E',
+		replace: false,
+		scope: true,
+		templateUrl: '/views/updateDay.html',
+		link: function(scope,elem,attrs) {
+			
+		}
+	}
+
+})
+.directive('viewDay', function(){
+	return {
+		restrict: 'E',
+		replace: false,
+		scope: true,
+		templateUrl: '/views/viewDay.html',
+		link: function(scope,elem,attrs) {
+		console.log('scope: ',scope,' elem: ',elem,' attrs: ',attrs);	
+		}
+	}
+
+})
+
 
 .directive('userFunctionView', function(){
 	return {
@@ -179,5 +202,34 @@ angular.module('dayBreak')
 			 }
 		};
 	})
+.directive('draggable', function($document){
+	return {
 
-;
+		link: function(scope,elem,attr) {
+			var startX = 0, startY = 0, x = 0, y = 0;
+			element.css({
+				border: '1px solid red'
+			});
+			element.on('mousedown', function(event){
+				event.preventDefault();
+				startX = event.screenX - x;
+				startY = event.screenY - y;
+				$document.on('mousemove', mousemove);
+				$document.on('mouseup', mouseup);
+			});
+			function mousemove(event) {
+				y = event.screenY - startY;
+				x = event.screenX - startX;
+				element.css({
+					top: y + 'px',
+					left: x + 'px'
+				});
+			}
+
+			function mouseup() {
+				$document.off('mousemove', mousemove);
+				$document.off('mouseup', mouseup);
+			}
+		}
+	}
+});
