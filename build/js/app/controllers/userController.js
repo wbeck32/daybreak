@@ -32,7 +32,8 @@ dayBreak.controller('userController',
 			var modal = $location.search().modal.valueOf();
 			token = $location.search().tkn.valueOf();
 			if (modal === 'pwr') {
-				$scope.User.userViewSwitch = 'passwordreset';
+				$scope.User.userViewSwitch = 'profile';
+				$scope.User.profileMode = 'passwordreset';
 			}
 		}
 		
@@ -88,6 +89,7 @@ if ($scope.User.userState === 'loggedIn')
 	console.log('profileMode is', $scope.User.profileMode);
 
 	if(userview === 'passwordreset'){
+		$scope.User.password=null;
 		$scope.User.profileMode = 'passwordreset';
 	}
 	
@@ -239,10 +241,10 @@ userService.init(completeInit);
  
     function changeUserState(){
 
-    	console.log('returning user state values to null at changeUserState');
+    	console.log('returning user state values to null, loggedout and grid at changeUserState');
 
-     	$scope.User.userState = 'loggedOut';
-      	$scope.User.userViewSwitch = null;
+      	$scope.User.userState = 'loggedOut';
+      	$scope.User.userViewSwitch = 'grid';
       	//below important for clearing reg form if user returns to it
       	$scope.User.username 		= null;
 		$scope.User.password 		= null; //should be null
@@ -278,7 +280,6 @@ this.passwordreset = function(knownemail){
 
 
 
-
 function closepwdchangemodal(){
 		console.log('running closepwdchangemodal');
 		window.location.replace('/');
@@ -288,7 +289,7 @@ function closepwdchangemodal(){
  		$scope.User.userDayView 	= 'grid';  //user can change to 'single'
 }
 
-//////////////////////////////////////////////////////
+////////////////////////////////////////////////////// DUAL
 //password change while logged in - if logged out, submit the url
 this.changepassword = function(User, callback){ console.log($scope.User.userState);
 	if($scope.User.userState === 'loggedOut') {

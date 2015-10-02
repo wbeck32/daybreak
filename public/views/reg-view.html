@@ -20,7 +20,8 @@
 
 
 		<div class="form group">
-			<label class="label-space">Username</label>
+ 				
+ 				<label class="label-space"> </label>
 
 				<span class="alertinform" data-ng-show="User.username.length < 6 && User.username.length >1">
 				You need {{6-User.username.length}} more character(s).
@@ -40,13 +41,13 @@
 			type="text"
 				data-ng-model="User.username"
 				data-ng-change="User.checkthename(User.username)" 
-			placeholder="Six character minimum. Public."
+			placeholder="Username. Six character minimum. Public."
 				required>				
 		</div>   
 
 		<div class="form group">
 			
-			<label class="label-space">E-Mail</label>
+ 			<label class="label-space"> </label>
 
 			<span class="alertinform" 
 			ng-show="regForm.email.$error.email">
@@ -70,17 +71,18 @@
 			<input class= "form-control"
 			id="emailConfirm" 
 			type="email"
-			name="email"
+			 
 			data-ng-model="User.email"	
 			data-ng-keyup="User.checktheemail(User.email)" 
 
-			placeholder="Required for password recovery.  Private."
+			placeholder="E-mail.  Required for password recovery.  Private."
 			required>
 
 		</div>
 
 		<div class="form group">
-			<label class="label-space">Password</label>
+ 
+			<label class="label-space"> </label>
 
 			<span class='alertinform' data-ng-model="User.password" data-ng-show ="User.password.length < 5">
 			You need {{5-User.password.length}} more characters.
@@ -94,17 +96,16 @@
 			<input class= "form-control"
 			id='passwordFirst' 
 			type="password" 
-			name='password'
-			data-ng-model="User.password"
+ 			data-ng-model="User.password"
 
 				data-ng-keyup="User.passconfirm(User.password, User.passwordConfirm)"
 
-				placeholder="Enter secret password. Must be 5 characters. "
+				placeholder="Secret password. Must be 5 characters. "
 			required>
 		</div>
 
 		<div class="form group">
-			<label class="label-space">Password Confirm</label>
+			<label class="label-space"></label>
 
 			<span class='alertinform' data-ng-model="User.password" data-ng-show ="User.matchingPassword === false">
 				Passwords must match.
@@ -116,11 +117,10 @@
 
 			<input class= "form-control"
 			id='passwordConfirm' 
-			name='passwordConfirm'
-			type="password" 
+ 			type="password" 
 			data-ng-model="User.passwordConfirm"	
 				data-ng-keyup="User.passconfirm(User.password, User.passwordConfirm)"
-			placeholder="Reenter password."
+			placeholder="Re-enter password."
 			required>
 		</div>	
 

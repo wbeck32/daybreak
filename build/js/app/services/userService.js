@@ -143,11 +143,11 @@ this.loginRefresh = function(username, login, callback){
 //logOut signOut service)  
 // signOut is client only: TODO - add save signout time and user signed out tracking on server
 ///////////////////////////////////////////////////////
-this.signOut = function(callback){
+this.signOut = function(changeUserState){
     console.log("service signOut");
     window.localStorage.removeItem('token');
     window.localStorage.removeItem('user');
-    callback(); //callback function is changeUserState
+    changeUserState(); //callback function is changeUserState
 };
 
 
@@ -173,8 +173,7 @@ this.registerUser = function(User,callback){
 
 //////////////////////////////////////////////////////
  
- this.checkthename = function checkthename(username,callback){
-
+  this.checkthename=function checkthename(username,callback){
     $http({
     method    : 'POST',
     url       : '/api/checkusername',
@@ -284,7 +283,7 @@ this.resetPassword = function(username){
 
    this.changepassword = function(User, closepwdchangemodal) {
 
-    console.log('changepassword service', User.password, ' and ', User.username);
+    console.log('^^^^^^^^^changepassword service', User.password, ' and ', User.username);
 
     $http({
       method: 'POST',

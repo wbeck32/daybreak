@@ -14,7 +14,9 @@
 						</div></a></li>
 
 				<li><a  data-ng-show ="User.userState==='loggedIn'"
-			 			data-ng-click="User.signOut();userViewSwitch='None' " > 
+			 			data-ng-click="User.signOut();
+			 						   User.userViewSwitch='None';
+			 						   User.profileSelect('grid') " > 
 		 		  		Logout
 		 		  		</a></li>
 

@@ -415,6 +415,7 @@ app.get('/api/emailpasswordreset/:temptoken', function(req,res,next){
     res.redirect('/#/?modal=pwr&tkn='+req.params.temptoken);
   });
 
+
 // after user fills out new password info, user posts to here
 app.get('/api/verifypasswordreset/:temptoken/:pw/:pw2', function(req, res){
 //  console.log('NOW POSTING NEW PASSWORD TO /api/verifypasswordreset/:temptoken');

@@ -14,7 +14,7 @@
 				<li><a><div 
 						data-ng-click="User.userViewSwitch = 'grid';
 						               User.userService.init(completeInit);
-						                ">
+						               ">
 						Home  
 						</div>
 				</a></li>
@@ -36,7 +36,7 @@
 				<li><a data-ng-show="User.userState==='loggedIn'" 
 					   data-ng-click="Day.getUserProfile(User.username);
  					   				  User.profileSelect('myAccount');">
-			  			My Account
+			  			&nbsp;-&nbsp;{{User.username}}&nbsp;-&nbsp;
 
 				</a></li>
 

@@ -25,30 +25,40 @@
 <br>
 <br>
 
-<div class='loginDirection'>
+<!-- <div class='loginDirection'>
 	Login with your user name and password.  
 	<span class="link" data-ng-click=" User.userViewSwitch='profile'; 
 									   User.LoginError = false;
 									   User.profileSelect('NEWREG');   ">
 									    Register?</span>
-</div>
+</div> -->
+
+
+
+<i data-ng-click = "User.userViewSwitch='grid';
+ 					User.profileSelect(null); "  
+		class="material-icons right small" 
+		style ='cursor: pointer;'>clear
+</i>
+
+<div class='loginDirection'>
+	Login with User Name and Password 
 
 <form>
-
 	<div class="form group">
-		<label class="label-space">User Name</label>
-		<input class= "form-control" type="text" ng-model="User.username">
+ 		<input class= "form-control" type="text" 
+ 					placeholder="User Name"
+					ng-model="User.username">
 	</div>
 
 	<div class="form group">
-		<label class="label-space">Password</label>
-
+ 
 		<span class="alertwarn" 
 		data-ng-show="User.LoginError === true">
 		Unknown user name or password.</span>
 
-		<input class= "form-control" type="password" ng-model="User.password">
-
+		<input class= "form-control" type="password" placeholder="Password"
+					ng-model="User.password">
 	</div>
 	
 	<input data-ng-click="User.userViewSwitch='grid'; 
@@ -59,12 +69,32 @@
 </form>
 <br>
 <br>
+<br>
+<br>
 
-<div class='loginDirection link'  style ='cursor: pointer; margin-top: 20px;'
- 		data-ng-click="User.profileSelect('recoverPassword'); ">
-	Forgot Username or Password? Click to Recover
-	 
-</div>
+ 
+
+
+
+<div class='loginDirection'>
+			Forgot Username or Password?
+
+<br>
+<br>
+ 	<span>
+		<form data-ng-submit="User.profileSelect('recoverPassword'); ">
+
+		<input  
+			class="btn btn-success btn-sm btn-block left" 
+			type="submit" value='Click to Recover' ">
+	</span>
+	</div>
+ <br>
+ 
+
+ 
+
+
 
  
 </div>
