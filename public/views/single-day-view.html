@@ -9,9 +9,11 @@
 			<form data-ng-submit="Day.updateDay(Day,User);User.userDayView='grid';">
 			<h4>{{Day.dayWelcomeMsg}}</h4>
 
-			<input type="text" class="form-control" data-ng-model="Day.dayName" value="{{Day.chosenDay.data[0].dayName}}">
 
-			<div>by&nbsp;{{Day.chosenDay.data[0].userName}}</div>				
+ 			<input 
+		type="text" class="form-control" data-ng-model="Day.dayName" value="{{Day.chosenDay.data[0].dayName}}">
+
+			<div >by&nbsp;{{Day.chosenDay.data[0].userName}}</div>				
 
 			<textarea class="form-control desc" rows="5" data-ng-model="Day.dayDesc">{{Day.chosenDay.data[0].dayDesc}}
 			</textarea> 

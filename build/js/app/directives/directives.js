@@ -116,6 +116,16 @@ angular.module('dayBreak')
 	};
 })
 
+
+.directive('privacypolicy', function(){
+	return {
+		restrict: 'E',
+		replace: false,
+		scope: true,
+		templateUrl: '/views/privacypolicy.html'
+	};
+})
+
 .directive('gridDayView', function(){
 	return {
 		restrict: 'E',

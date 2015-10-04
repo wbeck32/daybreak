@@ -65,10 +65,13 @@ if ($scope.User.userState === 'loggedOut'){
 	if(userview === 'otherprofile') {
 		$scope.User.profileMode = 'otherprofile';
 
-
 		console.log('TTTTTTT  profileMode is', $scope.User.profileMode);
 	}
 
+	if(userview === 'privacypolicy') {
+		$scope.User.profileMode = 'privacypolicy';
+		console.log('PRIVACY profileMode is', $scope.User.profileMode);
+	}
 
 
 }
@@ -97,6 +100,11 @@ if ($scope.User.userState === 'loggedIn')
 	if(userview === 'otherprofile') {
 		$scope.User.profileMode = 'otherprofile';
 		console.log('UUUUUU profileMode is', $scope.User.profileMode);
+	}
+
+	if(userview === 'privacypolicy') {
+		$scope.User.profileMode = 'privacypolicy';
+		console.log('PRIVACY profileMode is', $scope.User.profileMode);
 	}
 
 	
