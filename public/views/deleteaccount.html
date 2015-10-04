@@ -1,51 +1,66 @@
 <div class = "regSurround">
 
 	<i data-ng-click = "User.userViewSwitch='grid';
-	 					User.profileSelect(null); "  
-			class="material-icons right small" 
-			style ='cursor: pointer;'>clear
+	 					User.profileMode=null;" 
+						class="material-icons right small" 
+						style ='cursor: pointer;'>clear
 	</i>
-
-
-	<form 
-	data-ng-submit="User.deleteaccount(User.username)">	
+<div>
 		
-		<br>
+	<br>
+	<br>	
 
-		<div class="form group">
+<div class="form group">
 			Permanently delete this account for community member "{{User.username}}"? 
-		</div>
+</div>
 
 	<!-- Switch -->
-		  <div class="switch">
-		    <label>
-		      No
-		      <input type="checkbox">
-		      <span class="lever"></span>
-		      Yes
-		    </label>
-		  </div>
+	  <div class="switch">
+	    <label>
+	      No
+	      <input type="checkbox">
+	      <span class="lever"></span>
+	      Yes
+	    </label>
+	  </div>
 
-		 <div ng-switch on="deleteRequest;">
-		 	<div ng-switch-when="Yes";>
+
+	<br>
+	<br>
+
+	<input input data-ng-click="User.deleteaccount(User.username)";
+			class="btn btn-sm btn-block left red "
+			type="submit" 
+			value="Permanently Delete Account">
+	</input>
+
+	</div>
+
+	<br>
+	<br>
+
+	 <div ng-switch on="deleteRequest;">
+	 	<div ng-switch-when="Yes";>
+
+			<input data-ng-click="User.deleteaccount(User.username)";
+			class="btn btn-sm btn-block left red "
+			type="submit" 
+			value="Permanently Delete Account">
+			</input>
+
 
 			<div class='spacer'>We're sorry to see you go!</div>
 
-				<input 
-				class="deleteaccount btn  btn-sm btn-block left red "
-				type="submit" 
-				value="Permanently Delete Account">
-				</input>
 
-			</div>
 		</div>
+	</div>
 
-		<br>
-		<br>
-		<br>
-		<br>
+	<br>
+	<br>
+	<br>
+	<br>
 
-	</form>
+</div>
  			 
 
 <div id='deleteaccountMessage' 
