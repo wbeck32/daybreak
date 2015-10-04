@@ -28,8 +28,8 @@
 				  				<span class='profileInfo' id='pdate'>{{User.created}}</span>
 				  			</div>
 
-							<div class="profileLabelAboutMe">About Me:	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<div class = 'textareabox'>
+							<div class="profileLabel">About Me:	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<!-- <div class = 'textareabox'>
 
 									<textarea style = 'border: 1 solid grey;'
 									rows = '3'  
@@ -37,16 +37,17 @@
 									placeholder="My perfect day would be... (140 characters)"
 									required>
 									</textarea>
+								 </div>-->
 
-								</div>
-	 						</div>
-			  			
+								<input data-ng-model="User.userAbout"
+									class='profileInfo'   > 
+				  				</input>
 
-						<input  ata-ng-submit="User.updateUserInfo()"
-							class="waves-effect waves-light btn right"
-							type="submit" 
-							value="Save"
-							>
+								<!-- <input  data-ng-submit="User.updateUserInfo()"
+									class="waves-effect waves-light btn right"
+									type="submit" 
+									value="Save" > -->
+							</div>
 						</div>
 					</div>
 
@@ -82,7 +83,7 @@
 				  	</div>  			
 				</br>
 				<div class='closeModal' 
-					data-ng-show="User.userViewSwitch==='Myaccount' ">
+					data-ng-show="User.userViewSwitch==='myAccount' ">
 						<a data-ng-click="User.userViewSwitch='deleteaccount' ">
 						Delete account?					
 					</a>
