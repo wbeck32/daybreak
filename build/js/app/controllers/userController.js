@@ -33,6 +33,12 @@ dayBreak.controller('userController',
 		}
 		
 
+this.otheruserinfo = function(otherusername){
+	
+	userService.otheruserinfo(otherusername)
+};
+
+
 this.facebook = function(){
 	console.log('user selects facebook login');
 };
@@ -104,7 +110,7 @@ if ($scope.User.userState === 'loggedIn')
 
 	if(userview === 'privacypolicy') {
 		$scope.User.profileMode = 'privacypolicy';
-		console.log('PRIVACY profileMode is', $scope.User.profileMode);
+		console.log('PRIVACY POLICY profileMode is', $scope.User.profileMode);
 	}
 
 	

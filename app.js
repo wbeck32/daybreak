@@ -111,6 +111,32 @@ app.get('/api/show', function(req,res,next){
 });
 
 
+//Endpoint gets partial profile info for "otheruser", NOT the logged in user
+// router.route('/otheruserinfo').post(function(req,res,next){
+//         console.log ("at api otheruserinfo req.tag is... " + req.body.userName);
+//         tagString = req.body.tag;
+ 
+//         User.find({userName: userName)
+//             .exec(function(err,User)
+//         {
+//         if (err)
+//             {console.log('error at api otheruserinfo');
+//              return next(err);}
+//         else
+//             {
+//             //pass back otherUser object to avoid collisions with User in client (?)    
+//             console.log("~~~~~~at otheruserinfo found username...: ", User.userName );
+//             otherUser.username = User.userName;
+//             otherUser.created = User.created;
+//             otherUser.userAbout = User.userAbout;
+//             res.json(otherUser);  //???
+//             }
+//         })
+// });
+
+
+
+
 //tag based search  
 router.route('/taglookup').post(function(req,res,next){
         console.log ("at api incoming req.tag is... " + req.body.tag);

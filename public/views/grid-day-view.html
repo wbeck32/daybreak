@@ -4,13 +4,6 @@
  	<div data-ng-repeat="day in Day.days" class="col singleDay"> 
  		 	<div class="title" data-ng-click ="Day.showOneDay(day._id,day.userName)">{{day.dayName}}</div>
 
-				 <!-- 	<br>
-				 	Day.userName is {{day.userName }}  <br>
-				 	User.username is {{User.username}} <br>
-				 	<div data-ng-show="(day.userName === User.username)">EQUAL</div>
-				 	<div data-ng-show="(day.userName !== User.username)">NOT EQUAL</div>
-				 	<br> -->
-
 		 	<div class="user">
 		 		<div  style="text-decoration: underline; cursor: pointer;"  data-ng-click="Day.getUserProfile(day.userName); Day.viewEditUserDays(day.userName);">{{day.userName }}</div>
 		 	</div>

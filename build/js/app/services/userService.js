@@ -171,6 +171,8 @@ this.registerUser = function(User,callback){
           }); 
 };
 
+
+
 //////////////////////////////////////////////////////
  
   this.checkthename=function checkthename(username,callback){
@@ -227,6 +229,31 @@ this.updateUserInfo = function(username, userAbout){
           console.log("data is: " + data);
         }); 
 };
+
+
+
+
+
+// WAS NOT NEEDED DELETE //////////////////////////////////////////////////////
+// // get the user information for the selected user, who is not logged in user
+// this.otherUserInfo = function(otherusername, callback){
+//   $http({
+//     method    : 'POST',
+//     url       : '/api/otheruserinfo',
+//     data      : { userName     :  otherusername},
+//     headers   : {'Content-Type' : 'application/json'}
+//     })
+//     .success(function(data){
+//       console.log('data is: ', otherUser, otherUser.userName, otherUser.created, otherUser.userAbout);
+//       //callback();
+//       })
+//     .error(function(data,status, headers, config){
+//           console.log("data is: " + data);
+//       }); 
+
+// };
+ 
+
 
 //////////////////////////////////////////////////////
 
