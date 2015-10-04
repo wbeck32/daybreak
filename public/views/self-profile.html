@@ -71,7 +71,7 @@
 							</div>
 				  			
 				  			<br> 
-				  			<br>
+				  			
 				  		
 				  			<div class ='profileLabel'>Password:&nbsp;
 				  				<span class='profileInfo' id='pname'>  &bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull; &nbsp;
@@ -80,14 +80,26 @@
 				  				<span class="btn btn-sm btn-block right" 
 				  				data-ng-click="User.profileSelect('passwordreset')">Change Password?</span> 
 				  			</div>
+							
+							<br>
+
+							<div class ='profileLabel'>				
+								<div class='deleteaccount'>
+								 
+								<input  
+									data-ng-click=" User.profileSelect('deleteaccount');"
+									
+									class="btn btn-success btn-sm btn-block red right" 
+									type="submit" 
+									value="Delete Account"> 
+
+								</div>	
+							</div>	
+
 				  	</div>  			
 				</br>
-				<div class='closeModal' 
-					data-ng-show="User.userViewSwitch==='myAccount' ">
-						<a data-ng-click="User.userViewSwitch='deleteaccount' ">
-						Delete account?					
-					</a>
-				</div>	
+
+				
 			</div> <!--   end ngshow -->
 		</div>
 		  		 

@@ -98,14 +98,14 @@ angular.module('dayBreak')
 	};
 })
 
-// .directive('deleteAccount', function(){
-// 	return {
-// 		restrict: 'E',
-// 		replace: false,
-// 		scope: true,
-// 		templateUrl: '/views/delete-account.html'
-// 	};
-// })
+.directive('deleteaccount', function(){
+	return {
+		restrict: 'E',
+		replace: false,
+		scope: true,
+		templateUrl: '/views/deleteaccount.html'
+	};
+})
 
 .directive('otherprofile', function(){
 	return {

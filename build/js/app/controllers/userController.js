@@ -35,7 +35,7 @@ dayBreak.controller('userController',
 
 this.otheruserinfo = function(otherusername){
 	
-	userService.otheruserinfo(otherusername)
+	userService.otheruserinfo(otherusername);
 };
 
 
@@ -113,7 +113,11 @@ if ($scope.User.userState === 'loggedIn')
 		console.log('PRIVACY POLICY profileMode is', $scope.User.profileMode);
 	}
 
-	
+	if(userview === 'deleteaccount') {
+		$scope.User.profileMode = 'deleteaccount';
+		console.log('user requests delete account page', $scope.User.profileMode);
+	}
+
 	console.log('profileMode is', $scope.User.profileMode);
 	
 }
