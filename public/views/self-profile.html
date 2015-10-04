@@ -3,7 +3,9 @@
 
 	<div class='loginDirection'>About Your Account</div>
 
- 		<i data-ng-click = "User.userViewSwitch='grid'; "  
+ 		<i data-ng-click = "User.userViewSwitch='grid';
+							User.userService.init(completeInit);
+							Day.viewEditUserDays(null); " 
 			class="material-icons right small" 
 			style ='cursor: pointer;'>clear
 		</i>

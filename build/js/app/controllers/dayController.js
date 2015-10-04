@@ -132,7 +132,7 @@ this.viewmodel = function(userinput){
 
 		// grid view (user days only)
 
-		if (userinput = '14'){
+		if (userinput=== '14'){
 		
 		}
 
@@ -162,7 +162,7 @@ this.viewmodel = function(userinput){
 		
 		}
 
-}
+};
 
 
 
