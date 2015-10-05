@@ -53,9 +53,10 @@ function showUserProfile(data) {
 
 dayService.populateDayGrid(setDayScope);
 
-$scope.Day.dayWelcomeMsg = '';
-$scope.Day.searchResultLength = 0;
-$scope.Day.searchResultsMessage = null;
+	$scope .Day.dayUserName = '';   //added to reset after clear from delete account?
+	$scope.Day.dayWelcomeMsg = '';
+	$scope.Day.searchResultLength = 0;
+	$scope.Day.searchResultsMessage = null;
 
  
 
