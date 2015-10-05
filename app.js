@@ -111,31 +111,6 @@ app.get('/api/show', function(req,res,next){
 });
 
 
-//Endpoint gets partial profile info for "otheruser", NOT the logged in user
-// router.route('/otheruserinfo').post(function(req,res,next){
-//         console.log ("at api otheruserinfo req.tag is... " + req.body.userName);
-//         tagString = req.body.tag;
- 
-//         User.find({userName: userName)
-//             .exec(function(err,User)
-//         {
-//         if (err)
-//             {console.log('error at api otheruserinfo');
-//              return next(err);}
-//         else
-//             {
-//             //pass back otherUser object to avoid collisions with User in client (?)    
-//             console.log("~~~~~~at otheruserinfo found username...: ", User.userName );
-//             otherUser.username = User.userName;
-//             otherUser.created = User.created;
-//             otherUser.userAbout = User.userAbout;
-//             res.json(otherUser);  //???
-//             }
-//         })
-// });
-
-
-
 
 //tag based search  
 router.route('/taglookup').post(function(req,res,next){
@@ -165,20 +140,24 @@ router.route('/getdaysofuser').post(function(req,res,next){
 
         console.log ("at api incoming req.username is... " + req.body.username);
         
-        Day.find( {userName : req.body.username}  )
-            .sort({dayCreateDate: 'descending'})
-            .exec(function(err,Day)
-            
-        {
-        if (err)
-            {console.log('error at getdaysforuser api endpoint');
-             return next(err);}
-        else
-            {
-            console.log("~~~~~~at getdaysforuser API found username...: ", Day );
-            res.json(Day); 
-            }
-        })
+        ///TODO: BLOCK THIS IF USER IS INACTIVE
+
+                Day.find( {userName : req.body.username}  )
+                        .sort({dayCreateDate: 'descending'})
+                        .exec(function(err,Day)
+                        
+                    {
+                    if (err)
+                        {console.log('error at getdaysforuser api endpoint');
+                         return next(err);}
+                    
+                    else
+                        {
+                        console.log("~~~~~~at getdaysforuser API found username...: ", Day );
+                        res.json(Day); 
+                        }
+                    })
+                
 });
 
 

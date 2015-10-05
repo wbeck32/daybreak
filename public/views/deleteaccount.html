@@ -7,60 +7,46 @@
 						style ='cursor: pointer;'>clear
 	</i>
 <div>
-		
 	<br>
 	<br>	
-
-<div class="form group">
-			Permanently delete this account for community member "{{User.username}}"? 
-</div>
-
-	<!-- Switch -->
-	  <div class="switch">
-	    <label>
-	      No
-	      <input type="checkbox">
-	      <span class="lever"></span>
-	      Yes
-	    </label>
-	  </div>
-
-
-	<br>
-	<br>
-
-	<input input data-ng-click="User.deleteaccount(User.username)";
-			class="btn btn-sm btn-block left red "
-			type="submit" 
-			value="Permanently Delete Account">
-	</input>
-
+	<div class="form group">
+				Permanently delete this account for community member "{{User.username}}"? 
 	</div>
-
-	<br>
-	<br>
-
-	 <div ng-switch on="deleteRequest;">
-	 	<div ng-switch-when="Yes";>
-
+		<!-- Switch -->
+		  <div class="switch">
+		    <label>
+		      No
+		      <input type="checkbox">
+		      <span class="lever"></span>
+		      Yes
+		    </label>
+		  </div>
+		<br>
+		<br>
+		<input input data-ng-click="User.deleteaccount(User.username)";
+				class="btn btn-sm btn-block left red "
+				type="submit" 
+				value="Permanently Delete Account">
+		</input>
+</div>
+<br>
+<br>
+<div ng-switch on="deleteRequest;">
+	 <div ng-switch-when="Yes";>
 			<input data-ng-click="User.deleteaccount(User.username)";
 			class="btn btn-sm btn-block left red "
 			type="submit" 
 			value="Permanently Delete Account">
 			</input>
-
-
-			<div class='spacer'>We're sorry to see you go!</div>
-
-
-		</div>
+			
+			<div class='spacer'>We're sorry to see you go!
+			</div>
 	</div>
-
+</div>
 	<br>
 	<br>
 	<br>
 	<br>
-
 </div>
  			 
 

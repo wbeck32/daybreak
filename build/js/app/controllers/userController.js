@@ -3,7 +3,7 @@ dayBreak.controller('userController',
 		
 		$scope.User.profileMode  = '';	
 		//$scope.User.selfOrOther = 'other';
-		$scope.User.userFunction 	= null; //determines visibility of user functions, Log, NEWREG, etc.
+		$scope.User.userFunction= null; //determines visibility of user functions, Log, NEWREG, etc.
 		$scope.User.userMessage	 	= null;  
   		$scope.User.userViewSwitch 	= 'grid'; // single, grid, profile
  		$scope.User.userAddDay 		= null;
