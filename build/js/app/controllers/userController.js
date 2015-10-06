@@ -79,6 +79,11 @@ if ($scope.User.userState === 'loggedOut'){
 		console.log('PRIVACY profileMode is', $scope.User.profileMode);
 	}
 
+	if(userview === 'checkemailtoconfirmreg') {
+		$scope.User.profileMode = 'checkemailtoconfirmreg';
+		console.log('checkemailtoconfirmreg profileMode is', $scope.User.profileMode);
+	}
+
 
 }
 	else
@@ -130,28 +135,28 @@ else
 
 
 
-this.selfOrOther = function(){
+// this.selfOrOther = function(){
 
-console.log('state is: ', $scope.User.userState);
-console.log('User.username is: ', $scope.User.username);
+// console.log('state is: ', $scope.User.userState);
+// console.log('User.username is: ', $scope.User.username);
 
-console.log('userFunction is: ', $scope.User.userFunction);
+// console.log('userFunction is: ', $scope.User.userFunction);
 	
-if ($scope.User.userState === 'loggedOut') 
-	{$scope.User.selfOrOther = 'other'; }
+// if ($scope.User.userState === 'loggedOut') 
+// 	{$scope.User.selfOrOther = 'other'; }
  
-if ($scope.Day){
+// if ($scope.Day){
 
-		console.log('Day.day.username is: ', $scope.Day.dayUserName);
+// 		console.log('Day.day.username is: ', $scope.Day.dayUserName);
 
-		if ( ($scope.User.userState === 'loggedIn') && ($scope.User.username!== $scope.Day.dayUserName) )
-			{$scope.User.selfOrOther = 'other'; }
+// 		if ( ($scope.User.userState === 'loggedIn') && ($scope.User.username!== $scope.Day.dayUserName) )
+// 			{$scope.User.selfOrOther = 'other'; }
 
-		if ( ($scope.User.userState === 'loggedIn') && ($scope.User.username === $scope.Day.dayUserName) )
-			{$scope.User.selfOrOther = 'self'; }
+// 		if ( ($scope.User.userState === 'loggedIn') && ($scope.User.username === $scope.Day.dayUserName) )
+// 			{$scope.User.selfOrOther = 'self'; }
 
-		}
- };
+// 		}
+//  };
 
  
 //////////////////////////////////////////////////////
@@ -393,8 +398,6 @@ this.changepassword = function(User, callback){ console.log($scope.User.userStat
 
 
 	this.updateUserInfo = function(){
-		//console.log($scope.User.userAbout," is userAbout {{{{{{{{");
-		//console.log ($scope.User.username, " is $scope.User.username {{{{{{{{{");
 		var userAbout= $scope.User.userAbout;
 		var username = $scope.User.username;
  		userService.updateUserInfo(username, userAbout);			 

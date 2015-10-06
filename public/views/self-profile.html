@@ -28,7 +28,18 @@
 				  				<span class='profileInfo' id='pdate'>{{User.created}}</span>
 				  			</div>
 
-							<div class="profileLabel">About Me:	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<div class="profileLabel">About Me:	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+
+								<input data-ng-model="User.userAbout"
+									class='profileAbout'  > 
+				  				</input>
+
+							 
+
+							 <div  data-ng-click="User.updateUserInfo()"
+									class="waves-effect waves-light btn right"
+									 >Save</div> 
+
 								<!-- <div class = 'textareabox'>
 
 									<textarea style = 'border: 1 solid grey;'
@@ -38,15 +49,8 @@
 									required>
 									</textarea>
 								 </div>-->
-
-								<input data-ng-model="User.userAbout"
-									class='profileAbout'   > 
-				  				</input>
-
-								<!-- <input  data-ng-submit="User.updateUserInfo()"
-									class="waves-effect waves-light btn right"
-									type="submit" 
-									value="Save" > -->
+ 
+							 
 							</div>
 						</div>
 					</div>
@@ -83,19 +87,14 @@
 							
 							<br>
 
-							<div class ='profileLabel'>				
-								<div class='deleteaccount'>
+							<div class ='profileLabel'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<span  
+										data-ng-click="User.profileSelect('deleteaccount');"
+									 	class="btn btn-success btn-sm btn-block left red" 
+										type="submit">Delete Account
+									</span> 
 								 
-								<input  
-									data-ng-click=" User.profileSelect('deleteaccount');"
-									
-									class="btn btn-success btn-sm btn-block left red" 
-									type="submit" 
-									value="Delete Account"> 
-
-								</div>	
 							</div>	
-
 				  	</div>  			
 				</br>
 

@@ -1,6 +1,8 @@
 <div class = "regSurround">
 	<form 
-		data-ng-submit="User.registerValidUser(User)"
+		data-ng-submit="User.registerValidUser(User);
+							 User.userViewSwitch='profile'; 
+ 							 User.profileSelect('checkemailtoconfirmreg');"
 			name = "regForm" 
 		novalidate>
 

@@ -1,7 +1,8 @@
 <div class = "regSurround">
 
 <i data-ng-click = "User.userViewSwitch='grid';
- 					User.profileSelect(null); "  
+ 					User.profileSelect(null); 
+ 					"  
 		class="material-icons right small" 
 		style ='cursor: pointer;'>clear
 </i>
@@ -39,18 +40,17 @@
 	Login with User Name and Password 
 
 <form>
+
+	<div class="form group">
+ 
+
 	<div class="form group">
  		<input class= "form-control" type="text" 
  					placeholder="User Name"
 					ng-model="User.username">
 	</div>
 
-	<div class="form group">
- 
-		<span class="alertwarn" 
-		data-ng-show="User.LoginError === true">
-		Unknown user name or password.</span>
-
+	
 		<input class= "form-control" type="password" placeholder="Password"
 					ng-model="User.password">
 	</div>
@@ -59,15 +59,16 @@
 					  	  User.login();"
 			class="btn btn-success btn-sm btn-block left" 
 			type="submit" value="Login">
+	<br>
+	<br>
+	<div class="alertwarn" 
+		data-ng-show="User.LoginError === true">
+		Unknown user name or password.
+	</div>
  
-</form>
+</form>	
 <br>
 <br>
-<br>
-<br>
-
- 
-
 
 
 <div class='loginDirection'>

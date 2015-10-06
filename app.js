@@ -22,6 +22,7 @@ var bcrypt = require('bcrypt');
 var loginmailgun = require('./data/loginmailgun.js');
 var transporter = nodemailer.createTransport(smtpTransport({
   host: 'smtp.mailgun.org',
+  port: 587,
   auth: {
     user: loginmailgun.user,
     pass: loginmailgun.pass
