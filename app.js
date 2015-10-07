@@ -99,6 +99,7 @@ router.get('/', function(req, res) {
     });
  
 
+//TODO: THIS IS NOT USED EXCEPT TO EXPOSE THE ENTIRE DAY DB --   DELETE?
 app.get('/api/show', function(req,res,next){
     var getSize = 50;
     Day.find( {} ).sort({dayCreateDate: 'descending'}).limit(getSize).exec(function(err, Days){
@@ -112,7 +113,6 @@ app.get('/api/show', function(req,res,next){
 });
 
 
-
 //tag based search  
 router.route('/taglookup').post(function(req,res,next){
         console.log ("at api incoming req.tag is... " + req.body.tag);
@@ -122,7 +122,6 @@ router.route('/taglookup').post(function(req,res,next){
         Day.find({dayTags: {$in:tagArray}})
             .sort({dayCreateDate: 'descending'})
             .exec(function(err,Day)
-
         {
         if (err)
             {console.log('error at tag api endpoint');
@@ -136,16 +135,38 @@ router.route('/taglookup').post(function(req,res,next){
 });
 
 
-//getdaysforuser  
+//TODO TEST AND INTEGRATE: function takes user name and returns activestatus true or false
+function activeStatus(username){ 
+
+    if(username){  
+    User.findOne({userName: req.body.username})
+        .select('userName')
+        .select('activestatus')
+        .exec(function(err,user){
+            console.log(user.activestatus, ' is user.activestatus at login api');
+
+        if (err){
+            return next(err);
+        } else if(!user) {
+                console.log("APP.JS: user not found at login api");
+                 
+         } else if (user.activestatus==='inactive') {
+                console.log("username exists but account status is inactive at login api");
+               
+            }
+        }
+    )}
+}
+
+
+//RETURNS ALL DAYS FOR ONE USER, (inactive users never available) 
 router.route('/getdaysofuser').post(function(req,res,next){
 
         console.log ("at api incoming req.username is... " + req.body.username);
         
-        ///TODO: BLOCK THIS IF USER IS INACTIVE
-
-                Day.find( {userName : req.body.username}  )
-                        .sort({dayCreateDate: 'descending'})
-                        .exec(function(err,Day)
+             Day.find({userName : req.body.username}  )
+                .sort({dayCreateDate: 'descending'})
+                .exec(function(err,Day)
                         
                     {
                     if (err)
@@ -158,7 +179,7 @@ router.route('/getdaysofuser').post(function(req,res,next){
                         res.json(Day); 
                         }
                     })
-                
+      
 });
 
 
@@ -205,13 +226,12 @@ router.route('/addday').post(function(req, res) {
 });
 
 ////////////////////////////////////////////////////
-/// endpoint for registering valid user which is 
-// 1) password confirmed  2) not duplicate username 
-// 3) not duplicate email  4) user clicks registration button
+/// endpoint for register user who is 
+// 1) client side password match and long enough  
+// 2) server side not duplicate username 
+// 3) server side not duplicate email   
 //////////////////////////////////////////////////////////
- 
-
-router.route('/registerValidUser').post(function(req,res,next){
+ router.route('/registerValidUser').post(function(req,res,next){
     var userCreateSuccess = false;
     //create user record
     var user = new User({   userName    : req.body.username,
@@ -247,8 +267,8 @@ router.route('/registerValidUser').post(function(req,res,next){
 
         to: 'miles.hochstein@gmail.com,webeck@gmail.com',  //TODO DELETE OWN EMAIL!!!!! 
 
-        subject: 'Please confirm your Perfect Daybreak email address', // Subject line
-        text: 'Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone.', // plaintext body
+        subject: 'New Registration: Please confirm your Perfect Daybreak email address', // Subject line
+        text: 'New Registration: Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone.', // plaintext body
         html: 'Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone. <br/><a href="http://localhost:8090/api/verifyemail?access_token='+token+'&email='+req.body.email+'">Click here to confirm your email address</a>.'
     };
 
@@ -262,7 +282,13 @@ router.route('/registerValidUser').post(function(req,res,next){
 });
 
 
-    
+//TWO PATHS?  
+//EMAIL THAT LOGS YOU IN
+//EMAIL THAT LETS YOU RESET PASSWORD... AND LOGS YOU IN.
+
+
+
+//CHECKS 1) TOKEN NOT EXPIRED 2) EMAIL OF TOKEN EXISTS
 app.get('/api/verifyemail', function(req,res,next){
     //console.log(req._parsedOriginalUrl.query, " is access token for email verification response.");
     var queryString = req._parsedOriginalUrl.query;
@@ -285,7 +311,8 @@ app.get('/api/verifyemail', function(req,res,next){
 
 
 ///////////////////////////////////////////////////////////
-//user resets email
+//STEP 1 OF EMAIL RESET
+//user resets email (enters new email addess, receives confirmation, clicks)
 
 router.route('/emailreset').post(function(req,res,next){
     //var resetemail = req.body.newemail;//TODO USE THIS LINE WHEN LIVE
@@ -306,6 +333,8 @@ router.route('/emailreset').post(function(req,res,next){
                   })
 });
 
+
+//RETURN THE DAYS FOR A SINGLE USER
 app.post('/api/userprofile', function(req, res, next){
     //console.log(req.body);
     var data = {user:'',days:''};
@@ -330,6 +359,8 @@ app.post('/api/userprofile', function(req, res, next){
     }); 
 });
 
+
+//STEP 2 OF EMAIL RESET - 
 app.get('/api/verifyemailreset', function(req,res,next){
     tokenIN=req._parsedOriginalUrl.query;
     var decoded = jwt.decode(tokenIN, jwtKey); //check for decoded.email
@@ -358,7 +389,7 @@ app.get('/api/verifyemailreset', function(req,res,next){
 //Username password RECOVERY for loggedout user, 
 //distinct from logged in user password reset
 //THREE ENDPOINTS IN PROCESS 
-/////////////////////////////////////////////////////////////////
+//STEP 1 OF 3 IN PASSWORD RESET //////////////////////
  router.route('/passwordreset').post(function(req,res,next){
     
     var knownemail = req.body.knownemail;
@@ -395,7 +426,7 @@ app.get('/api/verifyemailreset', function(req,res,next){
                               from: 'PerfectDayBreak Team <passwordreset@perfectdaybreak.com>',
                               to: 'miles.hochstein@gmail.com,webeck@gmail.com',   
                               subject: 'Please click link to create new password', // Subject line
-                              text: 'Click this link to create new password.', // plaintext body
+                              text: 'Forgot Username Or Password? Click this link to create new password.', // plaintext body
                               html: 'Click this link to create a new password <br/><a href="http://localhost:8090/api/emailpasswordreset/'+token+'">Click here to create a new password for your account at PerfectDayBreak.com. </a><br/> If you did not request this e-mail, feel free to ignore it'
                             };
                     transporter.sendMail(passwordResetOptions, function(err, info) {
@@ -411,9 +442,8 @@ app.get('/api/verifyemailreset', function(req,res,next){
 
 
 
-/////////////////////////////////////////////////////////////////
+//STEP 2 OF 3 PASSWORD RESET ////////////////////////////////////////////
 app.get('/api/emailpasswordreset/:temptoken', function(req,res,next){
-
     console.log('GETTING PASSWORD RESET FORM AT /api/emailpasswordreset/:temptoken');
     var decoded = jwt.decode(req.params.temptoken, jwtKey); //check for decoded.email
     var email   = decoded.email;
@@ -422,6 +452,7 @@ app.get('/api/emailpasswordreset/:temptoken', function(req,res,next){
   });
 
 
+// STEP 3 OF 3 IN PASSOWRD RESET
 // after user fills out new password info, user posts to here
 app.get('/api/verifypasswordreset/:temptoken/:pw/:pw2', function(req, res){
 //  console.log('NOW POSTING NEW PASSWORD TO /api/verifypasswordreset/:temptoken');
@@ -495,7 +526,7 @@ app.get('/api/verifypasswordreset/:temptoken/:pw/:pw2', function(req, res){
  
 
 /////////////////////////////////////////////////////////////////
-
+//LOGGED IN USER UPDATES userAbout
 router.route('/updateuserinfo').post(function(req,res,next){ 
     if (req.body.userName){
         User.findOne({userName: req.body.userName}, function(err, user){
@@ -512,7 +543,7 @@ router.route('/updateuserinfo').post(function(req,res,next){
     }
 })
  
-
+//LOGGED IN USER DELETES (INACTIVATES) OWN ACCOUNT
 router.route('/deleteaccountapi').post(function(req,res,next){
     //console.log(req.body.userAbout,"is req.body.userAbout incoming at API")
      console.log(req.body.username,"is req.body.userName incoming at API")
@@ -539,8 +570,8 @@ router.route('/deleteaccountapi').post(function(req,res,next){
 })
 
 
-
-//1d  checks for duplicate username - If UNIQUE then TRUE
+//REGISTRATION 
+//PART 1 - checks for duplicate username - If UNIQUE then TRUE
 router.route('/checkusername').post(function(req,res,next){
     var user = new User({userName: req.body.username });
    User.findOne({userName: req.body.username})
@@ -559,12 +590,10 @@ router.route('/checkusername').post(function(req,res,next){
          });
   });
 
-
-//1d  checks for duplicate email
+//REGISTRATION 
+//PART 2 - checks for duplicate email
 router.route('/checkemail').post(function(req,res,next){
- 
     var user = new User({email: req.body.email });
-   
     User.findOne({email: req.body.email})
         .exec(function(err,user){
                 console.log(user+  " is user at checkemail route");
@@ -583,7 +612,8 @@ router.route('/checkemail').post(function(req,res,next){
 });
  
  
-//2  LOGIN Takes user name and password hash stored client side, and 
+// LOGIN 
+//Takes user name and password hash stored client side, and 
 //bcrypt compares incoming password to hash password in db
 //If name pwd match, then returns a jwt token.
 router.route('/login').post(function(req,res,next){
@@ -628,7 +658,7 @@ router.route('/login').post(function(req,res,next){
     });
 });
 
-
+//CREATE 7 DAY TOKEN
 function maketoken (username, email){
   var expires = moment().add(7, 'days').valueOf();  //about 6 minutes?
   var token = jwt.encode({
@@ -642,7 +672,7 @@ function maketoken (username, email){
 }
 
 
-
+//LOGIN BASED ON VALID RECENT TOKEN
 //similar to login - login via username but use stored token for returning user.
 router.route('/loginrefresh').post(function(req,res,next){
     
@@ -652,8 +682,6 @@ router.route('/loginrefresh').post(function(req,res,next){
     var username = jwt.decode(req.body.token, jwtKey).iss;
 
     console.log('loginrefresh incoming token: '   ,username);
-
-    //console.log('here is user name inside token at app.js', username); 
 
     User.findOne({userName: username})
         .select('email').select('created').select('userName')
@@ -668,7 +696,7 @@ router.route('/loginrefresh').post(function(req,res,next){
         } else if(!user) {
                 console.log("APP.JS: user not found in session");
                 res.sendStatus(401);
-//TODO: use this flag to activate after email confirm, and deactivate on user request.
+//TODO: test if inactive user breaks token login as it should!  
         } else if (user.activestatus==='inactive') {
                 console.log("username exists but account status is delete");
                 res.sendStatus(401);
@@ -695,10 +723,10 @@ router.route('/loginrefresh').post(function(req,res,next){
 });
 
 //////////////////////////////////////////////////////
+//PASSWORD CHANGE FOR LOGGED IN USER
 //logged in user changes password
 
 router.route('/changepassword').post(function(req,res,next){ 
-
     console.log('incoming is: ', req.body.username, req.body.password);
     if (req.body.password){
         User.findOne({userName: req.body.username}, function(err, user){
@@ -736,50 +764,42 @@ router.route('/changepassword').post(function(req,res,next){
                      console.log('no user found ********');
                   }
                 }
-
         })
     }
  })
 
 
- //////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
 router.route('/auth').post(function(req,res,next){
-
     console.log(req.body.username, ' is incoming username');
     console.log(req.body.token,    ' is incoming token at api');
-
-
 });
 
 
 
-/////////roadwarrior
+// TODO DELETE! /////////roadwarrior
 
-function authenticate (userid, email){
-  var expires = moment().add(7, 'days').valueOf();
-  var token = jwt.encode({
-    iss: userid,
-    exp: expires,
-    email: email
-  }, jwtKey);
-  return token;
-}
+// function authenticate (userid, email){
+//   var expires = moment().add(7, 'days').valueOf();
+//   var token = jwt.encode({
+//     iss: userid,
+//     exp: expires,
+//     email: email
+//   }, jwtKey);
+//   return token;
+// }
 
+//TODO DELETE?
+// function passwordResetAuthenticate (userid){
+//   var expires = moment().add(1, 'hours').valueOf();
+//   var token = jwt.encode({
+//     iss: userid,
+//     exp: expires
+//   }, jwtKey);
+//   return token;
+// }
 
-function passwordResetAuthenticate (userid){
-  var expires = moment().add(1, 'hours').valueOf();
-  var token = jwt.encode({
-    iss: userid,
-    exp: expires
-  }, jwtKey);
-  return token;
-}
-
-//look up user by plain text username - 
-//IF positive match on decoded email and recent date
-//return true
-//else return false
-
+//CHECK FOR NON-EXPIRED TOKEN - TOKEN EXPIRATION DECIDED WHEN IT IS SET.
 function checktokenvalid(tokenIN, verifiedemail){
     if (tokenIN) {
             var decoded = jwt.decode(tokenIN, jwtKey); 

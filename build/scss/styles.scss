@@ -109,7 +109,10 @@ nav {
 }
 
 
-.link { font-size: 0.5em;
+.link { 
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 0.9em;
  	cursor:pointer;
 	text-decoration: underline;
 }
@@ -335,7 +338,7 @@ height:30%;
 		   border: 1px solid black;}
 
 .alertinform{ height:35px;
-			width: 90%;
+			width: 100%;
  			padding-top: 3px;
  
 			padding-left: 10px;

@@ -163,7 +163,8 @@ this.registerUser = function(User,callback){
           headers: {'Content-Type': 'application/json'}
           })
           .then(function(response){
-            callback(response.status);              
+            callback(response.status);
+            alert('An email has been sent to your account.  Click the link to confirm your registration.');              
           },
           function(response){
 

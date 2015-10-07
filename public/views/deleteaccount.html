@@ -11,8 +11,10 @@
 	<br>	
 	<div class="form group">
 				Permanently delete this account for community member "{{User.username}}"? 
+			</br>
+				We're sorry to see you go!
 	</div>
-		<!-- Switch -->
+		<!-- 		 
 		  <div class="switch">
 		    <label>
 		      No
@@ -20,10 +22,12 @@
 		      <span class="lever"></span>
 		      Yes
 		    </label>
-		  </div>
+		  </div> -->
 		<br>
 		<br>
-		<input input data-ng-click="User.deleteaccount(User.username)";
+		<input input data-ng-click="User.deleteaccount(User.username);
+									User.userViewSwitch='grid';
+									User.userService.init(completeInit);";
 				class="btn btn-sm btn-block left red "
 				type="submit" 
 				value="Permanently Delete Account">
