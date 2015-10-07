@@ -25,7 +25,8 @@
 		  </div> -->
 		<br>
 		<br>
-		<input input data-ng-click="User.deleteaccount(User.username);
+		<input input data-ng-click="User.signout();
+									User.deleteaccount(User.username);
 									User.userViewSwitch='grid';
 									User.userService.init(completeInit);";
 				class="btn btn-sm btn-block left red "

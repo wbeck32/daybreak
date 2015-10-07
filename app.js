@@ -159,7 +159,7 @@ function activeStatus(username){
 }
 
 
-//RETURNS ALL DAYS FOR ONE USER, (inactive users never available) 
+//RETURNS ALL DAYS FOR ONE USER, (inactive users never visible for requesting) 
 router.route('/getdaysofuser').post(function(req,res,next){
 
         console.log ("at api incoming req.username is... " + req.body.username);
@@ -179,10 +179,10 @@ router.route('/getdaysofuser').post(function(req,res,next){
                         res.json(Day); 
                         }
                     })
-      
 });
 
 
+//USE ID TO RETURN SINGLE DAY
 router.route('/getday').post(function(req,res, next){
 
     console.log ('@@@@@@@@@ api endpoint receives dayID', req.body.dayID);
@@ -225,11 +225,42 @@ router.route('/addday').post(function(req, res) {
      });
 });
 
-////////////////////////////////////////////////////
-/// endpoint for register user who is 
+
+//MOVED IN API FROM BELOW
+//RETURN THE DAYS FOR A SINGLE USER
+app.post('/api/userprofile', function(req, res, next){
+    //console.log(req.body);
+    var data = {user:'',days:''};
+    User.find({userName: req.body.username}, function(err,user){
+
+        console.log('user is: ', user);
+        console.log('user[0].activestatus is', user[0].activestatus);
+
+        if (err){
+            next();
+        } else if (user && user[0].activestatus === 'active') {
+            data.user = user[0];
+            Day.find({userName : user[0].userName}, function(err, days) { 
+                if (err) {
+                    next();
+                } else if(days) { 
+                    data.days = days;
+                    console.log('days is', days);
+                } 
+                console.log('api data is ', data);
+                res.status(201).json(data);
+            })        
+        }
+    }); 
+});
+
+
+//FIRST EMAIL SENDER
+//////////////////////////////////////////////////////////
+/// endpoint for register user who meets criteria  
 // 1) client side password match and long enough  
-// 2) server side not duplicate username 
-// 3) server side not duplicate email   
+// 2) server side not duplicate username  (see checkname below)
+// 3) server side not duplicate email    (see checkemail below)
 //////////////////////////////////////////////////////////
  router.route('/registerValidUser').post(function(req,res,next){
     var userCreateSuccess = false;
@@ -286,9 +317,12 @@ router.route('/addday').post(function(req, res) {
 //EMAIL THAT LOGS YOU IN
 //EMAIL THAT LETS YOU RESET PASSWORD... AND LOGS YOU IN.
 
+//CHECKS 1) TOKEN NOT EXPIRED 2) EMAIL OF TOKEN EXISTS BY CALLING checktokenvalid
+//THIS CAN BE USED FOR ALL THREE EMAIL PATHS
+//1) RESET PASSWORD VIA EMAIL
+//2) CREATE NEW REGISTERED EMAIL
+//3) REGISTER EMAIL? 
 
-
-//CHECKS 1) TOKEN NOT EXPIRED 2) EMAIL OF TOKEN EXISTS
 app.get('/api/verifyemail', function(req,res,next){
     //console.log(req._parsedOriginalUrl.query, " is access token for email verification response.");
     var queryString = req._parsedOriginalUrl.query;
@@ -310,6 +344,7 @@ app.get('/api/verifyemail', function(req,res,next){
 });
 
 
+//SECOND EMAIL SENDER
 ///////////////////////////////////////////////////////////
 //STEP 1 OF EMAIL RESET
 //user resets email (enters new email addess, receives confirmation, clicks)
@@ -331,32 +366,6 @@ router.route('/emailreset').post(function(req,res,next){
                     console.log('Email reset email sent!');
                     res.end('Email reset email sent!');
                   })
-});
-
-
-//RETURN THE DAYS FOR A SINGLE USER
-app.post('/api/userprofile', function(req, res, next){
-    //console.log(req.body);
-    var data = {user:'',days:''};
-    User.find({userName: req.body.username}, function(err,user){
-
-        console.log('user is: ', user);
-
-        if (err){
-            next();
-        } else if (user && user[0].activestatus === 'active') {
-            data.user = user[0];
-            Day.find({userName : user[0].userName}, function(err, days) { 
-                if (err) {
-                    next();
-                } else if(days) { 
-                    data.days = days;
-                } 
-                console.log('api data is ', data);
-                res.status(201).json(data);
-            })        
-        }
-    }); 
 });
 
 
@@ -385,6 +394,7 @@ app.get('/api/verifyemailreset', function(req,res,next){
  });
  
 
+//THIRD EMAIL SENDER
 //////////////////////////////////////////////////////
 //Username password RECOVERY for loggedout user, 
 //distinct from logged in user password reset
@@ -439,8 +449,6 @@ app.get('/api/verifyemailreset', function(req,res,next){
         });
     }
 });
-
-
 
 //STEP 2 OF 3 PASSWORD RESET ////////////////////////////////////////////
 app.get('/api/emailpasswordreset/:temptoken', function(req,res,next){
@@ -524,7 +532,6 @@ app.get('/api/verifypasswordreset/:temptoken/:pw/:pw2', function(req, res){
 });
 
  
-
 /////////////////////////////////////////////////////////////////
 //LOGGED IN USER UPDATES userAbout
 router.route('/updateuserinfo').post(function(req,res,next){ 
@@ -769,35 +776,12 @@ router.route('/changepassword').post(function(req,res,next){
  })
 
 
-//////////////////////////////////////////////////////
+///TODO DELETE? ///////////////////////////////////////////////////
 router.route('/auth').post(function(req,res,next){
     console.log(req.body.username, ' is incoming username');
     console.log(req.body.token,    ' is incoming token at api');
 });
 
-
-
-// TODO DELETE! /////////roadwarrior
-
-// function authenticate (userid, email){
-//   var expires = moment().add(7, 'days').valueOf();
-//   var token = jwt.encode({
-//     iss: userid,
-//     exp: expires,
-//     email: email
-//   }, jwtKey);
-//   return token;
-// }
-
-//TODO DELETE?
-// function passwordResetAuthenticate (userid){
-//   var expires = moment().add(1, 'hours').valueOf();
-//   var token = jwt.encode({
-//     iss: userid,
-//     exp: expires
-//   }, jwtKey);
-//   return token;
-// }
 
 //CHECK FOR NON-EXPIRED TOKEN - TOKEN EXPIRATION DECIDED WHEN IT IS SET.
 function checktokenvalid(tokenIN, verifiedemail){
