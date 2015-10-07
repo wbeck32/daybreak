@@ -150,7 +150,7 @@ angular.module('dayBreak')
 		link: function(scope,elem,attrs) {
 			
 		}
-	}
+	};
 
 })
 .directive('updateDay', function(){
@@ -162,7 +162,7 @@ angular.module('dayBreak')
 		link: function(scope,elem,attrs) {
 			
 		}
-	}
+	};
 
 })
 .directive('viewDay', function(){
@@ -174,7 +174,7 @@ angular.module('dayBreak')
 		link: function(scope,elem,attrs) {
 		console.log('scope: ',scope,' elem: ',elem,' attrs: ',attrs);	
 		}
-	}
+	};
 
 })
 
@@ -204,7 +204,7 @@ angular.module('dayBreak')
 	})
 .directive('draggable', function($document){
 	return {
-
+		//restrict: 'E',
 		link: function(scope,elem,attr) {
 			var startX = 0, startY = 0, x = 0, y = 0;
 			element.css({
@@ -231,5 +231,5 @@ angular.module('dayBreak')
 				$document.off('mouseup', mouseup);
 			}
 		}
-	}
+	};
 });
