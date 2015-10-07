@@ -1,0 +1,73 @@
+<div class = "regSurround">
+
+	<i data-ng-click = "User.userViewSwitch='grid';
+						User.userService.init(completeInit);
+						Day.viewEditUserDays(null);" 
+						class="material-icons right small"
+						style ='cursor: pointer;'>clear
+	</i>
+<div>
+	<br>
+	<br>	
+	<div class="form group">
+				Permanently delete this account for community member "{{User.username}}"? 
+			</br>
+				We're sorry to see you go!
+	</div>
+		<!-- 		 
+		  <div class="switch">
+		    <label>
+		      No
+		      <input type="checkbox">
+		      <span class="lever"></span>
+		      Yes
+		    </label>
+		  </div> -->
+		<br>
+		<br>
+		<input input data-ng-click="User.signout();
+									User.deleteaccount(User.username);
+									User.userViewSwitch='grid';
+									User.userService.init(completeInit);";
+				class="btn btn-sm btn-block left red "
+				type="submit" 
+				value="Permanently Delete Account">
+		</input>
+</div>
+<br>
+<br>
+<div ng-switch on="deleteRequest;">
+	 <div ng-switch-when="Yes";>
+			<input data-ng-click="User.deleteaccount(User.username)";
+			class="btn btn-sm btn-block left red "
+			type="submit" 
+			value="Permanently Delete Account">
+			</input>
+			
+			<div class='spacer'>We're sorry to see you go!
+			</div>
+	</div>
+</div>
+	<br>
+	<br>
+	<br>
+	<br>
+</div>
+ 			 
+
+<div id='deleteaccountMessage' 
+	data-ng-switch on='User.userViewSwitch' >
+
+	<div data-ng-switch-when='deleteaccountMessage'>
+
+		<i data-ng-click = "User.userViewSwitch=null "  
+			class="material-icons right small" 
+			style ='cursor: pointer;'>clear
+		</i>
+
+			<div> Account Deleted </div>
+
+		</div>
+	</div>
+
+</div>

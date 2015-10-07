@@ -11,19 +11,19 @@
 		</i>
 
  		<div class ="userProfile">
-		<div data-ng-show="User.userState==='loggedIn' ">
+		<div data-ng-show="User.userState==='loggedIn' ||  User.userState==='loggedOut' ">
 			<div class="profilePublic">
 				<div class="userProfile" >
  
 			  			<div class='profileLabel' >Name:
-			  				<span class='profileInfo' id='pname'>{{Day.dayUserName}}</span>
+			  				<span class='profileInfo' id='pname'>&nbsp; &nbsp; {{Day.otherusername}}</span>
 			  			</div>
 
-			  			<div class='profileLabel' >Member since:&nbsp; 
-			  				<span class='profileInfo' id='pdate'>{{Day.created}}</span>
+			  			<div class='profileLabel' >Member since:&nbsp;&nbsp;  
+			  				<span class='profileInfo' id='pdate'>{{Day.othercreated}}</span>
 			  			</div>
 
-						<div class="profileLabel">About Me:	{{ Day.userAbout}}
+						<div class="profileLabel">About Me:	&nbsp; &nbsp; {{ Day.otheruserabout}}
  						</div>
 		  			 
 				</div>

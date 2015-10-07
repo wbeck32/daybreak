@@ -163,13 +163,16 @@ this.registerUser = function(User,callback){
           headers: {'Content-Type': 'application/json'}
           })
           .then(function(response){
-            callback(response.status);              
+            callback(response.status);
+            alert('An email has been sent to your account.  Click the link to confirm your registration.');              
           },
           function(response){
 
             console.log("no user created ");
           }); 
 };
+
+
 
 //////////////////////////////////////////////////////
  
@@ -227,6 +230,30 @@ this.updateUserInfo = function(username, userAbout){
           console.log("data is: " + data);
         }); 
 };
+
+
+
+
+
+ // get the user information for the selected user, who is not logged in user
+this.otherUserInfo = function(otherusername, callback){
+  $http({
+    method    : 'POST',
+    url       : '/api/otheruserinfo',
+    data      : { userName     :  otherusername},
+    headers   : {'Content-Type' : 'application/json'}
+    })
+    .success(function(data){
+      console.log('data is: ', otherUser, otherUser.userName, otherUser.created, otherUser.userAbout);
+      //callback();
+      })
+    .error(function(data,status, headers, config){
+          console.log("data is: " + data);
+      }); 
+
+};
+ 
+
 
 //////////////////////////////////////////////////////
 

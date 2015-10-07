@@ -1,7 +1,11 @@
-angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', 'commonService',  function($scope,$rootScope,$http,dayService,commonService){
-$scope.Day.chosenDay = '';
-$scope.Day.dayUserName = '';
+angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', 'commonService','userService',  function($scope,$rootScope,$http,dayService,commonService,userService){
+	$scope.Day.chosenDay = '';
+	$scope.Day.dayUserName = '';
 
+	//public profile info for other user, not logged in user
+	$scope.Day.otherusername = '';
+	$scope.Day.othercreated = '';
+	$scope.Day.otheruserabout = '';
 
 
 function setDayScope(data) {
@@ -26,13 +30,22 @@ function showUserProfile(data) {
  	//check to see if this is my profile or not
 	$scope.Day.dayUserName = data.user.userName;
 	if ($scope.User.username == $scope.Day.dayUserName){
-	// 	//display my private info
-		console.log('UUU myAccount setting for private  template/view');
+	 	//display user private info
+		// console.log('UUU myAccount setting for private  template/view');
 		$scope.User.profileSelect('myAccount');
 
 	 } else {
-	 	console.log('TTT otherprofile setting for public  template/view');
+	 	//set otherUser public info to $scope
+	 	console.log('zzzzzzzzzz  otherprofile setting for public  template/view', data.user.userName, data.user.created, data.user.userAbout);
+
+	 	$scope.Day.otherusername = data.user.userName;
+	 	$scope.Day.othercreated = data.user.created;
+	 	$scope.Day.otheruserabout = data.user.userAbout;
+
 	 	$scope.User.profileSelect('otherprofile');
+
+	 
+
  	}
 
 	console.log('display data on the profile page');
@@ -41,15 +54,12 @@ function showUserProfile(data) {
 
 dayService.populateDayGrid(setDayScope);
 
-$scope.Day.dayWelcomeMsg = '';
-$scope.Day.searchResultLength = 0;
-$scope.Day.searchResultsMessage = null;
+	$scope .Day.dayUserName = '';   //added to reset after clear from delete account?
+	$scope.Day.dayWelcomeMsg = '';
+	$scope.Day.searchResultLength = 0;
+	$scope.Day.searchResultsMessage = null;
 
- 
-
-
-
-
+  
  this.viewEditUserDays = function(username){
 	console.log ('entering viewEditUserDays');
 	console.log('username in daycontroller is ', username);
@@ -57,6 +67,7 @@ $scope.Day.searchResultsMessage = null;
 	if(username !== null)
 		{$scope.Day.searchResultsMessage='Now Showing Days for '+ username+' Only'; 
 		dayService.getDaysOfUser(username, setDayScope);
+		
 		}
 	else if (username === null)
 		{console.log('username is null ***********');

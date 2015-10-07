@@ -109,7 +109,10 @@ nav {
 }
 
 
-.link { font-size: 0.5em;
+.link { 
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 0.9em;
  	cursor:pointer;
 	text-decoration: underline;
 }
@@ -270,8 +273,8 @@ height:30%;
 
 .userProfile { 
 	font-size: 1rem; 
-	margin-bottom: 20px; 
-	padding-bottom: 10px;
+	margin-bottom: 5px; 
+	padding-bottom: 5px;
 }
 
 .closeModal {
@@ -321,12 +324,13 @@ height:30%;
 
   }
 
- .alertwarn{ height:35px;
-			width: 90%;
- 			padding-top: 3px;
+ .alertwarn{height:35px;
+		    width: 90%;
+		    margin-left: 50px;
+ 		    padding-top: 3px;
  
-			padding-left: 10px;
-			padding-right: 10px;
+  		   padding-left: 10px;
+		   padding-right: 10px;
 		   color: red;
 		   background-color: #FFFFCC;
 		   font-size: 1em;
@@ -334,7 +338,7 @@ height:30%;
 		   border: 1px solid black;}
 
 .alertinform{ height:35px;
-			width: 90%;
+			width: 100%;
  			padding-top: 3px;
  
 			padding-left: 10px;
@@ -546,7 +550,8 @@ height:30%;
  .profileLabel{ font-size: 1em;
  				margin:  4px;
  				padding: 3px;
- 				margin-bottom: 20px;
+ 				margin-top: 5px;
+ 				margin-bottom: 5px;
  				 
  				}
 
@@ -561,12 +566,24 @@ height:30%;
 
  #pdate {width:50px;  }
 
+ .deleteaccount {padding: 20px; font-size: .5em;}
+
 .privacypolicy {text-decoration: underline;
 				cursor: pointer;
 				font-size: 1.1em;
 }
 
- .profileInfo{  font-size: 1em; 
+ .profileInfo{  width: 40%; 
+ 				font-size: 1em; 
+  				margin: 1px;
+ 				padding: 1px;
+ 				padding-left: 5px;
+ 				padding-right: 5px;
+ 				padding-bottom: 2px;
+   				}
+
+.profileAbout{   width: 65%;
+  				font-size: 1em; 
   				margin: 1px;
  				padding: 1px;
  				padding-left: 5px;
@@ -580,8 +597,7 @@ height:30%;
  			}
 
 .textareabox {	background-color: #E0F9F3; 							float:right; 
-				width: 500px; 
-				width: 60%;}
+ 				width: 100%;}
 
  #deleteaccount{
  			margin-top: 5px;
@@ -594,7 +610,7 @@ height:30%;
  				 border-radius: 5px;
  				 margin-bottom:25px;
  				 padding-top:10px;
- 				 padding-bottom: 40px;
+ 				 padding-bottom: 10px;
  				 padding-left: 20px;
  				 padding-right:20px;}
 
@@ -603,7 +619,8 @@ height:30%;
  				 background-color:  green lighten-3; 
  				 border-radius: 5px;
  				 margin-bottom:5px;
- 				 padding:10px;}
+ 				 padding:10px;
+ 				 padding-bottom:15px;}
 
 
 .publicPrivateLabel{font-size: 1 em;

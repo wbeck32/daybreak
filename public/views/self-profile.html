@@ -28,8 +28,19 @@
 				  				<span class='profileInfo' id='pdate'>{{User.created}}</span>
 				  			</div>
 
-							<div class="profileLabelAboutMe">About Me:	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<div class = 'textareabox'>
+							<div class="profileLabel">About Me:	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+
+								<input data-ng-model="User.userAbout"
+									class='profileAbout'  > 
+				  				</input>
+
+							 
+
+							 <div  data-ng-click="User.updateUserInfo()"
+									class="waves-effect waves-light btn right"
+									 >Save</div> 
+
+								<!-- <div class = 'textareabox'>
 
 									<textarea style = 'border: 1 solid grey;'
 									rows = '3'  
@@ -37,23 +48,17 @@
 									placeholder="My perfect day would be... (140 characters)"
 									required>
 									</textarea>
-
-								</div>
-	 						</div>
-			  			
-
-						<input  ata-ng-submit="User.updateUserInfo()"
-							class="waves-effect waves-light btn right"
-							type="submit" 
-							value="Save"
-							>
+								 </div>-->
+ 
+							 
+							</div>
 						</div>
 					</div>
 
 
 					<div class='publicPrivateLabel'>Private</div>
 
-					<div class= 'profilePrivate'>
+					<div class= 'profilePrivate' >
 
 				  			<div class='profileLabel'>Change E-mail? &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -70,23 +75,32 @@
 							</div>
 				  			
 				  			<br> 
-				  			<br>
+
+				  			
 				  		
 				  			<div class ='profileLabel'>Password:&nbsp;
-				  				<span class='profileInfo' id='pname'>  &bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull; &nbsp;
+				  				<span class='profileInfo' id='pname'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull; &nbsp;
 				  				</span>
 
 				  				<span class="btn btn-sm btn-block right" 
 				  				data-ng-click="User.profileSelect('passwordreset')">Change Password?</span> 
 				  			</div>
+							
+							<br>
+							<br>
+
+							<div class ='profileLabel'>Account Control:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<span  
+										data-ng-click="User.profileSelect('deleteaccount');"
+									 	class="btn btn-success btn-sm btn-block right red" 
+										type="submit">Delete Account
+									</span> 
+								 
+							</div>	
 				  	</div>  			
 				</br>
-				<div class='closeModal' 
-					data-ng-show="User.userViewSwitch==='Myaccount' ">
-						<a data-ng-click="User.userViewSwitch='deleteaccount' ">
-						Delete account?					
-					</a>
-				</div>	
+
+				
 			</div> <!--   end ngshow -->
 		</div>
 		  		 

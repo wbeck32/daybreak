@@ -112,12 +112,7 @@ this.addLoc = function(Location,locName,locURL) {
     window.localStorage.setItem('dayTags',tempArray);
     var lL = document.getElementById('locationList');
     console.log(lL);
-    lL.innerHTML += "<div draggable>
-      <div class='locationCard card-panel'>
-        <div class='card-title'>"+$scope.locName+"</div>
-        <div class='card-desc'>"+$scope.locDesc+"</div>
-      </div>
-    </div>";
+    lL.innerHTML += "<div draggable> <div class='locationCard card-panel'><div class='card-title'>"+$scope.locName+"</div><div class='card-desc'>"+$scope.locDesc+"</div></div></div>";
 
     $scope.locDesc = '';
 		$scope.locName = '';

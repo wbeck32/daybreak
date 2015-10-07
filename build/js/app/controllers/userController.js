@@ -2,8 +2,8 @@ dayBreak.controller('userController',
 		['$scope', '$rootScope','$http','$location','userService', 'dayService',function($scope,$rootscope, $http,$location,userService,dayService){
 		
 		$scope.User.profileMode  = '';	
-		$scope.User.selfOrOther = 'other';
-		$scope.User.userFunction 	= null; //determines visibility of user functions, Log, NEWREG, etc.
+		//$scope.User.selfOrOther = 'other';
+		$scope.User.userFunction= null; //determines visibility of user functions, Log, NEWREG, etc.
 		$scope.User.userMessage	 	= null;  
 
  		//$scope.User.userDayView 	= 'grid';  //user can change to 'single'
@@ -36,6 +36,15 @@ dayBreak.controller('userController',
 			}
 		}
 		
+ 
+
+this.otheruserinfo = function(otherusername){
+	
+	userService.otheruserinfo(otherusername);
+};
+
+
+ 
 this.facebook = function(){
 	console.log('user selects facebook login');
 };
@@ -77,6 +86,12 @@ if ($scope.User.userState === 'loggedOut'){
 		$scope.User.profileMode = 'privacypolicy';
 		console.log('PRIVACY profileMode is', $scope.User.profileMode);
 	}
+ 
+ 
+	if(userview === 'checkemailtoconfirmreg') {
+		$scope.User.profileMode = 'checkemailtoconfirmreg';
+		console.log('checkemailtoconfirmreg profileMode is', $scope.User.profileMode);
+	}
 
  
 }
@@ -104,11 +119,15 @@ if ($scope.User.userState === 'loggedIn')
 
 	if(userview === 'privacypolicy') {
 		$scope.User.profileMode = 'privacypolicy';
-		console.log('PRIVACY profileMode is', $scope.User.profileMode);
+		console.log('PRIVACY POLICY profileMode is', $scope.User.profileMode);
 	}
 
-	
+	if(userview === 'deleteaccount') {
+		$scope.User.profileMode = 'deleteaccount';
+		console.log('user requests delete account page', $scope.User.profileMode);
+	}
 
+ 
 	console.log('profileMode is', $scope.User.profileMode);
 }
 else
@@ -119,28 +138,31 @@ else
 };
 
 
-this.selfOrOther = function(){
-
-console.log('state is: ', $scope.User.userState);
-console.log('User.username is: ', $scope.User.username);
-
-console.log('userFunction is: ', $scope.User.userFunction);
-	
-if ($scope.User.userState === 'loggedOut') 
-	{$scope.User.selfOrOther = 'other'; }
  
-if ($scope.Day){
 
-		console.log('Day.day.username is: ', $scope.Day.dayUserName);
+// this.selfOrOther = function(){
+ 
 
-		if ( ($scope.User.userState === 'loggedIn') && ($scope.User.username!== $scope.Day.dayUserName) )
-			{$scope.User.selfOrOther = 'other'; }
+// console.log('state is: ', $scope.User.userState);
+// console.log('User.username is: ', $scope.User.username);
 
-		if ( ($scope.User.userState === 'loggedIn') && ($scope.User.username === $scope.Day.dayUserName) )
-			{$scope.User.selfOrOther = 'self'; }
+// console.log('userFunction is: ', $scope.User.userFunction);
+	
+// if ($scope.User.userState === 'loggedOut') 
+// 	{$scope.User.selfOrOther = 'other'; }
+ 
+// if ($scope.Day){
 
-		}
- };
+// 		console.log('Day.day.username is: ', $scope.Day.dayUserName);
+
+// 		if ( ($scope.User.userState === 'loggedIn') && ($scope.User.username!== $scope.Day.dayUserName) )
+// 			{$scope.User.selfOrOther = 'other'; }
+
+// 		if ( ($scope.User.userState === 'loggedIn') && ($scope.User.username === $scope.Day.dayUserName) )
+// 			{$scope.User.selfOrOther = 'self'; }
+
+// 		}
+//  };
 
  
 //////////////////////////////////////////////////////
@@ -383,8 +405,6 @@ this.changepassword = function(User, callback){ console.log($scope.User.userStat
 
 
 	this.updateUserInfo = function(){
-		//console.log($scope.User.userAbout," is userAbout {{{{{{{{");
-		//console.log ($scope.User.username, " is $scope.User.username {{{{{{{{{");
 		var userAbout= $scope.User.userAbout;
 		var username = $scope.User.username;
  		userService.updateUserInfo(username, userAbout);			 
