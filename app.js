@@ -410,8 +410,8 @@ app.get('/api/emailpasswordreset/:temptoken', function(req,res,next){
 
     console.log('GETTING PASSWORD RESET FORM AT /api/emailpasswordreset/:temptoken');
     var decoded = jwt.decode(req.params.temptoken, jwtKey); //check for decoded.email
-    var email   = decoded.email;
-    var expires = decoded.exp;
+    // var email   = decoded.email;
+    // var expires = decoded.exp;
     res.redirect('/#/?modal=pwr&tkn='+req.params.temptoken);
   });
 

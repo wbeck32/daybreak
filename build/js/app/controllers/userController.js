@@ -5,8 +5,11 @@ dayBreak.controller('userController',
 		$scope.User.selfOrOther = 'other';
 		$scope.User.userFunction 	= null; //determines visibility of user functions, Log, NEWREG, etc.
 		$scope.User.userMessage	 	= null;  
-  		$scope.User.userViewSwitch 	= 'grid'; // single, grid, profile
- 		$scope.User.userAddDay 		= null;
+
+ 		//$scope.User.userDayView 	= 'grid';  //user can change to 'single'
+ 		$scope.User.userViewSwitch 	= 'grid'; // single, grid, profile
+ 		$scope.User.userAddDay 		= false;
+
  		$scope.User.password 		= null;
 		$scope.User.passwordConfirm	= null; 
 		$scope.User.email 			= null;
@@ -29,17 +32,17 @@ dayBreak.controller('userController',
 			if (modal === 'pwr') {
 				$scope.User.userViewSwitch = 'profile';
 				$scope.User.profileMode = 'passwordreset';
+
 			}
 		}
 		
-
 this.facebook = function(){
 	console.log('user selects facebook login');
 };
 
 
 
-this.profileSelect = function(userview){
+this.profileSelect = function(userview){ console.log('profile select is ready to go');
 
 console.log('state is: ', $scope.User.userState);
 console.log('User.username is: ', $scope.User.username);
@@ -62,37 +65,34 @@ if ($scope.User.userState === 'loggedOut'){
 		$scope.User.profileMode = 'recoverPassword';
 		console.log('profileMode is', $scope.User.profileMode);
 	}
+
 	if(userview === 'otherprofile') {
 		$scope.User.profileMode = 'otherprofile';
 
 		console.log('TTTTTTT  profileMode is', $scope.User.profileMode);
 	}
 
+ 
 	if(userview === 'privacypolicy') {
 		$scope.User.profileMode = 'privacypolicy';
 		console.log('PRIVACY profileMode is', $scope.User.profileMode);
 	}
 
-
+ 
 }
 	else
 {
 		console.log('at userController.profileSelect we NOT loggedOut');
 }
-
-
 if ($scope.User.userState === 'loggedIn')
 {
 	if(userview === 'deleteaccount' ){
 		$scope.User.profileMode = 'deleteaccount';
 	}
-
 	if(userview === 'myAccount' ){
 		$scope.User.profileMode = 'myAccount';
 	}
-
 	console.log('profileMode is', $scope.User.profileMode);
-
 	if(userview === 'passwordreset'){
 		$scope.User.password=null;
 		$scope.User.profileMode = 'passwordreset';
@@ -108,8 +108,8 @@ if ($scope.User.userState === 'loggedIn')
 	}
 
 	
+
 	console.log('profileMode is', $scope.User.profileMode);
-	
 }
 else
 {
@@ -117,7 +117,6 @@ else
 }
 
 };
-
 
 
 this.selfOrOther = function(){
@@ -305,6 +304,7 @@ function closepwdchangemodal(){
 this.changepassword = function(User, callback){ console.log($scope.User.userState);
 	if($scope.User.userState === 'loggedOut') {
 		var url = window.location.href.split('#')[0]+'api/verifypasswordreset/';
+		console.log(url);
 		userService.pwdChangeLoggedOut(url,token,User,closepwdchangemodal);
 	} else {
 	userService.changepassword(User, closepwdchangemodal);

@@ -8,7 +8,7 @@ function setDayScope(data) {
 	commonService.formatDates(data);
 	commonService.tagArrayToString(data);
 	$scope.Day.days = data;
-	$scope.User.userDayView = 'grid';
+	$scope.User.userViewSwitch = 'grid';
 }
 
 function chosenDay(data) { 
@@ -34,6 +34,7 @@ function showUserProfile(data) {
 	 	console.log('TTT otherprofile setting for public  template/view');
 	 	$scope.User.profileSelect('otherprofile');
  	}
+
 	console.log('display data on the profile page');
 }
 
@@ -45,124 +46,6 @@ $scope.Day.searchResultLength = 0;
 $scope.Day.searchResultsMessage = null;
 
  
-
-this.viewmodel = function(userinput){
-
-	//Daybreak (back to grid view, all users)
-	if (userinput === 1){
-
-		User.userViewSwitch='grid';
-		User.userService.init(completeInit);
-		Day.viewEditUserDays(null); 
-		}
-
-	//home (back to grid view, all users)
-	if (userinput=== 2){
-		
-		}
-	//register (view register form)
-		//register (submit register info)
-	if (userinput ===3){
-		
-		}
-
-		//clear (back to grid view, all users)
-	if (userinput=== 4){
-		
-		}
-
-	//login or ShareYourFavoriteDay (logged out)
-
-		//facebook (logged out) - facebook login 
-
-		if (userinput ==='5'){
-		
-			}
-
-		//login (logged out) - login 
-
-		if (userinput=== '6'){
-		
-			}
-
-		//click to recover (logged out) begin pwd recover
-
-		if (userinput ==='7'){
-		
-			}
-
-		//clear (logged out) (back to grid view, all users)
-
-		if (userinput=== '8'){
-		
-		}
-
-	//Create New Day  (logged in) (show create new day form)
-
-		if (userinput ==='9'){
-		
-		}
-
-	// log out (logged in ) (log out and begin )
-
-		if (userinput ==='10'){
-		
-		}
-
-
-	// user Account (logged in)
-
-		//about me save  (logged in)
-
-		if (userinput=== '11'){
-		
-		}
-
-		//change email
-
-		if (userinput=== '12'){
-		
-		}
-
-		// change password
-
-		if (userinput ==='13'){
-		
-		}
-
-		// grid view (user days only)
-
-		if (userinput=== '14'){
-		
-		}
-
-		// clear (back to grid view, all users)	
-
-		if (userinput=== '15'){
-		
-		}
-
-	//tag search (logged in or logged out)
-
-		//search (return search results)
-
-		if (userinput=== '16'){
-		
-		}
-
-		//show all days (return all days ...)
-
-		if (userinput ==='17'){
-		
-		}
-
-	// username search (select user name, display user profile with days)
-
-		if (userinput ==='18'){
-		
-		}
-
-};
 
 
 
@@ -184,7 +67,16 @@ this.viewmodel = function(userinput){
 
  
 //get a selected user profile
-this.getUserProfile = function(username){
+ 
+this.addNewDay = function() {
+	//initializes add day form
+	$scope.User.userViewSwitch = 'single';
+	$scope.User.userAddDay = true;
+	$scope.Day.dayWelcomeMsg = 'Tell us about your day!';
+};
+
+
+ this.getUserProfile = function(username){
 	console.log("currrent user name ******", username);
 	$scope.User.userViewSwitch = 'profile';
 	
@@ -223,13 +115,12 @@ this.addDay = function(Day, User) {
 	dayService.addDay(dayName, userName, dayDesc, $rootScope.dayLocations, tagArray, dayChild, dayTeen, setDayScope);
 	$scope.User.userDayView = 'grid';
 	dayService.populateDayGrid(setDayScope);
-	//$scope.User.userFormView = 'hide';   		
 	Day.dayName = '';
 	Day.dayDesc = '';
 };
 
 this.showOneDay = function(dayID){
-	//console.log('dayID is', dayID);
+	$scope.User.userAddDay = false;
 	dayService.getDay(dayID, chosenDay);
 };
 

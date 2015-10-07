@@ -112,7 +112,12 @@ this.addLoc = function(Location,locName,locURL) {
     window.localStorage.setItem('dayTags',tempArray);
     var lL = document.getElementById('locationList');
     console.log(lL);
-    lL.innerHTML += "<div class='locationCard card-panel' draggable='true'><div class='card-title'>"+$scope.locName+"</div><div class='card-desc'>"+$scope.locDesc+"</div>";
+    lL.innerHTML += "<div draggable>
+      <div class='locationCard card-panel'>
+        <div class='card-title'>"+$scope.locName+"</div>
+        <div class='card-desc'>"+$scope.locDesc+"</div>
+      </div>
+    </div>";
 
     $scope.locDesc = '';
 		$scope.locName = '';
@@ -125,6 +130,9 @@ this.addLoc = function(Location,locName,locURL) {
 		Location.locURL = '';
 	}
 };
+
+
+
 
 
 
