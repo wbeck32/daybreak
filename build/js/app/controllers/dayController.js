@@ -31,7 +31,7 @@ function showUserProfile(data) {
 	 } else {
 	 			console.log('8888888 username and dayusername NO MATCH');
 
-	 	$scope.User.profileSelect('otherprofile')
+	 	$scope.User.profileSelect('otherprofile');
 
  	}
 
@@ -50,7 +50,7 @@ this.addNewDay = function() {
 	$scope.User.userViewSwitch = 'single';
 	$scope.User.userAddDay = true;
 	$scope.Day.dayWelcomeMsg = 'Tell us about your day!';
-}
+};
 
 
 this.getUserProfile = function(username){
