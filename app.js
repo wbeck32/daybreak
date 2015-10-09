@@ -82,7 +82,7 @@ var Day = db.model('day',
     dayChild           : Boolean,
     dayTeen            : Boolean,   
     locations          : Array,
-    dayHidden          : String  //null = visible, 'hide' = user sets day status to hidden
+    userDeactivated    : Boolean   
     });
 
 router.use(function(req, res, next) {
@@ -99,7 +99,6 @@ router.get('/', function(req, res) {
  
 //TODO: THIS IS NOT USED EXCEPT TO EXPOSE THE ENTIRE DAY DB --   DELETE?
 //TODO:  THIS IS USED BY dayService.populateDayGrid - 
-//TODO:  USE getdaysofuser endpoint instead.
 //TODO:  use userprofile endpoint instea
 app.get('/api/show', function(req,res,next){
     var getSize = 50;
@@ -117,64 +116,48 @@ app.get('/api/show', function(req,res,next){
 });
 
 //RETURNS ALL DAYS FOR ONE USER, (inactive users never visible for requesting) 
+// router.route('/getdaysofuser').post(function(req,res,next){
+//         console.log ("at api incoming req.username is... " + req.body.username);
 
-router.route('/getdaysofuser').post(function(req,res,next){
-        console.log ("at api incoming req.username is... " + req.body.username);
+//         if (req.body.username !== null)
+//         //GET DAYS FOR ONE USER
+//         {
+//         Day.find({userName : req.body.username}  )
+//             .sort({dayCreateDate: 'descending'})
+//             .exec(function(err,Day)
+//                 {
+//                 if (err)
+//                     {console.log('error at getdaysforuser api endpoint');
+//                      return next(err);}                
+//                 else
+//                     {
+//                     console.log("~~~~~~at getdaysforuser API found username...: ",
+//                                  Day );
+//                     res.json(Day); 
+//                     }
+//                 })
 
-        if (req.body.username !== null)
-        {
-           //  User.find({userName: req.body.username} )
-           //  if (err){
-           //          console.log('could not find user at api/getdaysofuser');
-           //          return next(err);
-           //      } 
-           //  else  
-           //  {
-           //      user.username     = User.userName;
-           //      user.created      = User.created;
-           //      user.userabout    = User.userAbout;
-           //      user.activestatus = User.activestatus;
+//         } else {
+//             //GET DAYS FOR ALL USERS
+//             var getSize = 50;
+//             Day.find( {} )
+//             .sort({dayCreateDate: 'descending'})
+//             .limit(getSize)
+//             .exec(function(err, Day){    //change from Days
+//                 if (err) 
+//                     {return next(err)}
+//                 else{
+//                 console.log("we good at the NEW NEW api");
 
-           //      console.log('FOUND USER', user.username,user.created,user.userAbout,user.activestatus);
-           // //and then begin Day find
-
-            Day.find({userName : req.body.username}  )
-                .sort({dayCreateDate: 'descending'})
-                .exec(function(err,Day)
-                    {
-                    if (err)
-                        {console.log('error at getdaysforuser api endpoint');
-                         return next(err);}                
-                    else
-                        {
-                        console.log("~~~~~~at getdaysforuser API found username...: ",
-                                     Day );
-                        res.json(Day); 
-                        }
-                    })
-
-
-
-        } else {
-            var getSize = 50;
-            Day.find( {} )
-            .sort({dayCreateDate: 'descending'})
-            .limit(getSize)
-            .exec(function(err, Day){    //change from Days
-                if (err) 
-                    {return next(err)}
-                else{
-                console.log("we good at the NEW NEW api");
-                //res.status(201).json(Days); //returns saved Days object
-                res.status(201).json(Day); 
-                }
-            })
-        }
+//                 //DELETE ALL DAYS WITH USER WITH BAD ACTIVE STATUS HERE?!
+//                 //res.status(201).json(Days); //returns saved Days object
+//                 res.status(201).json(Day); 
+//                 }
+//             })
+//         }
+// });
 
  
-});
-
-
 
 
 //tag based search  
@@ -201,7 +184,6 @@ router.route('/taglookup').post(function(req,res,next){
 
 //TODO TEST AND INTEGRATE: function takes user name and returns activestatus true or false
 function activeStatus(username){ 
-
     if(username){  
     User.findOne({userName: req.body.username})
         .select('userName')
@@ -224,8 +206,6 @@ function activeStatus(username){
         }
     )}
 }
-
-
 
 
 //USE ID TO RETURN SINGLE DAY
@@ -251,14 +231,14 @@ router.route('/getday').post(function(req,res, next){
 router.route('/addday').post(function(req, res) { 
     var newDayDoc = new Day({
         dayName:       req.body.dayName,
-        userName:       req.body.userName,
+        userName:      req.body.userName,
         dayCreateDate: Date.now(),
         dayUpdateDate: Date.now(),
         dayDate:       Date.now(),
         dayDesc:       req.body.dayDesc,
         dayTeen:       req.body.dayTeen,
         dayChild:      req.body.dayChild, 
-       dayTags:       req.body.dayTags,
+        dayTags:       req.body.dayTags,
         locations:     req.body.dayLocations
         
         });
@@ -304,27 +284,25 @@ app.post('/api/userprofile', function(req, res, next){
 
     } ///
     else
-    {console.log('7777777 no user at api/userprofile');
 
-            var getSize = 50;
-            Day.find( {} )
-            .sort({dayCreateDate: 'descending'})
-            .limit(getSize)
-            .exec(function(err, days){    //change from Days
-                if (err) 
-                    {return next(err)}
-                else{
-                console.log("we good at the NEW NEW api");
-                data.days = days;
-                //res.status(201).json(Days); //returns saved Days object
-                res.status(201).json(data); 
-                }
-            })
+//DELETE ALL DAYS WITH USER WITH BAD ACTIVE STATUS HERE?!
+
+    {   console.log('7777777 no user at api/userprofile');
+        var getSize = 50;
+        Day.find( {} )
+        .sort({dayCreateDate: 'descending'})
+        .limit(getSize)
+        .exec(function(err, days){    //change from Days
+            if (err) 
+                {return next(err)}
+            else{
+            console.log("we good at the NEW NEW api");
+            data.days = days;
+            //res.status(201).json(Days); //returns saved Days object
+            res.status(201).json(data); 
+            }
+        })
     }
-
-
-
-
 });
 
 
@@ -628,6 +606,8 @@ router.route('/deleteaccountapi').post(function(req,res,next){
     //console.log(req.body.userAbout,"is req.body.userAbout incoming at API")
      console.log(req.body.username,"is req.body.userName incoming at API")
     if (req.body.username){
+
+        //first change active status
         User.findOne({userName: req.body.username}, function(err, user){
             if (err){ 
                 return next(err); }
@@ -641,11 +621,22 @@ router.route('/deleteaccountapi').post(function(req,res,next){
                         return next(err); }
                     else {
                         console.log('*** user.activestatus status changed to inactive');
-                        res.status(201).json(user.activestatus); //returns saved day object
+                        //res.status(201).json(user.activestatus); //returns saved day object
+                        
+
+
+
                         }
                 })
             }
         });
+    
+        //second change active status in all Days with this username
+        Day.find({userName: req.body.username}), function(err,day){
+                console.log('MMMMMMM finding username in Day on deletion');
+
+        }
+        ////
     }
 })
 

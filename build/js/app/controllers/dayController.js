@@ -79,11 +79,13 @@ function chosenDay(data) {
 /// CALLBACK switch between two views (templates, public/private) AND set user profile data
 function showUserProfile(response) {
 	//brought in from setDayScope because this is new unified callback	
-	commonService.formatDates(response);  //TODO - NOT YET WORKING
-	commonService.tagArrayToString(response);
-	// console.log ("EEEEE in showUserProfile", response);
-	// console.log ("FFFFFF in showUserProfile response.days", response.days);
+		// console.log ("EEEEE in showUserProfile", response);
+	console.log ("FFFFFF in showUserProfile response.days", response.days);
 	 
+  	commonService.formatDates(response.days);  //TODO - NOT YET WORKING
+	commonService.tagArrayToString(response.days);
+
+
  	//CASE: USER REQUESTS OWN ACCOUNT PROFILE
  	if ($scope.User.username === response.user.userName){
 
@@ -94,7 +96,7 @@ function showUserProfile(response) {
 		$scope.Day.days = response.days; //set incoming day array to scope Days 
  
   	//CASE: USER REQUESTS OTHER ACCOUNT PROFILE
-	 } else if ($scope.User.username !== response.user.userName)
+	 } else if ($scope.User.username !== response.user.userName && response.user.userName !== null) 
 	 	{
  	 	$scope.User.profileMode='otherprofile';  //sets view template
 	 	$scope.Day.days = response.days;    //set incoming day array to scope Days 
@@ -104,7 +106,18 @@ function showUserProfile(response) {
 	 	$scope.Day.othercreated = response.user.created;
 	 	$scope.Day.otheruserabout = response.user.userAbout;
 	  	}  	
- }
+
+	  //CASE: NO USERNAME REQUESTED SHOW ALL
+	  else if (response.user.userName !== null ){
+
+	  	$scope.userViewSwitch = 'grid';
+	  	$scope.Day.days = response.days; 
+
+	  }
+	
+
+}	
+ 
 
 
 //get a selected user profile

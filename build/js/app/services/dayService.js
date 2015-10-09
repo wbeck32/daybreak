@@ -22,6 +22,9 @@ this.userProfile = function(username,showUserProfile) {
 };
 
 //THIS SHOULD NOT BE CALLED USE getDaysOfUser always with user null for all
+//TODO: MODIFY findTag TO USE userprofile
+
+////////////////////////////////////////////////////////////////////
 this.populateDayGrid = function(callback) {
 	data = null;  //clear data for use in refresh?
 	$http({
@@ -100,9 +103,11 @@ this.getDay = function(dayID, chosenDay){
 };
 
 
-//////////////////////////////////////////////////////////////////////////
+//TODO: DELETE THIS?  NO LONGER USED
+////////////////////////////////////////////////////////////////////////
 //THIS IS CALLED ON PAGE REFRESH ONLY?
 //NOT FOR INDIVIDUAL USER GET
+//
 // this.getDaysOfUser = function(username, setDayScope){
 
 // 	console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^in dayService.getDaysOfUser incoming user is: ', username);
