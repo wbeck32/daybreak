@@ -7,13 +7,41 @@ angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','
 	$scope.Day.othercreated = '';
 	$scope.Day.otheruserabout = '';
 
+	$scope.Day.dayUserName = '';   //added to reset after clear from delete account?
+	$scope.Day.dayWelcomeMsg = '';
+	$scope.Day.searchResultLength = 0;
+	$scope.Day.searchResultsMessage = null;
 
+	///TODO: REPLACE WITH getDaysOfUser !!! ////////////////////
+	//dayService.populateDayGrid(setDayScope);//moved to top - executes when dayController
+	 var username=null;
+	 
+
+	 //dayService.getDaysOfUser(username,setDayScope);
+	 dayService.userProfile(username, showUserProfile);
+
+
+	 console.log("1111111 first call of getDaysOfUser");
+
+
+////////////////////////////////////////////////////////////////
+///THIS IS NO LONGER USED except for day creation!!!  
+// INTEGRATE commonService lines to showUserProfile
 function setDayScope(data) {
+	console.log('setDayScope indayController on callback');
+	console.log('setDayScope in dayController data is', data);
+ 	console.log('setDayScope  data.days',  data.days);
+	console.log('setDayScope data.user:',  data.user);
+	console.log('setDayScope ::::end data');
+
 	commonService.formatDates(data);
 	commonService.tagArrayToString(data);
+
 	$scope.Day.days = data;
-	$scope.User.userViewSwitch = 'grid';
-}
+	$scope.User.userViewSwitch = 'grid';	
+ }
+
+
 
 function chosenDay(data) { 
 	commonService.tagArrayToString(data.data);
@@ -22,61 +50,63 @@ function chosenDay(data) {
 	$scope.User.userViewSwitch = 'single';  
 }
 
-/// switch between two views (templates) one with private info, one without
-function showUserProfile(data) {
+
+
+//TODO: DELETE THIS IS NEVER USED//////////////////////////////////////
+// function viewUserDays(username){
+// 	console.log ('entering viewUserDays');
+// 	console.log('username in Day.viewUserdays is ', username);
 	
-	console.log ("in showUserProfile", data.user.userName);
-
- 	//check to see if this is my profile or not
-	$scope.Day.dayUserName = data.user.userName;
-	if ($scope.User.username == $scope.Day.dayUserName){
-	 	//display user private info
-		// console.log('UUU myAccount setting for private  template/view');
-		$scope.User.profileSelect('myAccount');
-
-	 } else {
-	 	//set otherUser public info to $scope
-	 	console.log('zzzzzzzzzz  otherprofile setting for public  template/view', data.user.userName, data.user.created, data.user.userAbout);
-
-	 	$scope.Day.otherusername = data.user.userName;
-	 	$scope.Day.othercreated = data.user.created;
-	 	$scope.Day.otheruserabout = data.user.userAbout;
-
-	 	$scope.User.profileSelect('otherprofile');
-
-	 
-
- 	}
-
-	console.log('display data on the profile page');
-}
-
-
-dayService.populateDayGrid(setDayScope);
-
-	$scope .Day.dayUserName = '';   //added to reset after clear from delete account?
-	$scope.Day.dayWelcomeMsg = '';
-	$scope.Day.searchResultLength = 0;
-	$scope.Day.searchResultsMessage = null;
-
-  
- this.viewEditUserDays = function(username){
-	console.log ('entering viewEditUserDays');
-	console.log('username in daycontroller is ', username);
-	
-	if(username !== null)
-		{$scope.Day.searchResultsMessage='Now Showing Days for '+ username+' Only'; 
-		dayService.getDaysOfUser(username, setDayScope);
+// 	if(username !== null) // selected username
+// 		{
+// 		console.log('AAAAA username at viewUserDays is ',username);
+// 		// $scope.Day.searchResultsMessage='Now Showing Days for '+ username+' Only'; 
+// 		dayService.getDaysOfUser(username, setDayScope);  //when user selected
 		
-		}
-	else if (username === null)
-		{console.log('username is null ***********');
-		dayService.populateDayGrid(setDayScope);
-		}
-	 
-};
+// 		}
+// 	else if (username === null)  // no username selected
+// 		{
+// 		console.log('username is null at viewUserDays ***********');
+// 		dayService.getDaysOfUser(username, setDayScope);  //when user selected
 
+// 		//dayService.populateDayGrid(setDayScope);  //when no user selected		
+// 		} 
+// }
+
+
+
+////////////////////////////////////////////////////////////////////////
+/// CALLBACK switch between two views (templates, public/private) AND set user profile data
+function showUserProfile(response) {
+	//brought in from setDayScope because this is new unified callback	
+	commonService.formatDates(response);  //TODO - NOT YET WORKING
+	commonService.tagArrayToString(response);
+	// console.log ("EEEEE in showUserProfile", response);
+	// console.log ("FFFFFF in showUserProfile response.days", response.days);
+	 
+ 	//CASE: USER REQUESTS OWN ACCOUNT PROFILE
+ 	if ($scope.User.username === response.user.userName){
+
+	// console.log ("EEEEEE in showUserProfile response.user", response.user);
+	// console.log ("EEEEEE in showUserProfile response.user.created", response.user.created);
+	// console.log ("EEEEEE in showUserProfile response.user.userName", response.user.userName);
+  	 	$scope.User.profileMode='myAccount';  //sets view template
+		$scope.Day.days = response.days; //set incoming day array to scope Days 
  
+  	//CASE: USER REQUESTS OTHER ACCOUNT PROFILE
+	 } else if ($scope.User.username !== response.user.userName)
+	 	{
+ 	 	$scope.User.profileMode='otherprofile';  //sets view template
+	 	$scope.Day.days = response.days;    //set incoming day array to scope Days 
+
+	 	//set otherprofile info
+	 	$scope.Day.otherusername = response.user.userName;
+	 	$scope.Day.othercreated = response.user.created;
+	 	$scope.Day.otheruserabout = response.user.userAbout;
+	  	}  	
+ }
+
+
 //get a selected user profile
  
 this.addNewDay = function() {
@@ -87,13 +117,12 @@ this.addNewDay = function() {
 };
 
 
- this.getUserProfile = function(username){
+this.getUserProfile = function(username){
 	console.log("currrent user name ******", username);
 	$scope.User.userViewSwitch = 'profile';
-	
+ 	dayService.userProfile(username, showUserProfile );
 
-	dayService.userProfile(username, showUserProfile);
-
+	//  setDayScope
 };
 
 this.addDay = function(Day, User) { 
@@ -125,7 +154,13 @@ this.addDay = function(Day, User) {
 
 	dayService.addDay(dayName, userName, dayDesc, $rootScope.dayLocations, tagArray, dayChild, dayTeen, setDayScope);
 	$scope.User.userDayView = 'grid';
+
+
+
+	///TODO: REPLACE WITH getDaysOfUser !!! ////////////////////
 	dayService.populateDayGrid(setDayScope);
+
+
 	Day.dayName = '';
 	Day.dayDesc = '';
 };

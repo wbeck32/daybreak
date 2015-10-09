@@ -77,7 +77,6 @@ if ($scope.User.userState === 'loggedOut'){
 
 	if(userview === 'otherprofile') {
 		$scope.User.profileMode = 'otherprofile';
-
 		console.log('TTTTTTT  profileMode is', $scope.User.profileMode);
 	}
 
@@ -106,8 +105,7 @@ if ($scope.User.userState === 'loggedIn')
 	}
 	if(userview === 'myAccount' ){
 		$scope.User.profileMode = 'myAccount';
-	}
-	console.log('profileMode is', $scope.User.profileMode);
+	}	
 	if(userview === 'passwordreset'){
 		$scope.User.password=null;
 		$scope.User.profileMode = 'passwordreset';
@@ -116,19 +114,16 @@ if ($scope.User.userState === 'loggedIn')
 		$scope.User.profileMode = 'otherprofile';
 		console.log('UUUUUU profileMode is', $scope.User.profileMode);
 	}
-
 	if(userview === 'privacypolicy') {
 		$scope.User.profileMode = 'privacypolicy';
 		console.log('PRIVACY POLICY profileMode is', $scope.User.profileMode);
 	}
-
 	if(userview === 'deleteaccount') {
 		$scope.User.profileMode = 'deleteaccount';
 		console.log('user requests delete account page', $scope.User.profileMode);
 	}
 
- 
-	console.log('profileMode is', $scope.User.profileMode);
+	console.log('at userController profileMode is', $scope.User.profileMode);
 }
 else
 {
@@ -174,9 +169,12 @@ else
 		console.log('completeInit is happening');
 		$scope.User.userState 	='loggedIn';
 		$scope.User.userViewSwitch = 'grid';
+		$scope.User.profileMode=null;
+
 		$scope.User.userMessage = null;
 		$scope.User.LoginError = null;
 	 	$scope.User.username 	= response.data.userName;
+	 	//$scope.User.username = null;
 	 	$scope.User.email 		= response.data.email;
 	 	$scope.User.userAbout 	= response.data.userAbout;
  	 	$scope.User.created 	= response.data.created.substring(0,10); //truncate time

@@ -32,6 +32,8 @@ this.findTag = function(tag){
 		console.log("REDUCED for finding start|"+tag+"|end" );	
     } if(tag === undefined) {
 		console.log("tag is undefined");
+
+		///TODO: REPLACE WITH getDaysOfUser !!! ////////////////////
 		dayService.populateDayGrid(setDayScope);
 		$scope.Day.searchResultsMessage='Now Showing All Days'; 
 		$scope.Day.searchResultLength = null;

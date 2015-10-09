@@ -1,22 +1,27 @@
 angular.module('dayBreak').service('dayService',['$http', function($http){
 
-
+//////  modify to hit getdaysofuser and callback setDayScope
 this.userProfile = function(username,showUserProfile) {
 	$http({
 		method: 'POST',
+		// url: '/api/getdaysofuser',
 		url: '/api/userprofile',
 		data: {username : username},
 		headers: {'Content-Type' : 'application/json'}
 	})
 	.then(function(response){
-		console.log('response: ', response);
-		showUserProfile(response.data);
+		console.log('response dayService IIIIIIIII>>>>>>: ', response.data);
+
+		//console.log('response.data.days IS:', response.data.days);
+		//console.log('resonse.data.user IS ALSO:', response.data.user);
+		showUserProfile(response.data); //pass entire data object back
 	},
 	function(data, status, headers, config){
 
 	});
 };
 
+//THIS SHOULD NOT BE CALLED USE getDaysOfUser always with user null for all
 this.populateDayGrid = function(callback) {
 	data = null;  //clear data for use in refresh?
 	$http({
@@ -25,7 +30,7 @@ this.populateDayGrid = function(callback) {
 		headers: {'Content-Type' : 'application/json'}
 	})
 	.then(function(response){
-		console.log("success ***: ", response);
+		console.log("WE SHOULD NOT BE USING THIS! success ***: ", response);
 		callback(response.data); 
 	},
 	function(data, status,headers,config){
@@ -96,28 +101,29 @@ this.getDay = function(dayID, chosenDay){
 
 
 //////////////////////////////////////////////////////////////////////////
+//THIS IS CALLED ON PAGE REFRESH ONLY?
+//NOT FOR INDIVIDUAL USER GET
+// this.getDaysOfUser = function(username, setDayScope){
 
-this.getDaysOfUser = function(username, callback){
-
-	console.log('^^^^^^^^in dayService incoming user is: ', username);
-	//if(dayID){
- 		$http({
-			method: 'POST',
-			url: 	'/api/getdaysofuser',
-			data: {	username : username},
-			headers:{'Content-Type': 'application/json'}	 
-		})
-		.then(
-		function(data){
-			console.log("found the requested username, returning data", 
-				data, " and data.data ", data.data);
-			callback(data.data);
-		},
-		function(data){
-				console.log("DID NOT FIND the requested username");
-		});
-	//}
-	};
+// 	console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^in dayService.getDaysOfUser incoming user is: ', username);
+// 	//if(dayID){
+//  		$http({
+// 			method: 'POST',
+// 			url: 	'/api/getdaysofuser',
+// 			data: {	username : username},
+// 			headers:{'Content-Type': 'application/json'}	 
+// 		})
+// 		.then(
+// 		function(data){
+// 			console.log("BBBBBBBBBBBBB found the requested username, returning data", 
+// 				data, " and data.data ", data.data  );
+// 			setDayScope(data.data);
+// 		},
+// 		function(data){
+// 				console.log("CCCCCC  DID NOT FIND the requested username");
+// 		});
+// 	//}
+// 	};
 
 
 

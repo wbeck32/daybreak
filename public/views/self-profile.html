@@ -3,9 +3,9 @@
 
 	<div class='loginDirection'>About Your Account</div>
 
- 		<i data-ng-click = "User.userViewSwitch='grid';
-							User.userService.init(completeInit);
-							Day.viewEditUserDays(null); " 
+ 		<i data-ng-click = "Day.getUserProfile(null);
+							User.profileMode=null;
+						    User.userViewSwitch='grid';" 
 			class="material-icons right small" 
 			style ='cursor: pointer;'>clear
 		</i>
@@ -105,6 +105,7 @@
 		</div>
 		  		 
 <p> My Days - {{User.username }}</p>
+
 <grid-day-view></grid-day-view>
 
 </div> 

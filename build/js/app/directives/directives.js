@@ -16,14 +16,13 @@ angular.module('dayBreak')
 	};
 })
 
-
-
 .directive('footOfPage', function(){
 	return {
 		restrict: 'E',
 		templateUrl: '/views/foot-of-page.html'
 	};
 })
+
 .directive('tagSearch', function(){
 	return {
 		restrict: 'E',
@@ -40,7 +39,7 @@ angular.module('dayBreak')
 		scope: true,
 		templateUrl: '/views/reg-view.html',
  		link: function(scope,elem,attrs) {
-			 console.log('hello world in regView directive');
+			 // console.log('hello world in regView directive');
 		 	// scope.User.profileSelect = '';
 		}
 	};
@@ -112,10 +111,13 @@ angular.module('dayBreak')
 		restrict: 'E',
 		replace: false,
 		scope: true,
-		templateUrl: '/views/otherprofile.html'
+		templateUrl: '/views/otherprofile.html', 
+		link: function(scope,elem,attrs) {
+			console.log('OTHERPROFILE DIRECTIVE User.profileMode');
+
+ 			 }
 	};
 })
-
 
 .directive('privacypolicy', function(){
 	return {
@@ -136,8 +138,8 @@ angular.module('dayBreak')
  			
 //			scope.User.userDayView='grid';
 
-					}
-		};
+		}
+	};
 })
 
 .directive('singleDayView', function(){
@@ -151,6 +153,7 @@ angular.module('dayBreak')
 		}
 	};
 })
+
 .directive('addDay', function(){
 	return {
 		restrict: 'E',
@@ -163,6 +166,7 @@ angular.module('dayBreak')
 	};
 
 })
+
 .directive('updateDay', function(){
 	return {
 		restrict: 'E',
@@ -175,6 +179,7 @@ angular.module('dayBreak')
 	};
 
 })
+
 .directive('viewDay', function(){
 	return {
 		restrict: 'E',
@@ -212,6 +217,7 @@ angular.module('dayBreak')
 			 }
 		};
 	})
+
 .directive('draggable', function($document){
 	return {
 		//restrict: 'E',

@@ -16,10 +16,11 @@
 <body>
 	<div ng-controller="userController as User">
 		<div data-ng-controller="dayController as Day">
-
 			<div my-user-functions></div> <!--  Nav Bar and User Register/Login/Account Controls-->
- 
  			<div class="usermessage">{{User.userMessage}}</div>
+
+			 <!-- User.profileMode is {{User.profileMode}}<br>
+			 User.userViewSwitch is {{User.userViewSwitch}} -->
 
 	 		<div data-ng-switch on='User.userViewSwitch'>
 	 			<div data-ng-switch-when="profile">

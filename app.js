@@ -36,7 +36,6 @@ app.set('views', __dirname + '/public/views');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
- 
 app.use(favicon(__dirname + '/public/images/daybreaksun16px.ico'));
 app.use(express.static(__dirname + '/public')); //
 app.use(bodyParser.json());
@@ -46,7 +45,6 @@ try {var uristring = require('./data/mongolabinfo.js').loginstring;
     }
     catch(err){
     }   
-
 
 var jwtKey = process.env.JWTKEY;
 var jwtKey = secretKey;
@@ -84,6 +82,7 @@ var Day = db.model('day',
     dayChild           : Boolean,
     dayTeen            : Boolean,   
     locations          : Array,
+    dayHidden          : String  //null = visible, 'hide' = user sets day status to hidden
     });
 
 router.use(function(req, res, next) {
@@ -98,11 +97,16 @@ router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });
     });
  
-
 //TODO: THIS IS NOT USED EXCEPT TO EXPOSE THE ENTIRE DAY DB --   DELETE?
+//TODO:  THIS IS USED BY dayService.populateDayGrid - 
+//TODO:  USE getdaysofuser endpoint instead.
+//TODO:  use userprofile endpoint instea
 app.get('/api/show', function(req,res,next){
     var getSize = 50;
-    Day.find( {} ).sort({dayCreateDate: 'descending'}).limit(getSize).exec(function(err, Days){
+    Day.find( {} )
+        .sort({dayCreateDate: 'descending'})
+        .limit(getSize)
+        .exec(function(err, Days){
         if (err) 
             {return next(err)}
         else{
@@ -111,6 +115,66 @@ app.get('/api/show', function(req,res,next){
             }
     })
 });
+
+//RETURNS ALL DAYS FOR ONE USER, (inactive users never visible for requesting) 
+
+router.route('/getdaysofuser').post(function(req,res,next){
+        console.log ("at api incoming req.username is... " + req.body.username);
+
+        if (req.body.username !== null)
+        {
+           //  User.find({userName: req.body.username} )
+           //  if (err){
+           //          console.log('could not find user at api/getdaysofuser');
+           //          return next(err);
+           //      } 
+           //  else  
+           //  {
+           //      user.username     = User.userName;
+           //      user.created      = User.created;
+           //      user.userabout    = User.userAbout;
+           //      user.activestatus = User.activestatus;
+
+           //      console.log('FOUND USER', user.username,user.created,user.userAbout,user.activestatus);
+           // //and then begin Day find
+
+            Day.find({userName : req.body.username}  )
+                .sort({dayCreateDate: 'descending'})
+                .exec(function(err,Day)
+                    {
+                    if (err)
+                        {console.log('error at getdaysforuser api endpoint');
+                         return next(err);}                
+                    else
+                        {
+                        console.log("~~~~~~at getdaysforuser API found username...: ",
+                                     Day );
+                        res.json(Day); 
+                        }
+                    })
+
+
+
+        } else {
+            var getSize = 50;
+            Day.find( {} )
+            .sort({dayCreateDate: 'descending'})
+            .limit(getSize)
+            .exec(function(err, Day){    //change from Days
+                if (err) 
+                    {return next(err)}
+                else{
+                console.log("we good at the NEW NEW api");
+                //res.status(201).json(Days); //returns saved Days object
+                res.status(201).json(Day); 
+                }
+            })
+        }
+
+ 
+});
+
+
 
 
 //tag based search  
@@ -153,33 +217,15 @@ function activeStatus(username){
          } else if (user.activestatus==='inactive') {
                 console.log("username exists but account status is inactive at login api");
                
-            }
+            } else { 
+
+            return true;
+            } 
         }
     )}
 }
 
 
-//RETURNS ALL DAYS FOR ONE USER, (inactive users never visible for requesting) 
-router.route('/getdaysofuser').post(function(req,res,next){
-
-        console.log ("at api incoming req.username is... " + req.body.username);
-        
-             Day.find({userName : req.body.username}  )
-                .sort({dayCreateDate: 'descending'})
-                .exec(function(err,Day)
-                        
-                    {
-                    if (err)
-                        {console.log('error at getdaysforuser api endpoint');
-                         return next(err);}
-                    
-                    else
-                        {
-                        console.log("~~~~~~at getdaysforuser API found username...: ", Day );
-                        res.json(Day); 
-                        }
-                    })
-});
 
 
 //USE ID TO RETURN SINGLE DAY
@@ -226,11 +272,14 @@ router.route('/addday').post(function(req, res) {
 });
 
 
-//MOVED IN API FROM BELOW
-//RETURN THE DAYS FOR A SINGLE USER
+
+// RETURN THE USER info and DAYS FOR A SINGLE USER
 app.post('/api/userprofile', function(req, res, next){
-    //console.log(req.body);
+    console.log('JJJJJ INCOMING AT API/USERPROFILE', req.body);
     var data = {user:'',days:''};
+
+    if(req.body.username !== null)
+    {  ///
     User.find({userName: req.body.username}, function(err,user){
 
         console.log('user is: ', user);
@@ -245,13 +294,37 @@ app.post('/api/userprofile', function(req, res, next){
                     next();
                 } else if(days) { 
                     data.days = days;
-                    console.log('days is', days);
+                    ///console.log('KKKKKKK days is', days);
                 } 
-                console.log('api data is ', data);
+                console.log('LLLLLLL api data is ', data);
                 res.status(201).json(data);
             })        
         }
     }); 
+
+    } ///
+    else
+    {console.log('7777777 no user at api/userprofile');
+
+            var getSize = 50;
+            Day.find( {} )
+            .sort({dayCreateDate: 'descending'})
+            .limit(getSize)
+            .exec(function(err, days){    //change from Days
+                if (err) 
+                    {return next(err)}
+                else{
+                console.log("we good at the NEW NEW api");
+                data.days = days;
+                //res.status(201).json(Days); //returns saved Days object
+                res.status(201).json(data); 
+                }
+            })
+    }
+
+
+
+
 });
 
 

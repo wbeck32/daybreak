@@ -1,18 +1,19 @@
 <div class="navbar-fixed" >
 	<nav>
 		<a style ='cursor: pointer;'><div class="left button-collapse" id="titleGraphic" 
-											data-ng-click="User.userViewSwitch='grid';
-											User.userService.init(completeInit);
-											Day.viewEditUserDays(null); ">
+									data-ng-click="Day.getUserProfile(null);
+												   User.profileMode=null;
+												   User.userViewSwitch='grid';
+ 													">
 											               
 				 Daybreak</div> </a>
  	  	<div class="container" >		
 			<ul style ='cursor: pointer;'  class='right hide-on-small-and-down button-collapse'>
 
 				<li><a><div 
-						data-ng-click="User.userViewSwitch = 'grid';
-						               User.userService.init(completeInit);
-						               Day.viewEditUserDays(null);
+						data-ng-click="Day.getUserProfile(null);
+										User.profileMode=null;
+						    			User.userViewSwitch='grid';
 						               ">
 						Home  
 						</div>
@@ -32,11 +33,14 @@
 
 
 				<li><a data-ng-show="User.userState==='loggedIn'" 
-					   data-ng-click="Day.getUserProfile(User.username);
- 					   				  User.profileSelect('myAccount');
- 					   				  Day.viewEditUserDays(User.username);">
+					   data-ng-click="Day.getUserProfile(User.username);">
 			  			&nbsp;-&nbsp;{{User.username}}&nbsp;-&nbsp;
 				</a></li>
+
+<!-- REMOVED FOR TESTING 
+	User.profileSelect('myAccount');
+ 	Day.viewEditUserDays(User.username);
+ -->
 
 				<li><a data-ng-show="User.userState==='loggedIn'" 
 					   data-ng-click="User.signOut()" > 
