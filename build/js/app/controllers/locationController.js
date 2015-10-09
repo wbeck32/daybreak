@@ -1,4 +1,4 @@
-angular.module('dayBreak').controller('locationController',['$http','$scope','$sce','$rootScope','dayService','mapService',function($http,$scope,$sce,$rootScope,dayService,mapService){
+angular.module('dayBreak').controller('locationController',['$http','$scope','$sce','$rootScope','dayService','mapService','$compile',function($http,$scope,$sce,$rootScope,dayService,mapService,$compile){
 
 $rootScope.dayLocations = [];
 $scope.locName = '';
@@ -35,8 +35,8 @@ google.maps.event.addListener(searchBox, 'place_changed', function() {
     var place = searchBox.getPlace(); console.log(place);
     // var lat = places[0].geometry.location.G;
     // var lon = places[0].geometry.location.K;
-    var lat = place.geometry.location.H;
-    var lon = place.geometry.location.L;
+    var lat = place.geometry.location.J;
+    var lon = place.geometry.location.M;
     var myLatLong = ({lat:lat,lng:lon});
     var markerBounds = new google.maps.LatLngBounds();
     var newLatLong = new google.maps.LatLng(myLatLong);
@@ -80,13 +80,13 @@ if(place.photos){
   }
 }
 
-$scope.$apply();
+//$scope.$apply();
 
 });
 
 
 this.addLoc = function(Location,locName,locURL) { 
-	if(locName){
+	if(locName){ 
 		$scope.locName = locName;
 		$scope.locURL = locURL;
 		$scope.locDesc = Location.locDesc;
@@ -110,9 +110,11 @@ this.addLoc = function(Location,locName,locURL) {
     var temp = window.localStorage.getItem('dayTags');
     tempArray.push(temp);
     window.localStorage.setItem('dayTags',tempArray);
-    var lL = document.getElementById('locationList');
-    console.log(lL);
-    lL.innerHTML += "<div draggable> <div class='locationCard card-panel'><div class='card-title'>"+$scope.locName+"</div><div class='card-desc'>"+$scope.locDesc+"</div></div></div>";
+    // var lL = document.getElementById('locationList');
+    // console.log(lL);
+    // lL.innerHTML += "<div draggable> <div class='locationCard card-panel'><div class='card-title'>"+$scope.locName+"</div><div class='card-desc'>"+$scope.locDesc+"</div></div></div>";
+
+    console.log($scope.locName,' desc: ',$scope.locDesc);
 
     $scope.locDesc = '';
 		$scope.locName = '';
@@ -120,14 +122,18 @@ this.addLoc = function(Location,locName,locURL) {
     $scope.locLatLng = '';
     $scope.locPhotosLg = [];
     $scope.locPhotosThumb = [];
-		Location.locDesc = '';
-		Location.locName = '';
-		Location.locURL = '';
+  //   document.getElementById('pac-input').value = '';
+  //   document.getElementById('descField').value = '';
+  // 	Location.locDesc = '';
+		// //Location.locName = '';
+		// Location.locURL = '';
 	}
 };
 
+function getLocation($scope){
 
-
+console.log('in here');
+};
 
 
 

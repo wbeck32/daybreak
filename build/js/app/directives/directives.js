@@ -218,34 +218,51 @@ angular.module('dayBreak')
 		};
 	})
 
-.directive('draggable', function($document){
+.directive('addLocation', function($compile){
+	return{
+		scope: true, //scope needs to be true so that it doesn't alter scope values in the controller
+		link: function(scope,element,attrs){
+			element.bind("click", function(){		
+				scope.count++;
+				angular.element(document.getElementById('locationList'))
+		 		.append($compile("<drag-item>{{scope.locName}}draggin</drag-item>")(scope));
+		 	});
+		}
+	};
+})
+.directive('dragItem', function($document){
 	return {
-		//restrict: 'E',
-		link: function(scope,elem,attr) {
-			var startX = 0, startY = 0, x = 0, y = 0;
-			element.css({
-				border: '1px solid red'
-			});
-			element.on('mousedown', function(event){
-				event.preventDefault();
-				startX = event.screenX - x;
-				startY = event.screenY - y;
-				$document.on('mousemove', mousemove);
-				$document.on('mouseup', mouseup);
-			});
-			function mousemove(event) {
-				y = event.screenY - startY;
-				x = event.screenX - startX;
-				element.css({
-					top: y + 'px',
-					left: x + 'px'
-				});
-			}
+		restrict: 'E',
+		scope: false,
+		compile: function(elem, attr){ 
+			return {
+				post: function(scope,element,attributes,controller,transclider) {
+					var startX = 0, startY = 0, x = 0, y = 0;
+					element.css({
+						position: 'relative'
+					});
+					element.on('mousedown', function(event){
+						event.preventDefault();
+						startX = event.screenX - x;
+						startY = event.screenY - y;
+						$document.on('mousemove', mousemove);
+						$document.on('mouseup', mouseup);
+					});
+					function mousemove(event) {
+						y = event.screenY - startY;
+						x = event.screenX - startX;
+						element.css({
+							top: y + 'px',
+							left: x + 'px'
+						});
+					}
 
-			function mouseup() {
-				$document.off('mousemove', mousemove);
-				$document.off('mouseup', mouseup);
-			}
+					function mouseup() {
+						$document.off('mousemove', mousemove);
+						$document.off('mouseup', mouseup);
+					}
+				}
+			};
 		}
 	};
 });

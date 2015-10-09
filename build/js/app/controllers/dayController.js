@@ -107,6 +107,7 @@ function showUserProfile(response) {
 	 	$scope.Day.otheruserabout = response.user.userAbout;
 	  	}  	
 
+
 	  //CASE: NO USERNAME REQUESTED SHOW ALL
 	  else if (response.user.userName !== null ){
 
