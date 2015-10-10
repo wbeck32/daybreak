@@ -20,9 +20,7 @@ this.userProfile = function(username,showUserProfile) {
 
 	});
 };
-
-//THIS SHOULD NOT BE CALLED USE getDaysOfUser always with user null for all
-//TODO: MODIFY findTag TO USE userprofile
+ 
 
 ////////////////////////////////////////////////////////////////////
 this.populateDayGrid = function(callback) {
@@ -42,7 +40,7 @@ this.populateDayGrid = function(callback) {
 };
 
 
-this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayChild, dayTeen, daycallback) {
+this.addDay = function(dayName, userName, userDeactivated, dayDesc, dayLocations, tagArray, dayChild, dayTeen) {
 	if(dayName){
 		var lowerTagArray = [];
 		tagArray.forEach(function(elem, index, array){
@@ -62,6 +60,7 @@ this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayCh
 			data: 	{ 	dayLocations : dayLocations,
 						dayName : dayName,
 						userName : userName,
+						userDeactivated : userDeactivated,
 						dayDesc : dayDesc,
 						dayTags: uniqueTags,
 						dayChild : dayChild,
@@ -101,35 +100,6 @@ this.getDay = function(dayID, chosenDay){
 		});
 	}
 };
-
-
-//TODO: DELETE THIS?  NO LONGER USED
-////////////////////////////////////////////////////////////////////////
-//THIS IS CALLED ON PAGE REFRESH ONLY?
-//NOT FOR INDIVIDUAL USER GET
-//
-// this.getDaysOfUser = function(username, setDayScope){
-
-// 	console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^in dayService.getDaysOfUser incoming user is: ', username);
-// 	//if(dayID){
-//  		$http({
-// 			method: 'POST',
-// 			url: 	'/api/getdaysofuser',
-// 			data: {	username : username},
-// 			headers:{'Content-Type': 'application/json'}	 
-// 		})
-// 		.then(
-// 		function(data){
-// 			console.log("BBBBBBBBBBBBB found the requested username, returning data", 
-// 				data, " and data.data ", data.data  );
-// 			setDayScope(data.data);
-// 		},
-// 		function(data){
-// 				console.log("CCCCCC  DID NOT FIND the requested username");
-// 		});
-// 	//}
-// 	};
-
 
 
 this.saveDayChanges = function(Day,User, completeSaveDayChanges){

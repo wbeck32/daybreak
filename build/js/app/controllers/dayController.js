@@ -51,30 +51,6 @@ function chosenDay(data) {
 }
 
 
-
-//TODO: DELETE THIS IS NEVER USED//////////////////////////////////////
-// function viewUserDays(username){
-// 	console.log ('entering viewUserDays');
-// 	console.log('username in Day.viewUserdays is ', username);
-	
-// 	if(username !== null) // selected username
-// 		{
-// 		console.log('AAAAA username at viewUserDays is ',username);
-// 		// $scope.Day.searchResultsMessage='Now Showing Days for '+ username+' Only'; 
-// 		dayService.getDaysOfUser(username, setDayScope);  //when user selected
-		
-// 		}
-// 	else if (username === null)  // no username selected
-// 		{
-// 		console.log('username is null at viewUserDays ***********');
-// 		dayService.getDaysOfUser(username, setDayScope);  //when user selected
-
-// 		//dayService.populateDayGrid(setDayScope);  //when no user selected		
-// 		} 
-// }
-
-
-
 ////////////////////////////////////////////////////////////////////////
 /// CALLBACK switch between two views (templates, public/private) AND set user profile data
 function showUserProfile(response) {
@@ -153,6 +129,7 @@ this.addDay = function(Day, User) {
 	var tagArray = [];
 	var dayDescArray= [];
 	var dayNameArray= [];
+	var userDeactivated = false;
 
 	if(dayTags) {
  		tagArray = dayTags.split(',');
@@ -166,7 +143,7 @@ this.addDay = function(Day, User) {
 		Array.prototype.push.apply(tagArray,dayNameArray);
 	}
 
-	dayService.addDay(dayName, userName, dayDesc, $rootScope.dayLocations, tagArray, dayChild, dayTeen, setDayScope);
+	dayService.addDay(dayName, userName, userDeactivated, dayDesc, $rootScope.dayLocations, tagArray, dayChild, dayTeen);
 	$scope.User.userDayView = 'grid';
 
 

@@ -74,6 +74,7 @@ var Day = db.model('day',
     {
     dayName            : String,
     userName           : String,
+    userDeactivated    : Boolean,  
     dayCreateDate      : {type: Date},
     dayUpdateDate      : {type: Date},
     dayDate            : {type: Date},
@@ -81,8 +82,8 @@ var Day = db.model('day',
     dayTags            : Array,
     dayChild           : Boolean,
     dayTeen            : Boolean,   
-    locations          : Array,
-    userDeactivated    : Boolean   
+    locations          : Array
+
     });
 
 router.use(function(req, res, next) {
@@ -96,10 +97,9 @@ router.use(function(req, res, next) {
 router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });
     });
- 
-//TODO: THIS IS NOT USED EXCEPT TO EXPOSE THE ENTIRE DAY DB --   DELETE?
-//TODO:  THIS IS USED BY dayService.populateDayGrid - 
-//TODO:  use userprofile endpoint instea
+  
+
+
 app.get('/api/show', function(req,res,next){
     var getSize = 50;
     Day.find( {} )
@@ -114,52 +114,8 @@ app.get('/api/show', function(req,res,next){
             }
     })
 });
-
-//RETURNS ALL DAYS FOR ONE USER, (inactive users never visible for requesting) 
-// router.route('/getdaysofuser').post(function(req,res,next){
-//         console.log ("at api incoming req.username is... " + req.body.username);
-
-//         if (req.body.username !== null)
-//         //GET DAYS FOR ONE USER
-//         {
-//         Day.find({userName : req.body.username}  )
-//             .sort({dayCreateDate: 'descending'})
-//             .exec(function(err,Day)
-//                 {
-//                 if (err)
-//                     {console.log('error at getdaysforuser api endpoint');
-//                      return next(err);}                
-//                 else
-//                     {
-//                     console.log("~~~~~~at getdaysforuser API found username...: ",
-//                                  Day );
-//                     res.json(Day); 
-//                     }
-//                 })
-
-//         } else {
-//             //GET DAYS FOR ALL USERS
-//             var getSize = 50;
-//             Day.find( {} )
-//             .sort({dayCreateDate: 'descending'})
-//             .limit(getSize)
-//             .exec(function(err, Day){    //change from Days
-//                 if (err) 
-//                     {return next(err)}
-//                 else{
-//                 console.log("we good at the NEW NEW api");
-
-//                 //DELETE ALL DAYS WITH USER WITH BAD ACTIVE STATUS HERE?!
-//                 //res.status(201).json(Days); //returns saved Days object
-//                 res.status(201).json(Day); 
-//                 }
-//             })
-//         }
-// });
-
  
-
-
+ 
 //tag based search  
 router.route('/taglookup').post(function(req,res,next){
         console.log ("at api incoming req.tag is... " + req.body.tag);
@@ -232,6 +188,7 @@ router.route('/addday').post(function(req, res) {
     var newDayDoc = new Day({
         dayName:       req.body.dayName,
         userName:      req.body.userName,
+        userDeactivated: req.body.userDeactivated,
         dayCreateDate: Date.now(),
         dayUpdateDate: Date.now(),
         dayDate:       Date.now(),
@@ -592,6 +549,7 @@ router.route('/updateuserinfo').post(function(req,res,next){
                 { return next(err); }
             else
                 {console.log ('no error on findOne');}
+
             user.userAbout = req.body.userAbout; 
             user.save(function(err) {
                 if (err) { return next(err); }
@@ -606,7 +564,6 @@ router.route('/deleteaccountapi').post(function(req,res,next){
     //console.log(req.body.userAbout,"is req.body.userAbout incoming at API")
      console.log(req.body.username,"is req.body.userName incoming at API")
     if (req.body.username){
-
         //first change active status
         User.findOne({userName: req.body.username}, function(err, user){
             if (err){ 
@@ -619,27 +576,34 @@ router.route('/deleteaccountapi').post(function(req,res,next){
                 user.save(function(err) {
                     if (err) { 
                         return next(err); }
-                    else {
-                        console.log('*** user.activestatus status changed to inactive');
-                        //res.status(201).json(user.activestatus); //returns saved day object
-                        
-
-
-
-                        }
-                })
-            }
-        });
-    
-        //second change active status in all Days with this username
-        Day.find({userName: req.body.username}), function(err,day){
-                console.log('MMMMMMM finding username in Day on deletion');
-
+                    else {markInactiveDays(req.body.username); }
+                    });
+                }
+            })
         }
-        ////
-    }
-})
+    })
 
+function markInactiveDays(username){
+        console.log('*** begin markInactiveDays for ', username);
+ 
+        Day.find({userName: username})
+            .exec(function(err, days){
+
+                if (err) 
+                    {return next(err)}
+                else{   
+                    console.log('MMMMMMM deactivation of ', days);
+                    
+                    days.forEach(function(element,index,array){
+                        
+                        array[index].userDeactivated = true;
+                        array[index].save();  
+                        console.log('index is', index);
+                        })                    
+                    }                                
+                })
+        }
+     
 
 //REGISTRATION 
 //PART 1 - checks for duplicate username - If UNIQUE then TRUE
@@ -655,7 +619,7 @@ router.route('/checkusername').post(function(req,res,next){
                 if(user === null){ console.log('this is a unique user');
                     res.send(true);  //hooray found a unique username!
                     }
-                else{
+                else{       
                     res.send(false);  //sorry username already exists
                 }            
          });
@@ -724,7 +688,7 @@ router.route('/login').post(function(req,res,next){
                             created:    user.created,
                             status:     200});   
                 }           
-        });
+            });
         };
     });
 });
@@ -741,7 +705,6 @@ function maketoken (username, email){
   console.log('start with ', username, expires,  email, ' to make token ', token);
   return token;
 }
-
 
 //LOGIN BASED ON VALID RECENT TOKEN
 //similar to login - login via username but use stored token for returning user.
