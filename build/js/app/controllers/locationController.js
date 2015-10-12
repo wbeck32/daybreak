@@ -133,7 +133,7 @@ this.addLoc = function(Location,locName,locURL) {
 function getLocation($scope){
 
 console.log('in here');
-};
+}
 
 
 

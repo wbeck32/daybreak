@@ -2,6 +2,9 @@ angular.module('dayBreak').service('dayService',['$http', function($http){
 
 //////  modify to hit getdaysofuser and callback setDayScope
 this.userProfile = function(username,showUserProfile) {
+
+	console.log('oooooo requesting username', username);
+
 	$http({
 		method: 'POST',
 		// url: '/api/getdaysofuser',

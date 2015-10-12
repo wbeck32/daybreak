@@ -102,7 +102,7 @@ router.get('/', function(req, res) {
 
 app.get('/api/show', function(req,res,next){
     var getSize = 50;
-    Day.find( {} )
+    Day.find( { userDeactivated: false } )
         .sort({dayCreateDate: 'descending'})
         .limit(getSize)
         .exec(function(err, Days){
@@ -114,6 +114,22 @@ app.get('/api/show', function(req,res,next){
             }
     })
 });
+
+
+app.get('/api/activeusers', function(req,res,next){
+    var getSize = 1000;
+    User.find( {activestatus: { $ne: 'inactive'} } )
+        .sort({created: 'descending'})
+        .limit(getSize)
+        .exec(function(err, users){
+        if (err) 
+            {return next(err)}
+        else{
+            console.log("we good at the api");
+            res.status(201).json(users); //returns saved Days object
+            }
+    })
+});
  
  
 //tag based search  
@@ -122,7 +138,7 @@ router.route('/taglookup').post(function(req,res,next){
         tagString = req.body.tag;
         tagArray = tagString.split(",");
 
-        Day.find({dayTags: {$in:tagArray}})
+        Day.find({dayTags: {$in:tagArray}, userDeactivated: false})
             .sort({dayCreateDate: 'descending'})
             .exec(function(err,Day)
         {
@@ -169,7 +185,7 @@ router.route('/getday').post(function(req,res, next){
 
     console.log ('@@@@@@@@@ api endpoint receives dayID', req.body.dayID);
   
-    Day.find( { '_id':  req.body.dayID   } ).exec(function(err, Day)
+    Day.find( { '_id':  req.body.dayID, userDeactivated : false  } ).exec(function(err, Day)
         {
         if (err)
             {console.log('error at api endpoint');
@@ -226,7 +242,7 @@ app.post('/api/userprofile', function(req, res, next){
             next();
         } else if (user && user[0].activestatus === 'active') {
             data.user = user[0];
-            Day.find({userName : user[0].userName}, function(err, days) { 
+            Day.find({userName : user[0].userName, userDeactivated : false}, function(err, days) { 
                 if (err) {
                     next();
                 } else if(days) { 
@@ -246,7 +262,7 @@ app.post('/api/userprofile', function(req, res, next){
 
     {   console.log('7777777 no user at api/userprofile');
         var getSize = 50;
-        Day.find( {} )
+        Day.find( {userDeactivated : false} )
         .sort({dayCreateDate: 'descending'})
         .limit(getSize)
         .exec(function(err, days){    //change from Days
@@ -277,7 +293,8 @@ app.post('/api/userprofile', function(req, res, next){
                             created     : Date.now(),
                             email       : req.body.email,
                             userAbout   : "My perfect day would be...",
-                            activestatus: "active"
+                            activestatus: "registerInProgress"  
+                                        //change on email response
                         });
     //asynchronous call of bcrypt
     bcrypt.hash(req.body.password, 10, function(err, hash) {    
@@ -332,21 +349,59 @@ app.post('/api/userprofile', function(req, res, next){
 //3) REGISTER EMAIL? 
 
 app.get('/api/verifyemail', function(req,res,next){
-    //console.log(req._parsedOriginalUrl.query, " is access token for email verification response.");
+    console.log(req._parsedOriginalUrl.query, " is access token for email verification response.");
     var queryString = req._parsedOriginalUrl.query;
     var q = queryString.split('=');
     var email = q[2];
     var token = q[1].split('&')[0];
 
     var emailVerified = checktokenvalid(token,email);
+
     if(emailVerified === true) {
+        console.log('emailVerified is: ', emailVerified);
+       //then find email and change activestatus to 'active'
+        if (email){
+            User.findOne({email: email}, function(err, user){
+                if (err) 
+                    { return next(err); }
+                else
+                    {console.log ('no error on email search reg confirm');}
+
+                //write activestatus as active....
+
+                user.activestatus = 'active'; 
+
+                user.save(function(err) {
+                    if (err) { return next(err); }
+                    else {console.log('new user is now active');}
+                });
+
+                //make a login token
+                var token = maketoken(user.username, user.email);
+                console.log('making login token after email ', token)
+
+                //copy all values of user for return to app
+                console.log('after email we have values like: ', user.userName, 
+                            ' and ', user.userAbout, 
+                            ' and active status is now: ', user.activestatus);
+
+                // res.json({  token:      token, 
+                //             userName:   user.userName, 
+                //             email:      user.email, 
+                //             userAbout:  user.userAbout, 
+                //             created:    user.created,
+                //             status:     200}); 
+
+            });
+        }
+        //TODO SEND RES.JSON OBJECT WITH TOKEN AND USER INFO.
+        console.log('PPPPPPPPPPP redirect to / ');
         res.redirect('/');
+
     } else {
         res.status(404).end();
     }
-    //IF incoming token = tokenized username plus email
-    //THEN save username, encrypted password, created date and userAbout
-    //THEN callback to allow user login
+  
 
     
 });
@@ -379,6 +434,9 @@ router.route('/emailreset').post(function(req,res,next){
 
 //STEP 2 OF EMAIL RESET - 
 app.get('/api/verifyemailreset', function(req,res,next){
+
+    console.log('BEGIN VERIFYEMAILRESET API');
+
     tokenIN=req._parsedOriginalUrl.query;
     var decoded = jwt.decode(tokenIN, jwtKey); //check for decoded.email
     var username = decoded.iss;
@@ -646,14 +704,17 @@ router.route('/checkemail').post(function(req,res,next){
         });
 });
  
- 
+
 // LOGIN 
 //Takes user name and password hash stored client side, and 
 //bcrypt compares incoming password to hash password in db
 //If name pwd match, then returns a jwt token.
 router.route('/login').post(function(req,res,next){
-    console.log('session: ',req.body.username);
-    User.findOne({userName: req.body.username})
+    console.log('SESSION INCOMING USER NAME IS: ',req.body.username);
+ 
+    //user may give email or username for login
+
+    User.findOne({$or: [  {userName: req.body.username},{email: req.body.username} ]})
         .select('password').select('email').select('created').select('userName')
         .select('userAbout').select('activestatus').exec(function(err,user){
 
