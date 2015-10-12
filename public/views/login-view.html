@@ -55,8 +55,10 @@
 					ng-model="User.password">
 	</div>
 	
-	<input data-ng-click="User.userViewSwitch='grid'; 
-					  	  User.login();"
+	<input data-ng-click=" 	Day.getUserProfile(null);
+							User.profileMode=null;
+						    User.userViewSwitch='grid';
+  					  	  	User.login();"
 			class="btn btn-success btn-sm btn-block left" 
 			type="submit" value="Login">
 	<br>

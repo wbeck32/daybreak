@@ -48,6 +48,7 @@ function chosenDay(data) {
 	$scope.User.userViewSwitch = 'single';  
 }
 
+
 ////////////////////////////////////////////////////////////////////////
 /// CALLBACK switch between two views (templates, public/private) AND set user profile data
 function showUserProfile(response) {
@@ -120,6 +121,7 @@ this.addDay = function(Day, User) {
 	var tagArray = [];
 	var dayDescArray= [];
 	var dayNameArray= [];
+	var userDeactivated = false;
 
 	if(dayTags) {
  		tagArray = dayTags.split(',');
@@ -132,8 +134,11 @@ this.addDay = function(Day, User) {
 		dayNameArray = dayName.split(' ');
 		Array.prototype.push.apply(tagArray,dayNameArray);
 	}
-
-	dayService.addDay(dayName, userName, dayDesc, $rootScope.dayLocations, tagArray, dayChild, dayTeen);
+	dayService.addDay(dayName, userName, userDeactivated, dayDesc, $rootScope.dayLocations, tagArray, dayChild, dayTeen);
+	$scope.User.userDayView = 'grid';
+	dayService.populateDayGrid(setDayScope);
+	Day.dayName = '';
+	Day.dayDesc = '';
 };
 
 this.showOneDay = function(dayID){

@@ -2,6 +2,9 @@ angular.module('dayBreak').service('dayService',['$http', function($http){
 
 //////  modify to hit getdaysofuser and callback setDayScope
 this.userProfile = function(username,showUserProfile) {
+
+	console.log('oooooo requesting username', username);
+
 	$http({
 		method: 'POST',
 		url: '/api/userprofile',
@@ -16,9 +19,7 @@ this.userProfile = function(username,showUserProfile) {
 
 	});
 };
-
-//THIS SHOULD NOT BE CALLED USE getDaysOfUser always with user null for all
-//TODO: MODIFY findTag TO USE userprofile
+ 
 
 ////////////////////////////////////////////////////////////////////
 this.populateDayGrid = function(callback) {
@@ -38,7 +39,7 @@ this.populateDayGrid = function(callback) {
 };
 
 
-this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayChild, dayTeen) {
+this.addDay = function(dayName, userName, userDeactivated, dayDesc, dayLocations, tagArray, dayChild, dayTeen) {
 	if(dayName){
 		var lowerTagArray = [];
 		tagArray.forEach(function(elem, index, array){
@@ -58,6 +59,7 @@ this.addDay = function(dayName, userName, dayDesc, dayLocations, tagArray, dayCh
 			data: 	{ 	dayLocations : dayLocations,
 						dayName : dayName,
 						userName : userName,
+						userDeactivated : userDeactivated,
 						dayDesc : dayDesc,
 						dayTags: uniqueTags,
 						dayChild : dayChild,
@@ -97,7 +99,9 @@ this.getDay = function(dayID, chosenDay){
 	}
 };
 
-this.saveDayChanges = function(Day, User, completeSaveDayChanges){
+
+this.saveDayChanges = function(Day,User, completeSaveDayChanges){
+	console.log ('saveDayChanges in service');
 
 	$http({
 			method: 'POST',

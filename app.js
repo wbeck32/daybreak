@@ -74,6 +74,7 @@ var Day = db.model('day',
     {
     dayName            : String,
     userName           : String,
+    userDeactivated    : Boolean,  
     dayCreateDate      : {type: Date},
     dayUpdateDate      : {type: Date},
     dayDate            : {type: Date},
@@ -81,8 +82,8 @@ var Day = db.model('day',
     dayTags            : Array,
     dayChild           : Boolean,
     dayTeen            : Boolean,   
-    locations          : Array,
-    userDeactivated    : Boolean   
+    locations          : Array
+
     });
 
 router.use(function(req, res, next) {
@@ -96,13 +97,12 @@ router.use(function(req, res, next) {
 router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });
     });
- 
-//TODO: THIS IS NOT USED EXCEPT TO EXPOSE THE ENTIRE DAY DB --   DELETE?
-//TODO:  THIS IS USED BY dayService.populateDayGrid - 
-//TODO:  use userprofile endpoint instea
+  
+
+
 app.get('/api/show', function(req,res,next){
     var getSize = 50;
-    Day.find( {} )
+    Day.find( { userDeactivated: false } )
         .sort({dayCreateDate: 'descending'})
         .limit(getSize)
         .exec(function(err, Days){
@@ -115,58 +115,30 @@ app.get('/api/show', function(req,res,next){
     })
 });
 
-//RETURNS ALL DAYS FOR ONE USER, (inactive users never visible for requesting) 
-// router.route('/getdaysofuser').post(function(req,res,next){
-//         console.log ("at api incoming req.username is... " + req.body.username);
 
-//         if (req.body.username !== null)
-//         //GET DAYS FOR ONE USER
-//         {
-//         Day.find({userName : req.body.username}  )
-//             .sort({dayCreateDate: 'descending'})
-//             .exec(function(err,Day)
-//                 {
-//                 if (err)
-//                     {console.log('error at getdaysforuser api endpoint');
-//                      return next(err);}                
-//                 else
-//                     {
-//                     console.log("~~~~~~at getdaysforuser API found username...: ",
-//                                  Day );
-//                     res.json(Day); 
-//                     }
-//                 })
-
-//         } else {
-//             //GET DAYS FOR ALL USERS
-//             var getSize = 50;
-//             Day.find( {} )
-//             .sort({dayCreateDate: 'descending'})
-//             .limit(getSize)
-//             .exec(function(err, Day){    //change from Days
-//                 if (err) 
-//                     {return next(err)}
-//                 else{
-//                 console.log("we good at the NEW NEW api");
-
-//                 //DELETE ALL DAYS WITH USER WITH BAD ACTIVE STATUS HERE?!
-//                 //res.status(201).json(Days); //returns saved Days object
-//                 res.status(201).json(Day); 
-//                 }
-//             })
-//         }
-// });
-
+app.get('/api/activeusers', function(req,res,next){
+    var getSize = 1000;
+    User.find( {activestatus: { $ne: 'inactive'} } )
+        .sort({created: 'descending'})
+        .limit(getSize)
+        .exec(function(err, users){
+        if (err) 
+            {return next(err)}
+        else{
+            console.log("we good at the api");
+            res.status(201).json(users); //returns saved Days object
+            }
+    })
+});
  
-
-
+ 
 //tag based search  
 router.route('/taglookup').post(function(req,res,next){
         console.log ("at api incoming req.tag is... " + req.body.tag);
         tagString = req.body.tag;
         tagArray = tagString.split(",");
 
-        Day.find({dayTags: {$in:tagArray}})
+        Day.find({dayTags: {$in:tagArray}, userDeactivated: false})
             .sort({dayCreateDate: 'descending'})
             .exec(function(err,Day)
         {
@@ -213,7 +185,7 @@ router.route('/getday').post(function(req,res, next){
 
     console.log ('@@@@@@@@@ api endpoint receives dayID', req.body.dayID);
   
-    Day.find( { '_id':  req.body.dayID   } ).exec(function(err, Day)
+    Day.find( { '_id':  req.body.dayID, userDeactivated : false  } ).exec(function(err, Day)
         {
         if (err)
             {console.log('error at api endpoint');
@@ -232,6 +204,7 @@ router.route('/addday').post(function(req, res) {
     var newDayDoc = new Day({
         dayName:       req.body.dayName,
         userName:      req.body.userName,
+        userDeactivated: req.body.userDeactivated,
         dayCreateDate: Date.now(),
         dayUpdateDate: Date.now(),
         dayDate:       Date.now(),
@@ -269,7 +242,7 @@ app.post('/api/userprofile', function(req, res, next){
             next();
         } else if (user && user[0].activestatus === 'active') {
             data.user = user[0];
-            Day.find({userName : user[0].userName}, function(err, days) { 
+            Day.find({userName : user[0].userName, userDeactivated : false}, function(err, days) { 
                 if (err) {
                     next();
                 } else if(days) { 
@@ -289,7 +262,7 @@ app.post('/api/userprofile', function(req, res, next){
 
     {   console.log('7777777 no user at api/userprofile');
         var getSize = 50;
-        Day.find( {} )
+        Day.find( {userDeactivated : false} )
         .sort({dayCreateDate: 'descending'})
         .limit(getSize)
         .exec(function(err, days){    //change from Days
@@ -341,7 +314,8 @@ app.post('/api/savedaychanges', function(req, res, next){
                             created     : Date.now(),
                             email       : req.body.email,
                             userAbout   : "My perfect day would be...",
-                            activestatus: "active"
+                            activestatus: "registerInProgress"  
+                                        //change on email response
                         });
     //asynchronous call of bcrypt
     bcrypt.hash(req.body.password, 10, function(err, hash) {    
@@ -396,21 +370,59 @@ app.post('/api/savedaychanges', function(req, res, next){
 //3) REGISTER EMAIL? 
 
 app.get('/api/verifyemail', function(req,res,next){
-    //console.log(req._parsedOriginalUrl.query, " is access token for email verification response.");
+    console.log(req._parsedOriginalUrl.query, " is access token for email verification response.");
     var queryString = req._parsedOriginalUrl.query;
     var q = queryString.split('=');
     var email = q[2];
     var token = q[1].split('&')[0];
 
     var emailVerified = checktokenvalid(token,email);
+
     if(emailVerified === true) {
+        console.log('emailVerified is: ', emailVerified);
+       //then find email and change activestatus to 'active'
+        if (email){
+            User.findOne({email: email}, function(err, user){
+                if (err) 
+                    { return next(err); }
+                else
+                    {console.log ('no error on email search reg confirm');}
+
+                //write activestatus as active....
+
+                user.activestatus = 'active'; 
+
+                user.save(function(err) {
+                    if (err) { return next(err); }
+                    else {console.log('new user is now active');}
+                });
+
+                //make a login token
+                var token = maketoken(user.username, user.email);
+                console.log('making login token after email ', token)
+
+                //copy all values of user for return to app
+                console.log('after email we have values like: ', user.userName, 
+                            ' and ', user.userAbout, 
+                            ' and active status is now: ', user.activestatus);
+
+                // res.json({  token:      token, 
+                //             userName:   user.userName, 
+                //             email:      user.email, 
+                //             userAbout:  user.userAbout, 
+                //             created:    user.created,
+                //             status:     200}); 
+
+            });
+        }
+        //TODO SEND RES.JSON OBJECT WITH TOKEN AND USER INFO.
+        console.log('PPPPPPPPPPP redirect to / ');
         res.redirect('/');
+
     } else {
         res.status(404).end();
     }
-    //IF incoming token = tokenized username plus email
-    //THEN save username, encrypted password, created date and userAbout
-    //THEN callback to allow user login
+  
 
     
 });
@@ -443,6 +455,9 @@ router.route('/emailreset').post(function(req,res,next){
 
 //STEP 2 OF EMAIL RESET - 
 app.get('/api/verifyemailreset', function(req,res,next){
+
+    console.log('BEGIN VERIFYEMAILRESET API');
+
     tokenIN=req._parsedOriginalUrl.query;
     var decoded = jwt.decode(tokenIN, jwtKey); //check for decoded.email
     var username = decoded.iss;
@@ -613,6 +628,7 @@ router.route('/updateuserinfo').post(function(req,res,next){
                 { return next(err); }
             else
                 {console.log ('no error on findOne');}
+
             user.userAbout = req.body.userAbout; 
             user.save(function(err) {
                 if (err) { return next(err); }
@@ -627,7 +643,6 @@ router.route('/deleteaccountapi').post(function(req,res,next){
     //console.log(req.body.userAbout,"is req.body.userAbout incoming at API")
      console.log(req.body.username,"is req.body.userName incoming at API")
     if (req.body.username){
-
         //first change active status
         User.findOne({userName: req.body.username}, function(err, user){
             if (err){ 
@@ -640,27 +655,34 @@ router.route('/deleteaccountapi').post(function(req,res,next){
                 user.save(function(err) {
                     if (err) { 
                         return next(err); }
-                    else {
-                        console.log('*** user.activestatus status changed to inactive');
-                        //res.status(201).json(user.activestatus); //returns saved day object
-                        
-
-
-
-                        }
-                })
-            }
-        });
-    
-        //second change active status in all Days with this username
-        Day.find({userName: req.body.username}), function(err,day){
-                console.log('MMMMMMM finding username in Day on deletion');
-
+                    else {markInactiveDays(req.body.username); }
+                    });
+                }
+            })
         }
-        ////
-    }
-})
+    })
 
+function markInactiveDays(username){
+        console.log('*** begin markInactiveDays for ', username);
+ 
+        Day.find({userName: username})
+            .exec(function(err, days){
+
+                if (err) 
+                    {return next(err)}
+                else{   
+                    console.log('MMMMMMM deactivation of ', days);
+                    
+                    days.forEach(function(element,index,array){
+                        
+                        array[index].userDeactivated = true;
+                        array[index].save();  
+                        console.log('index is', index);
+                        })                    
+                    }                                
+                })
+        }
+     
 
 //REGISTRATION 
 //PART 1 - checks for duplicate username - If UNIQUE then TRUE
@@ -676,7 +698,7 @@ router.route('/checkusername').post(function(req,res,next){
                 if(user === null){ console.log('this is a unique user');
                     res.send(true);  //hooray found a unique username!
                     }
-                else{
+                else{       
                     res.send(false);  //sorry username already exists
                 }            
          });
@@ -703,14 +725,17 @@ router.route('/checkemail').post(function(req,res,next){
         });
 });
  
- 
+
 // LOGIN 
 //Takes user name and password hash stored client side, and 
 //bcrypt compares incoming password to hash password in db
 //If name pwd match, then returns a jwt token.
 router.route('/login').post(function(req,res,next){
-    console.log('session: ',req.body.username);
-    User.findOne({userName: req.body.username})
+    console.log('SESSION INCOMING USER NAME IS: ',req.body.username);
+ 
+    //user may give email or username for login
+
+    User.findOne({$or: [  {userName: req.body.username},{email: req.body.username} ]})
         .select('password').select('email').select('created').select('userName')
         .select('userAbout').select('activestatus').exec(function(err,user){
 
@@ -745,7 +770,7 @@ router.route('/login').post(function(req,res,next){
                             created:    user.created,
                             status:     200});   
                 }           
-        });
+            });
         };
     });
 });
@@ -762,7 +787,6 @@ function maketoken (username, email){
   console.log('start with ', username, expires,  email, ' to make token ', token);
   return token;
 }
-
 
 //LOGIN BASED ON VALID RECENT TOKEN
 //similar to login - login via username but use stored token for returning user.

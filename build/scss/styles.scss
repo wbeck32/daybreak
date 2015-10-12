@@ -24,9 +24,10 @@ html {
 $white: #ffffff;
 $gray: #f3f3f3;
 $black: #000000;
-$lighten-2: #e57373;
-$lighten-3: #ef9a9a;
+ 
 
+$lighten-2: #81c784;
+$lighten-3: #a5d6a7;  
 
 
 body {
@@ -50,7 +51,7 @@ body {
  
 
 nav {
-	background-color: $lighten-2;
+	background-color: lighten-3;
 	height: 5rem;
 	padding: 1rem;
 
@@ -60,7 +61,7 @@ nav {
 	}
 
 	ul li:hover {
-		background-color:green;
+		background-color: #00897b teal darken-1;
 	}
 }
 
@@ -126,7 +127,15 @@ nav {
 
 .searchForm {
 	width: 100%;
+
 	padding: 0 2rem;
+	margin-top: -40px;
+  	position: fixed;
+	left: 0;
+  	z-index: 9999;
+ 	opacity: 1;
+ 	background-color: white;
+
 }
 
 .usermessage {
@@ -166,12 +175,9 @@ h1 {
 
 
 .joinMessage{ 
-	padding-left: 20px;
-	padding-right: 20px;
-	border-radius: 15px;
-	font-size: 1.2em;
-	background-color: pink;
-	border: 1px solid black;
+	padding-left: 10px;
+	padding-right: 10px;
+	  
 }
 
 
@@ -190,6 +196,7 @@ h1 {
 
 .container {
 	width: auto;
+	z-index: 10px;
 }
 
 .regSurround {margin-top: 5px; margin-right: 30px; margin-left: 30px; margin-bottom: 30px;}
@@ -630,7 +637,7 @@ height:30%;
 					padding: 4px;
 					clear:left;}
 
-
+.tagFrame{   margin-top: 0px; }
  
  .bestDaysFrame { 
  	width: 100%;
@@ -642,6 +649,8 @@ height:30%;
 	margin: 0 auto;
 	overflow: hidden;
 	padding:2%;
+	padding-top: 80px;
+
 		
 	.singleDay {
 		width: 290px	;
