@@ -14,10 +14,20 @@
 <title>Daybreak - Share and Find the Perfect Day</title>
 </head>
 <body>
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=10153267108009401";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+
+	
 	<div ng-controller="userController as User">
 		<div data-ng-controller="dayController as Day">
 			<div my-user-functions></div> <!--  Nav Bar and User Register/Login/Account Controls-->
- 			<div class="usermessage">{{User.userMessage}}</div>
+ 			<div class="userInfoMessage">{{User.userMessage}}</div>
 
 			 <!-- User.profileMode is {{User.profileMode}}<br>
 			 User.userViewSwitch is {{User.userViewSwitch}} -->

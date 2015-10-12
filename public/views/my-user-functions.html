@@ -1,19 +1,22 @@
 <div class="navbar-fixed"  >
-	<nav>
-		<a style ='cursor: pointer;'><div class="left button-collapse" id="titleGraphic" 
+	<nav class='valign-wrapper'>
+		<a style ='cursor: pointer;'><div class="left button-collapse left-align" id="titleGraphic" 
 									data-ng-click="Day.getUserProfile(null);
 												   User.profileMode=null;
 												   User.userViewSwitch='grid';
- 													">
-											               
+ 													">				               
 				 Daybreak</div> </a>
- 	  	<div class="container" >		
-			<ul style ='cursor: pointer;'  class='right hide-on-small-and-down button-collapse'>
+
+			
+
+ 	  	<div class="container" >
+			<ul style ='cursor: pointer;'  class='right hide-on-small-and-down button-collapse right-align'>
 
 				<li><a><div 
 						data-ng-click="Day.getUserProfile(null);
 										User.profileMode=null;
 						    			User.userViewSwitch='grid';
+						    			User.userMessage=null;
 						               ">
 						Home  
 						</div>
@@ -43,23 +46,25 @@
  -->
 
 				<li><a data-ng-show="User.userState==='loggedIn'" 
-					   data-ng-click=" User.signOut()" > 
+					   data-ng-click="Day.getUserProfile(null); 
+					   					User.signOut();
+					   					User.userMessage=null;" > 
 		 		  		Logout  
 		 		</a></li>
 
 				<li><a data-ng-show="User.userState==='loggedOut'" 
 					data-ng-click=" User.userViewSwitch='profile'; 
 									User.LoginError = false;
-									User.profileSelect('Log');   ">
+									User.profileSelect('Log'); 
+									User.userMessage=null;  ">
 				  		Login  
 				</a></li>	
 
-				<li><a data-ng-show="User.userState==='loggedOut'" 
-					data-ng-click=" User.userViewSwitch='profile'; 
-									User.LoginError = false;
-									User.profileSelect('Log');   ">
-				  		<div class='joinMessage'> Share Your Favorite Day! </div>
-				</a></li>	
+
+				<li style="margin-top: 0; padding-top: 0">
+					 <div class="fb-share-button" data-href="http://perfectdaybreak.com:8090" data-layout="button"></div> 
+				</li>
+				 
 		   	</ul>
 	  	</div>
 	</nav> 

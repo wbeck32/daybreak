@@ -258,11 +258,10 @@ app.post('/api/userprofile', function(req, res, next){
     } ///
     else
 
-//DELETE ALL DAYS WITH USER WITH BAD ACTIVE STATUS HERE?!
-
+ 
     {   console.log('7777777 no user at api/userprofile');
         var getSize = 50;
-        Day.find( {userDeactivated : false} )
+        Day.find( {userDeactivated : false} )  //keep days of active users 
         .sort({dayCreateDate: 'descending'})
         .limit(getSize)
         .exec(function(err, days){    //change from Days
@@ -718,7 +717,7 @@ router.route('/login').post(function(req,res,next){
         .select('password').select('email').select('created').select('userName')
         .select('userAbout').select('activestatus').exec(function(err,user){
 
-        console.log(user.activestatus, ' is user.activestatus at login api');
+        //console.log(user.activestatus, ' is user.activestatus at login api');
 
         if (err){
             return next(err);
@@ -729,17 +728,31 @@ router.route('/login').post(function(req,res,next){
         } else if (user.activestatus==='inactive') {
                 console.log("username exists but account status is inactive at login api");
                 res.sendStatus(401);
+
+        } else if (user.activestatus==='registerInProgress') {
+                console.log("username exists but account status is registerInProgress at login api - login not allowed until email confirmed");
+                 
+                res.json({
+                    loginWarning: 'Please click the link we sent you in your email to login.',
+                    status: 202 });
+
         } else {
         bcrypt.compare(req.body.password, user.password, function(err,valid) {
             if (err){ 
                 return next(err);
+                res.json({
+                    loginWarning: 'Username and password unknown.  Please try again.',
+                    status: 202 });
+
             }
             // !valid means invalid name password combo - bcrypt asigns boolean
             else if(!valid){
                 console.log("user found, but pwd not good at login api");
                 res.sendStatus(401);
+
+
             } else {            
-            var token = maketoken(req.body.username, user.email);
+            var token = maketoken(user.userName, user.email);
             console.log("APP.JS: user/pwd combo found and token is " + token);
 
             res.json({      token:      token, 

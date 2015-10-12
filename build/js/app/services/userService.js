@@ -93,7 +93,7 @@ this.init = function(completeInit){
 // Case: user supplies valide username and password - we set username and token
 //////////////////////////////////////////////////////
 
-this.login = function(username, password, callback){        console.log('service login ....');
+this.login = function(username, password, callback){    console.log('service login ....');
  	$http({
 		method: 'POST',
 		url:'/api/login',
@@ -107,12 +107,17 @@ this.login = function(username, password, callback){        console.log('service
 			window.localStorage.setItem("token", response.data.token);
 			//window.localStorage.setItem("user", response.data.userName);
     	} 
-      console.log(response.data, "is response.data");
+      console.log(response.data, "is response.data on login success");
       callback(response.data); //callback fn loginState
 	},
   //failure here
-	function(data,status,headers,config){
-    callback(data.status); //callback fn loginState
+	function(response){
+    if(response.data){
+          console.log(response.data, "IS response.data on login failure");
+          console.log(response.status, "IS response.status on login failure");
+
+          callback(response.status); //callback fn loginState
+          }
 	});
 };
 
@@ -365,7 +370,7 @@ this.resetPassword = function(username){
     
       //failure condition
       function(data, status, headers, config){
-         console.log('FAILURE at service');
+         console.log('FAILURE at delete account service');
       
  
     });

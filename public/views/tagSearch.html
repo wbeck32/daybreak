@@ -1,14 +1,18 @@
 <div class="searchForm">
+
  		<div data-ng-controller="tagController as Tag"> <!-- tag controller begin -->
 			<div class="tagFrame">    <!--  tag search begin -->
 				 
 					<label class="label-space"></label>
+
+
  						<input  data-ng-model="Tag.tag"
 						class= "form-control" 
 						type="text"
 			 			placeholder="Enter search words, separated by spaces. (Example: Portland hiking restaurant.)"
 						required>
-
+ 
+						
 						<a 
 			 			data-ng-click="Tag.findTag(Tag.tag)" 
 			 			class="waves-effect waves-light btn" 
@@ -22,6 +26,12 @@
 						type="submit">Show all days
 						<span class="glyphicons globe"><img src="/images/glyphicons-globe-wht.png"></span>	
 						</a>
+
+						<span class='userMessage'>
+							 {{User.userMessage}}
+						</span>
+
+
 			</div>  <!--  tag search end -->
 
 			<!--<div class ="searchResultsMessage">				

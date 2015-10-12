@@ -246,12 +246,25 @@ userService.init(completeInit);
 			  //remove time of account creation for public presentation
 		   	  $scope.User.created = response.created.substring(0,10);
 			  //format: {"$date": "2015-08-20T18:37:47.626Z"}
+		} else if (response.status === 202)
+				//user has not clicked email to complete registration
+				{$scope.User.userMessage = response.loginWarning; 
+
+ 	    } else if (response.status === 203)
+				//user has given bad username password combo
+				{	$scope.User.userMessage = response.loginWarning; 
+					$scope.User.userViewSwitch='profile'; 
+ 					$scope.User.profileSelect('Log');  
+ 					console.log('bad username and password in user.loginstate');	
+ 	    
  	    } else { 
 	    	  // $scope.User.userFormView='hide';
+			  $scope.User.userMessage = "Unknown username and password combination. Please try again."
+
 		      $scope.User.userState = 'loggedOut';
  		      $scope.User.LoginError = true;   
 
- 		      $scope.User.userViewSwitch = 'profile';
+ 		      $scope.User.userViewSwitch = null;
          	  $scope.User.userFunction = 'Log';
 		      
 		      $scope.User.password = '';
@@ -284,11 +297,15 @@ userService.init(completeInit);
 		$scope.User.email 			= null;
 		$scope.User.matchingPassword= null;
 		$scope.User.uniqueEmail		= '';  //important, not false or null
+
+
+	
+
 	    }
 
 
   	this.signOut = function(){
-			   userService.signOut(changeUserState);
+		userService.signOut(changeUserState);
   	};
 
 //////////////////////////////////////////////////////
@@ -338,8 +355,9 @@ this.changepassword = function(User, callback){ console.log($scope.User.userStat
 
     function register(status){ 
 	      if(status === 200) {
-	        $scope.User.userMessage = 'Registration confirmation email has been sent.';
-	        $scope.User.userViewSwitch = null;
+	        //$scope.User.userMessage = 'Registration confirmation email has been sent.';
+	        $scope.User.userMessage 	= null;
+	        $scope.User.userViewSwitch 	= null;
 	      } else {
 	        $scope.User.userViewSwitch = 'NEWREG';
 	      }

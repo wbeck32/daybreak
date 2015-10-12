@@ -14,7 +14,8 @@ html {
 @media only screen and (min-width: 993px) {
 	color: green;
 	font-size: 1rem;
-}
+
+ }
 
 
 }
@@ -51,7 +52,8 @@ body {
 nav {
 	background-color: lighten-3;
 	height: 5rem;
-	padding: 1rem;
+	padding: 0 1rem;
+	
 
 	#titleGraphic{
 		font-size: 2rem;
@@ -136,11 +138,14 @@ nav {
 
 }
 
-.usermessage {
+.usermessage{margin: 3rem 0 0 3rem;}
 
-margin: 3rem 0 0 3rem;
 
-}
+.userInfoMessage {
+	margin: 3rem 0 0 3rem;
+	border: 1px black solid;
+	background-color: #ffffcc;
+	}
 
 .switch {
 	margin: 5px 0;
@@ -647,7 +652,7 @@ height:30%;
 	margin: 0 auto;
 	overflow: hidden;
 	padding:2%;
-	padding-top: 80px;
+	padding-top: 100px;
 
 		
 	.singleDay {
