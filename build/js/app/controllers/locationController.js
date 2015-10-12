@@ -110,11 +110,8 @@ this.addLoc = function(Location,locName,locURL) {
     var temp = window.localStorage.getItem('dayTags');
     tempArray.push(temp);
     window.localStorage.setItem('dayTags',tempArray);
-    // var lL = document.getElementById('locationList');
-    // console.log(lL);
-    // lL.innerHTML += "<div draggable> <div class='locationCard card-panel'><div class='card-title'>"+$scope.locName+"</div><div class='card-desc'>"+$scope.locDesc+"</div></div></div>";
-
-    console.log($scope.locName,' desc: ',$scope.locDesc);
+    var lL = document.getElementById('locationList');
+    lL.innerHTML += "<drag-item><div class='locationCard card-panel'><div class='card-title'>"+$scope.locName+"</div><div class='card-desc'>"+$scope.locDesc+"</div></div></drag-item>";
 
     $scope.locDesc = '';
 		$scope.locName = '';
@@ -122,18 +119,17 @@ this.addLoc = function(Location,locName,locURL) {
     $scope.locLatLng = '';
     $scope.locPhotosLg = [];
     $scope.locPhotosThumb = [];
-  //   document.getElementById('pac-input').value = '';
-  //   document.getElementById('descField').value = '';
-  // 	Location.locDesc = '';
-		// //Location.locName = '';
-		// Location.locURL = '';
+
+    Location.locDesc = '';
+		Location.locName = '';
+		Location.locURL = '';
 	}
 };
 
 function getLocation($scope){
 
 console.log('in here');
-};
+}
 
 
 

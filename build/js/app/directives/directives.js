@@ -187,7 +187,7 @@ angular.module('dayBreak')
 		scope: true,
 		templateUrl: '/views/viewDay.html',
 		link: function(scope,elem,attrs) {
-		console.log('scope: ',scope,' elem: ',elem,' attrs: ',attrs);	
+		//console.log('scope: ',scope,' elem: ',elem,' attrs: ',attrs);	
 		}
 	};
 
@@ -218,22 +218,23 @@ angular.module('dayBreak')
 		};
 	})
 
-.directive('addLocation', function($compile){
-	return{
-		scope: true, //scope needs to be true so that it doesn't alter scope values in the controller
-		link: function(scope,element,attrs){
-			element.bind("click", function(){		
-				scope.count++;
-				angular.element(document.getElementById('locationList'))
-		 		.append($compile("<drag-item>{{scope.locName}}draggin</drag-item>")(scope));
-		 	});
-		}
-	};
-})
+// .directive('addLocation', function($compile){
+// 	return{
+// 		scope: true, //scope needs to be true so that it doesn't alter scope values in the controller
+// 		link: function(scope,element,attrs){
+// 			element.bind("click", function(){		
+// 				scope.count++;
+// 				angular.element(document.getElementById('locationList'))
+// 		 		.append($compile("<drag-item></drag-item>")(scope));
+// 		 	});
+// 		}
+// 	};
+//})
 .directive('dragItem', function($document){
 	return {
 		restrict: 'E',
-		scope: false,
+		scope: true,
+		templateUrl: '/views/locationList.html',
 		compile: function(elem, attr){ 
 			return {
 				post: function(scope,element,attributes,controller,transclider) {

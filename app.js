@@ -305,6 +305,27 @@ app.post('/api/userprofile', function(req, res, next){
     }
 });
 
+app.post('/api/savedaychanges', function(req, res, next){
+    console.log(req.body, 'in savedaychanges');
+
+    Day.findOne({_id : req.body.dayID})
+    .exec(function(err,day){
+        if(err) {
+            next();
+        } else {
+            console.log('found the day: ',day);
+            day.dayName = 'bob';
+            day.save();
+
+        }
+
+    })
+
+
+
+});
+
+
 
 //FIRST EMAIL SENDER
 //////////////////////////////////////////////////////////

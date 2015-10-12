@@ -3,7 +3,7 @@
 		<!-- Begin conditional for add day -->
 		<div class="form-group addDay">
 
-			<form data-ng-submit="Day.addDay(Day,User);User.userDayView='grid';User.userAddDay='false';">
+			<form>
 			<h4>Tell us about your day!</h4>
 
 			<input type="text" class="form-control" data-ng-model="Day.dayName" placeholder="Give your day a name">
@@ -44,8 +44,8 @@
 				<input type="text" id="tags" class="form-control" data-ng-change="Tag.enterTag(dayTags)" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
 			</div> 
 			<!--END TAG CONTROLLER -->
-			<button class="btn btn-default" type="submit">Discard without saving</button>
-			<button class="btn btn-default" type="submit">Add this day</button> 
+			<button class="btn btn-default" data-ng-click="User.userDayView='grid';User.userAddDay='false'">Discard without saving</button>
+			<button class="btn btn-default" data-ng-click="Day.addDay(Day,User);User.userAddDay='false';Day.getUserProfile(null);">Add this day</button> 
 
 			</form>
 		</div> <!-- end form-group -->
