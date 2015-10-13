@@ -193,14 +193,14 @@ router.route('/getday').post(function(req,res, next){
         else
             {
         console.log("~~~~~~~at getday API found day requested at api", Day);
-            res.json(Day);  //???
+            res.json(Day);  
             }
     })
 });
 
 
 /* POST to Add Trip Service */
-router.route('/addday').post(function(req, res) { 
+router.route('/addday').post(function(req, res) { console.log('adding day: ', req.body)
     var newDayDoc = new Day({
         dayName:       req.body.dayName,
         userName:      req.body.userName,
@@ -279,26 +279,23 @@ app.post('/api/userprofile', function(req, res, next){
 });
 
 app.post('/api/savedaychanges', function(req, res, next){
-    console.log(req.body, 'in savedaychanges');
+    console.log('DAYNAME: ', req.body.dayTags);
 
     Day.findOne({_id : req.body.dayID})
     .exec(function(err,day){
         if(err) {
             next();
         } else {
-            console.log('found the day: ',day);
-            day.dayName = 'bob';
+            day.dayName = req.body.dayName;
+            day.dayDesc = req.body.dayDesc;
+            day.dayChild = req.body.dayChild;
+            day.dayTeen = req.body.dayTeen;
+            day.dayTags = req.body.dayTags;
+            day.locations = req.body.locations;
             day.save();
-
         }
-
     })
-
-
-
 });
-
-
 
 //FIRST EMAIL SENDER
 //////////////////////////////////////////////////////////

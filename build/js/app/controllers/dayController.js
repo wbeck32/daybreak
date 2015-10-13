@@ -21,7 +21,7 @@ angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','
 	 dayService.userProfile(username, showUserProfile);
 
 
-	 console.log("1111111 first call of getDaysOfUser");
+	 //console.log("1111111 first call of getDaysOfUser");
 
 
 ////////////////////////////////////////////////////////////////
@@ -136,7 +136,7 @@ this.addDay = function(Day, User) {
 	}
 	dayService.addDay(dayName, userName, userDeactivated, dayDesc, $rootScope.dayLocations, tagArray, dayChild, dayTeen);
 	$scope.User.userDayView = 'grid';
-	dayService.populateDayGrid(setDayScope);
+	//dayService.populateDayGrid(setDayScope);
 	Day.dayName = '';
 	Day.dayDesc = '';
 };
@@ -152,16 +152,17 @@ this.closeSingleDayNoSave = function(){
 };
 
 function completeUpdateDay(data){
-	console.log('completeSaveDayChanges in callback');console.log(data)
+	console.log('completeSaveDayChanges in callback');console.log(data);
 	$scope.User.userViewSwitch = 'grid';
 	$scope.User.userMessage = 'Your changes have been saved.';
 }
 
 
 this.updateDay = function(Day, User){
-	//console.log(Day.chosenDay.data[0]);
+	console.log('updating day: ',Day);
 	//console.log(User);
-	dayService.saveDayChanges(Day, User, completeUpdateDay);
+	var thisDay = Day.chosenDay.data[0];
+	dayService.saveDayChanges(thisDay, User, completeUpdateDay);
 };
  
 }]);

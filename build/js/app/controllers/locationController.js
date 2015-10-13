@@ -86,7 +86,7 @@ if(place.photos){
 
 
 this.addLoc = function(Location,locName,locURL) { 
-	if(locName){ 
+	if(locName){ console.log('adding a location');
 		$scope.locName = locName;
 		$scope.locURL = locURL;
 		$scope.locDesc = Location.locDesc;

@@ -173,9 +173,42 @@ angular.module('dayBreak')
 		replace: false,
 		scope: true,
 		templateUrl: '/views/updateDay.html',
-		link: function(scope,elem,attrs) {
-			
+		link: function(scope,elem,attrs,ctrl) {
+			// elem.on('blur', function(){
+			// ctrl.$setViewValue(elem.html());
+			// });
+			// ctrl.$render = function() {
+			// 	elem.html(ctrl.$viewValue);
+			// };
+			// ctrl.$setViewValue(elem.html());
 		}
+	};
+
+})
+.directive('dayName', function(){
+	return {
+		restrict: 'E',
+		replace: false,
+		scope: true,
+		controller: 'dayController',
+		templateUrl: '/views/tmp.html',
+		require: ['form', 'ngModel'],
+		scope: {},
+		link: function(scope,elem,attrs,ctrl) { console.log(scope);
+			scope.form = ctrls[0];
+      		var ngModel = ctrls[1];
+
+      		scope.$watch('dayName', function() {
+        	ngModel.$setViewValue(scope.dayName);
+      	});
+		// 	elem.on('blur', function(){
+		// 	ctrl.$setViewValue(elem.html());
+		// 	});
+		// 	ctrl.$render = function() {
+		// 		elem.html(ctrl.$viewValue);
+		// 	};
+		// 	ctrl.$setViewValue(elem.html());
+		 }
 	};
 
 })
