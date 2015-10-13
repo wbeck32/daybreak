@@ -79,7 +79,7 @@ this.addDay = function(dayName, userName, userDeactivated, dayDesc, dayLocations
 
 
 this.getDay = function(dayID, chosenDay){
-	console.log('********in dayService incoming dayID is: ', dayID);
+	//console.log('********in dayService incoming dayID is: ', dayID);
 
 	if(dayID){
  		$http({
@@ -90,7 +90,7 @@ this.getDay = function(dayID, chosenDay){
 		})
 		.then(
 		function(data){
-			console.log("found the requested day, returning data", data);
+			//console.log("found the requested day, returning data", data);
 			chosenDay(data);
 		},
 		function(data){

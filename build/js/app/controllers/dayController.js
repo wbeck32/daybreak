@@ -136,7 +136,7 @@ this.addDay = function(Day, User) {
 	}
 	dayService.addDay(dayName, userName, userDeactivated, dayDesc, $rootScope.dayLocations, tagArray, dayChild, dayTeen);
 	$scope.User.userDayView = 'grid';
-	//dayService.populateDayGrid(setDayScope);
+	window.localStorage.removeItem('dayTags');
 	Day.dayName = '';
 	Day.dayDesc = '';
 };
@@ -152,7 +152,8 @@ this.closeSingleDayNoSave = function(){
 };
 
 function completeUpdateDay(data){
-	console.log('completeSaveDayChanges in callback');console.log(data);
+	console.log('completeSaveDayChanges in callback: ', data);
+	window.localStorage.removeItem('dayTags');
 	$scope.User.userViewSwitch = 'grid';
 	$scope.User.userMessage = 'Your changes have been saved.';
 }
