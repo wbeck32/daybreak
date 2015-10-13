@@ -1,20 +1,29 @@
-html {
-	font-size: 16px; //1rem = 16px;
+$white: #ffffff;
+$gray: #f3f3f3;
+$black: #000000;
+ 
+$lighten-2: #81c784;
+$lighten-3: #a5d6a7; 
 
+
+html {
+
+
+	font-size: 16px; //1rem = 16px;
 @media only screen and (min-width: 0px) and (max-width: 600px) {
       font-size: 0.5rem;
-      color:red; 
+      color:$black; 
 
       
 }
 
 @media only screen and (min-width: 600px) and (max-width: 992px) {
-	color: blue;
+	color: $black;
 	font-size: 0.75rem;
 }
 
 @media only screen and (min-width: 993px) {
-	color: green;
+	color: $black;
 	font-size: 1rem;
 
  }
@@ -22,13 +31,8 @@ html {
 
 }
 
-$white: #ffffff;
-$gray: #f3f3f3;
-$black: #000000;
  
-
-$lighten-2: #81c784;
-$lighten-3: #a5d6a7;  
+$header-footer-color:#0277bd;
 
 
 body {
@@ -52,7 +56,7 @@ body {
  
 
 nav {
-	background-color: lighten-3;
+	background-color: $header-footer-color;
 	height: 5rem;
 	padding: 0 1rem;
 	
@@ -62,9 +66,25 @@ nav {
 		float: left;
 	}
 
-	ul li:hover {
-		background-color: #00897b teal darken-1;
-	}
+	ul {
+		li {
+			position:relative;
+			top:2.5rem;
+		:hover {
+			background-color: #00897b teal darken-1;
+	}	}
+}
+}
+
+a {
+	cursor:pointer;
+}
+
+.fb-share-button{
+	padding:0 2px 25px 25px; 
+	position:relative;
+	top:-2rem;
+	left:28rem;
 }
 
 
@@ -84,13 +104,13 @@ nav {
 }
 
 
-.page-footer {
+footer.page-footer {
 	position: absolute;
 	margin: 0;
 	width: 100%; 
 	padding: 1rem;
 	font-size: .75rem;
-	background-color: $lighten-2;
+	background-color: $header-footer-color;
 }
 
 .notMyDay {
@@ -113,13 +133,24 @@ nav {
 	display: inline;
 }
 
+.navbar-fixed {
+  position: relative;
+  height: 3rem;
+  z-index: 998; 
+}
+  .navbar-fixed nav {
+    position: fixed;
+    line-height:3rem;
+     }
+
+
 
 .link { 
 	padding-left: 10px;
 	padding-right: 10px;
 	font-size: 0.9em;
  	cursor:pointer;
-	text-decoration: underline;
+	text-decoration: none;
 }
 
 .editable {
@@ -129,13 +160,12 @@ nav {
 
 .searchForm {
 	width: 100%;
-
+	height: 7rem;
 	padding: 0 2rem;
-	margin-top: -40px;
   	position: fixed;
+  	top: 5rem;
 	left: 0;
-  	z-index: 9999;
- 	opacity: 1;
+  	z-index: 2;
  	background-color: white;
 
 }
@@ -144,9 +174,11 @@ nav {
 
 
 .userInfoMessage {
-	margin: 3rem 0 0 3rem;
-	border: 1px black solid;
-	background-color: #ffffcc;
+	margin: 4rem 0 2rem;
+	font-size:1.25rem;
+	text-align:center;
+	height: 1rem;
+	color: $header-footer-color;
 	}
 
 .switch {
@@ -204,7 +236,23 @@ h1 {
 	z-index: 10px;
 }
 
-.regSurround {margin-top: 5px; margin-right: 30px; margin-left: 30px; margin-bottom: 30px;}
+.regSurround {
+	position: 0 0;
+	margin-top: 5px; 
+	margin-right: 30px; 
+	margin-left: 30px;
+	margin-bottom: 30px;
+
+	.loginDirection {
+		font-size: 1rem;
+		margin: 0 0 1rem;
+	}
+
+	.btn {
+		margin: 0 0 2rem;
+	}
+
+}
 
 .createdaybutton{
 	font-size:1.3em;
@@ -317,10 +365,10 @@ height:30%;
 }
 
 .loginDirection{ 
-	font-size: 1em;
-	color: blue;
-	margin-bottom: 10px;
-	margin-top: 10px;
+	font-size: 1rem;
+	color: #000000;
+	margin-bottom: 2rem;
+	margin-top: 0.5rem;
 }
 
 .label-space {
@@ -419,8 +467,15 @@ height:30%;
 
 
 .title { 
-	//font-size: 1.2em;
+	font-size: 1.8rem;
 }  
+
+a.dayTitle {
+	font-size: 1.2rem;
+
+		text-decoration: underline;
+		color: #0066CC;
+	}
 
 .photo {height:100px;
 		width:290px;
@@ -507,7 +562,7 @@ height:30%;
 
 .whowasthere { 
 		margin: 3px 0;
-		border: 1px solid $lighten-3;
+		border: 1px solid #cccccc;
 		float:left;
 		padding: 0.5rem;
 
@@ -582,9 +637,10 @@ height:30%;
 
  .deleteaccount {padding: 20px; font-size: .5em;}
 
-.privacypolicy {text-decoration: underline;
+.privacypolicy {text-decoration: none;
 				cursor: pointer;
-				font-size: 1.1em;
+				font-size: .75rem;
+				color: $white;
 }
 
  .profileInfo{  width: 40%; 
@@ -653,15 +709,16 @@ height:30%;
 	align-items: baseline;
 	margin: 0 auto;
 	overflow: hidden;
-	padding:2%;
-	padding-top: 100px;
+	padding:0 2% 5.5rem;
+	position: relative;
+	top: 3rem;
 
 		
 	.singleDay {
 		width: 290px	;
 		border:1px solid $black;
 		border-radius: 25px;
-		margin: 0.25rem;
+		margin: 0.65rem;
 		padding: 1rem;
 	 
 

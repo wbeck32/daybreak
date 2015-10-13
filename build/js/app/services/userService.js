@@ -50,7 +50,8 @@ this.emailreset=function( newemail,username){
     }).success(function(data, status, headers, config){
 
       console.log('email reset send successful ');
-      alert('An email has been sent to your account, go check it out to proceed. You can close this window.');
+      $scope.User.userMessage = 'An email has been sent to your account, go check it out to proceed.';
+      //alert('An email has been sent to your account, go check it out to proceed. You can close this window.');
     }).error(function(data, status, headers, config){
       console.log('email reset failed: ' + data);
     });
@@ -169,7 +170,8 @@ this.registerUser = function(User,callback){
           })
           .then(function(response){
             callback(response.status);
-            alert('An email has been sent to your account.  Click the link to confirm your registration.');              
+            $scope.User.userMessage = 'An email has been sent to your account.  Click the link to confirm your registration.';
+            //alert('An email has been sent to your account.  Click the link to confirm your registration.');              
           },
           function(response){
 
@@ -300,7 +302,8 @@ this.resetPassword = function(username){
     })
     .then(function(data, status, headers, config){
       console.log('reset post successful');
-      alert('An email has been sent to your account, go check it out to proceed. You can close this window.');
+      //alert('An email has been sent to your account, go check it out to proceed. You can close this window.');
+      $scope.user.userMessage = 'An email has been sent to your account, go check it out to proceed.';
     },
     function(data, status, headers, config){
       console.log('reset post failed: ' + data);

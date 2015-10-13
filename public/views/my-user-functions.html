@@ -1,16 +1,17 @@
 <div class="navbar-fixed"  >
 	<nav class='valign-wrapper'>
-		<a style ='cursor: pointer;'><div class="left button-collapse left-align" id="titleGraphic" 
+		<a><div class="left button-collapse left-align title"
 									data-ng-click="Day.getUserProfile(null);
 												   User.profileMode=null;
 												   User.userViewSwitch='grid';
+												   User.userMessage='';
  													">				               
 				 Daybreak</div> </a>
 
 			
 
  	  	<div class="container" >
-			<ul style ='cursor: pointer;'  class='right hide-on-small-and-down button-collapse right-align'>
+			<ul class='right hide-on-small-and-down button-collapse right-align'>
 
 				<li><a><div 
 						data-ng-click="Day.getUserProfile(null);
@@ -30,7 +31,8 @@
 
 			  	<li><a	data-ng-show="User.userState==='loggedOut'"
 			  	  		data-ng-click="User.userViewSwitch ='profile'; 
-			  	  					   User.profileSelect('NEWREG'); "> 
+			  	  					   User.profileSelect('NEWREG');
+			  	  					   User.userMessage='' "> 
 			  	  		Register 
 			  	</a></li>
 
@@ -53,19 +55,18 @@
 		 		</a></li>
 
 				<li><a data-ng-show="User.userState==='loggedOut'" 
-					data-ng-click=" User.userViewSwitch='profile'; 
+					data-ng-click="User.userViewSwitch='profile'; 
 									User.LoginError = false;
 									User.profileSelect('Log'); 
 									User.userMessage=null;  ">
 				  		Login  
 				</a></li>	
 
-
-				<li style="margin-top: 0; padding-top: 0">
-					 <div class="fb-share-button" data-href="http://perfectdaybreak.com:8090" data-layout="button"></div> 
-				</li>
-				 
 		   	</ul>
+
+
+					 <div class="fb-share-button" data-href="http://perfectdaybreak.com:8090" data-layout="button" style=""></div> 
+				 
 	  	</div>
 	</nav> 
 </div>  

@@ -257,17 +257,15 @@ userService.init(completeInit);
  					console.log('bad username and password in user.loginstate');	
  	    
  	    } else { 
-	    	  // $scope.User.userFormView='hide';
-			  $scope.User.userMessage = "Unknown username and password combination. Please try again."
+			$scope.User.userMessage = "Unknown username and password combination. Please try again."
+		    $scope.User.userState = 'loggedOut';
+ 		    $scope.User.LoginError = true;  
+		    //$scope.User.userFunction = 'Log';
+		    $scope.User.profileSelect('Log');  
 
-		      $scope.User.userState = 'loggedOut';
- 		      $scope.User.LoginError = true;   
-
- 		      $scope.User.userViewSwitch = null;
-         	  $scope.User.userFunction = 'Log';
-		      
-		      $scope.User.password = '';
-		      $scope.User.username = '';
+		    $scope.User.userViewSwitch = 'profile';
+	      	$scope.User.password = '';
+	     	$scope.User.username = '';
 		    }
 	    }
 
