@@ -173,9 +173,42 @@ angular.module('dayBreak')
 		replace: false,
 		scope: true,
 		templateUrl: '/views/updateDay.html',
-		link: function(scope,elem,attrs) {
-			
+		link: function(scope,elem,attrs,ctrl) {
+			// elem.on('blur', function(){
+			// ctrl.$setViewValue(elem.html());
+			// });
+			// ctrl.$render = function() {
+			// 	elem.html(ctrl.$viewValue);
+			// };
+			// ctrl.$setViewValue(elem.html());
 		}
+	};
+
+})
+.directive('dayName', function(){
+	return {
+		restrict: 'E',
+		replace: false,
+		scope: true,
+		controller: 'dayController',
+		templateUrl: '/views/tmp.html',
+		require: ['form', 'ngModel'],
+		scope: {},
+		link: function(scope,elem,attrs,ctrl) { console.log(scope);
+			scope.form = ctrls[0];
+      		var ngModel = ctrls[1];
+
+      		scope.$watch('dayName', function() {
+        	ngModel.$setViewValue(scope.dayName);
+      	});
+		// 	elem.on('blur', function(){
+		// 	ctrl.$setViewValue(elem.html());
+		// 	});
+		// 	ctrl.$render = function() {
+		// 		elem.html(ctrl.$viewValue);
+		// 	};
+		// 	ctrl.$setViewValue(elem.html());
+		 }
 	};
 
 })
@@ -187,7 +220,7 @@ angular.module('dayBreak')
 		scope: true,
 		templateUrl: '/views/viewDay.html',
 		link: function(scope,elem,attrs) {
-		console.log('scope: ',scope,' elem: ',elem,' attrs: ',attrs);	
+		//console.log('scope: ',scope,' elem: ',elem,' attrs: ',attrs);	
 		}
 	};
 
@@ -218,22 +251,23 @@ angular.module('dayBreak')
 		};
 	})
 
-.directive('addLocation', function($compile){
-	return{
-		scope: true, //scope needs to be true so that it doesn't alter scope values in the controller
-		link: function(scope,element,attrs){
-			element.bind("click", function(){		
-				scope.count++;
-				angular.element(document.getElementById('locationList'))
-		 		.append($compile("<drag-item>{{scope.locName}}draggin</drag-item>")(scope));
-		 	});
-		}
-	};
-})
+// .directive('addLocation', function($compile){
+// 	return{
+// 		scope: true, //scope needs to be true so that it doesn't alter scope values in the controller
+// 		link: function(scope,element,attrs){
+// 			element.bind("click", function(){		
+// 				scope.count++;
+// 				angular.element(document.getElementById('locationList'))
+// 		 		.append($compile("<drag-item></drag-item>")(scope));
+// 		 	});
+// 		}
+// 	};
+//})
 .directive('dragItem', function($document){
 	return {
 		restrict: 'E',
-		scope: false,
+		scope: true,
+		templateUrl: '/views/locationList.html',
 		compile: function(elem, attr){ 
 			return {
 				post: function(scope,element,attributes,controller,transclider) {

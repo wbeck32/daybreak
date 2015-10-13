@@ -32,12 +32,12 @@ var searchBox = new google.maps.places.Autocomplete(input, {
 //});
 
 google.maps.event.addListener(searchBox, 'place_changed', function() { 
-    var place = searchBox.getPlace(); console.log(place);
+    var place = searchBox.getPlace(); console.log('?: ',place.place_id);
     // var lat = places[0].geometry.location.G;
     // var lon = places[0].geometry.location.K;
     var lat = place.geometry.location.J;
     var lon = place.geometry.location.M;
-    var myLatLong = ({lat:lat,lng:lon});
+    var myLatLong = ({lat:lat,lng:lon}); console.log(myLatLong);
     var markerBounds = new google.maps.LatLngBounds();
     var newLatLong = new google.maps.LatLng(myLatLong);
     var marker = new google.maps.Marker({
@@ -66,7 +66,7 @@ marker.addListener('click', function() {
 });
 
 //console.log(places[0]);
-$scope.locName = place.name;
+$scope.locName = place.name; console.log('real name: ', place.name);
 $scope.locURL = place.website;
 $scope.locLatLng = myLatLong;
 
@@ -85,9 +85,9 @@ if(place.photos){
 });
 
 
-this.addLoc = function(Location,locName,locURL) { 
-	if(locName){ 
-		$scope.locName = locName;
+this.addLoc = function(Location,locName,locURL) { console.log('huh: ',Location, locName, locURL);
+	if(Location.locName){ console.log('adding a location');
+		$scope.locName = Location.locName;
 		$scope.locURL = locURL;
 		$scope.locDesc = Location.locDesc;
 
@@ -105,16 +105,13 @@ this.addLoc = function(Location,locName,locURL) {
     if (Location.locDesc){
       locDescArray=Location.locDesc.split(' ');
     }
-    
+    console.log('Adding a location: ',$scope.locName);
     Array.prototype.push.apply(tempArray,locDescArray);
     var temp = window.localStorage.getItem('dayTags');
     tempArray.push(temp);
     window.localStorage.setItem('dayTags',tempArray);
-    // var lL = document.getElementById('locationList');
-    // console.log(lL);
-    // lL.innerHTML += "<div draggable> <div class='locationCard card-panel'><div class='card-title'>"+$scope.locName+"</div><div class='card-desc'>"+$scope.locDesc+"</div></div></div>";
-
-    console.log($scope.locName,' desc: ',$scope.locDesc);
+    var lL = document.getElementById('locationList');
+    lL.innerHTML += "<drag-item><div class='locationCard card-panel'><div class='card-title'>"+$scope.locName+"</div><div class='card-desc'>"+$scope.locDesc+"</div></div></drag-item>";
 
     $scope.locDesc = '';
 		$scope.locName = '';
@@ -122,11 +119,10 @@ this.addLoc = function(Location,locName,locURL) {
     $scope.locLatLng = '';
     $scope.locPhotosLg = [];
     $scope.locPhotosThumb = [];
-  //   document.getElementById('pac-input').value = '';
-  //   document.getElementById('descField').value = '';
-  // 	Location.locDesc = '';
-		// //Location.locName = '';
-		// Location.locURL = '';
+
+    Location.locDesc = '';
+		Location.locName = '';
+		Location.locURL = '';
 	}
 };
 
