@@ -3,14 +3,14 @@
  		<div data-ng-controller="tagController as Tag"> <!-- tag controller begin -->
 			<div class="tagFrame">    <!--  tag search begin -->
 				 
-
+				<form ng-submit=Tag.findTag(Tag.tag)>
  						<input  data-ng-model="Tag.tag"
 						class= "form-control" 
 						type="text"
 			 			placeholder="Enter search words, separated by spaces. (Example: Portland hiking restaurant.)"
 						required>
- 
-						
+				</form>
+  
 						<a 
 			 			data-ng-click="Tag.findTag(Tag.tag)" 
 			 			class="waves-effect waves-light btn" 
@@ -42,5 +42,7 @@
 				</div>	
 
 			</div> -->
-		</div>       <!-- tag controller end -->
-		</div>
+
+
+
+

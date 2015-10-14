@@ -1,13 +1,19 @@
 <div class="navbar-fixed"  >
 	<nav class='valign-wrapper'>
-		<a><div class="left button-collapse left-align title"
+
+ 			<a><div class="left button-collapse left-align title"
 									data-ng-click="Day.getUserProfile(null);
 												   User.profileMode=null;
 												   User.userViewSwitch='grid';
 												   User.userMessage='';
  													">				               
-				 Daybreak</div> </a>
-
+				 Daybreak</div> 
+			</a>
+			
+ 			<!-- <div class="fb-share-button" data-href="http://perfectdaybreak.com:8090" data-layout="button" style=""></div> 
+ -->
+			
+		
 			
 
  	  	<div class="container" >
@@ -42,11 +48,6 @@
 			  			&nbsp;-&nbsp;{{User.username}}&nbsp;-&nbsp;
 				</a></li>
 
-<!-- REMOVED FOR TESTING 
-	User.profileSelect('myAccount');
- 	Day.viewEditUserDays(User.username);
- -->
-
 				<li><a data-ng-show="User.userState==='loggedIn'" 
 					   data-ng-click="Day.getUserProfile(null); 
 					   					User.signOut();
@@ -65,7 +66,10 @@
 		   	</ul>
 
 
-					 <div class="fb-share-button" data-href="http://perfectdaybreak.com:8090" data-layout="button" style=""></div> 
+<div class="fb-share-button" data-href="http://perfectdaybreak.com:8090" data-layout="button" style=" 1px solid grey;"></div> 
+
+
+					 
 				 
 	  	</div>
 	</nav> 
