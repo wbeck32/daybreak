@@ -102,7 +102,7 @@ this.addNewDay = function() {
 
 
 this.getUserProfile = function(username){
-	console.log("currrent user name ******", username);
+	//console.log("currrent user name ******", username);
 	$scope.User.userViewSwitch = 'profile';
  	dayService.userProfile(username, showUserProfile);
 };
@@ -160,9 +160,20 @@ function completeUpdateDay(data){
 
 
 this.updateDay = function(Day, User){
-	console.log('updating day: ',Day);
-	//console.log(User);
-	var thisDay = Day.chosenDay.data[0];
+	console.log('updating day: ',$rootScope.dayLocations);//new loc
+	console.log('day: ',$scope.Day.chosenDay.data[0].locations);//orig locs
+	var thisDay = $scope.Day.chosenDay.data[0];  //console.log(thisDay.locations);
+	thisDay.locations.push($rootScope.dayLocations);	//console.log('thisDay: ',thisDay.locations)
+	var tmp = thisDay.locations.concat($rootScope.dayLocations);
+	thisDay.locations = [];
+	tmp.forEach(function(elem,index,array){
+		if(typeof elem === 'object' && elem.location) {
+			console.log(elem);
+			thisDay.locations.push(elem);
+		}
+
+		//});
+	});console.log('final answer: ',thisDay.locations);
 	dayService.saveDayChanges(thisDay, User, completeUpdateDay);
 };
  

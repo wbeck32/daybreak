@@ -1,9 +1,9 @@
-angular.module('dayBreak').service('dayService',['$http', function($http){
+angular.module('dayBreak').service('dayService',['$http', '$rootScope',function($http,$rootScope){
 
 //////  modify to hit getdaysofuser and callback setDayScope
 this.userProfile = function(username, showUserProfile) {
 
-	console.log('oooooo requesting username', username);
+	//console.log('oooooo requesting username', username);
 
 	$http({
 		method: 'POST',
@@ -12,7 +12,7 @@ this.userProfile = function(username, showUserProfile) {
 		headers: {'Content-Type' : 'application/json'}
 	})
 	.then(function(response){
-		console.log('response dayService IIIIIIIII>>>>>>: ', response.data);
+		//console.log('response dayService IIIIIIIII>>>>>>: ', response.data);
 		showUserProfile(response.data); //pass entire data object back
 	},
 	function(data, status, headers, config){
@@ -100,8 +100,8 @@ this.getDay = function(dayID, chosenDay){
 };
 
 
-this.saveDayChanges = function(Day,User, completeUpdateDay){
-	console.log ('saveDayChanges in service: ', Day.locations);
+this.saveDayChanges = function(Day, User, completeUpdateDay){
+
 	var tagArray = [];
 	var dayDescArray= [];
 	var dayNameArray= [];
@@ -131,12 +131,11 @@ this.saveDayChanges = function(Day,User, completeUpdateDay){
 				},
 			headers:{'Content-Type': 'application/json' }	 
 		}).then(function(data, status, headers, config) {
-			console.log("found the requested day, returning data.dayID", data, " and data.dayName ", data.data[0].dayName);
 			window.localStorage.removeItem('dayTags');
 			completeUpdateDay(data);
 		},
 		function(data){
-				console.log("DID NOT FIND the requested day");
+			console.log("DID NOT FIND the requested day");
 		});
 	};
 

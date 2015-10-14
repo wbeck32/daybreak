@@ -31,9 +31,9 @@
 			<!-- LOCATION controller begin-->
 			<div data-ng-controller="locationController as Location" class="form-group controller" style="margin:10px 0;">
 				<h5>Find one location or add many!</h5>
-				<input type="text" id="pac-input" placeholder="Enter the name of location" data-ng-model="Location.locName">
+				<input type="text" id="pac-input" placeholder="Enter the name of location" data-ng-model="locName">
 				<textarea id="descField" class="form-control" data-ng-bind="locDesc" rows="3" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
-				<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locName,locURL,locDesc)" add-location>Add this location</div>
+				<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locDesc)" add-location>Add this location</div>
 				<div id="locationList"></div>
 			</div> 
 			<!-- END LOCATION CONTROLLER -->
@@ -52,6 +52,7 @@
 	</div> <!-- close column 1 -->
 
 	<div class="col s8 m6 l5 left-align"> <!-- open column 2 -->
+	      <div id="place-id" style="visibility:hidden;"></div>
 		<div id="map-canvas">			
 	</div> <!-- close column 2 -->
 </div>    <!--close row tag -->
