@@ -3,7 +3,7 @@
 		<!-- Begin conditional for update day -->
 		<div class="form-group">
 			<form data-ng-model-options="{ getterSetter: true }">
-			<h4>Update your day.</h4>
+			<h4>Update your day</h4>
 			<input contentEditable="true" type="text" class="form-control name" data-ng-model="Day.chosenDay.data[0].dayName">
 			</input>
 			
@@ -37,9 +37,9 @@
 				<h5>Where you went.</h5>
 				<location-list data-ng-repeat="Location in Day.chosenDay.data[0].locations" data-ng-model="Day.chosenDay.data[0].locations"></location-list>
 				<h5>Add more locations.</h5>
-				<input type="text" class="form-control" id="pac-input" placeholder="Enter the name of location" data-ng-bind="locName" data-ng-model="Location.locName">
-				<textarea class="form-control" data-ng-bind="locDesc" rows="3" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
-				<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locName,locURL,locDesc)">Add this location</div>
+				<input type="text" class="form-control" id="pac-input" placeholder="Enter the name of location" data-ng-model="locName">
+				<textarea class="form-control" data-ng-bind="locDesc" rows="8" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
+				<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locDesc)">Add this location</div>
 				<div id="locationList"></div>
 			</div>
 			<!-- END LOCATION CONTROLLER -->
@@ -63,7 +63,12 @@
 		</div> <!-- end form-group -->
 	</div> <!-- close column 1 -->
 
-	<div class="col s8 m6 l5 left-align"> <!-- open column 2 -->
+	<div class="col s8 m6 l5 left-align">
+
+
+	 <!-- open column 2 -->
+	
+      <div id="place-id" style="visibility:hidden;"></div>
 		<div id="map-canvas">
 	</div>		
 

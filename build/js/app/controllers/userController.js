@@ -257,7 +257,7 @@ userService.init(completeInit);
  					console.log('bad username and password in user.loginstate');	
  	    
  	    } else { 
-			$scope.User.userMessage = "Unknown username and password combination. Please try again."
+			$scope.User.userMessage = "Unknown username and password combination. Please try again.";
 		    $scope.User.userState = 'loggedOut';
  		    $scope.User.LoginError = true;  
 		    //$scope.User.userFunction = 'Log';

@@ -1,13 +1,14 @@
 angular.module('dayBreak').controller('locationController',['$http','$scope','$sce','$rootScope','dayService','mapService','$compile',function($http,$scope,$sce,$rootScope,dayService,mapService,$compile){
 
 $rootScope.dayLocations = [];
+$scope.dayLocations = [];
 $scope.locName = '';
 $scope.locURL = '';
 $scope.locDesc = '';
-$scope.locLatLng = '';
 $scope.locPhotosLg = [];
 $scope.locPhotosThumb = [];
 $scope.lgPhotoInfo = {};
+$scope.googlePlaceId = '';
 
 var myLatlng = new google.maps.LatLng(-33.867957, 151.21117600000002);
 var mapOptions = {
@@ -16,82 +17,77 @@ var mapOptions = {
   mapTypeId: google.maps.MapTypeId.ROADMAP
 }; 
 
-$scope.map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
+map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 var defaultBounds = new google.maps.LatLngBounds(
   new google.maps.LatLng(-33.8902, 151.1759),
   new google.maps.LatLng(-33.8474, 151.2631));
+  var input = document.getElementById('pac-input');
+  var searchBox = new google.maps.places.Autocomplete(input, {
+  });
 
 
-var input = document.getElementById('pac-input');
-
-var searchBox = new google.maps.places.Autocomplete(input, {
-
-});
-//var searchBox = new google.maps.places.SearchBox(input, {
-    //bounds: defaultBounds
-//});
+var geocoder = new google.maps.Geocoder;
+var infowindow = new google.maps.InfoWindow;
+var place;
 
 google.maps.event.addListener(searchBox, 'place_changed', function() { 
-    var place = searchBox.getPlace(); console.log('?: ',place.place_id);
-    // var lat = places[0].geometry.location.G;
-    // var lon = places[0].geometry.location.K;
-    var lat = place.geometry.location.J;
-    var lon = place.geometry.location.M;
-    var myLatLong = ({lat:lat,lng:lon}); console.log(myLatLong);
-    var markerBounds = new google.maps.LatLngBounds();
-    var newLatLong = new google.maps.LatLng(myLatLong);
-    var marker = new google.maps.Marker({
-      position: myLatLong,
-      title: place.name,
-      animation: google.maps.Animation.DROP
-    });
-  $scope.map.panTo(marker.position);
-
-var popupString = '<div style="font-weight:bold">'+place.name+'</div>';
-
-if (place.formatted_address) {
-  popupString += '<div>'+place.formatted_address+'</div>';
-}
-if (place.formatted_phone_number) {
-  popupString += '<div>'+place.formatted_phone_number+'</div>';
-}
-
-var infowindow = new google.maps.InfoWindow({
-  content: popupString
-});
-marker.setMap($scope.map);
-
-marker.addListener('click', function() {
-	infowindow.open($scope.map, marker);
-});
-
-//console.log(places[0]);
-$scope.locName = place.name; console.log('real name: ', place.name);
-$scope.locURL = place.website;
-$scope.locLatLng = myLatLong;
-
-if(place.photos){
-  for (i=0; i<=2; i++){
-    $scope.locPhotosThumb.push(place.photos[i].getUrl({'maxWidth':60,'maxHeight':60}));
-    $scope.lgPhotoInfo = {  url: place.photos[i].getUrl({'maxWidth':250,'maxHeight':250}), 
-                            attr: place.photos[i].html_attributions[0]
-                          };
-    $scope.locPhotosLg.push($scope.lgPhotoInfo);
+  place = searchBox.getPlace(); console.log('?: ',place);
+  document.getElementById('place-id').value = place.place_id;
+    $scope.locName = place.name;
+    $scope.locURL = place.url;
+    if(place && place.photos){
+    for (i=0; i<=2; i++){
+      $scope.locPhotosThumb.push(place.photos[i].getUrl({'maxWidth':60,'maxHeight':60}));
+      $scope.lgPhotoInfo = {  url: place.photos[i].getUrl({'maxWidth':250,'maxHeight':250}), 
+                              attr: place.photos[i].html_attributions[0]
+                            };
+      $scope.locPhotosLg.push($scope.lgPhotoInfo);
+    }
   }
-}
-
-//$scope.$apply();
-
+geocodePlaceId(geocoder, map, infowindow);
 });
 
 
-this.addLoc = function(Location,locName,locURL) { console.log('huh: ',Location, locName, locURL);
-	if(Location.locName){ console.log('adding a location');
-		$scope.locName = Location.locName;
-		$scope.locURL = locURL;
-		$scope.locDesc = Location.locDesc;
+function geocodePlaceId(geocoder, map, infowindow) {
+  var placeId = document.getElementById('place-id').value;
+  $scope.googlePlaceId = document.getElementById('place-id').value;
+  geocoder.geocode({'placeId': placeId}, function(results, status) {
+    if (status === google.maps.GeocoderStatus.OK) { 
+      //$rootScope.dayLocations.push(results); console.log('0: ',$rootScope.dayLocations);
+      if (results[0]) {
+        map.setZoom(11);
+        map.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+          map: map,
+          position: results[0].geometry.location,
+          animation: google.maps.Animation.DROP
+        });
 
-		var l = ({location:$scope.locName, url:$scope.locURL, desc:$scope.locDesc, latLong:$scope.locLatLng, photosLg:$scope.locPhotosLg,photosThumb:$scope.locPhotosThumb});
+        var popupString = '<div style="font-weight:bold">'+results[0].formatted_address+'</div>';
+
+        if (results[0].formatted_phone_number) {
+          popupString += '<div>'+results[0].formatted_phone_number+'</div>';
+        }
+        if (place.url) {
+          popupString += '<div><a href='+place.url+'">URL</a></div>';
+        }
+        infowindow.setContent(popupString);
+        infowindow.open(map, marker);
+
+      } else {
+        window.alert('No results found');
+      }
+    } else {
+      window.alert('Geocoder failed due to: ' + status);
+    }
+  });
+}
+
+
+this.addLoc = function(Location,locDesc) { 
+	if($scope.locName){ 
+		$scope.locDesc = Location.locDesc;
+		var l = ({location:$scope.locName, url:$scope.locURL, desc:$scope.locDesc, googlePlaceId:$scope.googlePlaceId, photosLg:$scope.locPhotosLg,photosThumb:$scope.locPhotosThumb});
     $rootScope.dayLocations.push(l);
     var tagField = document.getElementById('tags');
     tagField.value += $scope.locName+' ';
@@ -105,7 +101,6 @@ this.addLoc = function(Location,locName,locURL) { console.log('huh: ',Location, 
     if (Location.locDesc){
       locDescArray=Location.locDesc.split(' ');
     }
-    console.log('Adding a location: ',$scope.locName);
     Array.prototype.push.apply(tempArray,locDescArray);
     var temp = window.localStorage.getItem('dayTags');
     tempArray.push(temp);
@@ -116,7 +111,7 @@ this.addLoc = function(Location,locName,locURL) { console.log('huh: ',Location, 
     $scope.locDesc = '';
 		$scope.locName = '';
 		$scope.locURL = '';
-    $scope.locLatLng = '';
+    $scope.googlePlaceId = '';
     $scope.locPhotosLg = [];
     $scope.locPhotosThumb = [];
 
@@ -125,12 +120,5 @@ this.addLoc = function(Location,locName,locURL) { console.log('huh: ',Location, 
 		Location.locURL = '';
 	}
 };
-
-function getLocation($scope){
-
-console.log('in here');
-}
-
-
 
 }]);

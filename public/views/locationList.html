@@ -1,1 +1,11 @@
-<div class='locationCard card-panel'><div class='card-title'>{{Location.location}}</div><div class='card-desc'>{{Location.desc}}</div></div>
+<div class='locationCard card-panel'>
+<div class='card-title' style="font-weight:600;">{{Location.location}}</div>
+<div class='card-desc'>{{Location.desc}}</div>
+<div class='locationPhotos'>
+	<a href="{{Location.photosLg[0].url}}"><img src="{{Location.photosLg[0].url}}"></a>
+
+		<a href="{{Location.photosLg[1].url}}"><img src="{{Location.photosLg[1].url}}"></a>
+	<a href="{{Location.photosLg[2].url}}"><img src="{{Location.photosLg[2].url}}"></a>
+
+</div>
+</div>
