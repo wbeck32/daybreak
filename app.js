@@ -909,8 +909,8 @@ function checktokenvalid(tokenIN, verifiedemail){
             console.log('decoded ' ,decoded);//check for decoded.email
             //console.log('values are: ', decoded.iss, decoded.exp, decoded.email);
             if (decoded.exp <= Date.now() ) {
-                res.end('Access token expired', 404);
-                next(err); 
+                //res.end('Access token expired', 404);
+                return tokenresult = false; 
                 }
             else if(decoded.email = verifiedemail){
                 //console.log('decoded token email matches stored email.');

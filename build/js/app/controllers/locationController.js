@@ -1,14 +1,24 @@
-angular.module('dayBreak').controller('locationController',['$http','$scope','$sce','$rootScope','dayService','mapService','$compile',function($http,$scope,$sce,$rootScope,dayService,mapService,$compile){
+angular
+  .module('dayBreak')
+  .controller('locationController',['$http','$scope','$sce','$rootScope','dayService','mapService','$compile', function($http,$scope,$sce,$rootScope,dayService,mapService,$compile){
+
+
+
+
+
 
 $rootScope.dayLocations = [];
-$scope.dayLocations = [];
-$scope.locName = '';
-$scope.locURL = '';
-$scope.locDesc = '';
-$scope.locPhotosLg = [];
-$scope.locPhotosThumb = [];
-$scope.lgPhotoInfo = {};
-$scope.googlePlaceId = '';
+$rootScope.dayTags = [];
+
+var locPhotosLg = [];
+var locPhotosThumb = [];
+var lgPhotoInfo = {};
+var locName = '';
+var locURL = '';
+var locDesc = '';
+var googlePlaceId = '';
+var locLatLong = '';
+
 
 var myLatlng = new google.maps.LatLng(-33.867957, 151.21117600000002);
 var mapOptions = {
@@ -31,17 +41,17 @@ var infowindow = new google.maps.InfoWindow;
 var place;
 
 google.maps.event.addListener(searchBox, 'place_changed', function() { 
-  place = searchBox.getPlace(); console.log('?: ',place);
+  place = searchBox.getPlace();
   document.getElementById('place-id').value = place.place_id;
-    $scope.locName = place.name;
-    $scope.locURL = place.url;
+    locName = place.name;
+    locURL = place.url;
     if(place && place.photos){
     for (i=0; i<=2; i++){
-      $scope.locPhotosThumb.push(place.photos[i].getUrl({'maxWidth':60,'maxHeight':60}));
-      $scope.lgPhotoInfo = {  url: place.photos[i].getUrl({'maxWidth':250,'maxHeight':250}), 
+      locPhotosThumb.push(place.photos[i].getUrl({'maxWidth':60,'maxHeight':60}));
+      lgPhotoInfo = {  url: place.photos[i].getUrl({'maxWidth':250,'maxHeight':250}), 
                               attr: place.photos[i].html_attributions[0]
                             };
-      $scope.locPhotosLg.push($scope.lgPhotoInfo);
+      locPhotosLg.push(lgPhotoInfo);
     }
   }
 geocodePlaceId(geocoder, map, infowindow);
@@ -50,11 +60,11 @@ geocodePlaceId(geocoder, map, infowindow);
 
 function geocodePlaceId(geocoder, map, infowindow) {
   var placeId = document.getElementById('place-id').value;
-  $scope.googlePlaceId = document.getElementById('place-id').value;
+  googlePlaceId = document.getElementById('place-id').value;
   geocoder.geocode({'placeId': placeId}, function(results, status) {
     if (status === google.maps.GeocoderStatus.OK) { 
-      //$rootScope.dayLocations.push(results); console.log('0: ',$rootScope.dayLocations);
       if (results[0]) {
+        locLatLong = results[0].geometry.location;
         map.setZoom(11);
         map.setCenter(results[0].geometry.location);
         var marker = new google.maps.Marker({
@@ -85,40 +95,50 @@ function geocodePlaceId(geocoder, map, infowindow) {
 
 
 this.addLoc = function(Location,locDesc) { 
-	if($scope.locName){ 
-		$scope.locDesc = Location.locDesc;
-		var l = ({location:$scope.locName, url:$scope.locURL, desc:$scope.locDesc, googlePlaceId:$scope.googlePlaceId, photosLg:$scope.locPhotosLg,photosThumb:$scope.locPhotosThumb});
+  var tags = [];
+  if(locName){ 
+		locDesc = Location.locDesc;
+		var l = ({location: locName, url: locURL, desc: locDesc, locLatLong: locLatLong, googlePlaceId:googlePlaceId, photosLg:locPhotosLg, photosThumb:locPhotosThumb});
     $rootScope.dayLocations.push(l);
+    tags.push(locName);
+    tags.push(locDesc);
+
+    $rootScope.dayTags.push(tags);
+
     var tagField = document.getElementById('tags');
-    tagField.value += $scope.locName+' ';
+    tagField.value += locName+' ';
 
-    var tempArray = [];
-    var locDescArray = [];
-    var locTagArray = [];
+    // var tempArray = [];
+    // var locDescArray = [];
+    // var locTagArray = [];
 
-    tempArray=$scope.locName.split(' ');
+    // tempArray=locName.split(' ');
     
-    if (Location.locDesc){
-      locDescArray=Location.locDesc.split(' ');
-    }
-    Array.prototype.push.apply(tempArray,locDescArray);
-    var temp = window.localStorage.getItem('dayTags');
-    tempArray.push(temp);
-    window.localStorage.setItem('dayTags',tempArray);
-    var lL = document.getElementById('locationList');
-    lL.innerHTML += "<drag-item><div class='locationCard card-panel'><div class='card-title'>"+$scope.locName+"</div><div class='card-desc'>"+$scope.locDesc+"</div></div></drag-item>";
+    // if (locDesc){
+    //   locDescArray=locDesc.split(' ');
+    // }
+    // Array.prototype.push.apply(tempArray,locDescArray);
+    // console.log(tempArray);
 
-    $scope.locDesc = '';
-		$scope.locName = '';
-		$scope.locURL = '';
-    $scope.googlePlaceId = '';
-    $scope.locPhotosLg = [];
-    $scope.locPhotosThumb = [];
+    // //var temp = window.localStorage.getItem('dayTags');
+    // //tempArray.push(temp);
+    // $rootScope.dayTags.push(tempArray);
+    //console.log($rootScope.dayTags);    
+    var lL = document.getElementById('locationList');
+    lL.innerHTML += "<drag-item><div class='locationCard card-panel'><div class='card-title'>"+locName+"</div><div class='card-desc'>"+locDesc+"</div></div></drag-item>";
+  //   $scope.locDesc = '';
+		// $scope.locName = '';
+		// $scope.locURL = '';
+  //   $scope.googlePlaceId = '';
+  //   $scope.locPhotosLg = [];
+  //   $scope.locPhotosThumb = [];
 
     Location.locDesc = '';
 		Location.locName = '';
 		Location.locURL = '';
 	}
+
+  //locationFactory.buildObject(dayLocations);
 };
 
 }]);

@@ -14,16 +14,16 @@
 <title>Daybreak - Share and Find the Perfect Day</title>
 </head>
 <body>
-		<div id="fb-root"></div>
-		<script>(function(d, s, id) {
-		  var js, fjs = d.getElementsByTagName(s)[0];
-		  if (d.getElementById(id)) return;
-		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=10153267108009401";
-		  fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));</script>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=10153267108009401";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
 
-	
+	<div id="fb-root"></div>
+
 	<div ng-controller="userController as User">
 		<div data-ng-controller="dayController as Day">
 			<div my-user-functions></div> <!--  Nav Bar and User Register/Login/Account Controls-->
@@ -57,13 +57,14 @@
 		</div>    <!--  close day controller -->
 	</div>   <!-- close user controller -->
 	
-
+<a ui-sref="home">Hello</a>
 
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBmK00Qr6_8hzbLNNU67xCs_kdGJTgHSnI"></script>
+<script src="js/angular-ui-router.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBmK00Qr6_8hzbLNNU67xCs_kdGJTgHSnI">
+ </script>
 <script src="js/jquery-ui.min.js"></script>
 <script src="js/main.js"></script>
 </body>

@@ -1,5 +1,5 @@
 angular.module('dayBreak').service('locationService',['$http',function($http){
-
+var dayLocArray = [];
 
 this.addLocation = function(locName, locDesc, locURL) {
 $http({
@@ -15,4 +15,9 @@ $http({
 		console.log('failure!');
 	});
 	};
+
+this.buildLocArray = function(dayLocations) {
+	dayLocArray = dayLocations;
+};
+
 }]);

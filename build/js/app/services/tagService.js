@@ -17,4 +17,8 @@ this.findTag = function(tag, callback){ console.log('findTag: ',tag);
 		});
 };
 
+this.tagList = function(array, callback) {
+
+};
+
 }]);

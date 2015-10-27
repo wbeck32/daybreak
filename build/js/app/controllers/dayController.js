@@ -1,4 +1,4 @@
-angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', 'commonService','userService',  function($scope,$rootScope,$http,dayService,commonService,userService){
+angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', 'commonService','userService','locationService','locationFactory',  function($scope,$rootScope,$http,dayService,commonService,userService,locationService,locationFactory){
 	$scope.Day.chosenDay = '';
 	$scope.Day.dayUserName = '';
 
@@ -107,7 +107,7 @@ this.getUserProfile = function(username){
  	dayService.userProfile(username, showUserProfile);
 };
 
-this.addDay = function(Day, User) { 
+this.addDay = function(Day, User) {  console.log($rootScope.dayTags);
 	var childCheck = '';
 	if (Day.child && Day.child === true) {childCheck='checked';}
 	var teenCheck = '';
@@ -115,7 +115,7 @@ this.addDay = function(Day, User) {
 	var dayName=Day.dayName;
 	var userName=User.username;
 	var dayDesc = Day.dayDesc;
-	var dayTags = window.localStorage.getItem('dayTags');
+	//var dayTags = $rootScope.dayTags;
 	var dayChild = childCheck;
 	var dayTeen = teenCheck;
 	var tagArray = [];
@@ -123,20 +123,41 @@ this.addDay = function(Day, User) {
 	var dayNameArray= [];
 	var userDeactivated = false;
 
-	if(dayTags) {
- 		tagArray = dayTags.split(',');
- 	} 
- 	if (dayDesc){
-		dayDescArray = dayDesc.split(' ');
-		Array.prototype.push.apply(tagArray,dayDescArray);
-	} 
-	if (dayName) {
-		dayNameArray = dayName.split(' ');
-		Array.prototype.push.apply(tagArray,dayNameArray);
-	}
-	dayService.addDay(dayName, userName, userDeactivated, dayDesc, $rootScope.dayLocations, tagArray, dayChild, dayTeen);
+	var tmp = []; console.log($rootScope.dayTags);
+	$rootScope.dayTags.forEach(function(e,i,a) {
+		e.forEach(function(e,i,a){			//console.log(e);
+
+			tmp.push(e);
+		});
+		tmp.forEach(function(e,i,a){
+			e = e.split(' ');
+			$rootScope.dayTags.push(e);
+		});
+		$rootScope.dayTags.forEach(function(e,i,a){
+			if ($rootScope.dayTags.indexOf(e) > -1) {
+				//console.log(e);
+			}
+		})
+		});
+	//});//console.log(tmp);
+
+
+console.log($rootScope.dayTags);
+	// if(dayTags) {
+ // 		tagArray = dayTags.split(',');
+ // 	} 
+ // 	if (dayDesc){
+	// 	dayDescArray = dayDesc.split(' ');
+	// 	Array.prototype.push.apply(tagArray,dayDescArray);
+	// } 
+	// if (dayName) {
+	// 	dayNameArray = dayName.split(' ');
+	// 	Array.prototype.push.apply(tagArray,dayNameArray);
+	// }
+	//dayService.addDay(dayName, userName, userDeactivated, dayDesc, $rootScope.dayLocations, $rootScope.dayTags, dayChild, dayTeen);
 	$scope.User.userDayView = 'grid';
-	window.localStorage.removeItem('dayTags');
+	$rootScope.dayTags = [];
+	//window.localStorage.removeItem('dayTags');
 	Day.dayName = '';
 	Day.dayDesc = '';
 };
