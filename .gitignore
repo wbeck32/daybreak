@@ -16,3 +16,6 @@ codesnips
 data/loginmailgun.js
 loginmailgun.js
 geniza
+*.bak
+build/js/app/factories
+.idea

@@ -2,11 +2,6 @@ angular
   .module('dayBreak')
   .controller('locationController',['$http','$scope','$sce','$rootScope','dayService','mapService','$compile', function($http,$scope,$sce,$rootScope,dayService,mapService,$compile){
 
-
-
-
-
-
 $rootScope.dayLocations = [];
 $rootScope.dayTags = [];
 
@@ -46,7 +41,7 @@ google.maps.event.addListener(searchBox, 'place_changed', function() {
     locName = place.name;
     locURL = place.url;
     if(place && place.photos){
-    for (i=0; i<=2; i++){
+    for (i=0; i<=place.photos.length; i++){
       locPhotosThumb.push(place.photos[i].getUrl({'maxWidth':60,'maxHeight':60}));
       lgPhotoInfo = {  url: place.photos[i].getUrl({'maxWidth':250,'maxHeight':250}), 
                               attr: place.photos[i].html_attributions[0]
