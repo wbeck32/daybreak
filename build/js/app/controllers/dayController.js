@@ -80,7 +80,8 @@ function showUserProfile(response) {
 
 	 	//set otherprofile info
 	 	$scope.Day.otherusername = response.user.userName;
-	 	$scope.Day.othercreated = response.user.created;
+	 	$scope.Day.othercreated = response.user.created.substring(0, 10);
+ 
 	 	$scope.Day.otheruserabout = response.user.userAbout;
 	}  	
 
@@ -155,6 +156,7 @@ console.log($rootScope.dayTags);
 	// 	Array.prototype.push.apply(tagArray,dayNameArray);
 	// }
 	//dayService.addDay(dayName, userName, userDeactivated, dayDesc, $rootScope.dayLocations, $rootScope.dayTags, dayChild, dayTeen);
+
 	$scope.User.userDayView = 'grid';
 	$rootScope.dayTags = [];
 	//window.localStorage.removeItem('dayTags');
