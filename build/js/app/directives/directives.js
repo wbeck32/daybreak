@@ -174,6 +174,7 @@ angular.module('dayBreak')
 		scope: true,
 		templateUrl: '/views/updateDay.html',
 		link: function(scope,elem,attrs,ctrl) {
+ 
 
 		}
 	};

@@ -1,8 +1,8 @@
 <div class = "regSurround">
 	<form 
 		data-ng-submit="User.registerValidUser(User);
-							 User.userViewSwitch='profile';" 
-			name = "regForm" 
+						User.userViewSwitch='profile';" 
+		name = "regForm" 
 		novalidate>
 
 		<i data-ng-click = "User.userViewSwitch='grid' "  
@@ -61,24 +61,21 @@
 			User.email.length > 1" >
 			Looks possible.</span>
 
-				<span class="alertinform" 
+			<span class="alertinform" 
 			data-ng-show="regForm.email.$valid && 
 			User.uniqueEmail === false  ">
 				E-mail exists. <span class="link" data-ng-click=
 									"User.userViewSwitch='profile'; 
 									 User.LoginError = false;
 									 User.profileSelect('Log');   ">Login?</span>
-				</span>
+			</span>
 
-			<input class= "form-control"
-			id="emailConfirm" 
-			type="email"
-			 
-			data-ng-model="User.email"	
-			data-ng-keyup="User.checktheemail(User.email)" 
 
-			placeholder="E-mail.  Required for password recovery.  Private."
-			required>
+			<input class= "form-control" id="emailConfirm"  type="email"
+					data-ng-model="User.email"	
+					data-ng-keyup="User.checktheemail(User.email)" 
+					placeholder="E-mail.  Required for password recovery.  Private."
+					required>
 
 		</div>
 
@@ -86,24 +83,20 @@
  
 			<label class="label-space"> </label>
 
-			<span class='alertinform' data-ng-model="User.password" data-ng-show ="User.password.length < 5">
+			<span class='alertinform' data-ng-model="User.password" data-ng-show="User.password.length < 5">
 			You need {{5-User.password.length}} more characters.
-				</span>
+			</span>
 
 		
 			<span class='alertsuccess' data-ng-model="User.password" data-ng-show ="User.password.length > 4">
 			Good! Or add more for extra security.
-				</span>
+			</span>
 
-			<input class= "form-control"
-			id='passwordFirst' 
-			type="password" 
- 			data-ng-model="User.password"
-
+			<input class= "form-control" id='passwordFirst' type="password" 
+ 				data-ng-model="User.password"
 				data-ng-keyup="User.passconfirm(User.password, User.passwordConfirm)"
-
 				placeholder="Secret password. Must be 5 characters. "
-			required>
+				required>
 		</div>
 
 		<div class="form group">
