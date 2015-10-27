@@ -168,9 +168,9 @@ this.registerUser = function(User,callback){
                  email     : User.email},
           headers: {'Content-Type': 'application/json'}
           })
-          .then(function(response){
-            callback(response.status);
+          .then(function(response){ console.log(response);
             $scope.User.userMessage = 'An email has been sent to your account.  Click the link to confirm your registration.';
+            callback(response.status);
             //alert('An email has been sent to your account.  Click the link to confirm your registration.');              
           },
           function(response){

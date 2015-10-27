@@ -3,14 +3,16 @@
 		<!-- Begin conditional for update day -->
 		<div class="form-group">
 			<form data-ng-model-options="{ getterSetter: true }">
-			<h4>Update your day.</h4>
-			<input contentEditable="true" type="text" class="form-control name" data-ng-model="Day.chosenDay.data[0].dayName">
+ 
+			<h7>Update your day.</h7>
+			<input contentEditable="true" type="text" class="form-control name" id="daytitle" data-ng-model="Day.chosenDay.data[0].dayName">
+ 
 			</input>
 			
 
-			<div>by&nbsp;{{Day.chosenDay.data[0].userName}}</div>				
+			<div >by&nbsp;{{Day.chosenDay.data[0].userName}}</div>				
 
-			<textarea contentEditable="true" class="form-control desc" rows="5" value="Day.chosenDay.data[0].dayDesc" data-ng-model="Day.chosenDay.data[0].dayDesc">
+			<textarea contentEditable="true" class="form-control desc" id="daydescription" rows="5" value="Day.chosenDay.data[0].dayDesc" data-ng-model="Day.chosenDay.data[0].dayDesc">
 			</textarea>
 
 			<div class="switch form-control">Child-friendly?
@@ -34,12 +36,14 @@
 
 			<!-- LOCATION controller begin-->
 			<div data-ng-controller="locationController as Location" class="form-group controller" style="margin:10px 0;">
-				<h5>Where you went.</h5>
+				<h7>Where we went...</h7>
 				<location-list data-ng-repeat="Location in Day.chosenDay.data[0].locations" data-ng-model="Day.chosenDay.data[0].locations"></location-list>
 				<h5>Add more locations.</h5>
-				<input type="text" class="form-control" id="pac-input" placeholder="Enter the name of location" data-ng-bind="locName" data-ng-model="Location.locName">
-				<textarea class="form-control" data-ng-bind="locDesc" rows="3" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
-				<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locName,locURL,locDesc)">Add this location</div>
+ 
+				<input type="text" class="form-control" id="pac-input" placeholder="Enter the name of location" data-ng-model="locName">
+				<textarea class="form-control" data-ng-bind="locDesc" rows="8" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
+				<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locDesc)">Add this location</div>
+ 
 				<div id="locationList"></div>
 			</div>
 			<!-- END LOCATION CONTROLLER -->
@@ -48,7 +52,7 @@
 			<div data-ng-controller="tagController as Tag" class="form-group">
 				<div>Use spaces between tags.</div>
 				<input contentEditable="true" type="text" 
-				id="tags" 
+				id="locdescription" 
 				class="form-control" 
 				placeholder="Enter some tags" 
 				data-ng-model="Day.chosenDay.data[0].dayTags">
@@ -63,7 +67,12 @@
 		</div> <!-- end form-group -->
 	</div> <!-- close column 1 -->
 
-	<div class="col s8 m6 l5 left-align"> <!-- open column 2 -->
+	<div class="col s8 m6 l5 left-align">
+
+
+	 <!-- open column 2 -->
+	
+      <div id="place-id" style="visibility:hidden;"></div>
 		<div id="map-canvas">
 	</div>		
 

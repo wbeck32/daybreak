@@ -80,7 +80,8 @@ function showUserProfile(response) {
 
 	 	//set otherprofile info
 	 	$scope.Day.otherusername = response.user.userName;
-	 	$scope.Day.othercreated = response.user.created;
+	 	$scope.Day.othercreated = response.user.created.substring(0, 10);
+ 
 	 	$scope.Day.otheruserabout = response.user.userAbout;
 	}  	
 
@@ -102,7 +103,7 @@ this.addNewDay = function() {
 
 
 this.getUserProfile = function(username){
-	console.log("currrent user name ******", username);
+	//console.log("currrent user name ******", username);
 	$scope.User.userViewSwitch = 'profile';
  	dayService.userProfile(username, showUserProfile);
 };
@@ -131,10 +132,11 @@ this.addDay = function(Day, User) {
 		Array.prototype.push.apply(tagArray,dayDescArray);
 	} 
 	if (dayName) {
-		dayNameArray = dayName.split(' ');
+		dayName  = dayName.split(' ');
 		Array.prototype.push.apply(tagArray,dayNameArray);
 	}
 	dayService.addDay(dayName, userName, userDeactivated, dayDesc, $rootScope.dayLocations, tagArray, dayChild, dayTeen);
+
 	$scope.User.userDayView = 'grid';
 	window.localStorage.removeItem('dayTags');
 	Day.dayName = '';
@@ -160,9 +162,20 @@ function completeUpdateDay(data){
 
 
 this.updateDay = function(Day, User){
-	console.log('updating day: ',Day);
-	//console.log(User);
-	var thisDay = Day.chosenDay.data[0];
+	console.log('updating day: ',$rootScope.dayLocations);//new loc
+	console.log('day: ',$scope.Day.chosenDay.data[0].locations);//orig locs
+	var thisDay = $scope.Day.chosenDay.data[0];  //console.log(thisDay.locations);
+	thisDay.locations.push($rootScope.dayLocations);	//console.log('thisDay: ',thisDay.locations)
+	var tmp = thisDay.locations.concat($rootScope.dayLocations);
+	thisDay.locations = [];
+	tmp.forEach(function(elem,index,array){
+		if(typeof elem === 'object' && elem.location) {
+			console.log(elem);
+			thisDay.locations.push(elem);
+		}
+
+		//});
+	});console.log('final answer: ',thisDay.locations);
 	dayService.saveDayChanges(thisDay, User, completeUpdateDay);
 };
  
