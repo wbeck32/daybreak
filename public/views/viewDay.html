@@ -1,15 +1,10 @@
-<style>
-	div {
-		margin:8px 0;
-	}
-</style>
-<div class="row"> <!-- open row tag -->
+<div class="row dayform"> <!-- open row tag -->
  	<div class="col s4 m6 l7 left-align" style="padding:1rem;"> <!-- open column one -->		
 <!-- Begin conditional for not my day -->
 
 	<h3>Check out this perfect day</h3>
 
-	<div>{{Day.chosenDay.data[0].dayName}}</div>
+	<div class="daytitle">{{Day.chosenDay.data[0].dayName}}</div>
 	<div data-ng-click="Day.getUserProfile(Day.chosenDay.data[0].userName);">by&nbsp;<a href="">{{Day.chosenDay.data[0].userName}}</a></div>				
 	<div>{{Day.chosenDay.data[0].dayDate}}</div>
 	<div>{{Day.chosenDay.data[0].dayDesc}}</div>

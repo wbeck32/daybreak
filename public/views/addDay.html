@@ -3,12 +3,12 @@
 		<!-- Begin conditional for add day -->
 		<div class="form-group addDay">
 
-			<form>
+			<form class="dayform">
 			<h4>Share Your Day</h4>
 
-			<input type="text" class="form-control" id="daytitle" data-ng-model="Day.dayName" placeholder="Give your day a name">
+			<input type="text" class="form-control daytitle"  data-ng-model="Day.dayName" placeholder="Give your day a name">
 			<div>by&nbsp;{{User.username}}</div>
-			<textarea class="form-control desc" id="daydescription" rows="5" data-ng-model="Day.dayDesc" placeholder="This was a great day because... "></textarea> 
+			<textarea class="form-control desc" id="daytitle" rows="5" data-ng-model="Day.dayDesc" placeholder="This was a great day because... "></textarea> 
 
 			<div class="switch form-control">Child-friendly?
 				<label>
@@ -32,8 +32,10 @@
 			<div data-ng-controller="locationController as Location" class="form-group controller" style="margin:10px 0;">
  
 				<h5>Find one location or add many!</h5>
-				<input type="text" id="pac-input" placeholder="Enter the name of location" data-ng-model="locName">
-				<textarea id="descField" class="form-control" data-ng-bind="locDesc" rows="3" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
+				
+				<input class="daytitle" type="text" id="pac-input" placeholder="Enter the name of location" data-ng-model="locName"></input>
+
+				<textarea id="descField" class="form-control daytitle" data-ng-bind="locDesc" rows="3" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
 				<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locDesc)" add-location>Add this location</div>
  
 				<div id="locationList"></div>
@@ -43,7 +45,7 @@
 			<!-- TAG CONTROLLER BEGIN -->				
 			<div data-ng-controller="tagController as Tag" class="form-group">
 				<div>Use spaces between tags.</div>
-				<input type="text" id="tags" class="form-control" data-ng-change="Tag.enterTag(dayTags)" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
+				<input type="text" id="tags" class="form-control daytitle" data-ng-change="Tag.enterTag(dayTags)" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
 			</div> 
 			<!--END TAG CONTROLLER -->
 			<button class="btn btn-default" data-ng-click="Day.getUserProfile(null);;User.userAddDay='false'">Discard without saving</button>
