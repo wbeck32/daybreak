@@ -6,7 +6,7 @@
 			<form class="dayform">
 			<h4>Share Your Day</h4>
 
-			<input type="text" class="form-control daytitle"  data-ng-model="Day.dayName" placeholder="Give your day a name">
+			<input type="text" class="form-control daytitle"  data-ng-model="Day.dayName" placeholder="Give your day a name.">
 			<div>by&nbsp;{{User.username}}</div>
 			<textarea class="form-control desc" id="daytitle" rows="5" data-ng-model="Day.dayDesc" placeholder="This was a great day because... "></textarea> 
 
@@ -31,12 +31,12 @@
 			<!-- LOCATION controller begin-->
 			<div data-ng-controller="locationController as Location" class="form-group controller" style="margin:10px 0;">
  
-				<h5>Find one location or add many!</h5>
+				<h5>Find one location or add many.</h5>
 				
 				<input class="daytitle" type="text" id="pac-input" placeholder="Enter the name of location" data-ng-model="locName"></input>
 
 				<textarea id="descField" class="form-control daytitle" data-ng-bind="locDesc" rows="3" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
-				<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locDesc)" add-location>Add this location</div>
+				<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locDesc)" add-location>Add This Location To Your Day</div>
  
 				<div id="locationList"></div>
 			</div> 
@@ -44,12 +44,12 @@
 
 			<!-- TAG CONTROLLER BEGIN -->				
 			<div data-ng-controller="tagController as Tag" class="form-group">
-				<div>Use spaces between tags.</div>
+				<div></div>
 				<input type="text" id="tags" class="form-control daytitle" data-ng-change="Tag.enterTag(dayTags)" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
 			</div> 
 			<!--END TAG CONTROLLER -->
-			<button class="btn btn-default" data-ng-click="Day.getUserProfile(null);;User.userAddDay='false'">Discard without saving</button>
-			<button class="btn btn-default" data-ng-click="Day.addDay(Day,User);User.userAddDay='false';Day.getUserProfile(null); Day.getUserProfile(null); ">Add this day</button> 
+			<button class="btn btn-default" data-ng-click="Day.getUserProfile(null);;User.userAddDay='false'">Discard</button>
+			<button class="btn btn-default" data-ng-click="Day.addDay(Day,User);User.userAddDay='false';Day.getUserProfile(null); Day.getUserProfile(null); ">Save This Day</button> 
 
 			</form>
 		</div> <!-- end form-group -->
