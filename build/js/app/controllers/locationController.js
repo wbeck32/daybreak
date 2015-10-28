@@ -41,7 +41,7 @@ google.maps.event.addListener(searchBox, 'place_changed', function() {
     locName = place.name;
     locURL = place.url;
     if(place && place.photos){
-    for (i=0; i<=place.photos.length; i++){
+    for (i=0; i<=place.photos.length; i++){console.log('ppl: ', place.photos.length);
       locPhotosThumb.push(place.photos[i].getUrl({'maxWidth':60,'maxHeight':60}));
       lgPhotoInfo = {  url: place.photos[i].getUrl({'maxWidth':250,'maxHeight':250}), 
                               attr: place.photos[i].html_attributions[0]
@@ -89,46 +89,27 @@ function geocodePlaceId(geocoder, map, infowindow) {
 }
 
 
-this.addLoc = function(Location,locDesc) { 
-  var tags = [];
-  if(locName){ 
-		locDesc = Location.locDesc;
-		var l = ({location: locName, url: locURL, desc: locDesc, locLatLong: locLatLong, googlePlaceId:googlePlaceId, photosLg:locPhotosLg, photosThumb:locPhotosThumb});
-    $rootScope.dayLocations.push(l);
-    tags.push(locName);
-    tags.push(locDesc);
+this.addLoc = function(Location,locDesc) {
+	var tags = [];
+    if(locName){
+        locDesc = Location.locDesc;
+        var l = ({location: locName, url: locURL, desc: locDesc, locLatLong: locLatLong, googlePlaceId:googlePlaceId, photosLg:locPhotosLg, photosThumb:locPhotosThumb});
+        $rootScope.dayLocations.push(l);
 
-    $rootScope.dayTags.push(tags);
+	    var tempArray = locDesc.split(' ');
+        tempArray.push(locName+' ');
+		tempArray.forEach(function(v,i,a){
+			$rootScope.dayTags.push(v);
 
-    var tagField = document.getElementById('tags');
-    tagField.value += locName+' ';
+		});
 
-    // var tempArray = [];
-    // var locDescArray = [];
-    // var locTagArray = [];
+        var tagField = document.getElementById('tags');
+        tagField.value += locName+' ';
 
-    // tempArray=locName.split(' ');
-    
-    // if (locDesc){
-    //   locDescArray=locDesc.split(' ');
-    // }
-    // Array.prototype.push.apply(tempArray,locDescArray);
-    // console.log(tempArray);
-
-    // //var temp = window.localStorage.getItem('dayTags');
-    // //tempArray.push(temp);
-    // $rootScope.dayTags.push(tempArray);
-    //console.log($rootScope.dayTags);    
-    var lL = document.getElementById('locationList');
-    lL.innerHTML += "<drag-item><div class='locationCard card-panel'><div class='card-title'>"+locName+"</div><div class='card-desc'>"+locDesc+"</div></div></drag-item>";
-  //   $scope.locDesc = '';
-		// $scope.locName = '';
-		// $scope.locURL = '';
-  //   $scope.googlePlaceId = '';
-  //   $scope.locPhotosLg = [];
-  //   $scope.locPhotosThumb = [];
-
-    Location.locDesc = '';
+	    var lL = document.getElementById('locationList');
+        lL.innerHTML += "<drag-item><div class='locationCard card-panel'><div class='card-title'>"+locName+"</div><div class='card-desc'>"+locDesc+"</div></div></drag-item>";
+		document.getElementById('pac-input').value ='';
+	    Location.locDesc = '';
 		Location.locName = '';
 		Location.locURL = '';
 	}

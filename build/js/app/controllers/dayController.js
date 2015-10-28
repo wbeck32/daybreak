@@ -1,4 +1,4 @@
-angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', 'commonService','userService','locationService','locationFactory',  function($scope,$rootScope,$http,dayService,commonService,userService,locationService,locationFactory){
+angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope','$http','dayService', 'commonService','userService','locationService', function($scope,$rootScope,$http,dayService,commonService,userService,locationService){
 	$scope.Day.chosenDay = '';
 	$scope.Day.dayUserName = '';
 
@@ -108,7 +108,7 @@ this.getUserProfile = function(username){
  	dayService.userProfile(username, showUserProfile);
 };
 
-this.addDay = function(Day, User) {  console.log($rootScope.dayTags);
+this.addDay = function(Day, User) {
 	var childCheck = '';
 	if (Day.child && Day.child === true) {childCheck='checked';}
 	var teenCheck = '';
@@ -116,7 +116,7 @@ this.addDay = function(Day, User) {  console.log($rootScope.dayTags);
 	var dayName=Day.dayName;
 	var userName=User.username;
 	var dayDesc = Day.dayDesc;
-	//var dayTags = $rootScope.dayTags;
+	var dayTags = $rootScope.dayTags;
 	var dayChild = childCheck;
 	var dayTeen = teenCheck;
 	var tagArray = [];
@@ -124,42 +124,10 @@ this.addDay = function(Day, User) {  console.log($rootScope.dayTags);
 	var dayNameArray= [];
 	var userDeactivated = false;
 
-	var tmp = []; console.log($rootScope.dayTags);
-	$rootScope.dayTags.forEach(function(e,i,a) {
-		e.forEach(function(e,i,a){			//console.log(e);
+	dayService.addDay(dayName, userName, userDeactivated, dayDesc, $rootScope.dayLocations, $rootScope.dayTags, dayChild, dayTeen);
 
-			tmp.push(e);
-		});
-		tmp.forEach(function(e,i,a){
-			e = e.split(' ');
-			$rootScope.dayTags.push(e);
-		});
-		$rootScope.dayTags.forEach(function(e,i,a){
-			if ($rootScope.dayTags.indexOf(e) > -1) {
-				//console.log(e);
-			}
-		})
-		});
-	//});//console.log(tmp);
-
-
-console.log($rootScope.dayTags);
-	// if(dayTags) {
- // 		tagArray = dayTags.split(',');
- // 	} 
- // 	if (dayDesc){
-	// 	dayDescArray = dayDesc.split(' ');
-	// 	Array.prototype.push.apply(tagArray,dayDescArray);
-	// } 
-	// if (dayName) {
-	// 	dayNameArray = dayName.split(' ');
-	// 	Array.prototype.push.apply(tagArray,dayNameArray);
-	// }
-	//dayService.addDay(dayName, userName, userDeactivated, dayDesc, $rootScope.dayLocations, $rootScope.dayTags, dayChild, dayTeen);
-
-	$scope.User.userDayView = 'grid';
+	User.userViewSwitch = 'grid';
 	$rootScope.dayTags = [];
-	//window.localStorage.removeItem('dayTags');
 	Day.dayName = '';
 	Day.dayDesc = '';
 };
@@ -175,29 +143,29 @@ this.closeSingleDayNoSave = function(){
 };
 
 function completeUpdateDay(data){
-	console.log('completeSaveDayChanges in callback: ', data);
-	window.localStorage.removeItem('dayTags');
-	$scope.User.userViewSwitch = 'grid';
+	User.userViewSwitch = 'grid';
 	$scope.User.userMessage = 'Your changes have been saved.';
 }
 
 
 this.updateDay = function(Day, User){
-	console.log('updating day: ',$rootScope.dayLocations);//new loc
-	console.log('day: ',$scope.Day.chosenDay.data[0].locations);//orig locs
+	//console.log('updating day: ',$rootScope.dayLocations);//new loc
+	//console.log('day: ',$scope.Day.chosenDay.data[0].locations);//orig locs
+
 	var thisDay = $scope.Day.chosenDay.data[0];  //console.log(thisDay.locations);
 	thisDay.locations.push($rootScope.dayLocations);	//console.log('thisDay: ',thisDay.locations)
 	var tmp = thisDay.locations.concat($rootScope.dayLocations);
 	thisDay.locations = [];
 	tmp.forEach(function(elem,index,array){
 		if(typeof elem === 'object' && elem.location) {
-			console.log(elem);
 			thisDay.locations.push(elem);
 		}
 
 		//});
-	});console.log('final answer: ',thisDay.locations);
+	});//console.log('final answer: ',thisDay.locations);
 	dayService.saveDayChanges(thisDay, User, completeUpdateDay);
+	User.userViewSwitch = 'grid';
+
 };
  
 }]);

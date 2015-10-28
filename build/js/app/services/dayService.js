@@ -38,21 +38,32 @@ this.populateDayGrid = function(callback) {
 	});
 };
 
+this.cleanTags = function(tagArray){
+	//this function should de-dupe tag array, remove extra spaces and set all tags to lower case
+	var lowerTagArray = [];
+	tagArray.forEach(function(elem, index, array){
+		elem = elem.toLowerCase();
+		elem = elem.trim();
+		lowerTagArray.push(elem);
+	});
+	tagArray = lowerTagArray;
+	var uniqueTags = [];
+	for (i=0;i<=tagArray.length;i++) {
+		if (uniqueTags.indexOf(tagArray[i]) == -1 && tagArray[i] !== '' && tagArray[i]) {
+			uniqueTags.push(tagArray[i]);
+		}
+	}
+
+
+	console.log(tagArray);
+
+};
+
 
 this.addDay = function(dayName, userName, userDeactivated, dayDesc, dayLocations, tagArray, dayChild, dayTeen) {
 	if(dayName){
-		var lowerTagArray = [];
-		tagArray.forEach(function(elem, index, array){
-			elem = elem.toLowerCase();
-			lowerTagArray.push(elem);
-		});
-		tagArray = lowerTagArray;
-		var uniqueTags = [];
-		for (i=0;i<=tagArray.length;i++) {
-			if (uniqueTags.indexOf(tagArray[i]) == -1 && tagArray[i] !== '' && tagArray[i]) {
-				uniqueTags.push(tagArray[i]);
-			}
-		} 
+		var uniqueTags = this.cleanTags(tagArray);
+
 		$http({
 			method: 'POST',
 			url: 	'/api/addday',
@@ -68,7 +79,6 @@ this.addDay = function(dayName, userName, userDeactivated, dayDesc, dayLocations
 			headers: {'Content-Type': 'application/json'}	
 			}).then(function(data, status, headers, config){
 				console.log('success!');
-				window.localStorage.removeItem('dayTags');
 			},
 			function(data,status,headers,config){
 				console.log('failure!');
@@ -108,6 +118,7 @@ this.saveDayChanges = function(Day, User, completeUpdateDay){
 
 	if(Day.dayTags) {
  		tagArray = Day.dayTags.split(',');
+		Array.prototype.push.apply(tagArray,$rootScope.dayTags);
  	} 
  	if (Day.dayDesc){
 		dayDescArray = Day.dayDesc.split(' ');
@@ -117,6 +128,7 @@ this.saveDayChanges = function(Day, User, completeUpdateDay){
 		dayNameArray = Day.dayName.split(' ');
 		Array.prototype.push.apply(tagArray,dayNameArray);
 	}
+	tagArray = this.cleanTags(tagArray);
 	$http({
 			method: 'POST',
 			url: 	'/api/savedaychanges',
@@ -131,7 +143,7 @@ this.saveDayChanges = function(Day, User, completeUpdateDay){
 				},
 			headers:{'Content-Type': 'application/json' }	 
 		}).then(function(data, status, headers, config) {
-			window.localStorage.removeItem('dayTags');
+			User.userDayView = 'grid';
 			completeUpdateDay(data);
 		},
 		function(data){
