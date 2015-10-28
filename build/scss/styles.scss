@@ -113,10 +113,27 @@ footer.page-footer {
 	background-color: $header-footer-color;
 }
 
-#daytitle{background-color: #F0F5F5; font-size: 1.5rem;}
-#daydescription{background-color: #F0F5F5; font-size: 1rem;}
-#loctitle{background-color: #F0F5F5; font-size: 1.3rem;}
-#locdescription{background-color: #F0F5F5; font-size: 1rem;}
+
+form{
+ 	.daytitle {background-color:  #F0F5F5; font-size: 1.3rem; border: 1px solid grey;
+ 	}
+
+	.desc {background-color:  #F0F5F5; font-size: 1.2rem; border: 1px solid grey;
+	}
+	 
+ 	textarea {background-color:  #F0F5F5; font-size: 1.2rem; border: 1px solid grey;
+ 	}
+
+	input[type="text"]{
+		background-color: #F0F5F5;
+		.daytitle {font-size: 1.3rem;  border: 1px solid grey;}
+		.desc {font-size: 1.2rem;      border: 1px solid grey;}
+	}
+
+}
+
+
+
 
 
 .notMyDay {
@@ -167,13 +184,16 @@ footer.page-footer {
 
 .searchForm {
 	width: 100%;
-	height: 7rem;
-	padding: 0 2rem;
+	height: 8.5rem;
+	padding: 0.5rem 2rem;
+
   	position: fixed;
   	top: 5rem;
 	left: 0;
   	z-index: 2;
  	background-color: white;
+
+ 	input[type="text"]{ background-color: #ffffff;}
 
 }
 
@@ -711,7 +731,11 @@ a.dayTitle {
 					padding: 4px;
 					clear:left;}
 
-.tagFrame{   margin-top: 0px; }
+.tagFrame{  margin: 0px;  
+			padding-left: 20px;
+			padding-right: 20px;
+			padding-bottom: 10px; 
+			background-color: white;}
  
  .bestDaysFrame { 
  	width: 100%;

@@ -1,11 +1,13 @@
 <div class="row"> <!-- open row tag -->
  	<div class="col s4 m6 l7 left-align" style="padding:1rem;"> <!-- open column one -->		
 		<!-- Begin conditional for update day -->
+  
 		<div class="form-group updateDay">
 			<form>
  
+ 
 			<h7>Update your day.</h7>
-			<input contentEditable="true" type="text" class="form-control name" id="daytitle" data-ng-model="Day.chosenDay.data[0].dayName">
+			<input contentEditable="true" type="text" class="form-control name daytitle"  data-ng-model="Day.chosenDay.data[0].dayName">
  
 			</input>
 			
@@ -38,11 +40,11 @@
 			<div data-ng-controller="locationController as Location" class="form-group controller" style="margin:10px 0;">
 				<h7>Where we went...</h7>
 				<location-list data-ng-repeat="Location in Day.chosenDay.data[0].locations" data-ng-model="Day.chosenDay.data[0].locations"></location-list>
-				<h5>Add more locations.</h5>
+				<h7>Add more locations.</h7>
  
-				<input type="text" class="form-control" id="pac-input" placeholder="Enter the name of location" data-ng-model="locName">
+				<input type="text" class="form-control daytitle" id="pac-input" placeholder="Type a location..." data-ng-model="locName">
 				<textarea class="form-control" data-ng-bind="locDesc" rows="8" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
-				<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locDesc)">Add this location</div>
+				<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locDesc)">Add This Location</div>
  
 				<div id="locationList"></div>
 			</div>
@@ -50,18 +52,20 @@
 
 			<!-- TAG CONTROLLER BEGIN -->				
 			<div data-ng-controller="tagController as Tag" class="form-group">
-				<div>Use spaces between tags.</div>
+				<div></div>
 				<input contentEditable="true" type="text" 
+ 
 				id="tags"
-				class="form-control" 
+				class="form-control daytitle" 
+ 
 				placeholder="Enter some tags" 
 				data-ng-model="Day.chosenDay.data[0].dayTags">
 				</input>
 			</div> 
 			<!--END TAG CONTROLLER -->
-
-			<button class="btn btn-default" data-ng-click="Day.updateDay(Day,User);User.userViewSwitch='grid'">Update this day</button> 
-			<button class="btn btn-default" data-ng-click="User.userViewSwitch='grid'">Discard without saving</button>
+			<button class="btn btn-default" data-ng-click="User.userViewSwitch='grid'">Discard </button>
+			<button class="btn btn-default" data-ng-click="Day.updateDay(Day,User);User.userViewSwitch='grid'">Update This Day</button> 
+			
 
 			</form>
 		</div> <!-- end form-group -->
