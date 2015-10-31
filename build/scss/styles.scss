@@ -9,6 +9,7 @@ $lighten-3: #a5d6a7;
 html {
 
   font-size: 16px; //1rem = 16px;
+  color: darkslategray;
 
   /*SMALL*/
   @media only screen and (min-width: 0px) and (max-width: 600px) {
@@ -24,7 +25,7 @@ html {
 
 	  .mapBox {
 
-		height: 400px;
+		height: 420px;
 		width: 100%;
 		position: relative;
 	  }
@@ -33,11 +34,12 @@ html {
 		position: absolute;
 		top: 10px;
 		left: 10px;
+
 	  }
 
 	  .dayformBox {
 
-		width: 100%;
+		width: 97%;
 
 
 	  }
@@ -118,7 +120,9 @@ body {
 	font-family: 'Fira Sans', sans-serif;
 	width: 100%;
 	margin: 0;
-	padding: 0;	
+	padding: 0;
+
+    .p{ color: black;}
 	 
  	// display: flex;  		/* materialize stick footer */
   //   min-height: 100vh;  	materialize stick footer
@@ -192,6 +196,7 @@ footer.page-footer {
 	margin: 0;
 	width: 100%; 
 	padding: 1rem;
+  	margin-top: 2rem;/* for mobile view*/
 	font-size: .75rem;
 	background-color: $header-footer-color;
 }
