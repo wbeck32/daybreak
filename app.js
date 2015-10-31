@@ -200,7 +200,7 @@ router.route('/getday').post(function(req,res, next){
 
 
 /* POST to Add Trip Service */
-router.route('/addday').post(function(req, res) { console.log('adding day: ', req.body)
+router.route('/addday').post(function(req, res) {
     var newDayDoc = new Day({
         dayName:       req.body.dayName,
         userName:      req.body.userName,
@@ -228,30 +228,35 @@ router.route('/addday').post(function(req, res) { console.log('adding day: ', re
 
 // RETURN THE USER info and DAYS FOR A SINGLE USER
 app.post('/api/userprofile', function(req, res, next){
-    console.log('JJJJJ INCOMING AT API/USERPROFILE', req.body);
+    //console.log('JJJJJ INCOMING AT API/USERPROFILE', req.body);
     var data = {user:'',days:''};
 
     if(req.body.username !== null)
     {  ///
     User.find({userName: req.body.username}, function(err,user){
 
-        console.log('user is: ', user);
-        console.log('user[0].activestatus is', user[0].activestatus);
+       // console.log('user is: ', user);
+//        console.log('user[0].activestatus is', user[0].activestatus);
 
         if (err){
             next();
         } else if (user && user[0].activestatus === 'active') {
             data.user = user[0];
-            Day.find({userName : user[0].userName, userDeactivated : false}, function(err, days) { 
+            Day.find({
+	            userName : user[0].userName,
+	            userDeactivated : false
+            })
+	            .sort({dayDate: 'desc'})
+	            .exec(function(err, days) {
                 if (err) {
                     next();
                 } else if(days) { 
                     data.days = days;
-                    ///console.log('KKKKKKK days is', days);
+                    console.log('days is', days);
                 } 
-                console.log('LLLLLLL api data is ', data);
+                //console.log('LLLLLLL api data is ', data);
                 res.status(201).json(data);
-            })        
+            })
         }
     }); 
 
@@ -262,7 +267,7 @@ app.post('/api/userprofile', function(req, res, next){
     {   console.log('7777777 no user at api/userprofile');
         var getSize = 50;
         Day.find( {userDeactivated : false} )  //keep days of active users 
-        .sort({dayCreateDate: 'descending'})
+        .sort({dayDate: 'descending'})
         .limit(getSize)
         .exec(function(err, days){    //change from Days
             if (err) 
@@ -397,7 +402,7 @@ app.get('/api/verifyemail', function(req,res,next){
 
                 //make a login token
                 var token = maketoken(user.username, user.email);
-                console.log('making login token after email ', token)
+                console.log('making login token after email ', token);
 
                 //copy all values of user for return to app
                 console.log('after email we have values like: ', user.userName, 
@@ -573,17 +578,15 @@ app.get('/api/verifypasswordreset/:temptoken/:pw/:pw2', function(req, res){
          } else { 
             recentTokenValue= true;
              }
-    };
-
-    function equalPasswords(passwordreset, passwordresetverify){
+    }
+	function equalPasswords(passwordreset, passwordresetverify){
         console.log('checking equalpasswords!');
         if (passwordreset !==  passwordresetverify)
              {res.end('Passwords did not match', 400);
              } else { 
                 equalPasswordsValue = true; }
-    };
-
-    hashAndSave(recentTokenValue, equalPasswordsValue);
+    }
+	hashAndSave(recentTokenValue, equalPasswordsValue);
 
     function hashAndSave(recentTokenValue,equalPasswordsValue){  
     console.log('values are: ', recentTokenValue,equalPasswordsValue);     
@@ -634,12 +637,12 @@ router.route('/updateuserinfo').post(function(req,res,next){
             });
         });
     }
-})
+});
  
 //LOGGED IN USER DELETES (INACTIVATES) OWN ACCOUNT
 router.route('/deleteaccountapi').post(function(req,res,next){
     //console.log(req.body.userAbout,"is req.body.userAbout incoming at API")
-     console.log(req.body.username,"is req.body.userName incoming at API")
+     console.log(req.body.username,"is req.body.userName incoming at API");
     if (req.body.username){
         //first change active status
         User.findOne({userName: req.body.username}, function(err, user){
@@ -658,7 +661,7 @@ router.route('/deleteaccountapi').post(function(req,res,next){
                 }
             })
         }
-    })
+    });
 
 function markInactiveDays(username){
         console.log('*** begin markInactiveDays for ', username);
@@ -783,8 +786,8 @@ router.route('/login').post(function(req,res,next){
                             status:     200});   
                 }           
             });
-        };
-    });
+        }
+	    });
 });
 
 //CREATE 7 DAY TOKEN
@@ -894,7 +897,7 @@ router.route('/changepassword').post(function(req,res,next){
                 }
         })
     }
- })
+ });
 
 
 ///TODO DELETE? ///////////////////////////////////////////////////

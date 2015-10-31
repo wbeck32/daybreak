@@ -1,5 +1,5 @@
 <div class="row"> <!-- open row tag -->
- 	<div class="col s4 m6 l7 left-align" style="padding:1rem;"> <!-- open column one -->		
+    <div class="col s4 m6 l7 left-align" style="padding:1rem;"> <!-- open column one -->
 		<!-- Begin conditional for add day -->
 		<div class="form-group">
 
@@ -48,14 +48,14 @@
 				<input type="text" id="tags" class="form-control daytitle" data-ng-change="Tag.enterTag(dayTags)" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
 			</div> 
 			<!--END TAG CONTROLLER -->
-			<button class="btn btn-default" data-ng-click="Day.getUserProfile(null);;User.userAddDay='false'">Discard</button>
+			<button class="btn btn-default" data-ng-click="Day.getUserProfile(null);User.userAddDay='false'">Discard</button>
 			<button class="btn btn-default" data-ng-click="Day.addDay(Day,User);User.userAddDay='false';Day.getUserProfile(null); Day.getUserProfile(null); ">Save This Day</button> 
 
 			</form>
 		</div> <!-- end form-group -->
 	</div> <!-- close column 1 -->
 
-	<div class="col s8 m6 l5 left-align"> <!-- open column 2 -->
+	<div class="col s8 m6 l5 left-align mapBox"> <!-- open column 2 -->
 	      <div id="place-id"></div>
 		<div id="map-canvas">			
 	</div> <!-- close column 2 -->
