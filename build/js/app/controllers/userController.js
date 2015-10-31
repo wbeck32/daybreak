@@ -31,11 +31,9 @@ dayBreak.controller('userController',
 			if (modal === 'pwr') {
 				$scope.User.userViewSwitch = 'profile';
 				$scope.User.profileMode = 'passwordreset';
-
 			}
 		}
-		
- 
+
 
 this.otheruserinfo = function(otherusername){
 	

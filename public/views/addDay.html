@@ -1,64 +1,83 @@
-<div class="row"> <!-- open row tag -->
- 	<div class="col s4 m6 l7 left-align" style="padding:1rem;"> <!-- open column one -->		
-		<!-- Begin conditional for add day -->
-		<div class="form-group">
+<div class="row dayContainer"> <!-- open row tag -->
 
-			<form class="dayform">
-			<h4>Share Your Day</h4>
+    <div class="col left-align dayItem dayformBox"> <!-- open column one -->
+        <!-- Begin conditional for add day -->
+        <div class="form-group">
 
-			<input type="text" class="form-control daytitle"  data-ng-model="Day.dayName" placeholder="Give your day a name.">
-			<div>by&nbsp;{{User.username}}</div>
-			<textarea class="form-control desc" id="daytitle" rows="5" data-ng-model="Day.dayDesc" placeholder="This was a great day because... "></textarea> 
+            <form class="dayform">
+                <h4>Share Your Day</h4>
 
-			<div class="switch form-control">Child-friendly?
-				<label>
-				No
-				<input type="checkbox" id="child" data-ng-model="Day.child">
-				<span class="lever"></span>
-				Yes
-				</label>
-			</div>
+                <input type="text" class="form-control daytitle" data-ng-model="Day.dayName"
+                       placeholder="Give your day a name.">
 
-			<div class="switch form-control">Teen-friendly?
-				<label>
-				No
-				<input type="checkbox" id="teen" data-ng-model="Day.teen">
-				<span class="lever"></span>
-				Yes
-				</label>
-			</div>
+                <div>by&nbsp;{{User.username}}</div>
+                <textarea class="form-control desc" id="daytitle" rows="5" data-ng-model="Day.dayDesc"
+                          placeholder="This was a great day because... "></textarea>
 
-			<!-- LOCATION controller begin-->
-			<div data-ng-controller="locationController as Location" class="form-group controller" style="margin:10px 0;">
- 
-				<h5>Find one location or add many.</h5>
-				
-				<input class="daytitle" type="text" id="pac-input" placeholder="Enter the name of location" data-ng-model="locName"></input>
+                <div class="switch form-control">Child-friendly?
+                    <label>
+                        No
+                        <input type="checkbox" id="child" data-ng-model="Day.child">
+                        <span class="lever"></span>
+                        Yes
+                    </label>
+                </div>
 
-				<textarea id="descField" class="form-control daytitle" data-ng-bind="locDesc" rows="3" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
-				<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locDesc)" add-location>Add This Location To Your Day</div>
- 
-				<div id="locationList"></div>
-			</div> 
-			<!-- END LOCATION CONTROLLER -->
+                <div class="switch form-control">Teen-friendly?
+                    <label>
+                        No
+                        <input type="checkbox" id="teen" data-ng-model="Day.teen">
+                        <span class="lever"></span>
+                        Yes
+                    </label>
+                </div>
 
-			<!-- TAG CONTROLLER BEGIN -->				
-			<div data-ng-controller="tagController as Tag" class="form-group">
-				<div></div>
-				<input type="text" id="tags" class="form-control daytitle" data-ng-change="Tag.enterTag(dayTags)" placeholder="Enter some tags" data-ng-model="Tag.dayTags">
-			</div> 
-			<!--END TAG CONTROLLER -->
-			<button class="btn btn-default" data-ng-click="Day.getUserProfile(null);;User.userAddDay='false'">Discard</button>
-			<button class="btn btn-default" data-ng-click="Day.addDay(Day,User);User.userAddDay='false';Day.getUserProfile(null); Day.getUserProfile(null); ">Save This Day</button> 
+                <!-- LOCATION controller begin-->
+                <div data-ng-controller="locationController as Location" class="form-group controller"
+                     style="margin:10px 0;">
 
-			</form>
-		</div> <!-- end form-group -->
-	</div> <!-- close column 1 -->
+                    <h5>Find one location or add many.</h5>
 
-	<div class="col s8 m6 l5 left-align"> <!-- open column 2 -->
-	      <div id="place-id"></div>
-		<div id="map-canvas">			
-	</div> <!-- close column 2 -->
+                    <input class="daytitle" type="text" id="pac-input" placeholder="Enter the name of location"
+                           data-ng-model="locName"></input>
+
+                    <textarea id="descField" class="form-control daytitle" data-ng-bind="locDesc" rows="3"
+                              data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
+
+                    <div class="btn btn-default" data-ng-click="Location.addLoc(Location,locDesc)" add-location>Add This
+                        Location To Your Day
+                    </div>
+
+                    <div id="locationList"></div>
+                </div>
+                <!-- END LOCATION CONTROLLER -->
+
+                <!-- TAG CONTROLLER BEGIN -->
+                <div data-ng-controller="tagController as Tag" class="form-group">
+                    <div></div>
+                    <input type="text" id="tags" class="form-control daytitle" data-ng-change="Tag.enterTag(dayTags)"
+                           placeholder="Enter some tags" data-ng-model="Tag.dayTags">
+                </div>
+                <!--END TAG CONTROLLER -->
+                <button class="btn btn-default" data-ng-click="Day.getUserProfile(null);;User.userAddDay='false'">
+                    Discard
+                </button>
+                <button class="btn btn-default"
+                        data-ng-click="Day.addDay(Day,User);User.userAddDay='false';Day.getUserProfile(null); Day.getUserProfile(null); ">
+                    Save This Day
+                </button>
+
+            </form>
+        </div>
+        <!-- end form-group -->
+    </div>
+    <!-- close column 1 -->
+
+    <div class="col left-align dayItem mapBox"> <!-- open column 2 -->
+        <div id="place-id"></div>
+        <div id="map-canvas" class="mapPosition"></div>
+    </div>
+    <!-- close column 2 -->
+
 </div>    <!--close row tag -->
 
-</div>

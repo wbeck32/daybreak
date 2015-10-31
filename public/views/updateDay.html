@@ -1,85 +1,94 @@
-<div class="row"> <!-- open row tag -->
- 	<div class="col s4 m6 l7 left-align" style="padding:1rem;"> <!-- open column one -->		
-		<!-- Begin conditional for update day -->
-  
-		<div class="form-group updateDay">
-			<form>
- 
- 
-			<h7>Update your day.</h7>
-			<input contentEditable="true" type="text" class="form-control name daytitle"  data-ng-model="Day.chosenDay.data[0].dayName">
- 
-			</input>
-			
+<div class="row dayContainer"> <!-- open row tag -->
+    <div class="col left-align dayItem dayformBox"> <!-- open column one -->
+        <!-- Begin conditional for update day -->
 
-			<div >by&nbsp;{{Day.chosenDay.data[0].userName}}</div>				
+        <div class="form-group updateDay">
+            <form>
 
-			<textarea contentEditable="true" class="form-control desc" id="daydescription" rows="5" value="Day.chosenDay.data[0].dayDesc" data-ng-model="Day.chosenDay.data[0].dayDesc">
+
+                <h4>Update Your Day</h4>
+                <input contentEditable="true" type="text" class="form-control name daytitle"
+                       data-ng-model="Day.chosenDay.data[0].dayName">
+
+                </input>
+
+
+                <div>by&nbsp;{{Day.chosenDay.data[0].userName}}</div>
+
+			<textarea contentEditable="true" class="form-control desc" id="daydescription" rows="5"
+                      value="Day.chosenDay.data[0].dayDesc" data-ng-model="Day.chosenDay.data[0].dayDesc">
 			</textarea>
 
-			<div class="switch form-control">Child-friendly?
-				<label>
-				No
-				<input type="checkbox" id="child" data-ng-model="Day.chosenDay.data[0].dayChild">
-				<span class="lever"></span>
-				Yes
-				</label>
-			</div>
+                <div class="switch form-control">Child-friendly?
+                    <label>
+                        No
+                        <input type="checkbox" id="child" data-ng-model="Day.chosenDay.data[0].dayChild">
+                        <span class="lever"></span>
+                        Yes
+                    </label>
+                </div>
 
-			<div class="switch form-control">Teen-friendly?
-				<label>
-				No
-				<input type="checkbox" id="teen" data-ng-model="Day.chosenDay.data[0].dayTeen">
-				<span class="lever"></span>
-				Yes
-				</label>
-			</div>
-
-
-			<!-- LOCATION controller begin-->
-			<div data-ng-controller="locationController as Location" class="form-group controller" style="margin:10px 0;">
-				<h7>Where we went...</h7>
-				<location-list data-ng-repeat="Location in Day.chosenDay.data[0].locations" data-ng-model="Day.chosenDay.data[0].locations"></location-list>
-				<h7>Add more locations.</h7>
- 
-				<input type="text" class="form-control daytitle" id="pac-input" placeholder="Type a location..." data-ng-model="locName">
-				<textarea class="form-control" data-ng-bind="locDesc" rows="8" data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
-				<div class="btn btn-default" data-ng-click="Location.addLoc(Location,locDesc)">Add This Location</div>
- 
-				<div id="locationList"></div>
-			</div>
-			<!-- END LOCATION CONTROLLER -->
-
-			<!-- TAG CONTROLLER BEGIN -->				
-			<div data-ng-controller="tagController as Tag" class="form-group">
-				<div></div>
-				<input contentEditable="true" type="text" 
- 
-				id="tags"
-				class="form-control daytitle" 
- 
-				placeholder="Enter some tags" 
-				data-ng-model="Day.chosenDay.data[0].dayTags">
-				</input>
-			</div> 
-			<!--END TAG CONTROLLER -->
-			<button class="btn btn-default" data-ng-click="User.userViewSwitch='grid'">Discard </button>
-			<button class="btn btn-default" data-ng-click="Day.updateDay(Day,User);User.userViewSwitch='grid'">Update This Day</button> 
-			
-
-			</form>
-		</div> <!-- end form-group -->
-	</div> <!-- close column 1 -->
-
-	<div class="col s8 m6 l5 left-align">
+                <div class="switch form-control">Teen-friendly?
+                    <label>
+                        No
+                        <input type="checkbox" id="teen" data-ng-model="Day.chosenDay.data[0].dayTeen">
+                        <span class="lever"></span>
+                        Yes
+                    </label>
+                </div>
 
 
-	 <!-- open column 2 -->
-	
-      <div id="place-id"></div>
-		<div id="map-canvas">
-	</div>		
+                <!-- LOCATION controller begin-->
+                <div data-ng-controller="locationController as Location" class="form-group controller"
+                     style="margin:10px 0;">
+                    <h7>Where we went...</h7>
+                    <location-list data-ng-repeat="Location in Day.chosenDay.data[0].locations"
+                                   data-ng-model="Day.chosenDay.data[0].locations"></location-list>
+                    <h7>Add more locations.</h7>
 
-	</div> <!-- close column 2 -->
+                    <input type="text" class="form-control daytitle" id="pac-input" placeholder="Type a location..."
+                           data-ng-model="locName">
+                    <textarea class="form-control" data-ng-bind="locDesc" rows="8" data-ng-model="Location.locDesc"
+                              placeholder="Describe this location"></textarea>
+
+                    <div class="btn btn-default" data-ng-click="Location.addLoc(Location,locDesc)">Add This Location
+                    </div>
+
+                    <div id="locationList"></div>
+                </div>
+                <!-- END LOCATION CONTROLLER -->
+
+                <!-- TAG CONTROLLER BEGIN -->
+                <div data-ng-controller="tagController as Tag" class="form-group">
+                    <div></div>
+                    <input contentEditable="true" type="text"
+
+                           id="tags"
+                           class="form-control daytitle"
+
+                           placeholder="Enter some tags"
+                           data-ng-model="Day.chosenDay.data[0].dayTags">
+                    </input>
+                </div>
+                <!--END TAG CONTROLLER -->
+                <button class="btn btn-default" data-ng-click="User.userViewSwitch='grid'">Discard</button>
+                <button class="btn btn-default" data-ng-click="Day.updateDay(Day,User);User.userViewSwitch='grid'">
+                    Update This Day
+                </button>
+
+
+            </form>
+        </div>
+        <!-- end form-group -->
+    </div>
+    <!-- close column 1 -->
+
+    <div class="col left-align dayItem mapBox"> <!-- open column 2 -->
+
+        <div id="place-id"></div>
+        <div id="map-canvas" class="mapPosition"></div>
+    </div>
+
+</div> <!-- close column 2 -->
 </div>    <!--close row tag -->
 

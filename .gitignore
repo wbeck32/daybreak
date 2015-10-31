@@ -1,7 +1,6 @@
 *.crt
 deploy.sh
 mongolaboinfo.js
-data/mongolabinfo.js
 public/css/styles/*.css
 node_modules
 main.js
@@ -13,8 +12,6 @@ styles.css
 index2.html
 dayupload.html
 codesnips
-data/loginmailgun.js
-loginmailgun.js
 geniza
 *.bak
 build/js/app/factories

@@ -1,72 +1,140 @@
-<div class="navbar-fixed"  >
-	<nav class='valign-wrapper'>
+<div class-"navbar-fixed">
+	<nav>
+		<div class = "nav-wrapper">
 
- 			<a><div class="left button-collapse left-align title"
-									data-ng-click="Day.getUserProfile(null);
-												   User.profileMode=null;
-												   User.userViewSwitch='grid';
-												   User.userMessage='';
- 													">				               
-				 Daybreak</div> 
-			</a>
-			
- 				
+				<a><div class="brand-logo"
+										data-ng-click="Day.getUserProfile(null);
+													   User.profileMode=null;
+													   User.userViewSwitch='grid';
+													   User.userMessage='';
+														">
+					 Daybreak</div>
+				</a>
 
- 	  	<div class="container" >
-			<ul class='right hide-on-small-and-down button-collapse right-align'>
-
-				<li><a><div 
-						data-ng-click="Day.getUserProfile(null);
-										User.profileMode=null;
-						    			User.userViewSwitch='grid';
-						    			User.userMessage=null;
-						               ">
-						Home  
-						</div>
-				</a></li>
-			
-				<li><a  data-ng-show="User.userState==='loggedIn'"
-					    data-ng-click="User.userAddDay = true;User.userViewSwitch = 'single';" >
-		 			  	Create New Day  					  
- 				</a></li>	
-				
-
-			  	<li><a	data-ng-show="User.userState==='loggedOut'"
-			  	  		data-ng-click="User.userViewSwitch ='profile'; 
-			  	  					   User.profileSelect('NEWREG');
-			  	  					   User.userMessage='' "> 
-			  	  		Register 
-			  	</a></li>
+				<a href="#" data-activates="slide-out" class="button-collapse right">
+					<i class="material-icons">menu</i>
+				</a>
 
 
-				<li><a data-ng-show="User.userState==='loggedIn'" 
-					   data-ng-click="Day.getUserProfile(User.username);">
-			  			&nbsp;-&nbsp;{{User.username}}&nbsp;-&nbsp;
-				</a></li>
+			<!--nav bar menu-->
 
-				<li><a data-ng-show="User.userState==='loggedIn'" 
-					   data-ng-click="Day.getUserProfile(null); 
-					   					User.signOut();
-					   					User.userMessage=null;" > 
-		 		  		Logout  
-		 		</a></li>
+				<ul class="right hide-on-med-and-down">
 
-				<li><a data-ng-show="User.userState==='loggedOut'" 
-					data-ng-click="User.userViewSwitch='profile'; 
-									User.LoginError = false;
-									User.profileSelect('Log'); 
-									User.userMessage=null;  ">
-				  		Login  
-				</a></li>	
+					<li><a
+							data-ng-click="Day.getUserProfile(null);
+											User.profileMode=null;
+											User.userViewSwitch='grid';
+											User.userMessage=null;
+										   ">
+							Home
+					</a></li>
 
-		   	</ul>
+					<li><a  data-ng-show="User.userState==='loggedIn'"
+							data-ng-click="User.userAddDay = true;User.userViewSwitch = 'single';" >
+							Create New Day
+					</a></li>
 
 
-<!-- <div class="fb-share-button" data-href="http://perfectdaybreak.com:8090" data-layout="button" style=" 1px solid grey;" ></div>  -->
+					<li><a
+							data-ng-show="User.userState==='loggedOut'"
+							data-ng-click="User.userViewSwitch ='profile';
+										   User.profileSelect('NEWREG');
+										   User.userMessage='' ">
+							Register
+					</a></li>
 
 
-					 
-				 
-	  	</div>
-	</nav> 
-</div>  
+					<li><a data-ng-show="User.userState==='loggedIn'"
+						   data-ng-click="Day.getUserProfile(User.username);">
+							&nbsp;-&nbsp;{{User.username}}&nbsp;-&nbsp;
+					</a></li>
+
+					<li><a data-ng-show="User.userState==='loggedIn'"
+						   data-ng-click="Day.getUserProfile(null);
+											User.signOut();
+											User.userMessage=null;" >
+							Logout
+					</a></li>
+
+					<li><a data-ng-show="User.userState==='loggedOut'"
+						data-ng-click="User.userViewSwitch='profile';
+										User.LoginError = false;
+										User.profileSelect('Log');
+										User.userMessage=null;  ">
+							Login
+					</a></li>
+
+				</ul>
+
+
+			<!--side slideout menu-->
+
+				<ul class="side-nav side-nav-control" id="slide-out" >
+
+					<br>
+
+					<li><a
+							data-ng-click="Day.getUserProfile(null);
+												User.profileMode=null;
+												User.userViewSwitch='grid';
+												User.userMessage=null;
+											   ">
+						Home
+					</a></li>
+
+					<li><a  data-ng-show="User.userState==='loggedIn'"
+							data-ng-click="User.userAddDay = true;User.userViewSwitch = 'single';" >
+						Create New Day
+					</a></li>
+
+
+					<li><a
+							data-ng-show="User.userState==='loggedOut'"
+							data-ng-click="User.userViewSwitch ='profile';
+											   User.profileSelect('NEWREG');
+											   User.userMessage='' ">
+						Register
+					</a></li>
+
+
+					<li><a data-ng-show="User.userState==='loggedIn'"
+						   data-ng-click="Day.getUserProfile(User.username);">
+						&nbsp;-&nbsp;{{User.username}}&nbsp;-&nbsp;
+					</a></li>
+
+					<li><a data-ng-show="User.userState==='loggedIn'"
+						   data-ng-click="Day.getUserProfile(null);
+												User.signOut();
+												User.userMessage=null;" >
+						Logout
+					</a></li>
+
+					<li><a data-ng-show="User.userState==='loggedOut'"
+						   data-ng-click="User.userViewSwitch='profile';
+											User.LoginError = false;
+											User.profileSelect('Log');
+											User.userMessage=null;  ">
+						Login
+					</a></li>
+
+
+
+				</ul>
+			<!-- <div class="fb-share-button" data-href="http://perfectdaybreak.com:8090" data-layout="button" style=" 1px solid grey;" ></div>  -->
+		</div>
+	</nav>
+</div>
+
+<script>
+	$(document).ready(function() {
+		console.log( "document ready!" );
+
+		$('.button-collapse').sideNav({
+			menuWidth: 200, // Default is 240
+			edge: 'right', // Choose the horizontal origin
+			closeOnClick: true
+		});
+	});
+</script>
+
+
