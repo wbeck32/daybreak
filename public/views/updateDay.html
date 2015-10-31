@@ -8,9 +8,8 @@
 
                 <h4>Update Your Day</h4>
                 <input contentEditable="true" type="text" class="form-control name daytitle"
-                       data-ng-model="Day.chosenDay.data[0].dayName">
+                       data-ng-model="Day.chosenDay.data[0].dayName"/>
 
-                </input>
 
 
                 <div>by&nbsp;{{Day.chosenDay.data[0].userName}}</div>
@@ -67,8 +66,7 @@
                            class="form-control daytitle"
 
                            placeholder="Enter some tags"
-                           data-ng-model="Day.chosenDay.data[0].dayTags">
-                    </input>
+                           data-ng-model="Day.chosenDay.data[0].dayTags"/>
                 </div>
                 <!--END TAG CONTROLLER -->
                 <button class="btn btn-default" data-ng-click="User.userViewSwitch='grid'">Discard</button>
@@ -87,8 +85,6 @@
 
         <div id="place-id"></div>
         <div id="map-canvas" class="mapPosition"></div>
-    </div>
+    </div><!-- close column 2 -->
 
-</div> <!-- close column 2 -->
-</div>    <!--close row tag -->
-
+</div><!--close row tag -->

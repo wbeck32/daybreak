@@ -53,10 +53,7 @@ this.cleanTags = function(tagArray){
 			uniqueTags.push(tagArray[i]);
 		}
 	}
-
-
-	console.log(tagArray);
-
+	return uniqueTags;
 };
 
 

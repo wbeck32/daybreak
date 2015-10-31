@@ -3,11 +3,11 @@
 
 
 // angular.module('roadWarrior').controller('InterfaceController', ['$cookies', 'trekService', function($cookies, trekService){
-  
+
 //   this.activePanel = null;
 
 //   var interface = document.getElementById('interface');
-  
+
 //   this.tabSwitcher = function(tab){
 //     if (this.activePanel === tab){
 //       this.activePanel = null;

@@ -39,12 +39,12 @@
                     <h5>Find one location or add many.</h5>
 
                     <input class="daytitle" type="text" id="pac-input" placeholder="Enter the name of location"
-                           data-ng-model="locName"></input>
+                           data-ng-model="locName"/>
 
                     <textarea id="descField" class="form-control daytitle" data-ng-bind="locDesc" rows="3"
                               data-ng-model="Location.locDesc" placeholder="Describe this location"></textarea>
 
-                    <div class="btn btn-default" data-ng-click="Location.addLoc(Location,locDesc)" add-location>Add This
+                    <div class="btn btn-default" data-ng-click="Location.addLoc(Location,locDesc)">Add This
                         Location To Your Day
                     </div>
 
@@ -59,7 +59,7 @@
                            placeholder="Enter some tags" data-ng-model="Tag.dayTags">
                 </div>
                 <!--END TAG CONTROLLER -->
-                <button class="btn btn-default" data-ng-click="Day.getUserProfile(null);;User.userAddDay='false'">
+                <button class="btn btn-default" data-ng-click="Day.getUserProfile(null);User.userAddDay='false'">
                     Discard
                 </button>
                 <button class="btn btn-default"
@@ -78,6 +78,7 @@
         <div id="map-canvas" class="mapPosition"></div>
     </div>
     <!-- close column 2 -->
+
 
 </div>    <!--close row tag -->
 
