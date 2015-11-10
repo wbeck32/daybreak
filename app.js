@@ -19,6 +19,7 @@ var secretKey = 'supersecretkey';
 var jwtKey='supersecretkey';
 var bcrypt = require('bcrypt');
 
+var serverports = require('./data/serverports.js');
 var loginmailgun = require('./data/loginmailgun.js');
 var transporter = nodemailer.createTransport(smtpTransport({
   host: 'smtp.mailgun.org',
@@ -37,7 +38,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 app.use(favicon(__dirname + '/public/images/daybreaksun16px.ico'));
-app.use(express.static(__dirname + '/public')); //
+app.use(express.static(__dirname + '/public')); //c
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -342,20 +343,25 @@ app.post('/api/savedaychanges', function(req, res, next){
         email: req.body.email
     }, jwtKey);
 
+
+    //TODO change localhost to domain name on server
     var verifyEmailOptions = {
         from: 'PerfectDayBreak Team <hello@perfectdaybreak.com>', // sender address
 
-        to: 'miles.hochstein@gmail.com,webeck@gmail.com',  //TODO DELETE OWN EMAIL!!!!! 
+        to: 'miles.hochstein@gmail.com', //TODO DELETE OWN EMAIL!!!!!
 
-        subject: 'New Registration: Please confirm your Perfect Daybreak email address', // Subject line
+        subject: 'New Registration: Please confirm your Perfect Daybreak email address.', // Subject line
         text: 'New Registration: Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone.', // plaintext body
-        html: 'Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone. <br/><a href="http://localhost:8090/api/verifyemail?access_token='+token+'&email='+req.body.email+'">Click here to confirm your email address</a>.'
+        html: 'Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone. <br/><a href="http://' + serverports.domain +'/api/verifyemail?access_token='+token+'&email='+req.body.email+'">Click here to confirm your email address</a>.'
     };
 
     transporter.sendMail(verifyEmailOptions, function(err, info) {
+
+
         if (err) {
             console.log(err); 
         } else if(userCreateSuccess === true) {
+            console.log('email send success');
             res.status(200).end();
         } 
     });
@@ -446,7 +452,7 @@ router.route('/emailreset').post(function(req,res,next){
               to: resetemail,   
               subject: 'Please confirm your change of Perfect Daybreak email address', // Subject line
               text: 'Click this link to complete your email reset.', // plaintext body
-              html: 'Click this link to complete your email reset.  <br/><a href="http://localhost:8090/api/verifyemailreset?'+token+'">Click here to confirm '+resetemail+' as the new registered email for PerfectDayBreak.com. </a><br/> To leave email unchanged just ignore this email.'
+              html: 'Click this link to complete your email reset.  <br/><a href="http://' + serverports.domain +'/api/verifyemailreset?'+token+'">Click here to confirm '+resetemail+' as the new registered email for PerfectDayBreak.com. </a><br/> To leave email unchanged just ignore this email.'
             };
     transporter.sendMail(verifyEmailOptions, function(err, info) {
               if (err) console.log(err);  
@@ -527,7 +533,7 @@ app.get('/api/verifyemailreset', function(req,res,next){
                               to: 'miles.hochstein@gmail.com,webeck@gmail.com',   
                               subject: 'Please click link to create new password', // Subject line
                               text: 'Forgot Username Or Password? Click this link to create new password.', // plaintext body
-                              html: 'Click this link to create a new password <br/><a href="http://localhost:8090/api/emailpasswordreset/'+token+'">Click here to create a new password for your account at PerfectDayBreak.com. </a><br/> If you did not request this e-mail, feel free to ignore it'
+                              html: 'Click this link to create a new password <br/><a href="http://' + serverports.domain +'/api/emailpasswordreset/'+token+'">Click here to create a new password for your account at PerfectDayBreak.com. </a><br/> If you did not request this e-mail, feel free to ignore it'
                             };
                     transporter.sendMail(passwordResetOptions, function(err, info) {
                               if (err) console.log(err);  
@@ -926,6 +932,9 @@ function checktokenvalid(tokenIN, verifiedemail){
 }
 
 app.use('/api',router);  //this needs to be near bottom of page
- 
-app.listen(8090);
-console.log('listening on port 8090!');
+
+//app.listen(8080);
+
+app.listen(serverports.port, serverports.internalurl );
+console.log('listening on port : '+ serverports.port );
+console.log ('using serverurl    '+ serverports.internalurl);
