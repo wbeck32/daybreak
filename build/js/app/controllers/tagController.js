@@ -1,4 +1,4 @@
-angular.module('dayBreak').controller('tagController', ['$scope', '$rootScope', '$http', 'tagService', 'dayService', function ($scope, $rootScope, $http, tagService, dayService) {
+angular.module('dayBreak').controller('tagController', ['$scope', '$rootScope', '$http', 'tagService', 'dayService', 'commonService', function ($scope, $rootScope, $http, tagService, dayService, commonService) {
 
 	function foundTag(data) {
 		commonService.tagArrayToString(data);
