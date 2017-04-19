@@ -25,7 +25,7 @@ angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope', 
 
 
 ////////////////////////////////////////////////////////////////
-///THIS IS NO LONGER USED except for day creation!!!  
+///THIS IS NO LONGER USED except for day creation!!!
 // INTEGRATE commonService lines to showUserProfile
 	function showAddedDay(data) {
 		// console.log('setDayScope indayController on callback');
@@ -45,8 +45,8 @@ angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope', 
 		commonService.tagArrayToString(data.data);
 		commonService.formatDates(data.data);
 
-		var geocoder = new google.maps.Geocoder;
-		var infowindow = new google.maps.InfoWindow;
+		var geocoder = new google.maps.Geocoder();
+		var infowindow = new google.maps.InfoWindow();
 
 		var locPins = data.data[0].locations;
 		locPins.forEach(function (v, i, a) {

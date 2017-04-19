@@ -30,8 +30,8 @@ angular
 		var searchBox = new google.maps.places.Autocomplete(input, {});
 
 
-		var geocoder = new google.maps.Geocoder;
-		var infowindow = new google.maps.InfoWindow;
+		var geocoder = new google.maps.Geocoder();
+		var infowindow = new google.maps.InfoWindow();
 		var place;
 
 		google.maps.event.addListener(searchBox, 'place_changed', function () {

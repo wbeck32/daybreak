@@ -1,4 +1,4 @@
-var express = require('express'); 
+var express = require('express');
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
@@ -7,6 +7,7 @@ var favicon = require('serve-favicon');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 var moment = require('moment');
 
 var jwt = require('jwt-simple');
@@ -14,7 +15,7 @@ var jwt = require('jwt-simple');
 //var token = jwt.encode({username: 'milesh'}, 'supersecretkey');
 var token ='';
 
-var _ = require('lodash');  
+var _ = require('lodash');
 var secretKey = 'supersecretkey';
 var jwtKey='supersecretkey';
 var bcrypt = require('bcrypt');
@@ -29,9 +30,9 @@ var transporter = nodemailer.createTransport(smtpTransport({
   }
 }));
 
-var path = require('path');  
- 
-//to support res.render 
+var path = require('path');
+
+//to support res.render
 app.set('views', __dirname + '/public/views');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
@@ -44,14 +45,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 try {var uristring = require('./data/mongolabinfo.js').loginstring;
     }
     catch(err){
-    }   
+    }
 
 var jwtKey = process.env.JWTKEY;
 var jwtKey = secretKey;
 
 var token = null;
 var db = mongoose.connect(uristring);
-var User = db.model('user', 
+var User = db.model('user',
     {
     userName            :  String,
     displayname         :  String,
@@ -74,14 +75,14 @@ var Day = db.model('day',
     {
     dayName            : String,
     userName           : String,
-    userDeactivated    : Boolean,  
+    userDeactivated    : Boolean,
     dayCreateDate      : {type: Date},
     dayUpdateDate      : {type: Date},
     dayDate            : {type: Date},
     dayDesc            : String,
     dayTags            : Array,
     dayChild           : Boolean,
-    dayTeen            : Boolean,   
+    dayTeen            : Boolean,
     locations          : Array
 
     });
@@ -90,14 +91,14 @@ router.use(function(req, res, next) {
      next(); // make sure we go to the next routes and don't stop here
 });
 
- 
+
 ////////////////////////////////////////////////////////////////////
-  
+
 /* GET home page. */
 router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });
     });
-  
+
 
 
 app.get('/api/show', function(req,res,next){
@@ -106,7 +107,7 @@ app.get('/api/show', function(req,res,next){
         .sort({dayCreateDate: 'descending'})
         .limit(getSize)
         .exec(function(err, Days){
-        if (err) 
+        if (err)
             {return next(err)}
         else{
             console.log("we good at the api");
@@ -122,7 +123,7 @@ app.get('/api/activeusers', function(req,res,next){
         .sort({created: 'descending'})
         .limit(getSize)
         .exec(function(err, users){
-        if (err) 
+        if (err)
             {return next(err)}
         else{
             console.log("we good at the api");
@@ -130,9 +131,9 @@ app.get('/api/activeusers', function(req,res,next){
             }
     })
 });
- 
- 
-//tag based search  
+
+
+//tag based search
 router.route('/taglookup').post(function(req,res,next){
         console.log ("at api incoming req.tag is... " + req.body.tag);
         tagString = req.body.tag;
@@ -155,8 +156,8 @@ router.route('/taglookup').post(function(req,res,next){
 
 
 //TODO TEST AND INTEGRATE: function takes user name and returns activestatus true or false
-function activeStatus(username){ 
-    if(username){  
+function activeStatus(username){
+    if(username){
     User.findOne({userName: req.body.username})
         .select('userName')
         .select('activestatus')
@@ -167,14 +168,14 @@ function activeStatus(username){
             return next(err);
         } else if(!user) {
                 console.log("APP.JS: user not found at login api");
-                 
+
          } else if (user.activestatus==='inactive') {
                 console.log("username exists but account status is inactive at login api");
-               
-            } else { 
+
+            } else {
 
             return true;
-            } 
+            }
         }
     )}
 }
@@ -184,7 +185,7 @@ function activeStatus(username){
 router.route('/getday').post(function(req,res, next){
 
     console.log ('@@@@@@@@@ api endpoint receives dayID', req.body.dayID);
-  
+
     Day.find( { '_id':  req.body.dayID, userDeactivated : false  } ).exec(function(err, Day)
         {
         if (err)
@@ -193,7 +194,7 @@ router.route('/getday').post(function(req,res, next){
         else
             {
         console.log("~~~~~~~at getday API found day requested at api", Day);
-            res.json(Day);  
+            res.json(Day);
             }
     })
 });
@@ -210,10 +211,10 @@ router.route('/addday').post(function(req, res) {
         dayDate:       Date.now(),
         dayDesc:       req.body.dayDesc,
         dayTeen:       req.body.dayTeen,
-        dayChild:      req.body.dayChild, 
+        dayChild:      req.body.dayChild,
         dayTags:       req.body.dayTags,
         locations:     req.body.dayLocations
-        
+
         });
 
     newDayDoc.save(function(err, newDayDoc){
@@ -250,33 +251,33 @@ app.post('/api/userprofile', function(req, res, next){
 	            .exec(function(err, days) {
                 if (err) {
                     next();
-                } else if(days) { 
+                } else if(days) {
                     data.days = days;
                     console.log('days is', days);
-                } 
+                }
                 //console.log('LLLLLLL api data is ', data);
                 res.status(201).json(data);
             })
         }
-    }); 
+    });
 
     } ///
     else
 
- 
+
     {   console.log('7777777 no user at api/userprofile');
         var getSize = 50;
-        Day.find( {userDeactivated : false} )  //keep days of active users 
+        Day.find( {userDeactivated : false} )  //keep days of active users
         .sort({dayDate: 'descending'})
         .limit(getSize)
         .exec(function(err, days){    //change from Days
-            if (err) 
+            if (err)
                 {return next(err)}
             else{
             console.log("we good at the NEW NEW api");
             data.days = days;
             //res.status(201).json(Days); //returns saved Days object
-            res.status(201).json(data); 
+            res.status(201).json(data);
             }
         })
     }
@@ -305,8 +306,8 @@ app.post('/api/savedaychanges', function(req, res, next){
 
 //FIRST EMAIL SENDER
 //////////////////////////////////////////////////////////
-/// endpoint for register user who meets criteria  
-// 1) client side password match and long enough  
+/// endpoint for register user who meets criteria
+// 1) client side password match and long enough
 // 2) server side not duplicate username  (see checkname below)
 // 3) server side not duplicate email    (see checkemail below)
 //////////////////////////////////////////////////////////
@@ -317,11 +318,11 @@ app.post('/api/savedaychanges', function(req, res, next){
                             created     : Date.now(),
                             email       : req.body.email,
                             userAbout   : "My perfect day would be...",
-                            activestatus: "registerInProgress"  
+                            activestatus: "registerInProgress"
                                         //change on email response
                         });
     //asynchronous call of bcrypt
-    bcrypt.hash(req.body.password, 10, function(err, hash) {    
+    bcrypt.hash(req.body.password, 10, function(err, hash) {
     // Store hash in password DB.
         //console.log("BCRYPT password hash is " + hash);
         user.password = hash;//note definition of user.password in schema
@@ -334,7 +335,7 @@ app.post('/api/savedaychanges', function(req, res, next){
         });
     });
 
-    //second register email 
+    //second register email
     //console.log (req.body.email, " is registration email request");
     var expires = moment().add(1, 'days').valueOf();
     var token = jwt.encode({
@@ -345,7 +346,7 @@ app.post('/api/savedaychanges', function(req, res, next){
     var verifyEmailOptions = {
         from: 'PerfectDayBreak Team <hello@perfectdaybreak.com>', // sender address
 
-        to: 'miles.hochstein@gmail.com,webeck@gmail.com',  //TODO DELETE OWN EMAIL!!!!! 
+        to: 'miles.hochstein@gmail.com,webeck@gmail.com',  //TODO DELETE OWN EMAIL!!!!!
 
         subject: 'New Registration: Please confirm your Perfect Daybreak email address', // Subject line
         text: 'New Registration: Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone.', // plaintext body
@@ -354,15 +355,15 @@ app.post('/api/savedaychanges', function(req, res, next){
 
     transporter.sendMail(verifyEmailOptions, function(err, info) {
         if (err) {
-            console.log(err); 
+            console.log(err);
         } else if(userCreateSuccess === true) {
             res.status(200).end();
-        } 
+        }
     });
 });
 
 
-//TWO PATHS?  
+//TWO PATHS?
 //EMAIL THAT LOGS YOU IN
 //EMAIL THAT LETS YOU RESET PASSWORD... AND LOGS YOU IN.
 
@@ -370,7 +371,7 @@ app.post('/api/savedaychanges', function(req, res, next){
 //THIS CAN BE USED FOR ALL THREE EMAIL PATHS
 //1) RESET PASSWORD VIA EMAIL
 //2) CREATE NEW REGISTERED EMAIL
-//3) REGISTER EMAIL? 
+//3) REGISTER EMAIL?
 
 app.get('/api/verifyemail', function(req,res,next){
     console.log(req._parsedOriginalUrl.query, " is access token for email verification response.");
@@ -386,14 +387,14 @@ app.get('/api/verifyemail', function(req,res,next){
        //then find email and change activestatus to 'active'
         if (email){
             User.findOne({email: email}, function(err, user){
-                if (err) 
+                if (err)
                     { return next(err); }
                 else
                     {console.log ('no error on email search reg confirm');}
 
                 //write activestatus as active....
 
-                user.activestatus = 'active'; 
+                user.activestatus = 'active';
 
                 user.save(function(err) {
                     if (err) { return next(err); }
@@ -405,16 +406,16 @@ app.get('/api/verifyemail', function(req,res,next){
                 console.log('making login token after email ', token);
 
                 //copy all values of user for return to app
-                console.log('after email we have values like: ', user.userName, 
-                            ' and ', user.userAbout, 
+                console.log('after email we have values like: ', user.userName,
+                            ' and ', user.userAbout,
                             ' and active status is now: ', user.activestatus);
 
-                // res.json({  token:      token, 
-                //             userName:   user.userName, 
-                //             email:      user.email, 
-                //             userAbout:  user.userAbout, 
+                // res.json({  token:      token,
+                //             userName:   user.userName,
+                //             email:      user.email,
+                //             userAbout:  user.userAbout,
                 //             created:    user.created,
-                //             status:     200}); 
+                //             status:     200});
 
             });
         }
@@ -425,9 +426,9 @@ app.get('/api/verifyemail', function(req,res,next){
     } else {
         res.status(404).end();
     }
-  
 
-    
+
+
 });
 
 
@@ -438,25 +439,25 @@ app.get('/api/verifyemail', function(req,res,next){
 
 router.route('/emailreset').post(function(req,res,next){
     //var resetemail = req.body.newemail;//TODO USE THIS LINE WHEN LIVE
-    var resetemail = 'miles.hochstein@gmail.com,webeck@gmail.com';  //TODO DELETE THIS LINE 
-    var token = maketoken(req.body.username, req.body.newemail);  
+    var resetemail = 'miles.hochstein@gmail.com,webeck@gmail.com';  //TODO DELETE THIS LINE
+    var token = maketoken(req.body.username, req.body.newemail);
 
     var verifyEmailOptions = {
               from: 'PerfectDayBreak Team <hello@perfectdaybreak.com>',
-              to: resetemail,   
+              to: resetemail,
               subject: 'Please confirm your change of Perfect Daybreak email address', // Subject line
               text: 'Click this link to complete your email reset.', // plaintext body
               html: 'Click this link to complete your email reset.  <br/><a href="http://localhost:8090/api/verifyemailreset?'+token+'">Click here to confirm '+resetemail+' as the new registered email for PerfectDayBreak.com. </a><br/> To leave email unchanged just ignore this email.'
             };
     transporter.sendMail(verifyEmailOptions, function(err, info) {
-              if (err) console.log(err);  
+              if (err) console.log(err);
                     console.log('Email reset email sent!');
                     res.end('Email reset email sent!');
                   })
 });
 
 
-//STEP 2 OF EMAIL RESET - 
+//STEP 2 OF EMAIL RESET -
 app.get('/api/verifyemailreset', function(req,res,next){
 
     console.log('BEGIN VERIFYEMAILRESET API');
@@ -468,12 +469,12 @@ app.get('/api/verifyemailreset', function(req,res,next){
 
     if (username){
         User.findOne({userName: username}, function(err, user){
-            if (err) 
+            if (err)
                 { return next(err); }
             else
                 {console.log ('no error on findOne');}
-            user.email = email; 
-            
+            user.email = email;
+
             user.save(function(err) {
                 if (err) { return next(err); }
                 else {console.log('new user email saved to user.email');}
@@ -482,19 +483,19 @@ app.get('/api/verifyemailreset', function(req,res,next){
     }
  res.redirect('/');  //back to application
  });
- 
+
 
 //THIRD EMAIL SENDER
 //////////////////////////////////////////////////////
-//Username password RECOVERY for loggedout user, 
+//Username password RECOVERY for loggedout user,
 //distinct from logged in user password reset
-//THREE ENDPOINTS IN PROCESS 
+//THREE ENDPOINTS IN PROCESS
 //STEP 1 OF 3 IN PASSWORD RESET //////////////////////
  router.route('/passwordreset').post(function(req,res,next){
-    
+
     var knownemail = req.body.knownemail;
     console.log('incoming pwd reset request for email: ', knownemail);
-   
+
     if (knownemail){
         User.findOne({email: knownemail})
             .select('userName')
@@ -502,11 +503,11 @@ app.get('/api/verifyemailreset', function(req,res,next){
             .exec(function(err, user){
             console.log('user is: ',user, ' and err is: ', err);
 
-            if(user){      
-                
-                if (err){ 
+            if(user){
+
+                if (err){
                     console.log('some kind of error!');
-                    return next(err); 
+                    return next(err);
                     }
                 if ( user.email===undefined )
                     {console.log(user.email, ' is email');
@@ -514,9 +515,9 @@ app.get('/api/verifyemailreset', function(req,res,next){
                     return next(err);
                     }
                 if (user.email === knownemail)  //only if knownemail found in db
-                    { 
+                    {
                     console.log('knownemail', knownemail, 'matched by db email of: ', user.email);
-                    var expires = moment().add(1, 'days').valueOf();   
+                    var expires = moment().add(1, 'days').valueOf();
                     var token = jwt.encode({
                         exp: expires,
                         email: user.email
@@ -524,13 +525,13 @@ app.get('/api/verifyemailreset', function(req,res,next){
 
                     var passwordResetOptions = {
                               from: 'PerfectDayBreak Team <passwordreset@perfectdaybreak.com>',
-                              to: 'miles.hochstein@gmail.com,webeck@gmail.com',   
+                              to: 'miles.hochstein@gmail.com,webeck@gmail.com',
                               subject: 'Please click link to create new password', // Subject line
                               text: 'Forgot Username Or Password? Click this link to create new password.', // plaintext body
                               html: 'Click this link to create a new password <br/><a href="http://localhost:8090/api/emailpasswordreset/'+token+'">Click here to create a new password for your account at PerfectDayBreak.com. </a><br/> If you did not request this e-mail, feel free to ignore it'
                             };
                     transporter.sendMail(passwordResetOptions, function(err, info) {
-                              if (err) console.log(err);  
+                              if (err) console.log(err);
                                     console.log('Password reset email sent!');
                                     res.end('Password reset email sent!');
                                   })
@@ -567,15 +568,15 @@ app.get('/api/verifypasswordreset/:temptoken/:pw/:pw2', function(req, res){
     var exp     = decoded.exp;
     var recentTokenValue = false;
     var equalPasswordsValue = false;
- 
+
     recentToken(exp);
     equalPasswords(req.params.pw, req.params.pw2);
- 
+
     function recentToken(exp){
         console.log('checking recentToken!');
          if (exp <= Date.now() ){
           res.end('Access token expired', 400);
-         } else { 
+         } else {
             recentTokenValue= true;
              }
     }
@@ -583,27 +584,27 @@ app.get('/api/verifypasswordreset/:temptoken/:pw/:pw2', function(req, res){
         console.log('checking equalpasswords!');
         if (passwordreset !==  passwordresetverify)
              {res.end('Passwords did not match', 400);
-             } else { 
+             } else {
                 equalPasswordsValue = true; }
     }
 	hashAndSave(recentTokenValue, equalPasswordsValue);
 
-    function hashAndSave(recentTokenValue,equalPasswordsValue){  
-    console.log('values are: ', recentTokenValue,equalPasswordsValue);     
+    function hashAndSave(recentTokenValue,equalPasswordsValue){
+    console.log('values are: ', recentTokenValue,equalPasswordsValue);
     if (  recentToken && equalPasswords )
        {
-        console.log('all three conditions for password reset are true');    
-        bcrypt.hash(passwordreset, 10, function(err, hash) {    
+        console.log('all three conditions for password reset are true');
+        bcrypt.hash(passwordreset, 10, function(err, hash) {
             if (email){
                 User.findOne({email: email}, function(err, user){
-                    if (err) 
+                    if (err)
                         { return next(err); }
                     else
                         {console.log ('no error on findOne');}
                     //console.log(user.userName, ' is found at user');
-                    user.password = hash; 
+                    user.password = hash;
                     user.save(function(err) {
-                        if (err) { return next(err); 
+                        if (err) { return next(err);
                         } else {
                             console.log('new hashed password saved to password');
                             res.redirect('/');
@@ -614,23 +615,23 @@ app.get('/api/verifypasswordreset/:temptoken/:pw/:pw2', function(req, res){
         });
 
     } else  {
-            console.log('all two conditions for reset NOT TRUE');    
+            console.log('all two conditions for reset NOT TRUE');
             }
     }
 });
 
- 
+
 /////////////////////////////////////////////////////////////////
 //LOGGED IN USER UPDATES userAbout
-router.route('/updateuserinfo').post(function(req,res,next){ 
+router.route('/updateuserinfo').post(function(req,res,next){
     if (req.body.userName){
         User.findOne({userName: req.body.userName}, function(err, user){
-            if (err) 
+            if (err)
                 { return next(err); }
             else
                 {console.log ('no error on findOne');}
 
-            user.userAbout = req.body.userAbout; 
+            user.userAbout = req.body.userAbout;
             user.save(function(err) {
                 if (err) { return next(err); }
                 else {console.log('new userabout saved to userAbout');}
@@ -638,7 +639,7 @@ router.route('/updateuserinfo').post(function(req,res,next){
         });
     }
 });
- 
+
 //LOGGED IN USER DELETES (INACTIVATES) OWN ACCOUNT
 router.route('/deleteaccountapi').post(function(req,res,next){
     //console.log(req.body.userAbout,"is req.body.userAbout incoming at API")
@@ -646,15 +647,15 @@ router.route('/deleteaccountapi').post(function(req,res,next){
     if (req.body.username){
         //first change active status
         User.findOne({userName: req.body.username}, function(err, user){
-            if (err){ 
+            if (err){
                 return next(err); }
             else{
                 console.log ('no error on findOne');
-                user.activestatus='inactive'; 
+                user.activestatus='inactive';
                 user.deactivationDate = Date.now();  //user metrics: how long before deactive?
                 console.log("at save user.accountstatus is ", user.activestatus);
                 user.save(function(err) {
-                    if (err) { 
+                    if (err) {
                         return next(err); }
                     else {markInactiveDays(req.body.username); }
                     });
@@ -665,33 +666,33 @@ router.route('/deleteaccountapi').post(function(req,res,next){
 
 function markInactiveDays(username){
         console.log('*** begin markInactiveDays for ', username);
- 
+
         Day.find({userName: username})
             .exec(function(err, days){
 
-                if (err) 
+                if (err)
                     {return next(err)}
-                else{   
+                else{
                     console.log('MMMMMMM deactivation of ', days);
-                    
+
                     days.forEach(function(element,index,array){
-                        
+
                         array[index].userDeactivated = true;
-                        array[index].save();  
+                        array[index].save();
                         console.log('index is', index);
-                        })                    
-                    }                                
+                        })
+                    }
                 })
         }
-     
 
-//REGISTRATION 
+
+//REGISTRATION
 //PART 1 - checks for duplicate username - If UNIQUE then TRUE
 router.route('/checkusername').post(function(req,res,next){
     var user = new User({userName: req.body.username });
    User.findOne({userName: req.body.username})
-        .select('userName') 
-        .exec(function(err,user){                     
+        .select('userName')
+        .exec(function(err,user){
                 if (err){
                     console.log("error in mongoose findOne");
                     return next(err);
@@ -699,13 +700,13 @@ router.route('/checkusername').post(function(req,res,next){
                 if(user === null){ console.log('this is a unique user');
                     res.send(true);  //hooray found a unique username!
                     }
-                else{       
+                else{
                     res.send(false);  //sorry username already exists
-                }            
+                }
          });
   });
 
-//REGISTRATION 
+//REGISTRATION
 //PART 2 - checks for duplicate email
 router.route('/checkemail').post(function(req,res,next){
     var user = new User({email: req.body.email });
@@ -717,7 +718,7 @@ router.route('/checkemail').post(function(req,res,next){
                 }
                 if(!user){
                     result = true;  //hooray found a unique email!
-                    return res.json(result); 
+                    return res.json(result);
                 }
                 else{
                     result = false;  //sorry email already exists
@@ -725,15 +726,15 @@ router.route('/checkemail').post(function(req,res,next){
                 }
         });
 });
- 
 
-// LOGIN 
-//Takes user name and password hash stored client side, and 
+
+// LOGIN
+//Takes user name and password hash stored client side, and
 //bcrypt compares incoming password to hash password in db
 //If name pwd match, then returns a jwt token.
 router.route('/login').post(function(req,res,next){
     console.log('SESSION INCOMING USER NAME IS: ',req.body.username);
- 
+
     //user may give email or username for login
 
     User.findOne({$or: [  {userName: req.body.username},{email: req.body.username} ]})
@@ -754,14 +755,14 @@ router.route('/login').post(function(req,res,next){
 
         } else if (user.activestatus==='registerInProgress') {
                 console.log("username exists but account status is registerInProgress at login api - login not allowed until email confirmed");
-                 
+
                 res.json({
                     loginWarning: 'Please click the link we sent you in your email to login.',
                     status: 202 });
 
         } else {
         bcrypt.compare(req.body.password, user.password, function(err,valid) {
-            if (err){ 
+            if (err){
                 return next(err);
                 res.json({
                     loginWarning: 'Username and password unknown.  Please try again.',
@@ -774,17 +775,17 @@ router.route('/login').post(function(req,res,next){
                 res.sendStatus(401);
 
 
-            } else {            
+            } else {
             var token = maketoken(user.userName, user.email);
             console.log("APP.JS: user/pwd combo found and token is " + token);
 
-            res.json({      token:      token, 
-                            userName:   user.userName, 
-                            email:      user.email, 
-                            userAbout:  user.userAbout, 
+            res.json({      token:      token,
+                            userName:   user.userName,
+                            email:      user.email,
+                            userAbout:  user.userAbout,
                             created:    user.created,
-                            status:     200});   
-                }           
+                            status:     200});
+                }
             });
         }
 	    });
@@ -806,7 +807,7 @@ function maketoken (username, email){
 //LOGIN BASED ON VALID RECENT TOKEN
 //similar to login - login via username but use stored token for returning user.
 router.route('/loginrefresh').post(function(req,res,next){
-    
+
     console.log('loginrefresh incoming username: ',req.body.username);
     console.log('loginrefresh incoming token: '   ,req.body.token);
 
@@ -827,21 +828,21 @@ router.route('/loginrefresh').post(function(req,res,next){
         } else if(!user) {
                 console.log("APP.JS: user not found in session");
                 res.sendStatus(401);
-//TODO: test if inactive user breaks token login as it should!  
+//TODO: test if inactive user breaks token login as it should!
         } else if (user.activestatus==='inactive') {
                 console.log("username exists but account status is delete");
                 res.sendStatus(401);
         } else {
-//the email is the registered email used to set the token 
+//the email is the registered email used to set the token
             var tokenresult = checktokenvalid(req.body.token, verifiedemail);
             console.log('checktokenvalid() gives tokenresult of: ', tokenresult);
             console.log('for sending to client: ', user.userName, user.email, user.userAbout, user.created);
-        
+
             if(tokenresult===true){
             res.json({      token:      token,
-                            userName:   user.userName, 
-                            email:      user.email, 
-                            userAbout:  user.userAbout, 
+                            userName:   user.userName,
+                            email:      user.email,
+                            userAbout:  user.userAbout,
                             created:    user.created,
                             status:     200});
                 }
@@ -849,7 +850,7 @@ router.route('/loginrefresh').post(function(req,res,next){
             else if (tokenresult!==true){
                 console.log ('no valid token at api on loginrefresh');
         }
-        }           
+        }
     });
 });
 
@@ -857,16 +858,16 @@ router.route('/loginrefresh').post(function(req,res,next){
 //PASSWORD CHANGE FOR LOGGED IN USER
 //logged in user changes password
 
-router.route('/changepassword').post(function(req,res,next){ 
+router.route('/changepassword').post(function(req,res,next){
     console.log('incoming is: ', req.body.username, req.body.password);
     if (req.body.password){
         User.findOne({userName: req.body.username}, function(err, user){
 
             console.log(err,' is err', user, ' is user');
 
-            if (err) 
-                {  
-                console.log('  findOne error');  
+            if (err)
+                {
+                console.log('  findOne error');
                 next(err);
                 }
             else
@@ -875,15 +876,15 @@ router.route('/changepassword').post(function(req,res,next){
                   if (user){
 
                     console.log( '  at changepassword, matching: ', req.body.username);
-                    bcrypt.hash(req.body.password, 10, function(err, hash) { 
+                    bcrypt.hash(req.body.password, 10, function(err, hash) {
                         user.password = hash;
                         user.save(function(err, next) {
-                            if (err) 
+                            if (err)
                                 { console.log ('error on changepassword');
                                   res.sendStatus(404);
                                   next(err);
                                 }
-                            else 
+                            else
                                 { console.log('new password saved for user');
                                 res.sendStatus(200);
                                 }
@@ -910,12 +911,12 @@ router.route('/auth').post(function(req,res,next){
 //CHECK FOR NON-EXPIRED TOKEN - TOKEN EXPIRATION DECIDED WHEN IT IS SET.
 function checktokenvalid(tokenIN, verifiedemail){
     if (tokenIN) {
-            var decoded = jwt.decode(tokenIN, jwtKey); 
+            var decoded = jwt.decode(tokenIN, jwtKey);
             console.log('decoded ' ,decoded);//check for decoded.email
             //console.log('values are: ', decoded.iss, decoded.exp, decoded.email);
             if (decoded.exp <= Date.now() ) {
                 //res.end('Access token expired', 404);
-                return tokenresult = false; 
+                return tokenresult = false;
                 }
             else if(decoded.email = verifiedemail){
                 //console.log('decoded token email matches stored email.');
@@ -926,6 +927,6 @@ function checktokenvalid(tokenIN, verifiedemail){
 }
 
 app.use('/api',router);  //this needs to be near bottom of page
- 
+
 app.listen(8090);
 console.log('listening on port 8090!');
