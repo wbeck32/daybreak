@@ -229,7 +229,6 @@ router.route('/addday').post(function(req, res) {
 
 // RETURN THE USER info and DAYS FOR A SINGLE USER
 app.post('/api/userprofile', function(req, res, next){
-    //console.log('JJJJJ INCOMING AT API/USERPROFILE', req.body);
     var data = {user:'',days:''};
 
     if(req.body.username !== null)
@@ -266,11 +265,12 @@ app.post('/api/userprofile', function(req, res, next){
 
 
     {   console.log('7777777 no user at api/userprofile');
+
         var getSize = 50;
         Day.find( {userDeactivated : false} )  //keep days of active users
         .sort({dayDate: 'descending'})
         .limit(getSize)
-        .exec(function(err, days){    //change from Days
+        .exec(function(err, days){  //change from Days
             if (err)
                 {return next(err)}
             else{

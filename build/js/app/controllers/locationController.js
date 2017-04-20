@@ -33,7 +33,7 @@ angular
 		var geocoder = new google.maps.Geocoder();
 		var infowindow = new google.maps.InfoWindow();
 		var place;
-
+		console.log('in loc controller');
 		google.maps.event.addListener(searchBox, 'place_changed', function () {
 
 			place = searchBox.getPlace();
