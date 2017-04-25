@@ -19,7 +19,7 @@ this.userProfile = function(username, showUserProfile) {
 
 	});
 };
- 
+
 
 ////////////////////////////////////////////////////////////////////
 this.populateDayGrid = function(callback) {
@@ -31,7 +31,7 @@ this.populateDayGrid = function(callback) {
 	})
 	.then(function(response){
 		console.log("WE SHOULD NOT BE USING THIS! success ***: ", response);
-		callback(response.data); 
+		callback(response.data);
 	},
 	function(data, status,headers,config){
 		console.log("failure ***");
@@ -40,6 +40,7 @@ this.populateDayGrid = function(callback) {
 
 this.cleanTags = function(tagArray){
 	//this function should de-dupe tag array, remove extra spaces and set all tags to lower case
+
 	var lowerTagArray = [];
 	tagArray.forEach(function(elem, index, array){
 		elem = elem.toLowerCase();
@@ -73,7 +74,7 @@ this.addDay = function(dayName, userName, userDeactivated, dayDesc, dayLocations
 						dayChild : dayChild,
 						dayTeen : dayTeen
 			},
-			headers: {'Content-Type': 'application/json'}	
+			headers: {'Content-Type': 'application/json'}
 			}).then(function(data, status, headers, config){
 				console.log('success!');
 			},
@@ -93,7 +94,7 @@ this.getDay = function(dayID, chosenDay){
 			method: 'POST',
 			url: 	'/api/getday',
 			data:   {dayID : dayID	 },
-			headers:{'Content-Type': 'application/json'}	 
+			headers:{'Content-Type': 'application/json'}
 		})
 		.then(
 		function(data){
@@ -116,11 +117,11 @@ this.saveDayChanges = function(Day, User, completeUpdateDay){
 	if(Day.dayTags) {
  		tagArray = Day.dayTags.split(',');
 		Array.prototype.push.apply(tagArray,$rootScope.dayTags);
- 	} 
+ 	}
  	if (Day.dayDesc){
 		dayDescArray = Day.dayDesc.split(' ');
 		Array.prototype.push.apply(tagArray,dayDescArray);
-	} 
+	}
 	if (Day.dayName) {
 		dayNameArray = Day.dayName.split(' ');
 		Array.prototype.push.apply(tagArray,dayNameArray);
@@ -138,7 +139,7 @@ this.saveDayChanges = function(Day, User, completeUpdateDay){
 					locations : Day.locations
 
 				},
-			headers:{'Content-Type': 'application/json' }	 
+			headers:{'Content-Type': 'application/json' }
 		}).then(function(data, status, headers, config) {
 			User.userDayView = 'grid';
 			completeUpdateDay(data);
@@ -150,4 +151,3 @@ this.saveDayChanges = function(Day, User, completeUpdateDay){
 
 
 }]);
-

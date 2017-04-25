@@ -314,6 +314,7 @@ app.post('/api/savedaychanges', function(req, res, next){
  router.route('/registerValidUser').post(function(req,res,next){
     var userCreateSuccess = false;
     //create user record
+    console.log('reqbody: ',req.body)
     var user = new User({   userName    : req.body.username,
                             created     : Date.now(),
                             email       : req.body.email,
@@ -324,7 +325,7 @@ app.post('/api/savedaychanges', function(req, res, next){
     //asynchronous call of bcrypt
     bcrypt.hash(req.body.password, 10, function(err, hash) {
     // Store hash in password DB.
-        //console.log("BCRYPT password hash is " + hash);
+        console.log("BCRYPT password hash is " + hash);
         user.password = hash;//note definition of user.password in schema
         user.save(function(err){
             if (err){
@@ -346,7 +347,7 @@ app.post('/api/savedaychanges', function(req, res, next){
     var verifyEmailOptions = {
         from: 'PerfectDayBreak Team <hello@perfectdaybreak.com>', // sender address
 
-        to: 'miles.hochstein@gmail.com,webeck@gmail.com',  //TODO DELETE OWN EMAIL!!!!!
+        to: 'webeck@gmail.com',  //TODO DELETE OWN EMAIL!!!!!
 
         subject: 'New Registration: Please confirm your Perfect Daybreak email address', // Subject line
         text: 'New Registration: Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone.', // plaintext body
@@ -439,7 +440,7 @@ app.get('/api/verifyemail', function(req,res,next){
 
 router.route('/emailreset').post(function(req,res,next){
     //var resetemail = req.body.newemail;//TODO USE THIS LINE WHEN LIVE
-    var resetemail = 'miles.hochstein@gmail.com,webeck@gmail.com';  //TODO DELETE THIS LINE
+    var resetemail = 'webeck@gmail.com';  //TODO DELETE THIS LINE
     var token = maketoken(req.body.username, req.body.newemail);
 
     var verifyEmailOptions = {
@@ -525,7 +526,7 @@ app.get('/api/verifyemailreset', function(req,res,next){
 
                     var passwordResetOptions = {
                               from: 'PerfectDayBreak Team <passwordreset@perfectdaybreak.com>',
-                              to: 'miles.hochstein@gmail.com,webeck@gmail.com',
+                              to: 'webeck@gmail.com',
                               subject: 'Please click link to create new password', // Subject line
                               text: 'Forgot Username Or Password? Click this link to create new password.', // plaintext body
                               html: 'Click this link to create a new password <br/><a href="http://localhost:8090/api/emailpasswordreset/'+token+'">Click here to create a new password for your account at PerfectDayBreak.com. </a><br/> If you did not request this e-mail, feel free to ignore it'

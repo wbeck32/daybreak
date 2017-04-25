@@ -33,21 +33,21 @@ angular
 		var geocoder = new google.maps.Geocoder();
 		var infowindow = new google.maps.InfoWindow();
 		var place;
-		console.log('in loc controller');
+
 		google.maps.event.addListener(searchBox, 'place_changed', function () {
 
 			place = searchBox.getPlace();
 			document.getElementById('place-id').value = place.place_id;
 			locName = place.name;
 			locURL = place.url;
-			if (place && place.photos) {
 
+			if (place && place.photos) {
 				locPhotosLg = [];
 				locPhotosThumb = [];
 				lgPhotoInfo = {};
+				place.photos.length > 5 ? place.photos.length = 5 : place.photos.length = place.photos.length;
 
-				for (var i = 0; i <= place.photos.length; i++) {
-					console.log('ppl: ', place.photos.length);
+				for (var i = 0; i < place.photos.length; i++) {
 					locPhotosThumb.push(place.photos[i].getUrl({'maxWidth': 60, 'maxHeight': 60}));
 					lgPhotoInfo = {
 						url: place.photos[i].getUrl({'maxWidth': 250, 'maxHeight': 250}),
@@ -97,6 +97,7 @@ angular
 
 
 		this.addLoc = function (Location, locDesc) {
+
 			var tags = [];
 			if (locName) {
 				locDesc = Location.locDesc;
