@@ -15,7 +15,7 @@ angular
 		var locLatLong = '';
 
 
-		var myLatlng = new google.maps.LatLng(-33.867957, 151.21117600000002);
+		var myLatlng = new google.maps.LatLng(45.5227,122.6731);
 		var mapOptions = {
 			zoom: 14,
 			center: myLatlng,
@@ -24,8 +24,8 @@ angular
 
 		map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 		var defaultBounds = new google.maps.LatLngBounds(
-			new google.maps.LatLng(-33.8902, 151.1759),
-			new google.maps.LatLng(-33.8474, 151.2631));
+			new google.maps.LatLng(45.5227,122.6731),
+			new google.maps.LatLng(45.5227,122.6731));
 		var input = document.getElementById('pac-input');
 		var searchBox = new google.maps.places.Autocomplete(input, {});
 
@@ -116,7 +116,6 @@ angular
 				tempArray.push(locName + ' ');
 				tempArray.forEach(function (v, i, a) {
 					$rootScope.dayTags.push(v);
-
 				});
 
 				var tagField = document.getElementById('tags');

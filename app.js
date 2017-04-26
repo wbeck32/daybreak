@@ -110,7 +110,7 @@ app.get('/api/show', function(req,res,next){
         if (err)
             {return next(err)}
         else{
-            console.log("we good at the api");
+            // console.log("we good at the api");
             res.status(201).json(Days); //returns saved Days object
             }
     })
@@ -148,7 +148,8 @@ router.route('/taglookup').post(function(req,res,next){
              return next(err);}
         else
             {
-            console.log("~~~~~~at lookup API found tag...: ", Day );
+
+            console.log("~~~~~~at lookup API found tag...: ", Day.dayTags );
             res.json(Day);  //???
             }
         })

@@ -157,17 +157,17 @@ angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope', 
 		if (Day.teen && Day.teen === true) {
 			teenCheck = 'checked';
 		}
+		var tagArray = $rootScope.dayTags.split(',');
 		var dayName = Day.dayName;
 		var userName = User.username;
 		var dayDesc = Day.dayDesc;
-		var dayTags = $rootScope.dayTags;
 		var dayChild = childCheck;
 		var dayTeen = teenCheck;
-		var tagArray = [];
 		var dayDescArray = [];
 		var dayNameArray = [];
 		var userDeactivated = false;
-		dayService.addDay(dayName, userName, userDeactivated, dayDesc, $rootScope.dayLocations, $rootScope.dayTags, dayChild, dayTeen);
+
+		dayService.addDay(dayName, userName, userDeactivated, dayDesc, $rootScope.dayLocations, tagArray, dayChild, dayTeen);
 
 		User.userViewSwitch = 'grid';
 		$rootScope.dayTags = [];

@@ -2,27 +2,27 @@
 
  		<div data-ng-controller="tagController as Tag"> <!-- tag controller begin -->
 			<div class="tagFrame">    <!--  tag search begin -->
-				 
+
 				<form ng-submit=Tag.findTag(Tag.tag)>
  						<input  data-ng-model="Tag.tag"
-						class= "form-control" 
+						class= "form-control"
 						type="text"
 			 			placeholder="Enter search words, separated by spaces. (Example: Portland hiking restaurant.)"
 						required>
 				</form>
-  
-						<a 
-			 			data-ng-click="Tag.findTag(Tag.tag)" 
-			 			class="waves-effect waves-light btn" 
+
+						<a
+			 			data-ng-click="Tag.findTag(Tag.tag)"
+			 			class="waves-effect waves-light btn"
 						type="submit">Search
 						<span class="glyphicons search"><img src="/images/glyphicons-search-wht.png"></span>
 						</a>
-					
-						<a 
+
+						<a
 			 			data-ng-click="Tag.findTag();Tag.tag = ''"
-			 			class="waves-effect waves-light btn" 
+			 			class="waves-effect waves-light btn"
 						type="submit">Show all days
-						<span class="glyphicons globe"><img src="/images/glyphicons-globe-wht.png"></span>	
+						<span class="glyphicons globe"><img src="/images/glyphicons-globe-wht.png"></span>
 						</a>
 
 						<!-- <span class='userMessage'>
@@ -32,17 +32,13 @@
 
 			</div>  <!--  tag search end -->
 
-			<!--<div class ="searchResultsMessage">				
+			<div class ="searchResultsMessage" style="width:50px;float:right;">				
 				{{Day.searchResultsMessage}}
-				<div class="resultCount center" data-ng-show="Day.searchResultLength == 1"> 
+				<div class="resultCount center" data-ng-show="Day.searchResultLength == 1">
 					{{Day.searchResultLength }} Result
-				</div>	
-				<div class="resultCount center" data-ng-show="Day.searchResultLength > 1"> 
+				</div>
+				<div class="resultCount center" data-ng-show="Day.searchResultLength > 1">
 					{{Day.searchResultLength }} Results
-				</div>	
+				</div>
 
-			</div> -->
-
-
-
-
+			</div>

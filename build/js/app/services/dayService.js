@@ -2,9 +2,6 @@ angular.module('dayBreak').service('dayService',['$http', '$rootScope',function(
 
 //////  modify to hit getdaysofuser and callback setDayScope
 this.userProfile = function(username, showUserProfile) {
-
-	//console.log('oooooo requesting username', username);
-
 	$http({
 		method: 'POST',
 		url: '/api/userprofile',
@@ -12,14 +9,12 @@ this.userProfile = function(username, showUserProfile) {
 		headers: {'Content-Type' : 'application/json'}
 	})
 	.then(function(response){
-		//console.log('response dayService IIIIIIIII>>>>>>: ', response.data);
 		showUserProfile(response.data); //pass entire data object back
 	},
 	function(data, status, headers, config){
 
 	});
 };
-
 
 ////////////////////////////////////////////////////////////////////
 this.populateDayGrid = function(callback) {
@@ -39,8 +34,7 @@ this.populateDayGrid = function(callback) {
 };
 
 this.cleanTags = function(tagArray){
-	//this function should de-dupe tag array, remove extra spaces and set all tags to lower case
-
+//this function should de-dupe tag array, remove extra spaces and set all tags to lower case
 	var lowerTagArray = [];
 	tagArray.forEach(function(elem, index, array){
 		elem = elem.toLowerCase();
@@ -59,13 +53,15 @@ this.cleanTags = function(tagArray){
 
 
 this.addDay = function(dayName, userName, userDeactivated, dayDesc, dayLocations, tagArray, dayChild, dayTeen) {
+	console.log('tagArray: ', tagArray);
 	if(dayName){
 		var uniqueTags = this.cleanTags(tagArray);
 
 		$http({
 			method: 'POST',
 			url: 	'/api/addday',
-			data: 	{ 	dayLocations : dayLocations,
+			data: 	{
+						dayLocations : dayLocations,
 						dayName : dayName,
 						userName : userName,
 						userDeactivated : userDeactivated,
@@ -98,7 +94,7 @@ this.getDay = function(dayID, chosenDay){
 		})
 		.then(
 		function(data){
-			//console.log("found the requested day, returning data", data);
+			// console.log("found the requested day, returning data", data);
 			chosenDay(data);
 		},
 		function(data){
