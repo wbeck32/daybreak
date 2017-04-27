@@ -1,5 +1,11 @@
 angular.module('dayBreak')
 
+.directive('modalcontent', function(){
+	return {
+		templateUrl:'/views/modalContent.html'
+	};
+})
+
 .directive('locationList', function(){
 	return {
 	restrict	: 'E',
@@ -9,7 +15,7 @@ angular.module('dayBreak')
 	link		: function( scope, elem, attrs) {
  	 }
 	};
-}) 
+})
 
 .directive('myUserFunctions', function(){
 	return {templateUrl: '/views/my-user-functions.html'
@@ -63,7 +69,7 @@ angular.module('dayBreak')
 		scope: true,
 		templateUrl: '/views/facebook-login.html',
  		link: function(scope,elem,attrs) {
- 
+
  		}
 	};
 })
@@ -111,7 +117,7 @@ angular.module('dayBreak')
 		restrict: 'E',
 		replace: false,
 		scope: true,
-		templateUrl: '/views/otherprofile.html', 
+		templateUrl: '/views/otherprofile.html',
 		link: function(scope,elem,attrs) {
 			console.log('OTHERPROFILE DIRECTIVE User.profileMode');
 
@@ -135,7 +141,7 @@ angular.module('dayBreak')
 		scope: false,
 		templateUrl: '/views/grid-day-view.html',
 		link: function(scope,elem,attrs) {
- 			
+
 //			scope.User.userDayView='grid';
 
 		}
@@ -161,7 +167,7 @@ angular.module('dayBreak')
 		scope: true,
 		templateUrl: '/views/addDay.html',
 		link: function(scope,elem,attrs) {
-			
+
 		}
 	};
 
@@ -174,7 +180,7 @@ angular.module('dayBreak')
 		scope: true,
 		templateUrl: '/views/updateDay.html',
 		link: function(scope,elem,attrs,ctrl) {
- 
+
 		}
 	};
 
@@ -186,7 +192,7 @@ angular.module('dayBreak')
 		scope: true,
 		templateUrl: '/views/viewDay.html',
 		link: function(scope,elem,attrs) {
-		//console.log('scope: ',scope,' elem: ',elem,' attrs: ',attrs);	
+		//console.log('scope: ',scope,' elem: ',elem,' attrs: ',attrs);
 		}
 	};
 
@@ -219,7 +225,7 @@ angular.module('dayBreak')
 // 	return{
 // 		scope: true, //scope needs to be true so that it doesn't alter scope values in the controller
 // 		link: function(scope,element,attrs){
-// 			element.bind("click", function(){		
+// 			element.bind("click", function(){
 // 				scope.count++;
 // 				angular.element(document.getElementById('locationList'))
 // 		 		.append($compile("<drag-item></drag-item>")(scope));
@@ -232,7 +238,7 @@ angular.module('dayBreak')
 		restrict: 'E',
 		scope: true,
 		templateUrl: '/views/locationList.html',
-		compile: function(elem, attr){ 
+		compile: function(elem, attr){
 			return {
 				post: function(scope,element,attributes,controller,transclider) {
 					var startX = 0, startY = 0, x = 0, y = 0;

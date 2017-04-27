@@ -120,9 +120,12 @@ body {
 
   .ui-dialog {
     z-index: 5000;
-    border: 1px solid blue;
     .ui-dialog-titlebar {
-      border: 1px solid black;
+      padding: 5px;
+      text-align: center;
+    }
+    .ui-dialog-content {
+      padding: 10px;
     }
   }
   .ui-widget-overlay.ui-front {
@@ -131,6 +134,11 @@ body {
     left: 0;
     height: 100vh;
     width: 100vw;
+  }
+  .ui-button {
+    position: absolute;
+    bottom: 26px;
+    right: 10px;
   }
 
   main {
@@ -676,7 +684,7 @@ a.dayTitle {
   height:200px;
 		width:100%;
 		margin: 0 auto;
-		border: 1px solid black;
+		// border: 1px solid black;
 		background-color:#009999;
   }
 
