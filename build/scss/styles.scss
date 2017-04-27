@@ -1,13 +1,15 @@
 $white: #ffffff;
 $gray: #f3f3f3;
 $black: #000000;
- 
+$header-footer-color:#0277bd;
+
+
 $lighten-2: #81c784;
-$lighten-3: #a5d6a7; 
-
-
+$lighten-3: #a5d6a7;
+* {
+  box-sizing: border-box;
+}
 html {
-
   font-size: 16px; //1rem = 16px;
 
   /*SMALL*/
@@ -19,30 +21,26 @@ html {
 	  /* On small screens, we are no longer using row direction but column */
 	  flex-direction: column;
 	  .dayItem {
-		width: 100%;
+		    width: 100%;
 	  }
 
 	  .mapBox {
-
-		height: 400px;
-		width: 100%;
-		position: relative;
+  		height: 400px;
+  		width: 100%;
+  		position: relative;
 	  }
 
 	  .mapPosition {
-		position: absolute;
-		top: 10px;
-		left: 10px;
+  		position: absolute;
+  		top: 10px;
+  		left: 10px;
 	  }
 
-	  .dayformBox {
-
-		width: 100%;
-
-
+    .dayformBox {
+		    width: 100%;
 	  }
-	}
-  }
+	 }
+}
 
   /*MEDIUM*/
 @media only screen and (min-width: 600px) and (max-width: 992px) {
@@ -108,41 +106,48 @@ html {
 }
 
 
-}
-
- 
-$header-footer-color:#0277bd;
 
 
 body {
 	font-family: 'Fira Sans', sans-serif;
 	width: 100%;
 	margin: 0;
-	padding: 0;	
-	 
- 	// display: flex;  		/* materialize stick footer */
-  //   min-height: 100vh;  	materialize stick footer
-  //   flex-direction: column; /* materialize stick footer */
-}
+	padding: 0;
+ 	display: flex;  		/* materialize stick footer */
+  min-height: 100vh;  //	materialize stick footer
+  flex-direction: column; /* materialize stick footer */
 
 
- 
+  .ui-dialog {
+    z-index: 5000;
+    border: 1px solid blue;
+    .ui-dialog-titlebar {
+      border: 1px solid black;
+    }
+  }
+  .ui-widget-overlay.ui-front {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+  }
+
   main {
     flex: 1 0 auto;  		/* materialize stick footer */
   }
-     
-
- 
 
 nav {
-  	position: fixed;
-  	top: 0;
-  	left: 0;
-	background-color: $header-footer-color;
-	height: 5rem;
-	padding: 0 1rem;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: $header-footer-color;
+  height: 5rem;
+  z-index: 1000;
 
+    .nav-wrapper {
+      padding: 0 20px;
+    }
 
 	#titleGraphic{
 		font-size: 2rem;
@@ -163,14 +168,6 @@ a {
 	cursor:pointer;
 }
 
-.fb-share-button{
-	padding:0 2px 25px 25px; 
-	position:relative;
-	top:-2rem;
-	left:28rem;
-}
-
-
 .buttonHolder {
 	margin:3rem 1rem;
 	width: 50%;
@@ -182,15 +179,14 @@ a {
 	.glyphicons {
 		margin: .01rem;
 	}
-	
-	}
+}
 }
 
 
 footer.page-footer {
-	position: absolute;
-	margin: 0;
-	width: 100%; 
+  bottom: 0;
+	margin: 10px 0 0 0;
+	width: 100%;
 	padding: 1rem;
 	font-size: .75rem;
 	background-color: $header-footer-color;
@@ -203,31 +199,34 @@ form{
 
 	.desc {background-color:  #F0F5F5; font-size: 1.2rem; border: 1px solid grey;
 	}
-	 
+
  	textarea {background-color:  #F0F5F5; font-size: 1.2rem; border: 1px solid grey;
  	}
 
 	input[type="text"]{
 		background-color: #F0F5F5;
-		.daytitle {font-size: 1.3rem;  border: 1px solid grey;}
-		.desc {font-size: 1.2rem;      border: 1px solid grey;}
+		.daytitle {
+      font-size: 1.3rem;
+      border: 1px solid grey;
+    }
+		.desc {
+      font-size: 1.2rem;
+      border: 1px solid grey;
+    }
 	}
-
 }
-
-
-
-
 
 .notMyDay {
 	div {
 		margin: 5px 0;
 		background-color: white;
-	  	font-size: 1rem;
+	  font-size: 1rem;
 
-	  	.dayadvert{font-size: 1rem;
-		  text-align: center;
-		  background-color: lightgrey;}
+	  	.dayadvert{
+        font-size: 1rem;
+        text-align: center;
+        background-color: lightgrey;
+      }
 
 	  	.daytitle{font-size: 1.5rem}
 
@@ -249,11 +248,9 @@ form{
 	}
 }
 
-
 	label {
 		color: $black;
 	}
-
 
 .thumbPhotos {
 	display: inline;
@@ -265,13 +262,12 @@ form{
   z-index: 998;
   opacity: 1.0;
 }
-  .navbar-fixed nav {
-    position: fixed;
-    line-height:3rem;
-     }
+.navbar-fixed nav {
+  position: fixed;
+  line-height:3rem;
+}
 
- 
-.link { 
+.link {
 	padding-left: 10px;
 	padding-right: 10px;
 	font-size: 0.9em;
@@ -279,7 +275,8 @@ form{
 	text-decoration: none;
 }
 
-.underline{	text-decoration: underline;
+.underline{
+  text-decoration: underline;
 }
 
 .editable {
@@ -291,15 +288,15 @@ form{
 	width: 100%;
 	height: 8.5rem;
 	padding: 0.5rem 2rem;
-
-  	position: fixed;
-  	top: 5rem;
+  position: fixed;
+  top: 5rem;
 	left: 0;
-  	z-index: 2;
+  z-index: 2;
  	background-color: white;
 
- 	input[type="text"]{ background-color: #ffffff;}
-
+ 	input[type="text"] {
+    background-color: #ffffff;
+  }
 }
 
 .userInfoMessage {
@@ -314,8 +311,6 @@ form{
 	margin: 5px 0;
 }
 
-
-
 .locList {
 	border:1px solid black;
 	margin: 0 0 10px 0;
@@ -324,12 +319,9 @@ form{
 }
 
 p {
-	//font-size: 10px !important;
-	color: blue;
+	color: $black;
  	-webkit-margin-before:0;
 	-webkit-margin-after:5px;
-
-
 }
 
 h1 {
@@ -338,12 +330,8 @@ h1 {
 	-webkit-margin-before:0;
 }
 
-
-
-.joinMessage{ 
-	padding-left: 10px;
-	padding-right: 10px;
-	  
+.joinMessage {
+	padding: 0 10px;
 }
 
 
@@ -366,20 +354,17 @@ h1 {
 
 .regSurround {
 	position: 0 0;
-	margin-top: 5px; 
-	margin-right: 30px; 
-	margin-left: 30px;
-	margin-bottom: 30px;
+	margin: 5px 30px 30px 30px;
 
 	.loginDirection {
 		font-size: 1.5rem;
-		margin: 0 0 rem;
+		margin: 0;
 		border:1px dash grey;
 	}
 
 	.loginFunction{
 		margin-bottom: 4rem;
-	
+
 	}
 
 
@@ -389,34 +374,28 @@ h1 {
 
 }
 
-.createdaybutton{
+.createdaybutton {
 	font-size:1.3em;
  	color: black;
 	border: 1px solid black;
-  	padding-left: 20px;
- 	padding-right: 20px;
+  padding: 0 20px;
  	border-radius: 5px;
- 	 
 }
 
-.createdayhide{
-	font-size:1.3em;
+.createdayhide {
+	font-size: 1.3em;
 	background-color: red;
 	color: black;
 	border: 1px solid black;
-  	padding-left: 20px;
-	padding-right: 20px;
+  padding: 0 20px;
 	border-radius: 5%;
 	margin-bottom: 30px;
 }
 
-.daydisplay{ width: 100%;
-			 margin:1%  
-			}
-
-// input {
-// 	width:40%;
-// }
+.daydisplay {
+  width: 100%;
+	margin:1%
+}
 
 .desc {
 	height:40px;
@@ -425,7 +404,7 @@ h1 {
 article {
 	border:1px solid gray;
 	padding: 5px;
-	margin-right:10px;
+	margin: 0 10px 0 0;
 }
 
 .list-group{
@@ -433,44 +412,38 @@ article {
 	margin-right: 30px;
 }
 
-.list-group-item{
+.list-group-item {
 	font-size: .7em;
 	width: 20%;
 	background-color: #E0F9F3;
 	border: black solid 2px;
 	margin: 1%;
-	padding: 1%px;
+	padding: 1%;
 	border-radius: 15px;
 }
 
 .clicked {
-border:1px solid green;
-height:30%;
+  border: 1px solid green;
+  height: 30%;
 }
 
-
 .userContainer{
-  /* position: fixed; */
   z-index:200;
   margin: 0 auto;
   left: 0;
   right: 0;
-
-  	width: 70%;
+  width: 70%;
  	padding: 10px;
-	/*border-radius: 10px;*/
 	background-color: white;
-	}
-
-.surround {
-
-	padding-top: 50px;
-
 }
 
-.userProfile { 
-	font-size: 1rem; 
-	margin-bottom: 5px; 
+.surround {
+  padding-top: 50px;
+}
+
+.userProfile {
+	font-size: 1rem;
+	margin-bottom: 5px;
 	padding-bottom: 5px;
 }
 
@@ -481,157 +454,137 @@ height:30%;
 }
 
 #map-canvas {
-	width:400px;
-	height:400px;
-	border:2px solid black;
-  	position:absolute;
-  	top:5rem;
-
+	width: 400px;
+	height: 400px;
+	border: 2px solid black;
+  position: absolute;
+  top: 5rem;
 }
 
 .diagnostics {
-	font-size: 9px; font-color: blue;
+	font-size: 9px;
+  font-color: blue;
 }
 
-.spacer {  
-	padding-top: 20px; padding-bottom: 20px;
+.spacer {
+	padding: 20px 0;
 }
 
-.centerText { 
+.centerText {
 	margin: 0 auto;
 	font-size: 1.3em;
 }
 
-
-
-
-
 .label-space {
-	margin: 5px;
+  margin: 5px;
 	width: 120px;
-}		
+}
 
 .alert {
 	height:20px;
 	width: 90%;
 	padding: .2rem .5rem 0 .5rem;
-   	font-size: 1rem;
-   	border-radius: 4px;
-   	border: 1px solid black;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid black;
+}
 
-  }
+ .alertwarn {
+  height:35px;
+  width: 90%;
+  margin-left: 50px;
+  padding: 3px 10px 0 10px;
+  color: red;
+  background-color: #FFFFCC;
+  font-size: 1em;
+  border-radius: 4px;
+  border: 1px solid black;
+}
 
- .alertwarn{height:35px;
-		    width: 90%;
-		    margin-left: 50px;
- 		    padding-top: 3px;
- 
-  		   padding-left: 10px;
-		   padding-right: 10px;
-		   color: red;
-		   background-color: #FFFFCC;
-		   font-size: 1em;
-		   border-radius: 4px;
-		   border: 1px solid black;}
+.alertinform{
+  height: 35px;
+  width: 100%;
+  padding: 3px 10px 0 10px;
+  background-color: #99CCFF;
+  font-size: 1em;
+  border-radius: 4px;
+  border: 1px solid black;
+}
 
-.alertinform{ height:35px;
-			width: 100%;
- 			padding-top: 3px;
- 
-			padding-left: 10px;
-			padding-right: 10px;
-		   background-color: #99CCFF;
-		   font-size: 1em;
-		   border-radius: 4px;
-		   border: 1px solid black;}
+.alertsuccess {
+  height:35px;
+  width: 90%;
+  padding: 3px 10px 0 10px;
+  background-color: #47DA91;
+  font-size: 1em;
+  border-radius: 4px;
+  border: 1px solid black;
+}
 
-.alertsuccess{	height:35px;
-			width: 90%;
- 
-			padding-top:3px;
- 			padding-left: 10px;
-			padding-right: 10px;
-		   background-color: #47DA91;
-		   font-size: 1em;
-		   border-radius: 4px;
-		   border: 1px solid black;}
-
-.formcontrol {float: right;
-			 width: 60%;
-			 margin: 20px;}
- 
+.formcontrol {
+  float: right;
+  width: 60%;
+  margin: 20px;
+}
 
 .messages {
 	background-color: grey;
 	height:28px;
 }
 
-
-
-
-.singleDayDisplay { 
-		width:220px; 
-		height: 320px; 
-		background-color: #F3F3F3; 
-		margin: 20px;
-		padding:10px;
+.singleDayDisplay {
+		width: 220px;
+		height: 320px;
+		background-color: #F3F3F3;
+		padding: 10px;
 		text-align: left;
 		border-radius: 25px;
 		overflow: hidden;
-		margin: 0 auto;
-		margin-bottom: 10px;
-		margin-top: 10px;
-  }
+		margin: 10px 0;
+}
 
 .exploreOneDayButton {
-	font-size:1em;
+	font-size: 1em;
 	background-color: #66FF33;
 	color: black;
 	border: 1px solid black;
- 	height:25px;
+ 	height: 25px;
  	width: 100%	;
 	padding-top: 2px;
 	padding-left: 1px;
 	border-radius: 8px;
-	margin-left: 10px;
-	margin-right: 10px;
-	margin-bottom: 10px;
-	margin: 0 auto;
+	margin: 0 10px 10px 10px;
 	text-align: center;
 }
 
 
-.title { 
+.title {
 	font-size: 1.8rem;
-}  
+}
 
 a.dayTitle {
 	font-size: 1.2rem;
+  text-decoration: underline;
+  color: #0066CC;
+}
 
-		text-decoration: underline;
-		color: #0066CC;
-	}
+.photo {
+  height:100px;
+  width: 290px;
+  margin: 0 auto;
+  border: 1px solid black;
+  background-color:#009999
+}
 
-.photo {height:100px;
-		width:290px;
-		margin: 0 auto;
-		border: 1px solid black;
-		background-color:#009999}
-	 
+.showbox {
+  float: left;
+  border: 1px solid black;
+  -webkit-transition: .5s ease-in-out;
+  -moz-transition: .5s ease-in-out;
+  transition: .5s ease-in-out;
+}
 
-
-
-
- .showbox {
-    float: left;
-    border: 1px solid black;
-    -webkit-transition: .5s ease-in-out;
-    -moz-transition: .5s ease-in-out;
-    -o-transition: .5s ease-in-out;
-    transition: .5s ease-in-out;
-  }
-
-  .sortFrame {
+.sortFrame {
  	margin: 0 auto;
 	width: 450px;
 	padding: 20px;
@@ -639,11 +592,9 @@ a.dayTitle {
 	border-radius: 10px;
 	background-color: #E0F9F3;
 	margin-bottom: 10px;
-  }
+}
 
-
-.exploreOneDayButton
-	{
+.exploreOneDayButton {
 	font-size:1em;
 	background-color: #66FF33;
 	color: black;
@@ -655,163 +606,162 @@ a.dayTitle {
 	margin-bottom: 10px;
 	margin: 0 auto;
 	text-align: center;
-	}
+}
 
 .singleDayFrame{
 	width: 98%;
-	bacground-color: grey;
+	background-color: grey;
 	border: 1px solid black;
+}
 
+.location1{
+  margin: 1.2rem;
+  padding: 3px;
+  border: 1px solid black;
+  background-color: #CCCCFF;
+  font-size: 1.4em;
+}
+
+.user1 {
+  margin: 3px;
+  padding: 3px;
+  border: 1px solid black;
+  background-color: #CCCCFF;
+  font-size: 1.4em;
+}
+
+.daydate1 {
+  margin: 3px;
+  padding: 3px;
+  border: 1px solid black;
+  background-color: #CCCCFF;
+  font-size: 1.4em;
+}
+
+.description1 {
+  margin: 3px;
+  padding: 3px;
+  border: 1px solid black;
+  background-color: #CCCCFF;
+  font-size: 1.4em;
+}
+
+.whowasthere {
+  margin: 3px 0;
+  border: 1px solid #cccccc;
+  float:left;
+  padding: 0.5rem;
+
+  div {
+    width:100%;
+    float:left;
+    padding:2px;
+  }
+
+  label {
+    font-size: 1rem;
+    color: $black;
+    float: left;
+  }
+
+  .checkBox {
+    position: relative;
+    float: right;
+  }
 }
 
 
 
-.title {
-
-}  
-
-.location1{ margin: 1.2rem;
-		padding: 3px;
-		border: 1px solid black;
-		background-color: #CCCCFF;
-		font-size: 1.4em;
-		}
-
-.user1 { margin: 3px;
-		padding: 3px;
-		border: 1px solid black;
-		background-color: #CCCCFF;
-		font-size: 1.4em;}
-
-.daydate1 { margin: 3px;
-		padding: 3px;
-		border: 1px solid black;
-		background-color: #CCCCFF;
-		font-size: 1.4em;}
-
-.description1 { margin: 3px;
-		padding: 3px;
-		border: 1px solid black;
-		background-color: #CCCCFF;
-		font-size: 1.4em;}
-
-.whowasthere { 
-		margin: 3px 0;
-		border: 1px solid #cccccc;
-		float:left;
-		padding: 0.5rem;
-
-		div {
-			width:100%;
-			float:left;
-			padding:2px;
-		}
-
-		label {
-			font-size: 1rem;
-			color: $black;
-			float: left;
-		}
-
-		.checkBox {
-			position: relative;
-			float: right;
-		}
-
-	}
-
-
-
-.photo1 {height:200px;
+.photo1 {
+  height:200px;
 		width:100%;
 		margin: 0 auto;
 		border: 1px solid black;
-		background-color:#009999}
-	 
+		background-color:#009999;
+  }
+
 
 .resultCount {
-		font-size: 1.4em;
-		color: blue;
-		text-align: center;		
+		font-size: 1.1em;
+		color: $black;
 		}
 
 .singleDayTitle{
- 	margin-top: 20px; 
- 	font-size: 1.5em; 
- 	width:100%; 
- 	background-color: #ffccbc deep-orange lighten-4; 
- 	} 
+ 	margin-top: 20px;
+ 	font-size: 1.5em;
+ 	width:100%;
+ 	background-color: #ffccbc deep-orange lighten-4;
+ 	}
 
  .searchResultsMessage {
- 	margin-top: 40px;
- 	width: 100%;
- 	background-color: #E0F9F3;
- 	border: 1px solid black;
- 	font-size: 1.1em;
-
+ 	width: 50%;
+  float: right;
  }
 
- .profileLabel{ font-size: 1em;
- 				margin:  4px;
- 				padding: 3px;
- 				margin-top: 5px;
- 				margin-bottom: 5px;
- 				 
- 				}
+.profileLabel{
+  font-size: 1em;
+  padding: 3px;
+  margin: 5px 0;
+}
 
-  .profileLabelAboutMe{ font-size: 1em;
- 				margin:  4px;
- 				padding: 3px;
- 				margin-bottom: 20px;
- 				float:left;
- 				}
+  .profileLabelAboutMe {
+    font-size: 1em;
+    margin:  4px;
+    padding: 3px;
+    margin-bottom: 20px;
+    float:left;
+}
 
  #pname {width: 100%;  }
 
  #pdate {width:50px;  }
 
- .deleteaccount {padding: 20px; font-size: .5em;}
+ .deleteaccount {
+   padding: 20px;
+   font-size: .5em;
+ }
 
-.privacypolicy {text-decoration: none;
-				cursor: pointer;
-				font-size: .75rem;
-				color: $white;
+.privacypolicy {
+  text-decoration: none;
+  cursor: pointer;
+  font-size: .75rem;
+  color: $white;
 }
 
- .profileInfo{  width: 40%; 
- 				font-size: 1em; 
-  				margin: 1px;
- 				padding: 1px;
- 				padding-left: 5px;
- 				padding-right: 5px;
- 				padding-bottom: 2px;
-   				}
+.profileInfo {
+  width: 40%;
+  font-size: 1em;
+  margin: 1px;
+  padding: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 2px;
+}
 
-.profileAbout{   width: 65%;
-  				font-size: 1em; 
-  				margin: 1px;
- 				padding: 1px;
- 				padding-left: 5px;
- 				padding-right: 5px;
- 				padding-bottom: 2px;
-   				}
+.profileAbout {
+  width: 65%;
+  font-size: 1em;
+  margin: 1px;
+  padding: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 2px;
+}
 
- .textarea {
- 			
- 			 
- 			}
+.textareabox {
+  background-color: #E0F9F3;
+  float:right;
+ 	width: 100%;
+}
 
-.textareabox {	background-color: #E0F9F3; 							float:right; 
- 				width: 100%;}
-
- #deleteaccount{
+ #deleteaccount {
  			margin-top: 5px;
  			padding-top: 5px;
- 			}
+ }
 
 
  .profilePublic{ width: 95%;
- 				 border: 1px solid black; 
+ 				 border: 1px solid black;
  				 border-radius: 5px;
  				 margin-bottom:25px;
  				 padding-top:10px;
@@ -821,8 +771,8 @@ a.dayTitle {
  				 background-color: #F0F5F5; }
 
  .profilePrivate{ width: 95%;
- 				 border: 1px solid black; 
- 				 background-color:  green lighten-3; 
+ 				 border: 1px solid black;
+ 				 background-color:  green lighten-3;
  				 border-radius: 5px;
  				 margin-bottom:5px;
  				 padding:10px;
@@ -830,43 +780,38 @@ a.dayTitle {
  				 background-color: #F0F5F5; }
 
 
-.publicPrivateLabel{font-size: 1 rem;
-					color: blue;
-					padding: 4px;
-					clear:left;}
+.publicPrivateLabel{
+  font-size: 1 rem;
+	color: blue;
+	padding: 4px;
+	clear:left;
+}
 
 .tagFrame{  margin: 0;
 			padding-left: 20px;
 			padding-right: 20px;
-			padding-bottom: 10px; 
+			padding-bottom: 10px;
 			background-color: white;}
- 
- .bestDaysFrame { 
- 	width: 100%;
-	  display: flex;
-	  flex-direction: row;
-	  flex-wrap: wrap;
-	justify-content: left;
-	align-items: baseline;
-	margin: 0 auto;
-	overflow: hidden;
-	padding:0 2% 5.5rem;
-	position: relative;
-	top: 6rem;
 
+ .bestDaysFrame {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: baseline;
+    margin: 0 auto;
+    overflow: hidden;
+    padding:0 2% 5.5rem;
+    position: relative;
+    top: 6rem;
 
-
-
-
-		
-	.singleDay {
-		width: 290px	;
-		border:1px solid $black;
-		border-radius: 25px;
-		margin: 0.65rem;
-		padding: 1rem;
-	 
-
+	   .singleDay {
+  		width: 290px	;
+  		border:1px solid $black;
+  		border-radius: 25px;
+  		margin: 1rem;
+  		padding: 1rem;
 
 	.daydate {
 		font-size: 0.75rem;
@@ -878,12 +823,12 @@ a.dayTitle {
 		cursor: pointer;
 		font-weight: 500;
 	}
-	
+
 	.user {
 		font-size: 0.9rem;
 	}
 
-	.tags { 
+	.tags {
 		margin: 3px;
 		padding: 3px;
 
@@ -892,7 +837,7 @@ a.dayTitle {
 	.location {
 		margin:1% 0;
 		padding:1%;
-			
+
 			.locationName {
 				margin: 0.2rem 0 0 0;
 				border-bottom: 2px solid $black;
@@ -902,35 +847,21 @@ a.dayTitle {
 			.locDesc {
 				font-size:100;
 			}
-
-	}
+	   }
+   }
 }
 
- }
- 
- 
- #place-id {
+#place-id {
    visibility: hidden;
    margin: 0;
-
  }
 
-
-
-
- .side-nav-control{
-
+.side-nav-control{
    background-color: white;
    border: 1px black solid;
    z-index:3000;
    font-size: 1.3rem;
    color: blue;
-
  }
-
-
-
-
-
-
-
+ }
+ }

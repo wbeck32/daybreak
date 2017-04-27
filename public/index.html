@@ -9,23 +9,14 @@
 	<link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500' rel='stylesheet' type='text/css'>
   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
   	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="css/jquery-ui.min.css" />
+
 	<link rel="stylesheet" href="css/styles.css" />
 
-<title>Daybreak - Share and Find the Perfect Day</title>
+<title>Share and Find the Perfect Day</title>
 </head>
 <body>
-	<script>(function(d, s, id) {
-	  var js, fjs = d.getElementsByTagName(s)[0];
-	  if (d.getElementById(id)) return;
-	  js = d.createElement(s); js.id = id;
-	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=10153267108009401";
-	  fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));</script>
-
-
-
-	<!--<div id="fb-root"></div>-->
-
+<div id="modal"></div>
     <div ng-controller="userController as User">
 		<div data-ng-controller="dayController as Day">
 			<div my-user-functions></div> <!--  Nav Bar and User Register/Login/Account Controls-->
@@ -39,16 +30,16 @@
 					<user-profile-page></user-profile-page>
 	 			</div>
   			</div>
- 			
+
 			<div data-ng-switch on='User.userViewSwitch'>
 				<div data-ng-switch-when="grid">
-   					<tag-search></tag-search> 
+   					<tag-search></tag-search>
     				<grid-day-view></grid-day-view>
 				</div>
 			</div>
 
 			<div data-ng-switch on='User.userViewSwitch'>
-	   			<div data-ng-switch-when="single"> 
+	   			<div data-ng-switch-when="single">
 					<single-day-view></single-day-view>
  	  			</div>
  			</div>
@@ -65,10 +56,32 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBmK00Qr6_8hzbLNNU67xCs_kdGJTgHSnI"></script>
-	<script src="js/jquery-ui.min.js"></script>
-    <script src='js/angular-ui-router.min.js'></script>
+		<script
+		  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+		  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+		  crossorigin="anonymous"></script>
+			<script src='js/angular-ui-router.min.js'></script>
 
     <script src="js/main.js"></script>
+		<script>
 
+		 $( function() {
+			 $( "#modal" ).dialog({
+				 autoOpen: true,
+				 modal: true,
+				 title: "About The Perfect Day",
+				 width: 300,
+				 height: 500,
+				 position: {my: "center",
+										at: "center",
+										of: window,
+										collision: "none"
+									},
+										create: function(event, ui) {
+										$(event.target).parent().css('position','fixed');
+									}
+			 });
+		});
+		 </script>
 </body>
 </html>

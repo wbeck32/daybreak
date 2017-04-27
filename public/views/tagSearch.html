@@ -10,7 +10,7 @@
 			 			placeholder="Enter search words, separated by spaces. (Example: Portland hiking restaurant.)"
 						required>
 				</form>
-
+<div>
 						<a
 			 			data-ng-click="Tag.findTag(Tag.tag)"
 			 			class="waves-effect waves-light btn"
@@ -25,20 +25,15 @@
 						<span class="glyphicons globe"><img src="/images/glyphicons-globe-wht.png"></span>
 						</a>
 
-						<!-- <span class='userMessage'>
-							 {{User.userMessage}}
-						</span> -->
+            <span class ="searchResultsMessage">
+              {{Day.searchResultsMessage}}
+              <span class="resultCount" data-ng-show="Day.searchResultLength == 1">
+                {{Day.searchResultLength }} Result
+              </span>
+              <span class="resultCount" data-ng-show="Day.searchResultLength > 1">
+                {{Day.searchResultLength }} Results
+              </span>
 
-
+            </span>
+</div>
 			</div>  <!--  tag search end -->
-
-			<div class ="searchResultsMessage" style="width:50px;float:right;">				
-				{{Day.searchResultsMessage}}
-				<div class="resultCount center" data-ng-show="Day.searchResultLength == 1">
-					{{Day.searchResultLength }} Result
-				</div>
-				<div class="resultCount center" data-ng-show="Day.searchResultLength > 1">
-					{{Day.searchResultLength }} Results
-				</div>
-
-			</div>

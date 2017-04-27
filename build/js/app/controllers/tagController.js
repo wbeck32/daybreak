@@ -30,9 +30,13 @@ angular.module('dayBreak').controller('tagController', ['$scope', '$rootScope', 
 		if (tag !== undefined) {
 			tag = tag.trim().toLowerCase().replace(/\W+/g, ",");
 			tagService.findTag(tag, foundTag);
-			// console.log("REDUCED for finding start|" + tag + "|end");
 		}
-		if (tag === undefined) {
+		if (!tag) {
+			dayService.populateDayGrid(setDayScope);
+			$scope.Day.searchResultsMessage = '';
+			$scope.Day.searchResultLength = null;
+		}
+		else if (tag === undefined) {
 			console.log("tag is undefined");
 			///TODO: REPLACE WITH getDaysOfUser !!! ////////////////////
 			dayService.populateDayGrid(setDayScope);

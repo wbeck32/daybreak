@@ -15,14 +15,14 @@
 
         <div class="teenfriendly">
             <input type="checkbox" class="checkBox" id="teenCheckbox" data-ng-model="day.dayTeen"
-                   data-ng-checked="{{Day.chosenDay.data[0].dayTeen}}"/>
+                   data-ng-checked="{{Day.chosenDay.data[0].dayTeen}}" data-ng-disabled="true"/>
             <label for="teenCheckbox">Teen friendly?
             </label>
         </div>
 
         <div class="kidfriendly">
             <input type="checkbox" class="checkBox" id="kidCheckbox"
-                   data-ng-checked="{{Day.chosenDay.data[0].dayChild}}"/>
+                   data-ng-checked="{{Day.chosenDay.data[0].dayChild}}" data-ng-disabled="true"/>
             <label for="kidCheckbox">Kid friendly?
             </label>
         </div>

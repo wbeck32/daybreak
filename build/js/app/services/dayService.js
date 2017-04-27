@@ -53,7 +53,6 @@ this.cleanTags = function(tagArray){
 
 
 this.addDay = function(dayName, userName, userDeactivated, dayDesc, dayLocations, tagArray, dayChild, dayTeen) {
-	console.log('tagArray: ', tagArray);
 	if(dayName){
 		var uniqueTags = this.cleanTags(tagArray);
 

@@ -1,54 +1,42 @@
 <div class = "regSurround">
 
 <i data-ng-click="User.userViewSwitch='grid';
- 					User.profileSelect(null);"  
-		class="material-icons right small" 
+ 					User.profileSelect(null);"
+		class="material-icons right small"
 		style ='cursor: pointer;'>clear
 </i>
 
 
-<div class='loginDirection'>Login with Facebook
-</div>
-
-<div class='loginFunction'>  		
-	<a 
-	data-ng-click="User.facebook();User.profileSelect('facebook');" 
-	class="waves-effect waves-light btn" 
-	type="submit">Facebook
-	<span class="glyphicons search"><img src="/images/social-facebook-wht.png"></span>
-	</a>
-</div>
-
 <div class='loginDirection'>Login with Username and Password
-</div>		
+</div>
 
-<div class='loginFunction'>  		
+<div class='loginFunction'>
 
  		<div class="form group">
 
- 	 		<input class= "form-control" type="text" 
+ 	 		<input class= "form-control" type="text"
 	 					placeholder="User Name"
 						ng-model="User.username">
  			<input class= "form-control" type="password" placeholder="Password"
 						ng-model="User.password">
 
 		</div>
-		
+
 
 
 		<input data-ng-click="Day.getUserProfile(null);
 								User.profileMode=null;
 							    User.userViewSwitch='grid';
 	  					  	  	User.login();"
-				class="waves-effect waves-light btn" 
+				class="waves-effect waves-light btn"
 				type="submit" value="Login">
 </div>
 
 
-<div class='loginDirection'>Forgot Username or Password?
+<!-- <div class='loginDirection'>Forgot Username or Password?
 </div>
-<div class='loginFunction'>  		
+<div class='loginFunction'>
 	<form data-ng-submit="User.profileSelect('recoverPassword'); ">
 	<button class="waves-effect waves-light btn" type="submit" value="Click to recover">Click to recover
 	</button>
-</div> 
+</div> -->

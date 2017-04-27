@@ -8,15 +8,15 @@
 	  	<div class="container">
 			<ul class='nav navbar-nav'>
 
-				<li><a><div 
+				<li><a><div
 						data-ng-click="userViewSwitch ='None' ">
 						Home
 						</div></a></li>
 
-				<li><a  data-ng-show ="User.userState==='loggedIn'"
+				<li><a data-ng-show ="User.userState==='loggedIn'"
 			 			data-ng-click="User.signOut();
 			 						   User.userViewSwitch='None';
-			 						   User.profileSelect('grid') " > 
+			 						   User.profileSelect('grid') " >
 		 		  		Logout
 		 		  		</a></li>
 
@@ -24,15 +24,15 @@
 				  		data-ng-show="User.userState==='loggedOut'"
 				  		data-ng-click="userViewSwitch='Log' ">
 				  		Login
-				  		</a></li>	
+				  		</a></li>
 
 				<li><a	data-ng-show="User.userState==='loggedOut'"
-			  	  		data-ng-click="userViewSwitch ='Reg' "> 
-			  	  		Register 
+			  	  		data-ng-click="userViewSwitch ='Reg' ">
+			  	  		Register
 			  	  		</a></li>
 
-				<li><a><div 	
-			   	  		data-ng-model="User"  
+				<li><a><div
+			   	  		data-ng-model="User"
 			  	  		data-ng-show="User.userState==='loggedIn'" >
 			  			Welcome: {{User.username}}
 				  		</div></a></li>
@@ -48,14 +48,14 @@
 
 
 
-	<div class = 'surround'>	
-		<div class = 'userContainer' 
-				data-ng-show=" 
-					(User.userState ==='loggedOut' && 
-					(userViewSwitch === 'Log' || 
-					 userViewSwitch === 'Reg'  || 
+	<div class = 'surround'>
+		<div class = 'userContainer'
+				data-ng-show="
+					(User.userState ==='loggedOut' &&
+					(userViewSwitch === 'Log' ||
+					 userViewSwitch === 'Reg'  ||
 					 userViewSwitch === 'Reset' ) )
-					|| 
+					||
 				 	(User.userState ==='loggedIn' &&
 					 userViewSwitch ==='Myaccount')">
 
@@ -63,10 +63,10 @@
 				<div ng-switch-when='Log' >
 					<form data-ng-submit="User.login() "
 						  >
-						
+
 						<div class="form group">
 							<label>Username</label>
-							<input class= "form-control" type="text" 
+							<input class= "form-control" type="text"
 							ng-model="User.username">
 						</div>
 
@@ -81,31 +81,31 @@
 				</div>
 
 				<!-- Must be outside of ng-switch-when! -->
-				<div class='closeModal' 
+				<div class='closeModal'
 					 data-ng-show="userViewSwitch==='Log' ">
- 					<a 
+ 					<a
 	 					data-ng-click="userViewSwitch='Reset' ">
 						Reset Password
 					</a>
 				</div>
 			</div>
-			
+
 
 
 		   	<div id='register'
 		   			ng-switch on='userViewSwitch'
  		   			>
 		   		<div ng-switch-when='Reg' >
-					<form 
+					<form
 						data-ng-submit="User.registerValidUser()"
- 						name = "regForm" 
+ 						name = "regForm"
 						novalidate>
 
 						<div class="form group">
 							<label>Username</label>
-							<input class= "form-control" 
+							<input class= "form-control"
 							type="text"
-							data-ng-blur="User.checkUsername()" 
+							data-ng-blur="User.checkUsername()"
  							data-ng-model="User.username"
  							placeholder="5 character minimum">
 						</div>
@@ -113,8 +113,8 @@
 						<div class="form group">
 							<label>Password</label>
 							<input class= "form-control"
-							id='passwordFirst' 
-							type="password" 
+							id='passwordFirst'
+							type="password"
 							name='password'
 							data-ng-model="User.password"
 							placeholder="Enter password">
@@ -123,18 +123,18 @@
 						<div class="form group">
 							<label>Password Confirmation</label>
 							<input class= "form-control"
-							id='passwordConfirm' 
+							id='passwordConfirm'
 							name='passwordConfirm'
-							type="password" 
+							type="password"
 							data-ng-model="User.passwordConfirm"
 							placeholder="Reenter password">
 						</div>
 
 						<div class="form group">
 							<label>E-Mail</label>
-							<input class= "form-control" 
+							<input class= "form-control"
 							type="text"
-							data-ng-blur="User.checkEmail()" 
+							data-ng-blur="User.checkEmail()"
 							data-ng-model="User.email"
 							placeholder="Required for password recovery.">
 						</div>
@@ -142,68 +142,67 @@
 						<div >
 							<p>username is: 		{{User.username}}</p>
 							<p>email is   : 		{{User.email}}</p>
-							
+
 							<p>duplicateusername is: {{User.duplicateusername}}</p>
 							<p>duplicateemail is:	 {{User.duplicatemail}}</p>
 
 							<p>cheatnamepass is:  {{cheatnamepass}}</p>
-							
+
 							<p> regForm.$invalid 	 {{regForm.$invalid}} </p>
 
- 
+
 						</div>
 
-						<input 
+						<input
 						data-ng-disabled="
-						regForm.$invalid  			|| 
+						regForm.$invalid  			||
 						(User.password != User.passwordConfirm)"
-						class="btn btn-success btn-sm btn-block" 
-						type="submit" 
+						class="btn btn-success btn-sm btn-block"
+						type="submit"
 						value="Register Now">
 
 
-						<div class="errMsg" 
+						<div class="errMsg"
 						data-ng-if="User.duplicateemail">
-						E-mail already in use.  Recover password now?</div>
+						E-mail already in use. Recover password now?</div>
 
-						<div class="errMsg" 
+						<div class="errMsg"
 						data-ng-if="User.duplicateusername">
 						User name already in use.</div>
-	
-             			<div class="errMsg" 
-             			data-ng-if="User.password !== User.passwordConfirm 
-             			&& regForm.passwordConfirm.$touched">
-             			Password confirmation does not match.</div>
+
+       			<div class="errMsg"
+       			data-ng-if="User.password !== User.passwordConfirm
+       			&& regForm.passwordConfirm.$touched">
+       			Password confirmation does not match.</div>
 
 					</form>
 				</div>
 		 	</div>
-		 
-			<div id='resetPassword' ng-switch on='userViewSwitch'>
+
+			<!-- <div id='resetPassword' ng-switch on='userViewSwitch'>
 				<div ng-switch-when='Reset'>
-					<form 
-					data-ng-submit="User.resetPassword()">	
+					<form
+					data-ng-submit="User.resetPassword()">
 						<div class="form group">
 							<label>Forgot Password? Enter E-Mail</label>
-							<input class= "form-control" 
-							type="text" 
+							<input class= "form-control"
+							type="text"
 							ng-model="User.email">
 						</div>
 						 <p></p>
 						<input class="btn btn-success btn-sm btn-block" type="submit" value="Send Password Reset Link"></input>
 					</form>
-					<p></p>
 				</div>
-		 	</div>
+		 	</div> -->
 
 	   		<div id='about' ng-switch on="userViewSwitch">
 				<div ng-switch-when='Myaccount' >
 		 	 		<p>About Your Account</p>
 
 		 	 		<div class ="userProfile">
-						<div 
-							data-ng-model="User" 
-							data-ng-show="User.userState==='loggedIn'" 
+						<div
+							data-ng-model="User"
+							data-ng-show="User.userState==='loggedIn'"
 							data-ng-if="userViewSwitch==='Myaccount' " >
 
 				  			<div class="userProfile">
@@ -211,24 +210,23 @@
 				  			<li>Email: 		{{User.email}}</li>
 				  			<li>Joined: 	{{User.createDate}}</li>
 				  			<li>About You: 	{{User.userAbout}}</li>
-				  			
+
 				  			</div>
-				  			<p> </p>
  						</div>
 					</div>
-			  	</div>  
+			  	</div>
 
- 
 
- 				<div class='closeModal' 
+
+ 				<div class='closeModal'
 					data-ng-show="userViewSwitch==='Myaccount' ">
- 					<a 
+ 					<a
 	 					data-ng-click="userViewSwitch='None' ">
 						Close Account Profile
 					</a>
 				</div>
-			</div>   
-		</div>   
-	</div>	 
+			</div>
+		</div>
+	</div>
 
 </div>

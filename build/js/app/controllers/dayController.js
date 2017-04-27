@@ -20,28 +20,17 @@ angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope', 
 	//dayService.getDaysOfUser(username,setDayScope);
 	dayService.userProfile(username, showUserProfile);
 
-
-	//console.log("1111111 first call of getDaysOfUser");
-
-
 ////////////////////////////////////////////////////////////////
 ///THIS IS NO LONGER USED except for day creation!!!
 // INTEGRATE commonService lines to showUserProfile
 	function showAddedDay(data) {
-		// console.log('setDayScope indayController on callback');
-		// console.log('setDayScope in dayController data is', data);
-		console.log('setDayScope  data.days', data);
-		// console.log('setDayScope data.user:',  data.user);
-		// console.log('setDayScope ::::end data');
 		commonService.formatDates(data);
 		commonService.tagArrayToString(data);
 		$scope.Day.days = data;
 		$scope.User.userViewSwitch = 'grid';
 	}
 
-
 	function chosenDay(data) {
-
 		commonService.tagArrayToString(data.data);
 		commonService.formatDates(data.data);
 
@@ -84,7 +73,6 @@ angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope', 
 
 			}
 		});
-
 		$scope.Day.chosenDay = data;
 		$scope.User.userViewSwitch = 'single';
 	}
@@ -93,20 +81,9 @@ angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope', 
 ////////////////////////////////////////////////////////////////////////
 /// CALLBACK switch between two views (templates, public/private) AND set user profile data
 	function showUserProfile(response) {
-		//brought in from setDayScope because this is new unified callback
-		// console.log ("EEEEE in showUserProfile", response);
-		//console.log ("FFFFFF in showUserProfile response", response.user.userName);
-
 		commonService.formatDates(response.days);  //TODO - NOT YET WORKING
 		commonService.tagArrayToString(response.days);
-		//if(response.user) {
-		//CASE: USER REQUESTS OWN ACCOUNT PROFILE
 		if ($scope.User.username === response.user.userName) {
-			// console.log ("EEEEEE in showUserProfile response.user", response.user);
-			// console.log ("EEEEEE in showUserProfile response.user.created", response.user.created);
-			// console.log ("EEEEEE in showUserProfile response.user.userName", response.user.userName);
-			// commonService.formatDates(response.days);  //TODO - NOT YET WORKING
-			// commonService.tagArrayToString(response.days);
 			$scope.User.profileMode = 'myAccount';  //sets view template
 			$scope.Day.days = response.days; //set incoming day array to scope Days
 
@@ -157,7 +134,11 @@ angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope', 
 		if (Day.teen && Day.teen === true) {
 			teenCheck = 'checked';
 		}
-		var tagArray = $rootScope.dayTags.split(',');
+		if (typeof $rootScope.dayTags === 'object') {
+			var tagArray = $rootScope.dayTags;
+		} else if (typeof $rootScope.dayTags === 'string') {
+			var tagArray = $rootScope.dayTags.split(',');
+		}
 		var dayName = Day.dayName;
 		var userName = User.username;
 		var dayDesc = Day.dayDesc;
@@ -186,15 +167,13 @@ angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope', 
 	};
 
 	function completeUpdateDay(data) {
+		$scope.data = data;
 		User.userViewSwitch = 'grid';
 		$scope.User.userMessage = 'Your changes have been saved.';
 	}
 
 
 	this.updateDay = function (Day, User) {
-		//console.log('updating day: ',$rootScope.dayLocations);//new loc
-		//console.log('day: ',$scope.Day.chosenDay.data[0].locations);//orig locs
-
 		var thisDay = $scope.Day.chosenDay.data[0];  //console.log(thisDay.locations);
 		thisDay.locations.push($rootScope.dayLocations);	//console.log('thisDay: ',thisDay.locations)
 		var tmp = thisDay.locations.concat($rootScope.dayLocations);
@@ -206,7 +185,6 @@ angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope', 
 		});
 		dayService.saveDayChanges(thisDay, User, completeUpdateDay);
 		User.userViewSwitch = 'grid';
-
-	};
+};
 
 }]);
