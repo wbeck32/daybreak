@@ -134,10 +134,11 @@ angular.module('dayBreak').controller('dayController', ['$scope', '$rootScope', 
 		if (Day.teen && Day.teen === true) {
 			teenCheck = 'checked';
 		}
+		var tagArray = [];
 		if (typeof $rootScope.dayTags === 'object') {
-			var tagArray = $rootScope.dayTags;
+			tagArray = $rootScope.dayTags;
 		} else if (typeof $rootScope.dayTags === 'string') {
-			var tagArray = $rootScope.dayTags.split(',');
+			tagArray = $rootScope.dayTags.split(',');
 		}
 		var dayName = Day.dayName;
 		var userName = User.username;

@@ -14,10 +14,10 @@ var jwt = require('jwt-simple');
 
 var token ='';
 
-var _ = require('lodash');
+// var _ = require('lodash');
 var secretKey = 'supersecretkey';
 var jwtKey='supersecretkey';
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 var loginmailgun = require('./data/loginmailgun.js');
 var transporter = nodemailer.createTransport(smtpTransport({

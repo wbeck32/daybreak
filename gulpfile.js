@@ -1,6 +1,6 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
-    minifycss = require('gulp-minify-css'),
+    minifycss = require('gulp-clean-css'),
     uglify = require('gulp-uglify'),
     livereload = require('gulp-livereload'),
     postcss      = require('gulp-postcss'),
