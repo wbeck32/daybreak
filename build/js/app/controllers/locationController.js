@@ -15,7 +15,7 @@ angular
 		var locLatLong = '';
 
 
-		var myLatlng = new google.maps.LatLng(45.5227,122.6731);
+		var myLatlng = new google.maps.LatLng(45.5231,-122.6765);
 		var mapOptions = {
 			zoom: 14,
 			center: myLatlng,

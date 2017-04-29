@@ -294,6 +294,8 @@ app.post('/api/savedaychanges', function(req, res, next){
 // 3) server side not duplicate email    (see checkemail below)
 //////////////////////////////////////////////////////////
  router.route('/registerValidUser').post(function(req,res,next){
+ // app.post('/api/registerValidUser').post(function(req,res,next){
+ console.log('1');
     var userCreateSuccess = false;
     //create user record
     console.log('reqbody: ',req.body)
@@ -331,7 +333,7 @@ app.post('/api/savedaychanges', function(req, res, next){
         to: req.body.email,
         subject: 'New Registration: Please confirm your Perfect Daybreak email address', // Subject line
         text: 'New Registration: Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone.', // plaintext body
-        html: 'Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone. <br/><a href="http://perfectdaybreak.com:8090/api/verifyemail?access_token='+token+'&email='+req.body.email+'">Click here to confirm your email address</a>.'
+        html: 'Thanks for joining the Perfect Daybreak community. We promise we will not sell or share your e-mail address with anyone. <br/><a href="http://perfectdaybreak.com/api/verifyemail?access_token='+token+'&email='+req.body.email+'">Click here to confirm your email address</a>.'
     };
 
     transporter.sendMail(verifyEmailOptions, function(err, info) {
