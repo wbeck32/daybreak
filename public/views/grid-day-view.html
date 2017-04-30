@@ -1,23 +1,23 @@
 <div class="row bestDaysFrame">
 
-<!-- TESTING GRID DAY VIEW - Day.days is: {{Day.days}}  and user is: {{User.username}}  
- -->  	
- 	<div data-ng-repeat="day in Day.days" class="col singleDay z-depth-3"> 
+<!-- TESTING GRID DAY VIEW - Day.days is: {{Day.days}}  and user is: {{User.username}}
+ -->
+ 	<div data-ng-repeat="day in Day.days" class="col singleDay z-depth-3">
  		 	<a class="dayTitle"><div data-ng-click ="Day.showOneDay(day._id,day.userName)">{{day.dayName}}</div></a>
 
 		 	<div class="user">
- 
-		 		<div style="text-decoration: underline; cursor: pointer;"  
+
+		 		<div style="text-decoration: underline; cursor: pointer;"
 		 			  data-ng-click="Day.getUserProfile(day.userName);">
 		 						   {{day.userName }}</div>
  		 	</div>
- 
+
 		 	<div class="daydate">{{day.dayDate}}</div>
 
 		 	<div class="description">{{day.dayDesc}}</div>
 
 			<div class="whowasthere">
-				<div>      
+				<div>
 					<input type="checkbox" class="checkBox" id="test6 teenCheckbox" data-ng-model="day.dayTeen" data-ng-checked="{{day.dayTeen}}" />
 	 				<label for="teenCheckbox">Teen friendly?</label>
 	    		</div>
@@ -30,10 +30,11 @@
 				<div class="location">
 					<div class="locationName">{{location.location}}</div>
 					<div class="locDesc">{{location.desc}}</div>
-                    <div data-ng-if="location.photosThumb">
-					<div data-ng-repeat="photo in location.photosThumb track by $index" class="thumbPhotos">
-						<img src="{{photo}}"></img>
-					</div></div>
+          <div data-ng-if="location.photosThumb">
+					       <div data-ng-repeat="photo in location.photosThumb track by $index" class="thumbPhotos">
+						             <img src="{{photo}}"></img>
+					       </div>
+          </div>
 				</div>
 			</div>
  			<div class="tags">{{day.dayTags}}</div>

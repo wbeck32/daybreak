@@ -1,7 +1,5 @@
-// this is userService.js for dayBreak based on roadWarrior  
+// this is userService.js for dayBreak based on roadWarrior
 dayBreak.service('userService', ['$http', function($http ){
-
-  console.log('userService start');
 
   this.username 	= "";           //initialize username to null
   this.userState 	= 'loggedOut';  //initialize userState to loggedOut
@@ -11,13 +9,13 @@ dayBreak.service('userService', ['$http', function($http ){
 
 /////////////////////////////////////////////////////////////////
 
-//Critical.  "var self = this" enables functions to communicate with scope of service... 
-//which is part of scope of userController... 
+//Critical.  "var self = this" enables functions to communicate with scope of service...
+//which is part of scope of userController...
 //which is accessed as User.VARIABLENAME in index.html
-  var self = this; 
+  var self = this;
 
 /////////////////////////////////////////////////////////////////
-this.pwdChangeLoggedOut = function(url,token,User,callback) { 
+this.pwdChangeLoggedOut = function(url,token,User,callback) {
 var pw1 = btoa(User.password);
 var pw2 = btoa(User.passwordConfirm);
 
@@ -36,8 +34,6 @@ var pw2 = btoa(User.passwordConfirm);
 };
 
 this.emailreset=function( newemail,username){
-  console.log('userService receives newemail value of : ', newemail);
-  console.log('userService receives username value of : ', username);
 
   $http({
       method: 'POST',
@@ -57,11 +53,10 @@ this.emailreset=function( newemail,username){
     });
 };
 
- 
+
 this.init = function(completeInit){
 //check if valid token exists from previous session
-  console.log("start init in userService.js -------------------");
-  if (window.localStorage.getItem('token') ) 
+  if (window.localStorage.getItem('token') )
     {
     this.token    = window.localStorage.getItem('token');
     this.username = window.localStorage.getItem('user');
@@ -69,27 +64,27 @@ this.init = function(completeInit){
     $http({
         method: 'POST',
         url:'/api/loginrefresh',
-        data: { token    : this.token  
+        data: { token    : this.token
               },
         headers: {'Content-Type': 'application/json'}
     })
     .then(
     function(data,status,headers,config)   //success path
-    { 
-    console.log('found valid token and user name and status is: ', data.status); 
+    {
+    // console.log('found valid token and user name and status is: ', data.status);
 
     completeInit(data);
     },
   //failure path here TODO: WE DO NOT EVER GET HERE?
     function(data,status,headers,config){
     console.log('No token-userState is set to loggedout');
-   
+
   });
 }
 };
 
-  
-//////////////////////////////////////////////////////  
+
+//////////////////////////////////////////////////////
 // login service
 // Case: user supplies valide username and password - we set username and token
 //////////////////////////////////////////////////////
@@ -98,7 +93,7 @@ this.login = function(username, password, callback){    console.log('service log
  	$http({
 		method: 'POST',
 		url:'/api/login',
-		data: {	username: username, 
+		data: {	username: username,
 				    password: password },
 		headers: {'Content-Type': 'application/json'}
 	})
@@ -107,7 +102,7 @@ this.login = function(username, password, callback){    console.log('service log
   		if (response.data.token){
 			window.localStorage.setItem("token", response.data.token);
 			//window.localStorage.setItem("user", response.data.userName);
-    	} 
+    	}
       console.log(response.data, "is response.data on login success");
       callback(response.data); //callback fn loginState
 	},
@@ -127,7 +122,7 @@ this.loginRefresh = function(username, login, callback){
   $http({
     method: 'POST',
     url:'/api/loginrefresh',
-    data: { username: username, 
+    data: { username: username,
             token: token },
     headers: {'Content-Type': 'application/json'}
   })
@@ -136,7 +131,7 @@ this.loginRefresh = function(username, login, callback){
   if (response.data.token){
       window.localStorage.setItem("token", response.data.token);
       window.localStorage.setItem("user", response.data.userName);
-      } 
+      }
   callback(response.data); //callback fn loginState
   },
   //failure here
@@ -146,7 +141,7 @@ this.loginRefresh = function(username, login, callback){
 };
 
 //////////////////////////////////////////////////////
-//logOut signOut service)  
+//logOut signOut service)
 // signOut is client only: TODO - add save signout time and user signed out tracking on server
 ///////////////////////////////////////////////////////
 this.signOut = function(changeUserState){
@@ -163,7 +158,7 @@ this.registerUser = function(User,callback){
   $http({
           method: 'POST',
           url: '/api/registerValidUser',
-          data: {username  : User.username, 
+          data: {username  : User.username,
                  password  : User.password,
                  email     : User.email},
           headers: {'Content-Type': 'application/json'}
@@ -171,31 +166,31 @@ this.registerUser = function(User,callback){
           .then(function(response){ console.log(response);
             User.userMessage = 'An email has been sent to your account.  Click the link to confirm your registration.';
             callback(response.status);
-            //alert('An email has been sent to your account.  Click the link to confirm your registration.');              
+            //alert('An email has been sent to your account.  Click the link to confirm your registration.');
           },
           function(response){
 
             console.log("no user created ");
-          }); 
+          });
 };
 
 
 
 //////////////////////////////////////////////////////
- 
+
   this.checkthename=function checkthename(username,callback){
     $http({
     method    : 'POST',
     url       : '/api/checkusername',
     data      : {username       :  username},
     headers   : {'Content-Type' : 'application/json'}
-    }).success(function(data,status,headers,config){ 
+    }).success(function(data,status,headers,config){
       console.log('data in service: ',data);
       callback(data);
     }).error(function(data,status, headers, config){
       console.log("In userService data is: " + data);
       console.log("NOTHING FOUND ?");
-    }); 
+    });
 };
 
 //////////////////////////////////////////////////////
@@ -213,7 +208,7 @@ this.checktheemail = function( email,callback){
     .error(function(data,status, headers, config){
           console.log("data is: " + data);
           self.uniqueEmail = false;
-      }); 
+      });
 };
 
 //////////////////////////////////////////////////////
@@ -235,7 +230,7 @@ this.updateUserInfo = function(username, userAbout){
       })
     .error(function(data,status, headers, config){
           console.log("data is: " + data);
-        }); 
+        });
 };
 
 
@@ -256,10 +251,10 @@ this.otherUserInfo = function(otherusername, callback){
       })
     .error(function(data,status, headers, config){
           console.log("data is: " + data);
-      }); 
+      });
 
 };
- 
+
 
 
 //////////////////////////////////////////////////////
@@ -267,7 +262,7 @@ this.otherUserInfo = function(otherusername, callback){
 //working above
 ///////////
 //models below
- 
+
 this.passwordChange = function(password, newPassword){
 	console.log("service logIn");
 
@@ -279,14 +274,14 @@ this.resetPassword = function(username){
 };
 
 // this.deleteAccount = function(cb){
-// /// set save User.activestatus for loggedIn user = 'delete' 
+// /// set save User.activestatus for loggedIn user = 'delete'
 
 // };
 
 
 
 //////////////////////////////////////////////////////
-//Username password RECOVERY for loggedout user, 
+//Username password RECOVERY for loggedout user,
 //distinct from logged in user password reset
   this.passwordreset = function(knownemail) {
 
@@ -308,13 +303,13 @@ this.resetPassword = function(username){
     function(data, status, headers, config){
       console.log('reset post failed: ' + data);
     });
- 
+
 
 
   };
 
 //////////////////////////////////////////////////////
-//password change while logged in 
+//password change while logged in
 
    this.changepassword = function(User, closepwdchangemodal) {
 
@@ -332,17 +327,17 @@ this.resetPassword = function(username){
     //success here
     .then(
         function(data, status, headers, config){
-            
+
             console.log('data.status is: ', data.status);
 
             if (data.status===200){
                 console.log("success at service");
                 closepwdchangemodal();
-                
-            }  else{ 
+
+            }  else{
                 console.log("failure at service");
             }
-        } 
+        }
       );
   };
 
@@ -350,7 +345,7 @@ this.resetPassword = function(username){
   this.deleteaccountService = function(username, changeUserState){
 
     console.log('incoming service username for deletion is', username);
-     
+
     $http({
       method: 'POST',
       url: '/api/deleteaccountapi',
@@ -363,22 +358,21 @@ this.resetPassword = function(username){
     .then(
 
       function(data, status, headers, config){
-      
+
       console.log('returning success at service after deletion?');
       console.log(status, ' is status on SUCCESS at service');
 
       changeUserState();
 
        },
-    
+
       //failure condition
       function(data, status, headers, config){
          console.log('FAILURE at delete account service');
-      
- 
+
+
     });
   };
 
 
 }]);
-
