@@ -7,7 +7,7 @@
     <meta property="og:description" content="Use Daybreak to discover other people's favorite days and favorite places, and to share your perfect day.">
 	<script src="js/modernizr.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500' rel='stylesheet' type='text/css'>
-  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
   	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="stylesheet" href="css/jquery-ui.min.css" />
 
@@ -52,37 +52,41 @@
 	</div>   <!-- close user controller -->
 
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBmK00Qr6_8hzbLNNU67xCs_kdGJTgHSnI"></script>
-		<script
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBmK00Qr6_8hzbLNNU67xCs_kdGJTgHSnI"></script>
+	<script
 		  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
 		  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
 		  crossorigin="anonymous"></script>
-			<script src='js/angular-ui-router.min.js'></script>
+	<script src='js/angular-ui-router.min.js'></script>
+ 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+  <script src="js/main.js"></script>
 
-    <script src="js/main.js"></script>
-		<script>
-
-		 $( function() {
-			 $( "#modal" ).dialog({
-				 autoOpen: true,
-				 modal: true,
-				 title: "About The Perfect Day",
-				 width: 500,
-				 height: 700,
-				 position: {my: "center",
-										at: "center",
-										of: window,
-										collision: "none"
-									},
-										create: function(event, ui) {
-										$(event.target).parent().css('position','fixed');
-									}
-			 });
-		});
-		 </script>
+	<script>
+			 $( function() {
+				 $( "#modal" ).dialog({
+					 autoOpen: true,
+					 modal: true,
+					 title: "About The Perfect Day",
+					 width: 500,
+					 autoResize: true,
+					 height: 500,
+					 position: {my: "center",
+											at: "center",
+											of: window,
+											collision: "none"
+										},
+											create: function(event, ui) {
+											$(event.target).parent().css('position','fixed');
+										},
+											open: function(event, ui) {
+												$('.ui-widget-overlay').on('click', function(){
+													$('#modal').dialog('close');
+												})
+											}
+				 });
+			});
+			 </script>
 </body>
 </html>
