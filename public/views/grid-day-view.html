@@ -1,9 +1,11 @@
-<div class="row bestDaysFrame">
-
+<div class="bestDaysFrame">
+<div class="userInfoMessage">{{User.userMessage}}</div>
 <!-- TESTING GRID DAY VIEW - Day.days is: {{Day.days}}  and user is: {{User.username}}
  -->
  	<div data-ng-repeat="day in Day.days" class="col singleDay z-depth-3">
- 		 	<a class="dayTitle"><div data-ng-click ="Day.showOneDay(day._id,day.userName)">{{day.dayName}}</div></a>
+ 		 	<a class="dayTitle">
+        <div data-ng-click ="Day.showOneDay(day._id,day.userName)">{{day.dayName}}</div>
+      </a>
 
 		 	<div class="user">
 

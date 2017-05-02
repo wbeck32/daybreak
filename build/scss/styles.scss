@@ -106,6 +106,8 @@ html {
 }
 
 body {
+  div {
+  }
 #modal {
     max-height: 600px;
     overflow-y: scroll;
@@ -310,8 +312,8 @@ form{
 
 .userInfoMessage {
 	margin: 4rem 0 2rem;
-	font-size:1.25rem;
-	text-align:center;
+	font-size: 1.25rem;
+	text-align: center;
 	height: 1rem;
 	color: $header-footer-color;
 	}
@@ -808,12 +810,12 @@ a.dayTitle {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: left;
-    align-items: baseline;
-    margin: 0 auto;
+    align-items: flex-start;
     overflow: hidden;
     padding:0 2% 5.5rem;
     position: relative;
-    top: 6rem;
+    top: 13.5rem;
+    bottom: 0;
 
 	   .singleDay {
   		width: 290px	;

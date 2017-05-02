@@ -6,7 +6,6 @@ dayBreak.service('userService', ['$http', function($http ){
   this.LoginError = false;        //initialize to false - no error yet
   this.uniqueUserName = false;    //we have not yet tested for unique
   this.uniqueEmail = false;       //we have not yet tested for unique
-
 /////////////////////////////////////////////////////////////////
 
 //Critical.  "var self = this" enables functions to communicate with scope of service...

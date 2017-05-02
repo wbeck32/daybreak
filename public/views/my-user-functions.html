@@ -6,7 +6,7 @@
 										data-ng-click="Day.getUserProfile(null);
 													   User.profileMode=null;
 													   User.userViewSwitch='grid';
-													   User.userMessage='';
+													   User.userMessage=null;
 														">
 					 The Perfect Day</div>
 				</a>
@@ -18,41 +18,36 @@
 
 			<!--nav bar menu-->
 
-				<ul class="right hide-on-med-and-down">
-
-					<li><a
-							data-ng-click="Day.getUserProfile(null);
+			<ul class="right hide-on-med-and-down">
+				<li><a data-ng-click="Day.getUserProfile(null);
 											User.profileMode=null;
 											User.userViewSwitch='grid';
-											User.userMessage=null;
-										   ">
+											User.userMessage=null;">
 							Home
 					</a></li>
 
-					<li><a  data-ng-show="User.userState==='loggedIn'"
-							data-ng-click="User.userAddDay = true;User.userViewSwitch = 'single';" >
+					<li><a data-ng-show="User.userState==='loggedIn'"
+								data-ng-click="User.userAddDay = true;
+								User.userViewSwitch = 'single';">
 							Create New Day
 					</a></li>
 
-
-					<li><a
-							data-ng-show="User.userState==='loggedOut'"
+					<li><a data-ng-show="User.userState==='loggedOut'"
 							data-ng-click="User.userViewSwitch ='profile';
 										   User.profileSelect('NEWREG');
-										   User.userMessage='' ">
+										   User.userMessage=null";>
 							Register
 					</a></li>
 
-
 					<li><a data-ng-show="User.userState==='loggedIn'"
 						   data-ng-click="Day.getUserProfile(User.username);">
-							&nbsp;-&nbsp;{{User.username}}&nbsp;-&nbsp;
+							Welcome {{User.username}}!
 					</a></li>
 
 					<li><a data-ng-show="User.userState==='loggedIn'"
 						   data-ng-click="Day.getUserProfile(null);
 											User.signOut();
-											User.userMessage=null;" >
+											User.userMessage=null;">
 							Logout
 					</a></li>
 
@@ -60,10 +55,9 @@
 						data-ng-click="User.userViewSwitch='profile';
 										User.LoginError = false;
 										User.profileSelect('Log');
-										User.userMessage=null;  ">
+										User.userMessage=null;">
 							Login
 					</a></li>
-
 				</ul>
 
 
@@ -92,14 +86,14 @@
 							data-ng-show="User.userState==='loggedOut'"
 							data-ng-click="User.userViewSwitch ='profile';
 											   User.profileSelect('NEWREG');
-											   User.userMessage='' ">
+											   User.userMessage=null; ">
 						Register
 					</a></li>
 
 
 					<li><a data-ng-show="User.userState==='loggedIn'"
 						   data-ng-click="Day.getUserProfile(User.username);">
-						&nbsp;-&nbsp;{{User.username}}&nbsp;-&nbsp;
+						Welcome {{User.username}}!
 					</a></li>
 
 					<li><a data-ng-show="User.userState==='loggedIn'"
